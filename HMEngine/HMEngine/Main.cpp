@@ -1,15 +1,16 @@
-#include <SDL2.0.7\SDL_opengl.h>
+#include <SDL2.0.7\SDL.h>
 #include <iostream>
 
 #undef main
 
 int main()
 {
-	glBegin(0);
+	SDL_Init(SDL_INIT_EVERYTHING); //initialize SDL
+	
 
 	std::cout << "asdf" << std::endl;
-	glEnd();
 
+	SDL_Quit(); //quit SDL, close everything
 	system("pause");
 	return 0;
 }
