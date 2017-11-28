@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\HMEngine\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\HMEngine\lib;%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A\Lib;</AdditionalLibraryDirectories>
@@ -121,10 +122,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HardwareInputs.cpp" />
+    <ClCompile Include="HMEngine.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HardwareInputs.h" />
+    <ClInclude Include="HMEngine.h" />
+    <ClInclude Include="HMEngineIncludes.h" />
     <ClInclude Include="Render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

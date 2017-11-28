@@ -1,7 +1,4 @@
-#include <SDL2.0.7\SDL.h>
-#include <iostream>
-#include "Render.h"
-#undef main
+#include "HMEngineIncludes.h"
 
 int main()
 {
@@ -10,7 +7,7 @@ int main()
 		std::cout << "Succeeded initializing SDL..." << std::endl;
 
 		std::string title = "test";
-		Render display(800, 600, title, 0); //create window
+		HMEngine::Core::Rendering::Render display(800, 600, title, 0); //create window
 		while (display.GetIsRunning()) //update window while its running
 		{
 			display.update();

@@ -8,7 +8,7 @@ std::string& title - The name\title of the window
 bool fullscreen - Whether to open the window in fullscreen or windowed, fullscreen ignores the width and height values
 
 */
-Render::Render(int width, int height, std::string& title, bool fullscreen)
+HMEngine::Core::Rendering::Render::Render(int width, int height, std::string& title, bool fullscreen)
 {
 	isRunning = true;
 	Uint32 flags = SDL_WINDOW_OPENGL;
@@ -30,7 +30,7 @@ Render::Render(int width, int height, std::string& title, bool fullscreen)
 /*
 This function destroys the window and its context
 */
-Render::~Render()
+HMEngine::Core::Rendering::Render::~Render()
 {
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
@@ -39,7 +39,7 @@ Render::~Render()
 /*
 This function updates the window by swapping it with the 2nd window buffer, and checks for events
 */
-void Render::update()
+void HMEngine::Core::Rendering::Render::update()
 {
 	SDL_GL_SwapWindow(window);
 
@@ -65,5 +65,4 @@ void Render::update()
 			break;
 		}
 	}
-
 }
