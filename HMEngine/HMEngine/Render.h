@@ -19,7 +19,6 @@ namespace HMEngine
 				SDL_GLContext context;
 
 				bool isRunning;
-
 			};
 		}
 	}

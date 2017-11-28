@@ -3,11 +3,11 @@
 
 namespace HMEngine
 {
-	class HMEngine
+	class GameEngine
 	{
 	public:
-		HMEngine();
-		~HMEngine();
+		GameEngine();
+		~GameEngine();
 
 		void Run();
 	};

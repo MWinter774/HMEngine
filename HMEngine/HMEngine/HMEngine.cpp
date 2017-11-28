@@ -1,14 +1,18 @@
 #include "HMEngine.h"
 
-HMEngine::HMEngine::HMEngine()
+HMEngine::GameEngine::GameEngine()
 {
 }
 
-HMEngine::HMEngine::~HMEngine()
+HMEngine::GameEngine::~GameEngine()
 {
 }
 
-void HMEngine::HMEngine::Run()
+void HMEngine::GameEngine::Run()
 {
-
+	int numOfTime = ~0;
+	while (true) //temp
+	{
+		HMEngine::Core::Hardware::HardwareInputs::Update();
+	}
 }
