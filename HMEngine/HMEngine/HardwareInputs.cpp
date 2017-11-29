@@ -1,24 +1,25 @@
 #include "HardwareInputs.h"
 
-int HMEngine::Core::Hardware::HardwareInputs::_keys[HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS];
+char HMEngine::Core::Hardware::HardwareInputs::_keys[HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS];
 
 /*
 Updates the input from the hardware(keyboard, mouse).
 */
 void HMEngine::Core::Hardware::HardwareInputs::Update()
 {
+	HMEngine::Core::Hardware::HardwareInputs::Reset();
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
 		if (e.type == SDL_KEYDOWN)
 		{
-			_keys[e.key.keysym.scancode] = KeyDown | KeyTapped;
-			_keys[(int)HMEngine::Keys::KEY_W] = 0x100;
+			_keys[e.key.keysym.sym] |= (KeyDown | KeyTapped);
 		}
 		else if (e.type == SDL_KEYUP)
 		{
-			_keys[e.key.keysym.scancode] &= ~KeyTapped;
-			_keys[e.key.keysym.scancode] |= KeyUp;
+			_keys[e.key.keysym.sym] &= ~KeyDown;
+			_keys[e.key.keysym.sym] |= KeyUp;
 		}
 	}
 }
@@ -31,10 +32,6 @@ HMEngine::Core::Hardware::HardwareInputs::HardwareInputs()
 	memset(_keys, KeyNone, HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS * sizeof(KeyState));
 }
 
-HMEngine::Core::Hardware::HardwareInputs::~HardwareInputs()
-{
-}
-
 /*
 Sets all the keys to be nothing, except the tapped keys.
 */
@@ -42,6 +39,6 @@ void HMEngine::Core::Hardware::HardwareInputs::Reset()
 {
 	for (unsigned int i = 0; i < HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS; i++)
 	{
-		_keys[i] &= ~(KeyDown | KeyUp);
+		_keys[i] &= ~(KeyTapped | KeyUp);
 	}
 }

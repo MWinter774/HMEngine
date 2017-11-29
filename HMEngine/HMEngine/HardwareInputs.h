@@ -1,6 +1,5 @@
 #pragma once
 #include "HMEngineIncludes.h"
-#include "Keys.h"
 
 namespace HMEngine
 {
@@ -10,26 +9,47 @@ namespace HMEngine
 		{
 			enum KeyStates : char
 			{
-				KeyNone = 0x000,
-				KeyDown = 0x001,
-				KeyUp = 0x002,
-				KeyTapped = 0x004
+				KeyNone = 0b000,
+				KeyDown = 0b001,
+				KeyUp = 0b010,
+				KeyTapped = 0b100
 			};
 			class HardwareInputs
 			{
 			public:
+
 				static void Update();
-				static inline bool IsKeyTapped(HMEngine::Keys key)
+
+				/*
+				Returns if the key is tapped.
+				Input:
+				keyCode - the code of the key(for example SDLK_w, SDLK_g, SDLK_4...)
+				Output:
+				Returns whether the key is tapped or not.
+				*/
+				static inline bool IsKeyTapped(unsigned int keyCode)
 				{
-					return _keys[(int)key] & KeyTapped;
+					return _keys[keyCode] & KeyTapped;
+				}
+
+				/*
+				Returns if the key is held down.
+				Input:
+				keyCode - the code of the key(for example SDLK_w, SDLK_g, SDLK_4...)
+				Output:
+				Returns whether the key is held down or not.
+				*/
+				static inline bool IsKeyDown(unsigned int keyCode)
+				{
+					return _keys[keyCode] & KeyDown;
 				}
 
 			private:
-				typedef int KeyState;
-				static const unsigned int NUM_KEYS = (unsigned int)HMEngine::Keys::NUM_KEYS;
-
 				HardwareInputs();
-				~HardwareInputs();
+				~HardwareInputs() = delete;
+
+				typedef char KeyState;
+				static const unsigned int NUM_KEYS = 236U;
 
 				static void Reset();
 

@@ -43,26 +43,5 @@ void HMEngine::Core::Rendering::Render::update()
 {
 	SDL_GL_SwapWindow(window);
 
-	SDL_Event e;
-	while (SDL_PollEvent(&e))
-	{
-		switch (e.type)
-		{
-		//Keyboard events
-		case SDL_KEYDOWN:
-			switch (e.key.keysym.sym) //key value
-			{
-			case SDLK_ESCAPE:
-				isRunning = false;
-			default:
-				break;
-			}
-
-		case SDL_QUIT:
-			isRunning = false;
-
-		default:
-			break;
-		}
-	}
+	
 }
