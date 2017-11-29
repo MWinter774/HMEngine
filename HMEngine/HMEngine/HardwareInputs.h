@@ -14,6 +14,13 @@ namespace HMEngine
 				KeyUp = 0b010,
 				KeyTapped = 0b100
 			};
+			enum MouseButtonsStates : char
+			{
+				MouseButtonNone = 0b000,
+				MouseButtonDown = 0b001,
+				MouseButtonUp = 0b010,
+				MouseButtonTapped = 0b100
+			};
 			class HardwareInputs
 			{
 			public:
@@ -31,7 +38,7 @@ namespace HMEngine
 				*/
 				static inline bool IsKeyTapped(unsigned int keyCode)
 				{
-					return keys[keyCode] & KeyTapped;
+					return HardwareInputs::keys[keyCode] & KeyStates::KeyTapped;
 				}
 
 				/*
@@ -43,7 +50,7 @@ namespace HMEngine
 				*/
 				static inline bool IsKeyDown(unsigned int keyCode)
 				{
-					return keys[keyCode] & KeyDown;
+					return HardwareInputs::keys[keyCode] & KeyStates::KeyDown;
 				}
 
 				/*
@@ -69,8 +76,7 @@ namespace HMEngine
 				{
 					return HardwareInputs::cursorXPos;
 				}
-
-
+				
 				/*
 				Returns the y position of the cursor.
 				*/
@@ -87,13 +93,40 @@ namespace HMEngine
 					SDL_WarpMouseInWindow(nullptr, xPos, yPos); //NEEDS A WINDOW!!!!!!!!!!
 				}
 
+				/*
+				Returns if the mouse button is tapped.
+				Input:
+				mouseButtonCode - the code of the mouse button(for example SDL_BUTTON_LEFT, SDL_BUTTON_MIDDLE, SDL_BUTTON_RIGHT...)
+				Output:
+				Returns whether the mouse button is tapped or not.
+				*/
+				static inline bool IsMouseButtonTapped(unsigned int mouseButtonCode)
+				{
+					return HardwareInputs::mouseButtons[mouseButtonCode] & MouseButtonsStates::MouseButtonTapped;
+				}
+
+				/*
+				Returns if the mouse button is held down.
+				Input:
+				mouseButtonCode - the code of the key(for example SDL_BUTTON_LEFT, SDL_BUTTON_MIDDLE, SDL_BUTTON_RIGHT...)
+				Output:
+				Returns whether the mouse button is held down or not.
+				*/
+				static inline bool IsMouseButtonDown(unsigned int mouseButtonCode)
+				{
+					return HardwareInputs::mouseButtons[mouseButtonCode] & MouseButtonsStates::MouseButtonDown;
+				}
+
 			private:
 				typedef char KeyState;
+				typedef char MouseButtonState;
 				static const unsigned int NUM_KEYS = 236U;
+				static const unsigned int NUM_MOUSE_BUTTONS = 5U;
 
 				static void Reset();
 
 				static KeyState keys[NUM_KEYS];
+				static MouseButtonState mouseButtons[NUM_MOUSE_BUTTONS];
 				static SDL_Event e;
 				static int cursorXPos;
 				static int cursorYPos;
