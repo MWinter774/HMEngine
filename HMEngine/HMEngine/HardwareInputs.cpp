@@ -1,6 +1,9 @@
 #include "HardwareInputs.h"
 
-char HMEngine::Core::Hardware::HardwareInputs::_keys[HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS];
+char HMEngine::Core::Hardware::HardwareInputs::keys[HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS] = { KeyStates::KeyNone };
+SDL_Event HMEngine::Core::Hardware::HardwareInputs::e;
+int HMEngine::Core::Hardware::HardwareInputs::cursorXPos = 0;
+int HMEngine::Core::Hardware::HardwareInputs::cursorYPos = 0;
 
 /*
 Updates the input from the hardware(keyboard, mouse).
@@ -9,36 +12,32 @@ void HMEngine::Core::Hardware::HardwareInputs::Update()
 {
 	HMEngine::Core::Hardware::HardwareInputs::Reset();
 
-	SDL_Event e;
-	while (SDL_PollEvent(&e))
+	while (SDL_PollEvent(&HardwareInputs::e))
 	{
-		if (e.type == SDL_KEYDOWN)
+		if (e.type == SDL_MOUSEMOTION)
 		{
-			_keys[e.key.keysym.sym] |= (KeyDown | KeyTapped);
+			HardwareInputs::cursorXPos = e.motion.x;
+			HardwareInputs::cursorYPos = e.motion.y;
 		}
-		else if (e.type == SDL_KEYUP)
+		else if (HardwareInputs::e.type == SDL_KEYDOWN)
 		{
-			_keys[e.key.keysym.sym] &= ~KeyDown;
-			_keys[e.key.keysym.sym] |= KeyUp;
+			HardwareInputs::keys[HardwareInputs::e.key.keysym.sym] |= (KeyStates::KeyDown | KeyStates::KeyTapped); //turn on the KeyDown and KeyTapped bits
+		}
+		else if (HardwareInputs::e.type == SDL_KEYUP)
+		{
+			HardwareInputs::keys[HardwareInputs::e.key.keysym.sym] &= ~KeyStates::KeyDown; //turn off the KeyDown bit
+			HardwareInputs::keys[HardwareInputs::e.key.keysym.sym] |= KeyStates::KeyUp; //turn on the KeyUp bit
 		}
 	}
 }
 
 /*
-Sets all the keys to be nothing.
-*/
-HMEngine::Core::Hardware::HardwareInputs::HardwareInputs()
-{
-	memset(_keys, KeyNone, HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS * sizeof(KeyState));
-}
-
-/*
-Sets all the keys to be nothing, except the tapped keys.
+Sets all the keys to be nothing, except the held down keys.
 */
 void HMEngine::Core::Hardware::HardwareInputs::Reset()
 {
 	for (unsigned int i = 0; i < HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS; i++)
 	{
-		_keys[i] &= ~(KeyTapped | KeyUp);
+		HardwareInputs::keys[i] &= ~(KeyStates::KeyTapped | KeyStates::KeyUp); //turn off the the KeyUp and KeyTapped bits
 	}
 }

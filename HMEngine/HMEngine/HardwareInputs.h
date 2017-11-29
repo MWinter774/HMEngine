@@ -17,6 +17,8 @@ namespace HMEngine
 			class HardwareInputs
 			{
 			public:
+				HardwareInputs() = delete;
+				~HardwareInputs() = delete;
 
 				static void Update();
 
@@ -29,7 +31,7 @@ namespace HMEngine
 				*/
 				static inline bool IsKeyTapped(unsigned int keyCode)
 				{
-					return _keys[keyCode] & KeyTapped;
+					return keys[keyCode] & KeyTapped;
 				}
 
 				/*
@@ -41,19 +43,60 @@ namespace HMEngine
 				*/
 				static inline bool IsKeyDown(unsigned int keyCode)
 				{
-					return _keys[keyCode] & KeyDown;
+					return keys[keyCode] & KeyDown;
+				}
+
+				/*
+				Sets the cursor x position.
+				*/
+				static inline void SetCursorXPos(int xPos)
+				{
+					HardwareInputs::cursorXPos = xPos;
+				}
+
+				/*
+				Sets the cursor y position.
+				*/
+				static inline void SetCursorYPos(int yPos)
+				{
+					HardwareInputs::cursorYPos = yPos;
+				}
+
+				/*
+				Returns the x position of the cursor.
+				*/
+				static inline int GetCursorXPos()
+				{
+					return HardwareInputs::cursorXPos;
+				}
+
+
+				/*
+				Returns the y position of the cursor.
+				*/
+				static inline int GetCursorYPos()
+				{
+					return HardwareInputs::cursorYPos;
+				}
+
+				/*
+				Sets the cursor position.
+				*/
+				static inline void SetCursorPos(int xPos, int yPos)
+				{
+					SDL_WarpMouseInWindow(nullptr, xPos, yPos); //NEEDS A WINDOW!!!!!!!!!!
 				}
 
 			private:
-				HardwareInputs();
-				~HardwareInputs() = delete;
-
 				typedef char KeyState;
 				static const unsigned int NUM_KEYS = 236U;
 
 				static void Reset();
 
-				static KeyState _keys[NUM_KEYS];
+				static KeyState keys[NUM_KEYS];
+				static SDL_Event e;
+				static int cursorXPos;
+				static int cursorYPos;
 			};
 		}
 	}

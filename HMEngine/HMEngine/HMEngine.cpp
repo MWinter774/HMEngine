@@ -13,12 +13,19 @@ Runs the game.
 */
 void HMEngine::GameEngine::Run()
 {
-	int numOfTime = ~0;
+	int count = 0;
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_ESCAPE)) //temp
 	{
 		HMEngine::Core::Hardware::HardwareInputs::Update();
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_w))
-			std::cout << "Thats pretty good" << std::endl;
-		numOfTime--;
+			std::cout << "w key is tapped" << std::endl;
+		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDLK_s))
+			std::cout << "s key is held down" << std::endl;
+		if (count % 500000 == 0)
+		{
+			std::cout << HMEngine::Core::Hardware::HardwareInputs::GetCursorXPos() << ", " << HMEngine::Core::Hardware::HardwareInputs::GetCursorYPos() << std::endl;
+			count = 0;
+		}
+		count++;
 	}
 }
