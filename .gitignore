@@ -11,7 +11,13 @@
 *.log
 *.ilk
 *.exe
-**/v15
+
+ipch/
+*.suo
+.vs/
+
+
+
 /HMEngine/.vs/HMEngine/v15/Browse.VC.opendb
 /HMEngine/.vs/HMEngine/v15/Browse.VC.db
 /*.ipch
