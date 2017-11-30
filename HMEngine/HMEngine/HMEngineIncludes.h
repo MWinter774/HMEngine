@@ -9,6 +9,6 @@
 #include <utility>
 #include <glm\glm.hpp>
 
-#include "Render.h"
-#include "HMEngine.h"
+#include "Window.h"
+#include "GameEngine.h"
 #include "HardwareInputs.h"

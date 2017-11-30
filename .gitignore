@@ -4,6 +4,13 @@
 
 /HMEngine/.vs/HMEngine/v15/Browse.VC.opendb
 /HMEngine/.vs/HMEngine/v15/Browse.VC.db
-*.ipch
+/*.ipch
+/*.suo
+/*.pdb
+*.pdb
 *.suo
+*.ipch
+**/.pdb
+**/.suo
+**/.ipch
 /HMEngine/.vs/HMEngine/v15/.suo

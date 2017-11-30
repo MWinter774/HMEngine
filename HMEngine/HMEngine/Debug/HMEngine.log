@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 ﻿  Render.cpp
   Main.cpp
   HardwareInputs.cpp
   HMEngine.cpp
   Generating Code...
   HMEngine.vcxproj -> C:\Users\Maor\Desktop\HMengine\HMEngine\Debug\HMEngine.exe
+=======
+﻿  Main.cpp
+  GameEngine.cpp
+  Generating Code...
+  HMEngine.vcxproj -> C:\Users\User\Desktop\HMengine\HMengine\HMEngine\Debug\HMEngine.exe
+>>>>>>> Organizing-Rendering
