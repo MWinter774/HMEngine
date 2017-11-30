@@ -1,6 +1,16 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
+*.ipch
+*.suo
+*.pdb
+*.idb
+*.obj
+*.tlog
+*.lastbuildstate
+*.log
+*.ilk
+*.exe
 
 /HMEngine/.vs/HMEngine/v15/Browse.VC.opendb
 /HMEngine/.vs/HMEngine/v15/Browse.VC.db
