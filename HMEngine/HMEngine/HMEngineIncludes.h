@@ -1,4 +1,5 @@
 #pragma once
+#include <GL\glew.h>
 #include <iostream>
 #include <SDL2.0.7\SDL.h>
 #undef main

@@ -1,2 +1,6 @@
-﻿  Main.cpp
+﻿  Render.cpp
+  Main.cpp
+  HardwareInputs.cpp
+  HMEngine.cpp
+  Generating Code...
   HMEngine.vcxproj -> C:\Users\Maor\Desktop\HMengine\HMEngine\Debug\HMEngine.exe

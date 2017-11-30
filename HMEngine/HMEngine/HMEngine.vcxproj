@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\HMEngine\lib;%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A\Lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.0.7\SDL2.lib;SDL2.0.7\SDL2main.lib;SDL2.0.7\SDL2test.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.0.7\SDL2.lib;SDL2.0.7\SDL2main.lib;SDL2.0.7\SDL2test.lib;OpenGL32.lib;glew/glew32.lib;glew/glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

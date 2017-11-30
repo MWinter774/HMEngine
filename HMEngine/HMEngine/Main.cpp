@@ -5,7 +5,6 @@ int main()
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) //initialize SDL
 	{
 		std::cout << "Succeeded initializing SDL..." << std::endl;
-
 		std::string title = "test";
 		HMEngine::Core::Rendering::Render display(800, 600, title, 0); //create window
 		HMEngine::GameEngine g;
