@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <glm\glm.hpp>
 
 #include "Render.h"
 #include "HMEngine.h"
