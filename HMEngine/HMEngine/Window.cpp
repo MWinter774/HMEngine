@@ -1,4 +1,4 @@
-#include "Render.h"
+#include "Window.h"
 
 /*
 This function creates the game's window
@@ -8,7 +8,7 @@ std::string& title - The name\title of the window
 bool fullscreen - Whether to open the window in fullscreen or windowed, fullscreen ignores the width and height values
 
 */
-HMEngine::Core::Rendering::Render::Render(int width, int height, std::string& title, bool fullscreen)
+HMEngine::Core::Rendering::Window::Window(int width, int height, std::string& title, bool fullscreen)
 {
 	isRunning = true;
 	Uint32 flags = SDL_WINDOW_OPENGL;
@@ -30,7 +30,7 @@ HMEngine::Core::Rendering::Render::Render(int width, int height, std::string& ti
 /*
 This function destroys the window and its context
 */
-HMEngine::Core::Rendering::Render::~Render()
+HMEngine::Core::Rendering::Window::~Window()
 {
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
@@ -39,7 +39,7 @@ HMEngine::Core::Rendering::Render::~Render()
 /*
 This function updates the window by swapping it with the 2nd window buffer, and checks for events
 */
-void HMEngine::Core::Rendering::Render::update()
+void HMEngine::Core::Rendering::Window::update()
 {
 	SDL_GL_SwapWindow(window);
 

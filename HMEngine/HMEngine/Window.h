@@ -7,11 +7,11 @@ namespace HMEngine
 	{
 		namespace Rendering
 		{
-			class Render
+			class Window
 			{
 			public:
-				Render(int width, int height, std::string& title, bool fullscreen);
-				~Render();
+				Window(int width, int height, std::string& title, bool fullscreen);
+				~Window();
 				void update();
 				bool GetIsRunning() { return isRunning; };
 			private:
