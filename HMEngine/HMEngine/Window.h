@@ -12,13 +12,10 @@ namespace HMEngine
 			public:
 				Window(int width, int height, std::string& title, bool fullscreen);
 				~Window();
-				void update();
-				bool GetIsRunning() { return isRunning; };
+				void Update();
 			private:
-				SDL_Window* window;
-				SDL_GLContext context;
-
-				bool isRunning;
+				SDL_Window* _window;
+				SDL_GLContext _context;
 			};
 		}
 	}

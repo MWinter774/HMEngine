@@ -1,11 +1,16 @@
-#include "HMEngine.h"
+#include "GameEngine.h"
 
-HMEngine::GameEngine::GameEngine()
+HMEngine::GameEngine::GameEngine() : _window(nullptr)
 {
 }
 
 HMEngine::GameEngine::~GameEngine()
 {
+}
+
+void HMEngine::GameEngine::CreateNewWindow(int width, int height, std::string& title, bool fullscreen)
+{
+	_window = new HMEngine::Core::Rendering::Window(width, height, title, fullscreen);
 }
 
 /*
@@ -17,6 +22,7 @@ void HMEngine::GameEngine::Run()
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_ESCAPE)) //temp
 	{
 		HMEngine::Core::Hardware::HardwareInputs::Update();
+
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_w))
 			std::cout << "w key is tapped" << std::endl;
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDLK_s))

@@ -6,13 +6,10 @@ int main()
 	{
 		std::cout << "Succeeded initializing SDL..." << std::endl;
 
-		std::string title = "test";
-		HMEngine::Core::Rendering::Window display(800, 600, title, false); //create window
+		std::string title = "test";		
+
 		HMEngine::GameEngine g;
-		//while (display.GetIsRunning()) //update window while its running
-		//{
-			//display.update();
-		//}
+		g.CreateNewWindow(800, 600, title, false);
 		
 		g.Run();
 		SDL_Quit(); //quit SDL, close everything
