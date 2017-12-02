@@ -3,12 +3,17 @@
 #include <iostream>
 #include <SDL2.0.7\SDL.h>
 #undef main
-#include <SDL2.0.7\SDL_opengl.h>
 #include <string>
 #include <vector>
 #include <utility>
 #include <glm\glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm\gtc\quaternion.hpp>
+#include <glm/gtx/matrix_transform_2d.hpp>
+#include <GL\glew.h>
 
 #include "Window.h"
 #include "GameEngine.h"
 #include "HardwareInputs.h"
+#include "Transform.h"
+#include "Constants.h"
