@@ -29,7 +29,7 @@ Calculates and returns the view matrix.
 */
 glm::mat4 HMEngine::Core::Transform::GetViewMatrix() const
 {
-	return glm::mat4();
+	return HMEngine::Core::Rendering::Camera::GetInstance().GetViewMatrix();
 }
 
 /*
@@ -37,7 +37,7 @@ Calculates and returns the projection matrix.
 */
 glm::mat4 HMEngine::Core::Transform::GetProjectionMatrix() const
 {
-	return glm::mat4();
+	return glm::perspective(glm::radians(HMEngine::GameEngine::FovInDegrees), float(HMEngine::GameEngine::windowWidth) / float(HMEngine::GameEngine::windowHeight), HMEngine::GameEngine::zNear, HMEngine::GameEngine::zFar); //DEBUG
 }
 
 /*

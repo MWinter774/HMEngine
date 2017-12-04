@@ -1,15 +1,25 @@
 #include "GameEngine.h"
 
+float HMEngine::GameEngine::zNear = 0.1f;
+float HMEngine::GameEngine::zFar = 1000.0f;
+float HMEngine::GameEngine::FovInDegrees = 45.0f;
+unsigned int HMEngine::GameEngine::windowWidth = 800U;
+unsigned int HMEngine::GameEngine::windowHeight = 600U;
+
 HMEngine::GameEngine::GameEngine() : _window(nullptr)
 {
 }
 
 HMEngine::GameEngine::~GameEngine()
 {
+	if (this->_window != nullptr)
+		delete this->_window;
 }
 
-void HMEngine::GameEngine::CreateNewWindow(int width, int height, std::string& title, bool fullscreen)
+void HMEngine::GameEngine::CreateNewWindow(int width, int height, const std::string& title, bool fullscreen)
 {
+	HMEngine::GameEngine::windowWidth = width;
+	HMEngine::GameEngine::windowHeight = height;
 	_window = new HMEngine::Core::Rendering::Window(width, height, title, fullscreen);
 }
 

@@ -10,7 +10,7 @@ namespace HMEngine
 			class Window
 			{
 			public:
-				Window(int width, int height, std::string& title, bool fullscreen);
+				Window(int width, int height, const std::string& title, bool fullscreen);
 				~Window();
 				void Update();
 			private:

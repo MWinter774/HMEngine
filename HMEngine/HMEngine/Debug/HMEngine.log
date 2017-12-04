@@ -1,4 +1,48 @@
 ﻿  Transform.cpp
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(17): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(17): error C2227: left of '->GetPositionX' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(18): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(18): error C2227: left of '->GetPositionY' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(19): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(19): error C2227: left of '->GetPositionZ' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(20): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(20): error C2227: left of '->GetPosition' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(21): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(21): error C2227: left of '->SetPositionX' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(22): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(22): error C2227: left of '->SetPositionY' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(23): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(23): error C2227: left of '->SetPositionZ' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(24): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(24): error C2227: left of '->SetPosition' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(25): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(25): error C2227: left of '->SetPosition' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(26): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(26): error C2227: left of '->AddPositionX' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(27): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(27): error C2227: left of '->AddPositionY' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(28): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(28): error C2227: left of '->AddPositionZ' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(29): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(29): error C2227: left of '->AddPosition' must point to class/struct/union/generic type
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(30): error C2027: use of undefined type 'HMEngine::Core::Transform'
+  d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(8): note: see declaration of 'HMEngine::Core::Transform'
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\camera.h(30): error C2227: left of '->AddPosition' must point to class/struct/union/generic type
+  Generating Code...
+  Compiling...
   Camera.cpp
   Generating Code...
   Compiling...
@@ -7,4 +51,3 @@
   HardwareInputs.cpp
   GameEngine.cpp
   Generating Code...
-  HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

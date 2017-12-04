@@ -8,7 +8,7 @@ std::string& title - The name\title of the window
 bool fullscreen - Whether to open the window in fullscreen or windowed, fullscreen ignores the width and height values
 
 */
-HMEngine::Core::Rendering::Window::Window(int width, int height, std::string& title, bool fullscreen)
+HMEngine::Core::Rendering::Window::Window(int width, int height, const std::string& title, bool fullscreen)
 {
 	Uint32 flags = SDL_WINDOW_OPENGL;
 	if (fullscreen)
