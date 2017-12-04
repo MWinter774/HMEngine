@@ -8,12 +8,20 @@ unsigned int HMEngine::GameEngine::windowHeight = 600U;
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr)
 {
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
+	{
+		std::cout << "SDL INITIALIZATION FAILED!" << std::endl;
+		system("pause");
+		return;
+	}
+	std::cout << "Succeeded initializing SDL..." << std::endl;
 }
 
 HMEngine::GameEngine::~GameEngine()
 {
 	if (this->_window != nullptr)
 		delete this->_window;
+	SDL_Quit();
 }
 
 void HMEngine::GameEngine::CreateNewWindow(int width, int height, const std::string& title, bool fullscreen)

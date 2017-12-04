@@ -1,10 +1,5 @@
-﻿  Transform.cpp
-  Camera.cpp
-  Generating Code...
-  Compiling...
-  Window.cpp
-  Main.cpp
-  HardwareInputs.cpp
+﻿  Main.cpp
   GameEngine.cpp
+  Camera.cpp
   Generating Code...
   HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe
