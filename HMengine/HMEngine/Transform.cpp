@@ -1,5 +1,15 @@
 #include "Transform.h"
 
+glm::mat4 HMEngine::Core::Transform::projectionMatrix = glm::perspective(glm::radians(HMEngine::GameEngine::GetFov()), float(HMEngine::GameEngine::GetWindowWidth()) / float(HMEngine::GameEngine::GetWindowHeight()), HMEngine::GameEngine::GetZNear(), HMEngine::GameEngine::GetZFar());
+
+/*
+Updates the projection matrix.
+*/
+void HMEngine::Core::Transform::UpdateProjectionMatrix()
+{
+	HMEngine::Core::Transform::projectionMatrix = glm::perspective(glm::radians(HMEngine::GameEngine::GetFov()), float(HMEngine::GameEngine::GetWindowWidth()) / float(HMEngine::GameEngine::GetWindowHeight()), HMEngine::GameEngine::GetZNear(), HMEngine::GameEngine::GetZFar());
+}
+
 HMEngine::Core::Transform::Transform(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale) : _position(position), _rotation(rotation), _scale(scale)
 {
 }
@@ -25,7 +35,7 @@ glm::mat4 HMEngine::Core::Transform::GetModelMatrix() const
 }
 
 /*
-Calculates and returns the view matrix.
+Returns the view matrix.
 */
 glm::mat4 HMEngine::Core::Transform::GetViewMatrix() const
 {
@@ -33,11 +43,11 @@ glm::mat4 HMEngine::Core::Transform::GetViewMatrix() const
 }
 
 /*
-Calculates and returns the projection matrix.
+Returns the projection matrix.
 */
 glm::mat4 HMEngine::Core::Transform::GetProjectionMatrix() const
 {
-	return glm::perspective(glm::radians(HMEngine::GameEngine::FovInDegrees), float(HMEngine::GameEngine::windowWidth) / float(HMEngine::GameEngine::windowHeight), HMEngine::GameEngine::zNear, HMEngine::GameEngine::zFar); //DEBUG
+	return HMEngine::Core::Transform::projectionMatrix;
 }
 
 /*

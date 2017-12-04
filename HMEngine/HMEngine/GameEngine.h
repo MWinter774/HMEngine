@@ -3,27 +3,40 @@
 
 namespace HMEngine
 {
-	namespace Core::Rendering
+	namespace Core
 	{
-		class Window;
+		class Transform;
+		namespace Rendering
+		{
+			class Window;
+		}
 	}
+
 	class GameEngine
 	{
 	public:
-		static float zNear;
-		static float zFar;
-		static float FovInDegrees;
-		static unsigned int windowWidth;
-		static unsigned int windowHeight;
+		static float GetFov() { return HMEngine::GameEngine::fovInDegrees; }
+		static unsigned int GetWindowWidth() { return HMEngine::GameEngine::windowWidth; }
+		static unsigned int GetWindowHeight() { return HMEngine::GameEngine::windowHeight; }
+		static float GetZNear() { return HMEngine::GameEngine::zNear; }
+		static float GetZFar() { return HMEngine::GameEngine::zFar; }
 
 		GameEngine();
 		~GameEngine();
 
 		void CreateNewWindow(int width, int height, const std::string& title, bool fullscreen);
-		inline void SetFov(float fovInDegrees) { HMEngine::GameEngine::FovInDegrees = fovInDegrees; }
+		void SetFov(float fovInDegrees);
+		void SetZNear(float zNear);
+		void SetZFar(float zFar);
 		void Run();
 
 	private:
+		static float zNear;
+		static float zFar;
+		static float fovInDegrees;
+		static unsigned int windowWidth;
+		static unsigned int windowHeight;
+
 		HMEngine::Core::Rendering::Window* _window;
 	};
 }

@@ -2,7 +2,7 @@
 
 float HMEngine::GameEngine::zNear = 0.1f;
 float HMEngine::GameEngine::zFar = 1000.0f;
-float HMEngine::GameEngine::FovInDegrees = 45.0f;
+float HMEngine::GameEngine::fovInDegrees = 45.0f;
 unsigned int HMEngine::GameEngine::windowWidth = 800U;
 unsigned int HMEngine::GameEngine::windowHeight = 600U;
 
@@ -20,7 +20,23 @@ void HMEngine::GameEngine::CreateNewWindow(int width, int height, const std::str
 {
 	HMEngine::GameEngine::windowWidth = width;
 	HMEngine::GameEngine::windowHeight = height;
+	HMEngine::Core::Transform::UpdateProjectionMatrix();
 	_window = new HMEngine::Core::Rendering::Window(width, height, title, fullscreen);
+}
+
+void HMEngine::GameEngine::SetFov(float fovInDegrees)
+{
+	HMEngine::Core::Transform::UpdateProjectionMatrix(); HMEngine::GameEngine::fovInDegrees = fovInDegrees;
+}
+
+void HMEngine::GameEngine::SetZNear(float zNear)
+{
+	HMEngine::Core::Transform::UpdateProjectionMatrix(); HMEngine::GameEngine::zNear = zNear;
+}
+
+void HMEngine::GameEngine::SetZFar(float zFar)
+{
+	HMEngine::Core::Transform::UpdateProjectionMatrix(); HMEngine::GameEngine::zFar = zFar;
 }
 
 /*

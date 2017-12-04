@@ -14,20 +14,20 @@ namespace HMEngine
 				static HMEngine::Core::Rendering::Camera& GetInstance();
 
 				/* Getters/Setters/Adders for position */
-				float GetPositionX() const { return this->_transform->GetPositionX(); }
-				float GetPositionY() const { return this->_transform->GetPositionY(); }
-				float GetPositionZ() const { return this->_transform->GetPositionZ(); }
-				glm::vec3 GetPosition() const { return this->_transform->GetPosition(); }
-				void SetPositionX(float x) { this->_transform->SetPositionX(x); }
-				void SetPositionY(float y) { this->_transform->SetPositionY(y); }
-				void SetPositionZ(float z) { this->_transform->SetPositionZ(z); }
-				void SetPosition(const glm::vec3& pos) { this->_transform->SetPosition(pos); }
-				void SetPosition(float x, float y, float z) { this->_transform->SetPosition(x, y, z); }
-				void AddPositionX(float x) { this->_transform->AddPositionX(x); };
-				void AddPositionY(float y) { this->_transform->AddPositionY(y); };
-				void AddPositionZ(float z) { this->_transform->AddPositionZ(z); };
-				void AddPosition(const glm::vec3& pos) { this->_transform->AddPosition(pos); }
-				void AddPosition(float x, float y, float z) { this->_transform->AddPosition(x, y, z); }
+				float GetPositionX() const;
+				float GetPositionY() const;
+				float GetPositionZ() const;
+				glm::vec3 GetPosition() const;
+				void SetPositionX(float x);
+				void SetPositionY(float y);
+				void SetPositionZ(float z);
+				void SetPosition(const glm::vec3& pos);
+				void SetPosition(float x, float y, float z);
+				void AddPositionX(float x);
+				void AddPositionY(float y);
+				void AddPositionZ(float z);
+				void AddPosition(const glm::vec3& pos);
+				void AddPosition(float x, float y, float z);
 
 				glm::mat4 GetViewMatrix() const;
 
