@@ -1,17 +1,17 @@
 #include "Transform.h"
 
-HMEngine::Transform::Transform(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale) : _position(position), _rotation(rotation), _scale(scale)
+HMEngine::Core::Transform::Transform(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale) : _position(position), _rotation(rotation), _scale(scale)
 {
 }
 
-HMEngine::Transform::~Transform()
+HMEngine::Core::Transform::~Transform()
 {
 }
 
 /*
 Calculates and returns the model matrix.
 */
-glm::mat4 HMEngine::Transform::GetModelMatrix() const
+glm::mat4 HMEngine::Core::Transform::GetModelMatrix() const
 {
 	glm::mat4 rotX = glm::rotate(this->_rotation.x, HMEngine::Constants::X_AXIS);
 	glm::mat4 rotY = glm::rotate(this->_rotation.y, HMEngine::Constants::Y_AXIS);
@@ -27,7 +27,7 @@ glm::mat4 HMEngine::Transform::GetModelMatrix() const
 /*
 Calculates and returns the view matrix.
 */
-glm::mat4 HMEngine::Transform::GetViewMatrix() const
+glm::mat4 HMEngine::Core::Transform::GetViewMatrix() const
 {
 	return glm::mat4();
 }
@@ -35,7 +35,7 @@ glm::mat4 HMEngine::Transform::GetViewMatrix() const
 /*
 Calculates and returns the projection matrix.
 */
-glm::mat4 HMEngine::Transform::GetProjectionMatrix() const
+glm::mat4 HMEngine::Core::Transform::GetProjectionMatrix() const
 {
 	return glm::mat4();
 }
@@ -43,7 +43,7 @@ glm::mat4 HMEngine::Transform::GetProjectionMatrix() const
 /*
 Calculates and returns the MVP matrix.
 */
-glm::mat4 HMEngine::Transform::GetMVPMatrix() const
+glm::mat4 HMEngine::Core::Transform::GetMVPMatrix() const
 {
 	return this->GetProjectionMatrix() * this->GetViewMatrix() * this->GetModelMatrix();
 }

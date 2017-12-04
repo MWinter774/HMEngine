@@ -1,5 +1,8 @@
-﻿  Window.cpp
-  Transform.cpp
+﻿  Transform.cpp
+  Camera.cpp
+  Generating Code...
+  Compiling...
+  Window.cpp
   Main.cpp
   HardwareInputs.cpp
   GameEngine.cpp
