@@ -73,21 +73,6 @@ void HMEngine::GameEngine::Run()
 		count++;
 	}
 
-	HMEngine::Core::Vertex vertices[] =
-	{
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)),
-		HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5))
-
-	};
-	HMEngine::Core::GameObject go(vertices);
-
-	
-
-
 }
 
 void HMEngine::GameEngine::AddGameObject(HMEngine::Core::GameObject gameObject)
