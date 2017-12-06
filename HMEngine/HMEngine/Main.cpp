@@ -6,8 +6,10 @@ int main()
 
 	HMEngine::GameEngine g;
 	g.CreateNewWindow(800, 600, title, false);
-
+	
 	g.Run();
+
+	
 
 	return 0;
 }

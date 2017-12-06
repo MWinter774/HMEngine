@@ -6,6 +6,7 @@ namespace HMEngine
 	namespace Core
 	{
 		class Transform;
+		class GameObject;
 		namespace Rendering
 		{
 			class Window;
@@ -30,6 +31,9 @@ namespace HMEngine
 		void SetZFar(float zFar);
 		void Run();
 
+		void AddGameObject(HMEngine::Core::GameObject gameObject);
+		void RemoveGameObject(HMEngine::Core::GameObject gameObject);
+
 	private:
 		static float zNear;
 		static float zFar;
@@ -38,5 +42,6 @@ namespace HMEngine
 		static unsigned int windowHeight;
 
 		HMEngine::Core::Rendering::Window* _window;
+		std::vector<HMEngine::Core::GameObject> _gameObjects;
 	};
 }

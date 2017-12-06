@@ -72,4 +72,30 @@ void HMEngine::GameEngine::Run()
 		}
 		count++;
 	}
+
+	HMEngine::Core::Vertex vertices[] =
+	{
+		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5)),
+		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)),
+		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)),
+		HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5)),
+		HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)),
+		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5))
+
+	};
+	HMEngine::Core::GameObject go(vertices);
+
+	
+
+
+}
+
+void HMEngine::GameEngine::AddGameObject(HMEngine::Core::GameObject gameObject)
+{ 
+	this->_gameObjects.push_back(gameObject); 
+}
+
+void HMEngine::GameEngine::RemoveGameObject(HMEngine::Core::GameObject gameObject)
+{
+	this->_gameObjects.erase(std::remove(this->_gameObjects.begin(), this->_gameObjects.end(), gameObject), this->_gameObjects.end());
 }
