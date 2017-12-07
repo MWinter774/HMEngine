@@ -5,24 +5,23 @@ namespace HMEngine
 {
 	namespace Core
 	{
-		class Vertex;
-
+		class Transform;
 		class GameObject
 		{
 		public:
-			GameObject(HMEngine::Core::Vertex* vertices) {this->_vertices = vertices;};
+			GameObject() {};
 			~GameObject() {};
-			void PlaceGameObject(glm::vec3 pos);
-			bool operator==(const GameObject go);
+			//bool operator==(const GameObject& go);
 
-			HMEngine::Core::Vertex* GetVertices() { return this->_vertices; };
-			glm::vec3 GetPos() { return this->_pos; };
-			void SetVertices(HMEngine::Core::Vertex* vertices) { this->_vertices = vertices; };
-			void SetPos(glm::vec3 pos) { this->_pos = pos; };
+			inline std::vector<glm::vec3> GetVertices() { return this->_vertices; };
+			inline HMEngine::Core::Transform& GetTransform() { return *this->_transform; };
+			inline void SetVertices(std::vector<glm::vec3> vertices) { this->_vertices = vertices; };
+			//inline void SetPos(const HMEngine::Core::Transform& transform) { *this->_transform = transform; };
+			void SetPos(const HMEngine::Core::Transform& transform);
 
 		private:
-			HMEngine::Core::Vertex* _vertices;
-			glm::vec3 _pos;
+			std::vector<glm::vec3> _vertices;
+			HMEngine::Core::Transform* _transform;
 
 		};
 	}

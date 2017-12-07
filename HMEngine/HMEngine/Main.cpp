@@ -10,18 +10,22 @@ int main()
 	g.Run();
 
 	//create cube
-	HMEngine::Core::Vertex vertices[] =
+	 std::vector<glm::vec3> vertices =
 	{
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)),
-		HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, 0.5, 0.5)),
-		HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, -0.5)), HMEngine::Core::Vertex(glm::vec3(0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, 0.5)), HMEngine::Core::Vertex(glm::vec3(-0.5, -0.5, -0.5))
+		(glm::vec3(0.5, -0.5, -0.5)), (glm::vec3(0.5, 0.5, -0.5)), (glm::vec3(-0.5, 0.5, -0.5)), (glm::vec3(-0.5, -0.5, -0.5)),
+		(glm::vec3(0.5, -0.5, 0.5)), (glm::vec3(0.5, 0.5, 0.5)), (glm::vec3(-0.5, 0.5, 0.5)), (glm::vec3(-0.5, -0.5, 0.5)),
+		(glm::vec3(0.5, -0.5, -0.5)), (glm::vec3(0.5, 0.5, -0.5)), (glm::vec3(0.5, 0.5, 0.5)), (glm::vec3(0.5, -0.5, 0.5)),
+		(glm::vec3(-0.5, -0.5, 0.5)), (glm::vec3(-0.5, 0.5, 0.5)), (glm::vec3(-0.5, 0.5, -0.5)), (glm::vec3(-0.5, -0.5, -0.5)),
+		(glm::vec3(0.5, 0.5, 0.5)), (glm::vec3(0.5, 0.5, -0.5)), (glm::vec3(-0.5, 0.5, -0.5)), (glm::vec3(-0.5, 0.5, 0.5)),
+		(glm::vec3(0.5, -0.5, -0.5)), (glm::vec3(0.5, -0.5, 0.5)), (glm::vec3(-0.5, -0.5, 0.5)), (glm::vec3(-0.5, -0.5, -0.5))
 
 	};
-	HMEngine::Core::GameObject go(vertices);
+	HMEngine::Core::GameObject go;
+	go.SetVertices(vertices);
 	g.AddGameObject(go);
+
+
+
 
 	return 0;
 }

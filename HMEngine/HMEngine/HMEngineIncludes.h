@@ -21,4 +21,3 @@
 #include "Camera.h"
 
 #include "GameObject.h"
-#include "Vertex.h"

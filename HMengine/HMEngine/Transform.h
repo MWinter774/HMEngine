@@ -13,6 +13,8 @@ namespace HMEngine
 			Transform(const glm::vec3& position = { 0,0,0 }, const glm::vec3& rotation = { 0,0,0 }, const glm::vec3& scale = { 1,1,1 });
 			~Transform();
 
+			Transform operator=(const Transform& transform); 
+
 			/* Position getters/setters/adders */
 			inline float GetPositionX() const { return this->_position.x; }
 			inline float GetPositionY() const { return this->_position.y; }

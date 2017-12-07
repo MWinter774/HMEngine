@@ -31,8 +31,8 @@ namespace HMEngine
 		void SetZFar(float zFar);
 		void Run();
 
-		void AddGameObject(HMEngine::Core::GameObject gameObject);
-		void RemoveGameObject(HMEngine::Core::GameObject gameObject);
+		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
+		//void RemoveGameObject(const HMEngine::Core::GameObject& gameObject);
 
 	private:
 		static float zNear;
