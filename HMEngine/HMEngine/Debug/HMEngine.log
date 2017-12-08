@@ -1,1 +1,12 @@
-﻿  HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe
+﻿  Camera.cpp
+  Generating Code...
+  Compiling...
+  Window.cpp
+  Transform.cpp
+  Shader.cpp
+  Main.cpp
+  HardwareInputs.cpp
+  GameObject.cpp
+  GameEngine.cpp
+  Generating Code...
+  HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

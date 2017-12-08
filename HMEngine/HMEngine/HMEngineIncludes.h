@@ -12,6 +12,8 @@
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <GL\glew.h>
 #include <algorithm>
+#include <exception>
+#include <map>
 
 #include "Window.h"
 #include "GameEngine.h"
@@ -19,5 +21,5 @@
 #include "Transform.h"
 #include "Constants.h"
 #include "Camera.h"
-
 #include "GameObject.h"
+#include "Shader.h"
