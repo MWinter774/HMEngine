@@ -5,6 +5,7 @@ namespace HMEngine
 {
 	namespace Core
 	{
+		class Transform;
 		namespace Rendering
 		{
 			namespace Shaders
@@ -22,8 +23,15 @@ namespace HMEngine
 					void AddVertexShader(const std::string& shaderFilePath);
 					void AddFragmentShader(const std::string& shaderFilePath);
 					void AddGeometryShader(const std::string& shaderFilePath);
-					virtual void Compile() const;
-					virtual void Bind() const;
+					void Compile() const;
+					void Bind() const;
+
+					void SetUniform(const std::string& uniformName, int value);
+					void SetUniform(const std::string& uniformName, float value);
+					void SetUniform(const std::string& uniformName, const glm::vec3& value);
+					void SetUniform(const std::string& uniformName, const glm::mat4& value);
+
+					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) = 0;
 				private:
 					static std::string ReadFileContent(const std::string& filePath);
 					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
@@ -36,15 +44,17 @@ namespace HMEngine
 							throw std::exception("SHADER PROGRAM CREATION FAILED!!!");
 						}
 					};
-					virtual ~Shader() 
+					virtual ~Shader()
 					{
 						glDeleteProgram(this->_program);
 					};
 					Shader(const Shader& other) = delete;
 					Shader& operator=(const Shader& other) = delete;
 					void AddProgram(const std::string& code, GLenum type);
+					void AddUniform(const std::string& uniformName);
 
 					GLuint _program;
+					std::map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
 				};
 
 				/*
@@ -128,6 +138,20 @@ namespace HMEngine
 				}
 
 				/*
+				Adds uniform to the uniform map.
+				Input:
+				uniformName - name of the uniform in the code
+				*/
+				template<typename T>
+				inline void Shader<T>::AddUniform(const std::string& uniformName)
+				{
+					GLuint uniformId = glGetUniformLocation(this->_program, uniformName.c_str());
+					if (uniformId == 0xFFFFFFFF) throw std::exception("ERROR GETTING UNIFORM \"" + uniformName + "\"");
+
+					this->_uniforms[uniformName] = uniformId;
+				}
+
+				/*
 				Adds the vertex shader to the shader program.
 				Input:
 				shaderFilePath - path to the shader file
@@ -180,6 +204,38 @@ namespace HMEngine
 				inline void Shader<T>::Bind() const
 				{
 					glUseProgram(this->_program);
+				}
+
+				template<typename T>
+				inline void Shader<T>::SetUniform(const std::string& uniformName, int value)
+				{
+					if (this->_uniforms[uniformName] == this->_uniforms.end())
+						this->AddUniform(uniformName);
+					glUniform1i(this->_uniforms[uniformName], value);
+				}
+
+				template<typename T>
+				inline void Shader<T>::SetUniform(const std::string& uniformName, float value)
+				{
+					if (this->_uniforms[uniformName] == this->_uniforms.end())
+						this->AddUniform(uniformName);
+					glUniform1f(this->_uniforms[uniformName], value);
+				}
+
+				template<typename T>
+				inline void Shader<T>::SetUniform(const std::string& uniformName, const glm::vec3& value)
+				{
+					if (this->_uniforms[uniformName] == this->_uniforms.end())
+						this->AddUniform(uniformName);
+					glUniform3f(this->_uniforms[uniformName], value);
+				}
+
+				template<typename T>
+				inline void Shader<T>::SetUniform(const std::string& uniformName, const glm::mat4& value)
+				{
+					if (this->_uniforms[uniformName] == this->_uniforms.end())
+						this->AddUniform(uniformName);
+					glUniformMatrix4fv(this->_uniforms[uniformName], value);
 				}
 			}
 		}
