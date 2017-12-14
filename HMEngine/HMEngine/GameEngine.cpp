@@ -55,7 +55,8 @@ void HMEngine::GameEngine::Run()
 	int count = 0;
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_ESCAPE)) //temp
 	{
-		HMEngine::Core::Hardware::HardwareInputs::Update();
+		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
+		HMEngine::Core::Rendering::RenderingEngine::Render(this->_gameObjects); //Render objects
 
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_w))
 			std::cout << "w key is tapped" << std::endl;

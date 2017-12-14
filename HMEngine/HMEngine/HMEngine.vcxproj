@@ -128,6 +128,7 @@
     <ClCompile Include="HardwareInputs.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="HardwareInputs.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="HMEngineIncludes.h" />
+    <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Window.h" />

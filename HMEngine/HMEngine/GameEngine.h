@@ -10,6 +10,7 @@ namespace HMEngine
 		namespace Rendering
 		{
 			class Window;
+			class RenderingEngine;
 		}
 	}
 
