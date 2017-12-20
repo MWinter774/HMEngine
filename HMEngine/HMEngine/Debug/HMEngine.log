@@ -1,2 +1,13 @@
-﻿  GameEngine.cpp
+﻿  Camera.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Window.cpp
+  Transform.cpp
+  Shader.cpp
+  RenderingEngine.cpp
+  Main.cpp
+  HardwareInputs.cpp
+  GameSettings.cpp
+  GameObject.cpp
+  GameEngine.cpp
   HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

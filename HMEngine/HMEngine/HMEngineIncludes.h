@@ -24,3 +24,4 @@
 #include "GameObject.h"
 #include "Shader.h"
 #include "RenderingEngine.h"
+#include "GameSettings.h"
