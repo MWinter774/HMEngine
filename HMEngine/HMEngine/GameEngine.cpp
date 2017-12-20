@@ -53,14 +53,15 @@ Runs the game.
 void HMEngine::GameEngine::Run()
 {
 	int count = 0;
-	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_ESCAPE)) //temp
+	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 		HMEngine::Core::Rendering::RenderingEngine::Render(this->_gameObjects); //Render objects
 
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDLK_w))
+		/* Temporary key checking */
+		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_W))
 			std::cout << "w key is tapped" << std::endl;
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDLK_s))
+		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_S))
 			std::cout << "s key is held down" << std::endl;
 		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
 			std::cout << "left mouse button is held down" << std::endl;

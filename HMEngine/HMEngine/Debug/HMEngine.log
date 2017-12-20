@@ -1,13 +1,2 @@
-﻿  Window.cpp
-  Shader.cpp
-  Main.cpp
-  HardwareInputs.cpp
-  GameEngine.cpp
-  Generating Code...
-  Compiling...
-  Transform.cpp
-  GameObject.cpp
-  Camera.cpp
-  Generating Code...
-  LINK : d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe not found or not built by the last incremental link; performing full link
+﻿  GameEngine.cpp
   HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

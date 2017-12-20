@@ -22,12 +22,12 @@ void HMEngine::Core::Hardware::HardwareInputs::Update()
 		}
 		else if (HardwareInputs::e.type == SDL_KEYDOWN)
 		{
-			HardwareInputs::keys[HardwareInputs::e.key.keysym.sym] |= (KeyStates::KeyDown | KeyStates::KeyTapped); //turn on the KeyDown and KeyTapped bits
+			HardwareInputs::keys[HardwareInputs::e.key.keysym.scancode] |= (KeyStates::KeyDown | KeyStates::KeyTapped); //turn on the KeyDown and KeyTapped bits
 		}
 		else if (HardwareInputs::e.type == SDL_KEYUP)
 		{
-			HardwareInputs::keys[HardwareInputs::e.key.keysym.sym] &= ~KeyStates::KeyDown; //turn off the KeyDown bit
-			HardwareInputs::keys[HardwareInputs::e.key.keysym.sym] |= KeyStates::KeyUp; //turn on the KeyUp bit
+			HardwareInputs::keys[HardwareInputs::e.key.keysym.scancode] &= ~KeyStates::KeyDown; //turn off the KeyDown bit
+			HardwareInputs::keys[HardwareInputs::e.key.keysym.scancode] |= KeyStates::KeyUp; //turn on the KeyUp bit
 		}
 		else if (HardwareInputs::e.type == SDL_MOUSEBUTTONDOWN)
 		{
