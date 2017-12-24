@@ -46,7 +46,8 @@ void HMEngine::Core::GameObject::Draw()
 	glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
 
 	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR) {
+	while ((err = glGetError()) != GL_NO_ERROR)
+	{
 		std::cerr << "OpenGL error: " << err << std::endl;
 	}
 

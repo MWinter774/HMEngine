@@ -22,7 +22,6 @@ Calculates and returns the model matrix.
 */
 glm::mat4 HMEngine::Core::Transform::GetModelMatrix() const
 {
-
 	glm::mat4 rotX = glm::rotate(this->_rotation.x, HMEngine::Constants::X_AXIS);
 	glm::mat4 rotY = glm::rotate(this->_rotation.y, HMEngine::Constants::Y_AXIS);
 	glm::mat4 rotZ = glm::rotate(this->_rotation.z, HMEngine::Constants::Z_AXIS);

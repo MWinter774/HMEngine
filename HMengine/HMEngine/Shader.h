@@ -34,7 +34,8 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, const glm::vec3& value);
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
-					void UpdateUniforms(const HMEngine::Core::Transform& transform) {
+					void UpdateUniforms(const HMEngine::Core::Transform& transform) 
+					{
 						this->SetUniform("transformationMatrix", transform.GetModelMatrix());
 						this->SetUniform("viewMatrix", transform.GetViewMatrix());
 						this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());

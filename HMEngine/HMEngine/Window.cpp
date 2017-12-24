@@ -56,14 +56,11 @@ This function updates the window by swapping it with the 2nd window buffer, and 
 */
 void HMEngine::Core::Rendering::Window::Update(std::vector<HMEngine::Core::GameObject> &objects)
 {
-	this->_window = SDL_GL_GetCurrentWindow();
 	GLenum err;
 	while ((err = glGetError()) != GL_NO_ERROR) {
 		std::cerr << "OpenGL error: " << err << std::endl;
 	}
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance();
 
 	for (auto& object : objects)
 	{
