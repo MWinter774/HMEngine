@@ -10,15 +10,11 @@ namespace HMEngine
 		{
 			namespace Shaders
 			{
+				
 				template<typename T>
 				class Shader
 				{
 				public:
-					static T& GetInstance()
-					{
-						static T& instance = T();
-						return instance;
-					}
 
 					void AddVertexShader(const std::string& shaderFilePath);
 					void AddFragmentShader(const std::string& shaderFilePath);
@@ -31,11 +27,7 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, const glm::vec3& value);
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
-					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) = 0;
-				private:
-					static std::string ReadFileContent(const std::string& filePath);
-					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
-
+					//virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) = 0;
 					Shader() : _program(-1)
 					{
 						this->_program = glCreateProgram();
@@ -44,16 +36,22 @@ namespace HMEngine
 							throw std::exception("SHADER PROGRAM CREATION FAILED!!!");
 						}
 					};
-					virtual ~Shader()
+					~Shader()
 					{
 						glDeleteProgram(this->_program);
 					};
-					Shader(const Shader& other) = delete;
-					Shader& operator=(const Shader& other) = delete;
-					void AddProgram(const std::string& code, GLenum type);
+
+				
+					static std::string ReadFileContent(const std::string& filePath);
+					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
+					GLuint _program;
+				protected:
+					//Shader(const Shader& other) = delete;
+					//Shader& operator=(const Shader& other) = delete;
+					void AddProgram(const std::string& text, GLenum type);
 					void AddUniform(const std::string& uniformName);
 
-					GLuint _program;
+					
 					std::map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
 				};
 
@@ -65,7 +63,7 @@ namespace HMEngine
 				The content of the file.
 				*/
 				template<typename T>
-				static std::string Shader<T>::ReadFileContent(const std::string& filePath)
+				std::string Shader<T>::ReadFileContent(const std::string& filePath)
 				{
 					std::string file;
 					std::string line;
@@ -73,7 +71,7 @@ namespace HMEngine
 					shaderFile.open(filePath.c_str());
 					if (!shaderFile.is_open())
 					{
-						throw std::exception("COULDN'T OPEN " + filePath + "!!!!");
+						throw std::exception(("COULDN'T OPEN " + filePath + "!!!!").c_str());
 					}
 
 					while (std::getline(shaderFile, line))
@@ -107,9 +105,9 @@ namespace HMEngine
 					if (!success)
 					{
 						if (isProgram)
-							glGetProgramInfoLog(shader, sizeof(infoLog), NULL, infoLog);
+							glGetProgramInfoLog(programId, sizeof(infoLog), NULL, infoLog);
 						else
-							glGetShaderInfoLog(shader, sizeof(infoLog), NULL, infoLog);
+							glGetShaderInfoLog(programId, sizeof(infoLog), NULL, infoLog);
 
 						throw std::exception(infoLog);
 					}
@@ -122,7 +120,7 @@ namespace HMEngine
 				type - the shader type
 				*/
 				template<typename T>
-				inline void Shader<T>::AddProgram(const std::string& code, GLenum type)
+				inline void Shader<T>::AddProgram(const std::string& text, GLenum type)
 				{
 					GLuint shader = glCreateShader(type);
 					if (!shader) throw std::exception("SHADER CREATION FAILED!!!");
@@ -237,6 +235,18 @@ namespace HMEngine
 						this->AddUniform(uniformName);
 					glUniformMatrix4fv(this->_uniforms[uniformName], value);
 				}
+
+
+				
+				class BasicShader
+				{
+					friend class HMEngine::Core::Rendering::Shaders::Shader;
+				public:
+					BasicShader() ;
+					~BasicShader() {};
+					static GLuint LoadShader(GLenum shaderType, const std::string& shaderFile);
+					static GLuint CreateShaderProgram(std::vector<GLuint> shaders);
+				};
 			}
 		}
 	}

@@ -38,7 +38,16 @@ HMEngine::Core::Rendering::Window::~Window()
 /*
 This function updates the window by swapping it with the 2nd window buffer, and checks for events
 */
-void HMEngine::Core::Rendering::Window::Update()
+void HMEngine::Core::Rendering::Window::Update(GLuint shaderProgram, std::vector<GameObject> objects, glm::mat4 mvp)
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	for (auto& object : objects)
+	{
+		object.Draw(shaderProgram, mvp);
+	}
+
 	SDL_GL_SwapWindow(_window);
+
 }

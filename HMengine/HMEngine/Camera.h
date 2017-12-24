@@ -30,6 +30,7 @@ namespace HMEngine
 				void AddPosition(float x, float y, float z);
 
 				glm::mat4 GetViewMatrix() const;
+				glm::mat4 GetMVPMatrix();
 
 			private:
 				Camera();

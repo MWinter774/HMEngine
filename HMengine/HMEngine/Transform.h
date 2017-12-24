@@ -8,7 +8,9 @@ namespace HMEngine
 		class Transform
 		{
 		public:
-			Transform(const glm::vec3& position = { 0,0,0 }, const glm::vec3& rotation = { 0,0,0 }, const glm::vec3& scale = { 1,1,1 });
+			static void UpdateProjectionMatrix();
+
+			Transform(const glm::vec3& position = { 0,0,10 }, const glm::vec3& rotation = { 0,0,0 }, const glm::vec3& scale = { 1,1,1 });
 			~Transform();
 
 			Transform operator=(const Transform& transform); 
@@ -63,9 +65,12 @@ namespace HMEngine
 
 			glm::mat4 GetModelMatrix() const;
 			glm::mat4 GetViewMatrix() const;
+			glm::mat4 GetProjectionMatrix() const;
 			glm::mat4 GetMVPMatrix() const;
 
 		private:
+			static glm::mat4 projectionMatrix;
+
 			glm::vec3 _position;
 			glm::vec3 _rotation;
 			glm::vec3 _scale;

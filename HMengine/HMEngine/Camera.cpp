@@ -95,3 +95,9 @@ HMEngine::Core::Rendering::Camera::~Camera()
 	if (this->_transform != nullptr)
 		delete this->_transform;
 }
+
+glm::mat4 HMEngine::Core::Rendering::Camera::GetMVPMatrix()
+{
+	glm::mat4 mvp = this->_transform->GetMVPMatrix();
+	return mvp;
+}

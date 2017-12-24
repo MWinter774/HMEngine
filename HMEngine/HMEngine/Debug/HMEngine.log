@@ -1,13 +1,45 @@
-﻿  Camera.cpp
+﻿  Shader.cpp
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.cpp(18): error C2039: 'AddVertexShader': is not a member of 'HMEngine::Core::Rendering::Shaders::BasicShader'
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(242): note: see declaration of 'HMEngine::Core::Rendering::Shaders::BasicShader'
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.cpp(19): error C2039: 'AddFragmentShader': is not a member of 'HMEngine::Core::Rendering::Shaders::BasicShader'
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(242): note: see declaration of 'HMEngine::Core::Rendering::Shaders::BasicShader'
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.cpp(20): error C2039: 'Compile': is not a member of 'HMEngine::Core::Rendering::Shaders::BasicShader'
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(242): note: see declaration of 'HMEngine::Core::Rendering::Shaders::BasicShader'
   Generating Code...
-  Skipping... (no relevant changes detected)
-  Window.cpp
-  Transform.cpp
-  Shader.cpp
-  RenderingEngine.cpp
-  Main.cpp
-  HardwareInputs.cpp
-  GameSettings.cpp
-  GameObject.cpp
+  Compiling...
+  Camera.cpp
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+  Generating Code...
+  Compiling...
   GameEngine.cpp
-  HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+  Generating Code...
+  Compiling...
+  GameObject.cpp
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+  Generating Code...
+  Compiling...
+  HardwareInputs.cpp
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+  Generating Code...
+  Compiling...
+  Main.cpp
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+  Generating Code...
+  Compiling...
+  Transform.cpp
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+  Generating Code...
+  Compiling...
+  Window.cpp
+c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(243): error C2990: 'HMEngine::Core::Rendering::Shaders::Shader': non-class template has already been declared as a class template
+  c:\users\harel\desktop\hmengine2\hmengine\hmengine\hmengine\shader.h(16): note: see declaration of 'HMEngine::Core::Rendering::Shaders::Shader'
+  Generating Code...
