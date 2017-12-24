@@ -2,11 +2,12 @@
 
 int main()
 {
-	std::string title = "test";
+	std::string title = "HMEngine";
 
 	HMEngine::GameEngine g;
 	g.CreateNewWindow(800, 600, title, false);
-
+	
+	
 
 	//create cube
 	std::vector<glm::vec3> vertices =
@@ -20,14 +21,31 @@ int main()
 		glm::vec3(-1,  1, -1),
 		glm::vec3(1,  1, -1),
 	};
-	HMEngine::Core::GameObject go;
-	go.SetVertices(vertices);
-
+	std::vector<GLuint> indices =
+	{
+		0, 1, 2, 2, 3, 0,           // Front face
+		7, 4, 5, 5, 6, 7,           // Back face
+		6, 5, 2, 2, 1, 6,           // Left face
+		7, 0, 3, 3, 4, 7,           // Right face
+		7, 6, 1, 1, 0, 7,           // Top face
+		3, 2, 5, 5, 4, 3            // Bottom face
+	};
+	HMEngine::Core::GameObject go(vertices,indices);
+	//go.SetVertices(vertices);
+	//go.SetTransform(HMEngine::Core::Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
+	//go.SetIndices(indices);
 	g.AddGameObject(go);
-	HMEngine::Core::Rendering::Shaders::BasicShader _shader;
+
+	/*HMEngine::Core::GameObject go2;
+	go2.SetVertices(vertices);
+	go2.SetTransform(HMEngine::Core::Transform(glm::vec3(5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
+	go2.SetIndices(indices);
+	g.AddGameObject(go2);*/
 
 
-	g.Run(_shader);
+	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.5f, 0.5f, -5.0f);
+	g.Run();
+
 
 
 

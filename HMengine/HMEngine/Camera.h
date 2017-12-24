@@ -29,9 +29,10 @@ namespace HMEngine
 				void AddPosition(const glm::vec3& pos);
 				void AddPosition(float x, float y, float z);
 
-				glm::mat4 GetViewMatrix() const;
-				glm::mat4 GetMVPMatrix();
+				void SetUpdate(bool update) { this->_update = update; };
 
+				glm::mat4 GetViewMatrix();
+				glm::mat4 GetMVP() const;
 			private:
 				Camera();
 				Camera(const HMEngine::Core::Rendering::Camera& other) = delete;
@@ -41,6 +42,8 @@ namespace HMEngine
 				HMEngine::Core::Transform* _transform;
 				glm::vec3 _forward;
 				glm::vec3 _up;
+				bool _update = true;
+				glm::mat4 _viewMatrix = glm::mat4(1);
 			};
 		}
 	}

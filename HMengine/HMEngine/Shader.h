@@ -6,15 +6,22 @@ namespace HMEngine
 	namespace Core
 	{
 		class Transform;
+		;
 		namespace Rendering
 		{
+			class Camera;
 			namespace Shaders
 			{
-				
 				template<typename T>
 				class Shader
 				{
+					friend class HMEngine::Core::GameObject;
 				public:
+					static T& GetInstance()
+					{
+						static T& instance = T();
+						return instance;
+					};
 
 					void AddVertexShader(const std::string& shaderFilePath);
 					void AddFragmentShader(const std::string& shaderFilePath);
@@ -27,7 +34,17 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, const glm::vec3& value);
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
+					void UpdateUniforms(const HMEngine::Core::Transform& transform) {
+						this->SetUniform("transformationMatrix", transform.GetModelMatrix());
+						this->SetUniform("viewMatrix", transform.GetViewMatrix());
+						this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
+					};
 					//virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) = 0;
+					GLuint _program;
+				protected:
+					static std::string ReadFileContent(const std::string& filePath);
+					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
+
 					Shader() : _program(-1)
 					{
 						this->_program = glCreateProgram();
@@ -41,17 +58,15 @@ namespace HMEngine
 						glDeleteProgram(this->_program);
 					};
 
-				
-					static std::string ReadFileContent(const std::string& filePath);
-					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
-					GLuint _program;
-				protected:
-					//Shader(const Shader& other) = delete;
-					//Shader& operator=(const Shader& other) = delete;
-					void AddProgram(const std::string& text, GLenum type);
+					/*virtual ~Shader()
+					{
+						glDeleteProgram(this->_program);
+					};*/
+					Shader(const Shader& other) = delete;
+					Shader& operator=(const Shader& other) = delete;
+					void AddProgram(const std::string& code, GLenum type);
 					void AddUniform(const std::string& uniformName);
 
-					
 					std::map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
 				};
 
@@ -71,7 +86,7 @@ namespace HMEngine
 					shaderFile.open(filePath.c_str());
 					if (!shaderFile.is_open())
 					{
-						throw std::exception(("COULDN'T OPEN " + filePath + "!!!!").c_str());
+						throw std::exception(std::string("COULDN'T OPEN " + filePath + "!!!!").c_str());
 					}
 
 					while (std::getline(shaderFile, line))
@@ -120,15 +135,15 @@ namespace HMEngine
 				type - the shader type
 				*/
 				template<typename T>
-				inline void Shader<T>::AddProgram(const std::string& text, GLenum type)
+				inline void Shader<T>::AddProgram(const std::string& code, GLenum type)
 				{
 					GLuint shader = glCreateShader(type);
 					if (!shader) throw std::exception("SHADER CREATION FAILED!!!");
 
 					const GLchar* p[1];
-					p[0] = text.c_str();
+					p[0] = code.c_str();
 					GLint lengths[1];
-					lengths[0] = text.length();
+					lengths[0] = code.length();
 					glShaderSource(shader, 1, p, lengths);
 					glCompileShader(shader);
 					this->CheckForErrors(shader, GL_COMPILE_STATUS, false);
@@ -144,7 +159,8 @@ namespace HMEngine
 				inline void Shader<T>::AddUniform(const std::string& uniformName)
 				{
 					GLuint uniformId = glGetUniformLocation(this->_program, uniformName.c_str());
-					if (uniformId == 0xFFFFFFFF) throw std::exception("ERROR GETTING UNIFORM \"" + uniformName + "\"");
+					if (uniformId == 0xFFFFFFFF) 
+						throw std::exception(std::string("ERROR GETTING UNIFORM \"" + uniformName + "\"").c_str());
 
 					this->_uniforms[uniformName] = uniformId;
 				}
@@ -207,7 +223,7 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::SetUniform(const std::string& uniformName, int value)
 				{
-					if (this->_uniforms[uniformName] == this->_uniforms.end())
+					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
 						this->AddUniform(uniformName);
 					glUniform1i(this->_uniforms[uniformName], value);
 				}
@@ -215,7 +231,7 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::SetUniform(const std::string& uniformName, float value)
 				{
-					if (this->_uniforms[uniformName] == this->_uniforms.end())
+					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
 						this->AddUniform(uniformName);
 					glUniform1f(this->_uniforms[uniformName], value);
 				}
@@ -223,7 +239,7 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::SetUniform(const std::string& uniformName, const glm::vec3& value)
 				{
-					if (this->_uniforms[uniformName] == this->_uniforms.end())
+					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
 						this->AddUniform(uniformName);
 					glUniform3f(this->_uniforms[uniformName], value);
 				}
@@ -231,21 +247,25 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::SetUniform(const std::string& uniformName, const glm::mat4& value)
 				{
-					if (this->_uniforms[uniformName] == this->_uniforms.end())
+					
+					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
 						this->AddUniform(uniformName);
-					glUniformMatrix4fv(this->_uniforms[uniformName], value);
+					glUniformMatrix4fv(this->_uniforms[uniformName], 1, GL_FALSE, glm::value_ptr(value));
 				}
 
 
+
 				
-				class BasicShader
+
+				class BasicShader : public HMEngine::Core::Rendering::Shaders::Shader<BasicShader>
 				{
-					friend class HMEngine::Core::Rendering::Shaders::Shader;
+					//friend class Shader<BasicShader>;
 				public:
-					BasicShader() ;
+
+					BasicShader();
 					~BasicShader() {};
-					static GLuint LoadShader(GLenum shaderType, const std::string& shaderFile);
-					static GLuint CreateShaderProgram(std::vector<GLuint> shaders);
+
+					void Update(HMEngine::Core::Transform tr);
 				};
 			}
 		}

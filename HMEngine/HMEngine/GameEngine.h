@@ -10,43 +10,24 @@ namespace HMEngine
 		namespace Rendering
 		{
 			class Window;
-			namespace Shaders
-			{
-				class BasicShader;
-			}
+			class RenderingEngine;
 		}
 	}
 
 	class GameEngine
 	{
 	public:
-		static float GetFov() { return HMEngine::GameEngine::fovInDegrees; }
-		static unsigned int GetWindowWidth() { return HMEngine::GameEngine::windowWidth; }
-		static unsigned int GetWindowHeight() { return HMEngine::GameEngine::windowHeight; }
-		static float GetZNear() { return HMEngine::GameEngine::zNear; }
-		static float GetZFar() { return HMEngine::GameEngine::zFar; }
-
 		GameEngine();
 		~GameEngine();
 
 		void CreateNewWindow(int width, int height, const std::string& title, bool fullscreen);
-		void SetFov(float fovInDegrees);
-		void SetZNear(float zNear);
-		void SetZFar(float zFar);
-		void Run(HMEngine::Core::Rendering::Shaders::BasicShader _shader);
+		void Run();
 
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
-		//void RemoveGameObject(const HMEngine::Core::GameObject& gameObject);
 
 	private:
-		static float zNear;
-		static float zFar;
-		static float fovInDegrees;
-		static unsigned int windowWidth;
-		static unsigned int windowHeight;
-
 		HMEngine::Core::Rendering::Window* _window;
 		std::vector<HMEngine::Core::GameObject> _gameObjects;
-		
+
 	};
 }

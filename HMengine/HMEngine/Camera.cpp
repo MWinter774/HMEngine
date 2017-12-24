@@ -81,10 +81,16 @@ void HMEngine::Core::Rendering::Camera::AddPosition(float x, float y, float z)
 /*
 Calculates and returns the view matrix.
 */
-glm::mat4 HMEngine::Core::Rendering::Camera::GetViewMatrix() const
+glm::mat4 HMEngine::Core::Rendering::Camera::GetViewMatrix()
 {
 	return glm::lookAt(this->_transform->GetPosition(), this->_transform->GetPosition() + this->_forward, this->_up);
 }
+
+glm::mat4 HMEngine::Core::Rendering::Camera::GetMVP() const
+{
+	return this->_transform->GetMVPMatrix();
+}
+
 
 HMEngine::Core::Rendering::Camera::Camera() : _transform(new HMEngine::Core::Transform()), _forward(HMEngine::Constants::Z_AXIS), _up(HMEngine::Constants::Y_AXIS)
 {
@@ -94,10 +100,4 @@ HMEngine::Core::Rendering::Camera::~Camera()
 {
 	if (this->_transform != nullptr)
 		delete this->_transform;
-}
-
-glm::mat4 HMEngine::Core::Rendering::Camera::GetMVPMatrix()
-{
-	glm::mat4 mvp = this->_transform->GetMVPMatrix();
-	return mvp;
 }

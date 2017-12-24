@@ -1,75 +1,58 @@
 #include "GameObject.h"
 
-#define MEMBER_OFFSET(s,m) ((char*)NULL + (offsetof(s,m)))
 
-/*
-bool HMEngine::Core::GameObject::operator==(const GameObject& go)
+
+HMEngine::Core::GameObject::GameObject(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices) : _transform(new HMEngine::Core::Transform()), _vertices(vertices), _indices(indices)
 {
-	if (go._pos == this->_pos && go._vertices == this->_vertices)
-		return true;
-	return false;
+	glGenVertexArrays(1, &this->_vao);
+	glBindVertexArray(this->_vao);
+
+	glGenBuffers(2, &this->_vbo[0]);
+
+	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[0]);
+	glBufferData(GL_ARRAY_BUFFER, (this->_vertices.size() * sizeof(this->_vertices[0])), &this->_vertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_vbo[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (this->_indices.size() * sizeof(this->_indices[0])), &this->_indices[0], GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 }
-*/
 
-void HMEngine::Core::GameObject::SetPos(const HMEngine::Core::Transform & transform)
+void HMEngine::Core::GameObject::SetTransform(HMEngine::Core::Transform& transform)
 {
-	*this->_transform = transform;
+	this->_transform = &transform;
 };
 
 void HMEngine::Core::GameObject::SetVertices(std::vector<glm::vec3> vertices)
 {
-	//glBindVertexArray(0);
 	this->_vertices = vertices;
-	this->_transform = new Transform;
-	//glGenVertexArrays(1, &this->_vao);
-	//glBindVertexArray(this->_vao);
+}
+
+void HMEngine::Core::GameObject::SetIndices(std::vector<GLuint> indices)
+{
+	this->_indices = indices; 
 
 }
 
-void HMEngine::Core::GameObject::Draw(GLuint program, glm::mat4 mvp)
+
+
+
+void HMEngine::Core::GameObject::Draw()
 {
-	glBindVertexArray(0);
 
-	GLint positionAtribID = glGetAttribLocation(program, "in_position");
-	GLint colorAtribID = glGetAttribLocation(program, "in_color");
-	GLint uniformMVP = -1;
-	uniformMVP = glGetUniformLocation(program, "MVP");
-
-	glGenVertexArrays(1, &this->_vao);
 	glBindVertexArray(this->_vao);
 
-	GLuint vertexBuffer, indexBuffer;
-	glGenBuffers(1, &vertexBuffer);
-	glGenBuffers(1, &indexBuffer);
+	glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(this->_vertices), &_vertices, GL_STATIC_DRAW);
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cerr << "OpenGL error: " << err << std::endl;
+	}
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(g_Indices), g_Indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(positionAtribID, 3, GL_FLOAT, false, sizeof(this->_vertices), 0);
-	glEnableVertexAttribArray(positionAtribID);
-	glVertexAttribPointer(colorAtribID, 3, GL_FLOAT, false, sizeof(this->_color), 0);
-	glEnableVertexAttribArray(colorAtribID);
-
-
-
-
-
-	glUseProgram(program);
-	glUniformMatrix4fv(uniformMVP, 1, GL_FALSE, glm::value_ptr(mvp));
-
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLvoid*)0);
-	glColor3f(1, 0, 0);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glUseProgram(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDisableVertexAttribArray(positionAtribID);
-	glDisableVertexAttribArray(colorAtribID);
-
+	glDisableVertexAttribArray(0);
 }
-
