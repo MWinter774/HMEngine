@@ -6,7 +6,7 @@ namespace HMEngine
 	namespace Core
 	{
 		class Transform;
-		;
+
 		namespace Rendering
 		{
 			class Camera;

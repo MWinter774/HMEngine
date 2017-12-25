@@ -30,18 +30,12 @@ int main()
 		7, 6, 1, 1, 0, 7,           // Top face
 		3, 2, 5, 5, 4, 3            // Bottom face
 	};
+
 	HMEngine::Core::GameObject go(vertices,indices);
-	//go.SetVertices(vertices);
-	//go.SetTransform(HMEngine::Core::Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
-	//go.SetIndices(indices);
+	HMEngine::Components::Draw* t = new HMEngine::Components::Draw;
+	go.AddComponent(t);
+
 	g.AddGameObject(go);
-
-	/*HMEngine::Core::GameObject go2;
-	go2.SetVertices(vertices);
-	go2.SetTransform(HMEngine::Core::Transform(glm::vec3(5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
-	go2.SetIndices(indices);
-	g.AddGameObject(go2);*/
-
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.5f, 0.5f, -5.0f);
 	g.Run();

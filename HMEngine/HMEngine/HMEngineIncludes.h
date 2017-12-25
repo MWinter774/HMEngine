@@ -22,7 +22,8 @@
 #include <map>
 #include <fstream>
 #include <exception>
-
+#include <list>
+#include <memory>
 
 #include "Window.h"
 #include "GameEngine.h"
@@ -34,3 +35,4 @@
 #include "RenderingEngine.h"
 #include "GameSettings.h"
 #include "GameObject.h"
+#include "Component.h"

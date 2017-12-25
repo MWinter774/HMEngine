@@ -35,9 +35,6 @@ void HMEngine::Core::GameObject::SetIndices(std::vector<GLuint> indices)
 
 }
 
-
-
-
 void HMEngine::Core::GameObject::Draw()
 {
 
@@ -51,9 +48,17 @@ void HMEngine::Core::GameObject::Draw()
 		std::cerr << "OpenGL error: " << err << std::endl;
 	}
 
-
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDisableVertexAttribArray(0);
+}
+
+
+
+void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component* component)
+{
+
+	this->_components.push_back(component);
+	component->SetParent(*this);
 }

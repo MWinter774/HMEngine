@@ -99,8 +99,8 @@ void HMEngine::GameEngine::Run()
 			std::cout << HMEngine::Core::Hardware::HardwareInputs::GetCursorXPos() << ", " << HMEngine::Core::Hardware::HardwareInputs::GetCursorYPos() << std::endl;
 			count = 0;
 		}
-		system("cls");
-		std::cout << glm::to_string(HMEngine::Core::Rendering::Camera::GetInstance().GetPosition()) << std::endl;
+		//system("cls");
+		//std::cout << glm::to_string(HMEngine::Core::Rendering::Camera::GetInstance().GetPosition()) << std::endl;
 		//std::cout << glm::to_string(HMEngine::Core::Rendering::Camera::GetInstance().GetPosition()) << std::endl;
 	
 		count++;
