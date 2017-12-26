@@ -12,8 +12,9 @@ namespace HMEngine
 	{
 		class Component
 		{
-			//friend class HMEngine::Core::GameObject;
+			friend class HMEngine::Core::GameObject;
 		public:
+
 			void SetParent(HMEngine::Core::GameObject& parent) { this->_parentObject = &parent; };
 			HMEngine::Core::GameObject* GetParent() { return this->_parentObject; };
 
@@ -26,10 +27,9 @@ namespace HMEngine
 			HMEngine::Core::GameObject* _parentObject = nullptr;
 		};
 
-
+		//TEMP
 		class Draw : public Component
 		{
-			//friend class HMEngine::Core::GameObject;
 		public:
 			void Render();
 		};

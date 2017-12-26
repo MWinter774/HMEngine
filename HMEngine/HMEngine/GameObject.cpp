@@ -58,7 +58,6 @@ void HMEngine::Core::GameObject::Draw()
 
 void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component* component)
 {
-
 	this->_components.push_back(component);
 	component->SetParent(*this);
 }
