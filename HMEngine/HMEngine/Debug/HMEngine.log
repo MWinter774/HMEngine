@@ -1,4 +1,5 @@
-﻿  Component.cpp
+﻿  GameObject.cpp
+  Component.cpp
   Generating Code...
   Compiling...
   Window.cpp
@@ -8,8 +9,7 @@
   Main.cpp
   HardwareInputs.cpp
   GameSettings.cpp
-  GameObject.cpp
   GameEngine.cpp
   Camera.cpp
   Generating Code...
-  HMEngine.vcxproj -> C:\Users\harel\Desktop\HMEngine\HMengine\HMEngine\Debug\HMEngine.exe
+  HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

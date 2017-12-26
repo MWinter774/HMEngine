@@ -1,7 +1,5 @@
 #include "GameObject.h"
 
-
-
 HMEngine::Core::GameObject::GameObject(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices) : _transform(new HMEngine::Core::Transform()), _vertices(vertices), _indices(indices)
 {
 	glGenVertexArrays(1, &this->_vao);
@@ -17,6 +15,11 @@ HMEngine::Core::GameObject::GameObject(const std::vector<glm::vec3>& vertices, c
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+}
+
+HMEngine::Core::GameObject::~GameObject()
+{
+	delete this->_transform;
 }
 
 void HMEngine::Core::GameObject::SetTransform(HMEngine::Core::Transform& transform)
@@ -35,9 +38,8 @@ void HMEngine::Core::GameObject::SetIndices(std::vector<GLuint> indices)
 
 }
 
-void HMEngine::Core::GameObject::Draw()
+void HMEngine::Core::GameObject::Draw() const
 {
-
 	glBindVertexArray(this->_vao);
 
 	glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
@@ -58,7 +60,6 @@ void HMEngine::Core::GameObject::Draw()
 
 void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component* component)
 {
-
+	component->_parentObject = this;
 	this->_components.push_back(component);
-	component->SetParent(*this);
 }

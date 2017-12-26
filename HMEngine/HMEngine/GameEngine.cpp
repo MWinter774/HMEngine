@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-HMEngine::GameEngine::GameEngine() : _window(nullptr)
+HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(&HMEngine::Core::Rendering::RenderingEngine::GetInstance())
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
@@ -35,13 +35,10 @@ void HMEngine::GameEngine::Run()
 {
 	int count = 0;
 
-
-	
-
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
-		//HMEngine::Core::Rendering::RenderingEngine::Render(this->_gameObjects); //Render objects
+		this->_renderingEngine->Render(this->_gameObjects); //Render objects
 
 		/* Temporary key checking */
 		float speed = 0.05f;

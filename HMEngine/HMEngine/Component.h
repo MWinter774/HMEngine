@@ -12,15 +12,14 @@ namespace HMEngine
 	{
 		class Component
 		{
-			//friend class HMEngine::Core::GameObject;
+			friend class HMEngine::Core::GameObject;
 		public:
-			void SetParent(HMEngine::Core::GameObject& parent) { this->_parentObject = &parent; };
-			HMEngine::Core::GameObject* GetParent() { return this->_parentObject; };
+			Component();
+			virtual ~Component();
+
+			inline HMEngine::Core::GameObject& GetParent() { return *this->_parentObject; };
 
 			virtual void Render() = 0;
-
-			Component() {};
-			virtual ~Component() {};
 
 		protected:
 			HMEngine::Core::GameObject* _parentObject = nullptr;
@@ -29,7 +28,6 @@ namespace HMEngine
 
 		class Draw : public Component
 		{
-			//friend class HMEngine::Core::GameObject;
 		public:
 			void Render();
 		};

@@ -23,7 +23,7 @@ namespace HMEngine
 			friend class HMEngine::Components::Component;
 		public:
 			GameObject(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices);
-			~GameObject() {};
+			~GameObject();
 
 			inline std::vector<glm::vec3> GetVertices() { return this->_vertices; };
 			inline std::vector<GLuint> GetIndices() { return this->_indices; };
@@ -33,7 +33,8 @@ namespace HMEngine
 			void SetVertices(std::vector<glm::vec3> vertices) ;
 			void SetIndices(std::vector<GLuint> indices);
 			void SetTransform(HMEngine::Core::Transform& transform);
-			void Draw();
+
+			void Draw() const;
 
 			void AddComponent(HMEngine::Components::Component* component);
 		private:
