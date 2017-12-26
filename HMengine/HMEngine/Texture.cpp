@@ -1,12 +1,9 @@
 #include "Texture.h"
 
-
-
-Texture::Texture()
+HMEngine::Components::Texture::Texture(const std::string& texturePath)
 {
 }
 
-
-Texture::~Texture()
+HMEngine::Components::Texture::~Texture()
 {
 }

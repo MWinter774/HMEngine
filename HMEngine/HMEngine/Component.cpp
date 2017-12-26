@@ -1,4 +1,5 @@
 #include "Component.h"
+#include "GameObject.h"
 
 void HMEngine::Components::Draw::Render()
 {

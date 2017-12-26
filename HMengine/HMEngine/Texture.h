@@ -1,9 +1,17 @@
 #pragma once
+#include "HMEngineIncludes.h"
 
-class Texture
+namespace HMEngine
 {
-public:
-	Texture();
-	~Texture();
-};
+	namespace Components
+	{
+		class Component;
 
+		class Texture : HMEngine::Components::Component
+		{
+		public:
+			Texture(const std::string& texturePath);
+			~Texture();
+		};
+	}
+}

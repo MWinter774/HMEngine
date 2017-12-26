@@ -36,3 +36,4 @@
 #include "GameSettings.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "Texture.h"
