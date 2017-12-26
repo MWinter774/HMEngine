@@ -85,7 +85,11 @@ void HMEngine::GameEngine::Run()
 		{
 			this->_gameObjects[0].GetTransform().AddRotationX(-speed);
 		}
-
+		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_R))
+		{
+			this->_gameObjects[0].SetTransform(HMEngine::Core::Transform());
+			HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
+		}
 
 
 		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))

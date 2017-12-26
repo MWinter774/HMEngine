@@ -34,18 +34,9 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, const glm::vec3& value);
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
-					void UpdateUniforms(const HMEngine::Core::Transform& transform) 
-					{
-						this->SetUniform("transformationMatrix", transform.GetModelMatrix());
-						this->SetUniform("viewMatrix", transform.GetViewMatrix());
-						this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
-					};
-					//virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) = 0;
-					GLuint _program;
-				protected:
-					static std::string ReadFileContent(const std::string& filePath);
-					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
+					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) = 0;
 
+				protected:
 					Shader() : _program(-1)
 					{
 						this->_program = glCreateProgram();
@@ -59,6 +50,11 @@ namespace HMEngine
 						glDeleteProgram(this->_program);
 					};
 
+				private:
+					static std::string ReadFileContent(const std::string& filePath);
+					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
+
+
 					/*virtual ~Shader()
 					{
 						glDeleteProgram(this->_program);
@@ -67,7 +63,7 @@ namespace HMEngine
 					Shader& operator=(const Shader& other) = delete;
 					void AddProgram(const std::string& code, GLenum type);
 					void AddUniform(const std::string& uniformName);
-
+					GLuint _program;
 					std::map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
 				};
 
@@ -260,13 +256,13 @@ namespace HMEngine
 
 				class BasicShader : public HMEngine::Core::Rendering::Shaders::Shader<BasicShader>
 				{
-					//friend class Shader<BasicShader>;
+					friend class Shader<BasicShader>;
 				public:
 
 					BasicShader();
 					~BasicShader() {};
 
-					void Update(HMEngine::Core::Transform tr);
+					void UpdateUniforms(const HMEngine::Core::Transform& transform);
 				};
 			}
 		}

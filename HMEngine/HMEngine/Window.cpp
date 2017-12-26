@@ -65,7 +65,7 @@ void HMEngine::Core::Rendering::Window::Update(std::vector<HMEngine::Core::GameO
 	for (auto& object : objects)
 	{
 		HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(object.GetTransform());
-		//object.Draw();
+
 		for (auto& c : object.GetComponents())
 		{
 			c->Render();
