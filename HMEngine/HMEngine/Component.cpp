@@ -1,7 +1,7 @@
 #include "Component.h"
 #include "GameObject.h"
 
-void HMEngine::Components::Draw::Render()
+void HMEngine::Components::Draw::OnRender()
 {
 	if (this->_parentObject != nullptr)
 		this->_parentObject->Draw();
