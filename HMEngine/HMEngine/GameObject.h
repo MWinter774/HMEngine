@@ -24,11 +24,13 @@ namespace HMEngine
 		public:
 			GameObject(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices);
 			~GameObject();
+			GameObject(const HMEngine::Core::GameObject& other);
+			HMEngine::Core::GameObject& operator=(const HMEngine::Core::GameObject& other);
 
-			inline std::vector<glm::vec3> GetVertices() { return this->_vertices; };
-			inline std::vector<GLuint> GetIndices() { return this->_indices; };
-			inline HMEngine::Core::Transform& GetTransform() { return *this->_transform; };
-			inline std::vector<HMEngine::Components::Component*> GetComponents() { return this->_components; };
+			inline std::vector<glm::vec3> GetVertices() const { return this->_vertices; };
+			inline std::vector<GLuint> GetIndices() const { return this->_indices; };
+			inline HMEngine::Core::Transform& GetTransform() const { return *this->_transform; };
+			inline std::vector<HMEngine::Components::Component*> GetComponents() const { return this->_components; };
 
 			void SetVertices(std::vector<glm::vec3> vertices) ;
 			void SetIndices(std::vector<GLuint> indices);

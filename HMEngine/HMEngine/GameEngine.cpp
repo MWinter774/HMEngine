@@ -38,7 +38,7 @@ void HMEngine::GameEngine::Run()
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
-		this->_renderingEngine->Render(this->_gameObjects); //Render objects
+		//this->_renderingEngine->Render(this->_gameObjects); //Render objects
 
 		/* Temporary key checking */
 		float speed = 0.05f;

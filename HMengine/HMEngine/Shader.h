@@ -254,10 +254,6 @@ namespace HMEngine
 					glUniformMatrix4fv(this->_uniforms[uniformName], 1, GL_FALSE, glm::value_ptr(value));
 				}
 
-
-
-				
-
 				class BasicShader : public HMEngine::Core::Rendering::Shaders::Shader<BasicShader>
 				{
 					//friend class Shader<BasicShader>;
