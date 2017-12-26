@@ -31,8 +31,8 @@ int main()
 		3, 2, 5, 5, 4, 3            // Bottom face
 	};
 
-	HMEngine::Core::GameObject go(vertices,indices);
-	HMEngine::Components::Draw* t = new HMEngine::Components::Draw;
+	HMEngine::Core::GameObject go;
+	HMEngine::Components::MeshRenderer* t = new HMEngine::Components::MeshRenderer(vertices, indices);
 	go.AddComponent(t);
 
 	g.AddGameObject(go);

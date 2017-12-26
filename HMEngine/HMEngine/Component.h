@@ -19,17 +19,10 @@ namespace HMEngine
 
 			inline HMEngine::Core::GameObject& GetParent() { return *this->_parentObject; };
 
-			virtual void OnRender() {} //this functions will be called when the game object is rendered
+			virtual void RenderEvent() {} //this functions will be called when the game object is rendered
 
 		protected:
 			HMEngine::Core::GameObject* _parentObject;
-		};
-
-
-		class Draw : public Component
-		{
-		public:
-			void OnRender() override;
 		};
 	}
 }

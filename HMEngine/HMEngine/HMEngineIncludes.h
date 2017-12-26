@@ -38,3 +38,4 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "Texture.h"
+#include "MeshRenderer.h"
