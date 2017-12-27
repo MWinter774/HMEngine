@@ -1,2 +1,18 @@
-﻿  lodepng.cpp
+﻿  BasicShader.cpp
+  Generating Code...
+  Compiling...
+  MeshRenderer.cpp
+  Main.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Window.cpp
+  Transform.cpp
+  Texture.cpp
+  RenderingEngine.cpp
+  HardwareInputs.cpp
+  GameSettings.cpp
+  GameObject.cpp
+  GameEngine.cpp
+  Component.cpp
+  Camera.cpp
   HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

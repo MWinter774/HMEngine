@@ -31,7 +31,7 @@ namespace HMEngine
 			HMEngine::Components::Texture* _texture;
 
 			GLuint _vao;
-			GLuint _vbo[2];
+			GLuint _vbo[NUM_BUFFERS];
 		};
 	}
 }
