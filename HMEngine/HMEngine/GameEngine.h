@@ -26,6 +26,7 @@ namespace HMEngine
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
 
 	private:
+		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
 		std::vector<HMEngine::Core::GameObject> _gameObjects;
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "HMEngineIncludes.h"
+//#include "HMEngineIncludes.h"
 
 namespace HMEngine
 {
@@ -14,24 +14,13 @@ namespace HMEngine
 		{
 			friend class HMEngine::Core::GameObject;
 		public:
+			Component();
+			virtual ~Component();
 
-			void SetParent(HMEngine::Core::GameObject& parent) { this->_parentObject = &parent; };
-			HMEngine::Core::GameObject* GetParent() { return this->_parentObject; };
-
-			virtual void Render() = 0;
-
-			Component() {};
-			virtual ~Component() {};
+			virtual void RenderEvent() {} //this functions will be called when the game object is rendered
 
 		protected:
-			HMEngine::Core::GameObject* _parentObject = nullptr;
-		};
-
-		//TEMP
-		class Draw : public Component
-		{
-		public:
-			void Render();
+			HMEngine::Core::GameObject* _parentObject;
 		};
 	}
 }

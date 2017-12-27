@@ -7,8 +7,6 @@ int main()
 	HMEngine::GameEngine g;
 	g.CreateNewWindow(800, 600, title, false);
 	
-	
-
 	//create cube
 	std::vector<glm::vec3> vertices =
 	{
@@ -31,18 +29,53 @@ int main()
 		3, 2, 5, 5, 4, 3            // Bottom face
 	};
 
-	HMEngine::Core::GameObject go(vertices,indices);
-	HMEngine::Components::Draw* t = new HMEngine::Components::Draw;
+	std::vector<glm::vec2> uvs = {
+		glm::vec2(0.000059f, 1.0f - 0.000004f),
+		glm::vec2(0.000103f, 1.0f - 0.336048f),
+		glm::vec2(0.335973f, 1.0f - 0.335903f),
+		glm::vec2(1.000023f, 1.0f - 0.000013f),
+		glm::vec2(0.667979f, 1.0f - 0.335851f),
+		glm::vec2(0.999958f, 1.0f - 0.336064f),
+		glm::vec2(0.667979f, 1.0f - 0.335851f),
+		glm::vec2(0.336024f, 1.0f - 0.671877f),
+		glm::vec2(0.667969f, 1.0f - 0.671889f),
+		glm::vec2(1.000023f, 1.0f - 0.000013f),
+		glm::vec2(0.668104f, 1.0f - 0.000013f),
+		glm::vec2(0.667979f, 1.0f - 0.335851f),
+		glm::vec2(0.000059f, 1.0f - 0.000004f),
+		glm::vec2(0.335973f, 1.0f - 0.335903f),
+		glm::vec2(0.336098f, 1.0f - 0.000071f),
+		glm::vec2(0.667979f, 1.0f - 0.335851f),
+		glm::vec2(0.335973f, 1.0f - 0.335903f),
+		glm::vec2(0.336024f, 1.0f - 0.671877f),
+		glm::vec2(1.000004f, 1.0f - 0.671847f),
+		glm::vec2(0.999958f, 1.0f - 0.336064f),
+		glm::vec2(0.667979f, 1.0f - 0.335851f),
+		glm::vec2(0.668104f, 1.0f - 0.000013f),
+		glm::vec2(0.335973f, 1.0f - 0.335903f),
+		glm::vec2(0.667979f, 1.0f - 0.335851f),
+		glm::vec2(0.335973f, 1.0f - 0.335903f),
+		glm::vec2(0.668104f, 1.0f - 0.000013f),
+		glm::vec2(0.336098f, 1.0f - 0.000071f),
+		glm::vec2(0.000103f, 1.0f - 0.336048f),
+		glm::vec2(0.000004f, 1.0f - 0.671870f),
+		glm::vec2(0.336024f, 1.0f - 0.671877f),
+		glm::vec2(0.000103f, 1.0f - 0.336048f),
+		glm::vec2(0.336024f, 1.0f - 0.671877f),
+		glm::vec2(0.335973f, 1.0f - 0.335903f),
+		glm::vec2(0.667969f, 1.0f - 0.671889f),
+		glm::vec2(1.000004f, 1.0f - 0.671847f),
+		glm::vec2(0.667979f, 1.0f - 0.335851f)
+	};
+
+	HMEngine::Core::GameObject go;
+	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./textures/bricks.png");
 	go.AddComponent(t);
 
 	g.AddGameObject(go);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
 	g.Run();
-
-
-
-
 
 	return 0;
 }

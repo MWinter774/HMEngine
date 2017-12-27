@@ -1,10 +1,10 @@
 #include "Component.h"
+#include "GameObject.h"
 
-/*
-calls the draw function of the gameObject
-*/
-void HMEngine::Components::Draw::Render()
+HMEngine::Components::Component::Component() : _parentObject(nullptr)
 {
-	if (this->_parentObject != nullptr)
-		this->_parentObject->Draw();
+}
+
+HMEngine::Components::Component::~Component()
+{
 }

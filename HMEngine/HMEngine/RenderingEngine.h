@@ -12,12 +12,15 @@ namespace HMEngine
 			class RenderingEngine
 			{
 			public:
-				RenderingEngine() = delete;
-				~RenderingEngine() = delete;
+				static HMEngine::Core::Rendering::RenderingEngine& GetInstance();
 
-				static void Render(const std::vector<HMEngine::Core::GameObject>& gameObjects);
+				void Render(const std::vector<HMEngine::Core::GameObject>& gameObjects) const;
 
 			private:
+				RenderingEngine();
+				~RenderingEngine();
+				RenderingEngine(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
+				HMEngine::Core::Rendering::RenderingEngine& operator=(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 			};
 		}
 	}

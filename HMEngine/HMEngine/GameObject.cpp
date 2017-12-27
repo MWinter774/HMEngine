@@ -1,63 +1,55 @@
 #include "GameObject.h"
 
-
-
-HMEngine::Core::GameObject::GameObject(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices) : _transform(new HMEngine::Core::Transform()), _vertices(vertices), _indices(indices)
+HMEngine::Core::GameObject::GameObject() : _transform(new HMEngine::Core::Transform()), _components()
 {
-	glGenVertexArrays(1, &this->_vao);
-	glBindVertexArray(this->_vao);
-
-	glGenBuffers(2, &this->_vbo[0]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[0]);
-	glBufferData(GL_ARRAY_BUFFER, (this->_vertices.size() * sizeof(this->_vertices[0])), &this->_vertices[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_vbo[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (this->_indices.size() * sizeof(this->_indices[0])), &this->_indices[0], GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 }
 
-void HMEngine::Core::GameObject::SetTransform(HMEngine::Core::Transform& transform)
+HMEngine::Core::GameObject::~GameObject()
 {
-	this->_transform = &transform;
-};
-
-void HMEngine::Core::GameObject::SetVertices(std::vector<glm::vec3> vertices)
-{
-	this->_vertices = vertices;
+	delete this->_transform;
 }
 
-void HMEngine::Core::GameObject::SetIndices(std::vector<GLuint> indices)
+HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) : _transform(new HMEngine::Core::Transform(*other._transform))
 {
-	this->_indices = indices; 
-
-}
-
-void HMEngine::Core::GameObject::Draw()
-{
-
-	glBindVertexArray(this->_vao);
-
-	glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
-
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR)
+	for (auto& component : other._components)
 	{
-		std::cerr << "OpenGL error: " << err << std::endl;
+		auto newComponent = component;
+		newComponent.get()._parentObject = this;
+		this->_components.push_back(newComponent);
+	}
+}
+
+HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine::Core::GameObject& other)
+{
+	if (this != &other)
+	{
+		*this->_transform = *other._transform;
+		this->_components = other._components;
 	}
 
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDisableVertexAttribArray(0);
+	return *this;
 }
 
-
-
-void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component* component)
+void HMEngine::Core::GameObject::RotateY(float speed)
 {
+	this->_transform->AddRotationY(speed);
+}
+
+void HMEngine::Core::GameObject::SetTransform(const HMEngine::Core::Transform& transform)
+{
+	*this->_transform = transform;
+}
+
+void HMEngine::Core::GameObject::Draw() const
+{
+	for (auto& component : this->_components)
+	{
+		component.get().RenderEvent(); //invoke the rendering event
+	}
+}
+
+void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& component)
+{
+	component._parentObject = this;
 	this->_components.push_back(component);
-	component->SetParent(*this);
 }
