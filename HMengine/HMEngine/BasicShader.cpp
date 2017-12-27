@@ -8,7 +8,6 @@ HMEngine::Core::Rendering::Shaders::BasicShader::BasicShader()
 	this->AddVertexShader(vs);
 	this->AddFragmentShader(fs);
 
-
 	this->Compile();
 	this->Bind();
 }

@@ -10,6 +10,11 @@
 
 namespace HMEngine
 {
+	namespace Components
+	{
+		class Texture;
+	}
+
 	namespace Core
 	{
 		class GameObject;
