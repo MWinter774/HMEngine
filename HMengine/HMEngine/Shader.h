@@ -1,10 +1,18 @@
 #pragma once
-#include "HMEngineIncludes.h"
+//#include "HMEngineIncludes.h"
+//#include "Transform.h"
+//#include "Camera.h"
+#include <iostream>
+#include <string>
+#include <glm\glm.hpp>
+#include <unordered_map>
+#include <GL\glew.h>
 
 namespace HMEngine
 {
 	namespace Core
 	{
+		class GameObject;
 		class Transform;
 
 		namespace Rendering
@@ -34,13 +42,7 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, const glm::vec3& value);
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
-					void UpdateUniforms(const HMEngine::Core::Transform& transform) 
-					{
-						this->SetUniform("transformationMatrix", transform.GetModelMatrix());
-						this->SetUniform("viewMatrix", transform.GetViewMatrix());
-						this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
-					};
-					//virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) = 0;
+					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) { }
 					GLuint _program;
 				protected:
 					static std::string ReadFileContent(const std::string& filePath);
@@ -53,22 +55,18 @@ namespace HMEngine
 						{
 							throw std::exception("SHADER PROGRAM CREATION FAILED!!!");
 						}
-					};
-					~Shader()
+					}
+					virtual ~Shader()
 					{
 						glDeleteProgram(this->_program);
-					};
-
-					/*virtual ~Shader()
-					{
-						glDeleteProgram(this->_program);
-					};*/
+					}
 					Shader(const Shader& other) = delete;
 					Shader& operator=(const Shader& other) = delete;
+
 					void AddProgram(const std::string& code, GLenum type);
 					void AddUniform(const std::string& uniformName);
 
-					std::map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
+					std::unordered_map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
 				};
 
 				/*
@@ -160,7 +158,7 @@ namespace HMEngine
 				inline void Shader<T>::AddUniform(const std::string& uniformName)
 				{
 					GLuint uniformId = glGetUniformLocation(this->_program, uniformName.c_str());
-					if (uniformId == 0xFFFFFFFF) 
+					if (uniformId == 0xFFFFFFFF)
 						throw std::exception(std::string("ERROR GETTING UNIFORM \"" + uniformName + "\"").c_str());
 
 					this->_uniforms[uniformName] = uniformId;
@@ -248,22 +246,11 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::SetUniform(const std::string& uniformName, const glm::mat4& value)
 				{
-					
+
 					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
 						this->AddUniform(uniformName);
 					glUniformMatrix4fv(this->_uniforms[uniformName], 1, GL_FALSE, glm::value_ptr(value));
 				}
-
-				class BasicShader : public HMEngine::Core::Rendering::Shaders::Shader<BasicShader>
-				{
-					//friend class Shader<BasicShader>;
-				public:
-
-					BasicShader();
-					~BasicShader() {};
-
-					void Update(HMEngine::Core::Transform tr);
-				};
 			}
 		}
 	}

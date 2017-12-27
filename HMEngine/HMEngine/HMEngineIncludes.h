@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <exception>
 #include <map>
+#include <unordered_map>
 #include <fstream>
 #include <exception>
 #include <list>
@@ -34,6 +35,7 @@
 #include "Constants.h"
 #include "Camera.h"
 #include "Shader.h"
+#include "BasicShader.h"
 #include "RenderingEngine.h"
 #include "GameSettings.h"
 #include "GameObject.h"

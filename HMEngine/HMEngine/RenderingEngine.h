@@ -9,6 +9,10 @@ namespace HMEngine
 
 		namespace Rendering
 		{
+			namespace Shaders
+			{
+				class BasicShader;
+			}
 			class RenderingEngine
 			{
 			public:
