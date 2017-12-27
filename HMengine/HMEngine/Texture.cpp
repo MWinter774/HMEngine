@@ -47,6 +47,7 @@ HMEngine::Components::Texture& HMEngine::Components::Texture::operator=(const HM
 	if (this != &other)
 	{
 		this->_textureImage = other._textureImage;
+		glDeleteTextures(1, &this->_textureId);
 
 		/* Generates and configures the texture buffer */
 		glGenTextures(1, &this->_textureId); //generate one texture

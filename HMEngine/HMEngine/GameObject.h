@@ -30,6 +30,8 @@ namespace HMEngine
 			inline HMEngine::Core::Transform& GetTransform() const { return *this->_transform; };
 			inline std::vector<std::reference_wrapper<HMEngine::Components::Component>> GetComponents() const { return this->_components; }
 
+			void RotateY(float speed);
+
 			void SetTransform(const HMEngine::Core::Transform& transform);
 
 			void Draw() const;

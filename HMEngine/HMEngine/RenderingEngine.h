@@ -9,10 +9,6 @@ namespace HMEngine
 
 		namespace Rendering
 		{
-			namespace Shaders
-			{
-				class BasicShader;
-			}
 			class RenderingEngine
 			{
 			public:
@@ -23,6 +19,8 @@ namespace HMEngine
 			private:
 				RenderingEngine();
 				~RenderingEngine();
+				RenderingEngine(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
+				HMEngine::Core::Rendering::RenderingEngine& operator=(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 			};
 		}
 	}

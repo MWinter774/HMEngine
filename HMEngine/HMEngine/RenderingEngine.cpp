@@ -9,7 +9,6 @@ HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::Rendering
 void HMEngine::Core::Rendering::RenderingEngine::Render(const std::vector<HMEngine::Core::GameObject>& gameObjects) const
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
 	for (auto& gameObject : gameObjects)
 	{
 		//Draw gameObject

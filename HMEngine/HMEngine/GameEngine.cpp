@@ -38,6 +38,8 @@ void HMEngine::GameEngine::Run()
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
+		this->_renderingEngine->Render(this->_gameObjects); //Render objects(on the second window buffer)
+		this->_window->Update(this->_gameObjects); //Updates the window(swaps between the second window buffer and the first window buffer)
 
 		/* Temporary key checking */
 		float speed = 0.05f;
@@ -71,7 +73,7 @@ void HMEngine::GameEngine::Run()
 		}
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_RIGHT))
 		{
-			this->_gameObjects[0].GetTransform().AddRotationY(speed);
+			this->_gameObjects[0].RotateY(speed);
 		}
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_UP))
 		{
@@ -96,8 +98,7 @@ void HMEngine::GameEngine::Run()
 	
 		count++;
 
-		this->_renderingEngine->Render(this->_gameObjects); //Render objects(on the second window buffer)
-		this->_window->Update(this->_gameObjects); //Updates the window(swaps between the second window buffer and the first window buffer)
+		
 	}
 
 }

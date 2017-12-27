@@ -17,8 +17,6 @@ namespace HMEngine
 			Component();
 			virtual ~Component();
 
-			inline HMEngine::Core::GameObject& GetParent() { return *this->_parentObject; }
-
 			virtual void RenderEvent() {} //this functions will be called when the game object is rendered
 
 		protected:

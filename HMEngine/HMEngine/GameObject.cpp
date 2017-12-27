@@ -9,8 +9,14 @@ HMEngine::Core::GameObject::~GameObject()
 	delete this->_transform;
 }
 
-HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) : _transform(new HMEngine::Core::Transform(*other._transform)), _components(other._components)
+HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) : _transform(new HMEngine::Core::Transform(*other._transform))
 {
+	for (auto& component : other._components)
+	{
+		auto newComponent = component;
+		newComponent.get()._parentObject = this;
+		this->_components.push_back(newComponent);
+	}
 }
 
 HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine::Core::GameObject& other)
@@ -22,6 +28,11 @@ HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine
 	}
 
 	return *this;
+}
+
+void HMEngine::Core::GameObject::RotateY(float speed)
+{
+	this->_transform->AddRotationY(speed);
 }
 
 void HMEngine::Core::GameObject::SetTransform(const HMEngine::Core::Transform& transform)

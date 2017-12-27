@@ -18,11 +18,13 @@ namespace HMEngine
 				{
 					friend class Shader<BasicShader>;
 				public:
-
 					void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
+
 				private:
 					BasicShader();
 					~BasicShader();
+					BasicShader(const HMEngine::Core::Rendering::Shaders::BasicShader& other) = delete;
+					HMEngine::Core::Rendering::Shaders::BasicShader& operator=(const HMEngine::Core::Rendering::Shaders::BasicShader& other) = delete;
 				};
 			}
 		}

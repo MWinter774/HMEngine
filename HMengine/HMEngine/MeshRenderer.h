@@ -13,6 +13,8 @@ namespace HMEngine
 		public:
 			MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs,const std::string& texturePath);
 			virtual ~MeshRenderer();
+			MeshRenderer(const HMEngine::Components::MeshRenderer& other);
+			HMEngine::Components::MeshRenderer& operator=(const HMEngine::Components::MeshRenderer& other);
 
 			virtual void RenderEvent() override;
 
@@ -32,6 +34,8 @@ namespace HMEngine
 
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];
+
+			void InitBuffers();
 		};
 	}
 }
