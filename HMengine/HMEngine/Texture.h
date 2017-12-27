@@ -9,8 +9,8 @@ namespace HMEngine
 		{
 			typedef struct Image
 			{
-				int width;
-				int height;
+				unsigned int width;
+				unsigned int height;
 				//unsigned char* image;
 				std::vector<unsigned char> image;
 			} Image;

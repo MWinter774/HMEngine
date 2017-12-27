@@ -3,13 +3,11 @@
 HMEngine::Components::Texture::Texture(const std::string& texturePath)
 {
 	/* Loads the image */
-	unsigned char* image = SOIL_load_image(texturePath.c_str(), &this->_textureImage.width, &this->_textureImage.height, 0, SOIL_LOAD_RGBA);
-	if (!image) //if the texture wasn't loaded successfully
+	int image = lodepng::decode(this->_textureImage.image, this->_textureImage.width, this->_textureImage.height, texturePath);
+	if (image) //if the texture wasn't loaded successfully
 	{
 		throw std::exception((std::string("ERROR WHILE LOADING TEXTURE: ") + texturePath).c_str());
 	}
-	this->_textureImage.image.assign(this->_textureImage.width * this->_textureImage.height, *image);
-	SOIL_free_image_data(image);
 
 	/* Generates and configures the texture buffer */
 	glGenTextures(1, &this->_textureId); //generate one texture
@@ -26,7 +24,6 @@ HMEngine::Components::Texture::Texture(const std::string& texturePath)
 HMEngine::Components::Texture::~Texture()
 {
 	glDeleteTextures(1, &this->_textureId);
-	//SOIL_free_image_data(this->_textureImage.image.data());
 }
 
 HMEngine::Components::Texture::Texture(const HMEngine::Components::Texture& other)

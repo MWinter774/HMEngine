@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\HMEngine\lib;%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A\Lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.0.7\SDL2.lib;SDL2.0.7\SDL2main.lib;SDL2.0.7\SDL2test.lib;OpenGL32.lib;glew/glew32.lib;glew/glew32s.lib;SOIL/SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.0.7\SDL2.lib;SDL2.0.7\SDL2main.lib;SDL2.0.7\SDL2test.lib;OpenGL32.lib;glew/glew32.lib;glew/glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,6 +130,7 @@
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="HardwareInputs.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
