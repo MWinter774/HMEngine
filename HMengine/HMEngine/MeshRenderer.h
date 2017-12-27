@@ -15,8 +15,6 @@ namespace HMEngine
 
 			virtual void RenderEvent() override;
 
-			virtual void Draw() const;
-
 		private:
 			enum vboIndexes
 			{

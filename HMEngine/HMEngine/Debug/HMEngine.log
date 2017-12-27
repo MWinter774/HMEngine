@@ -1,17 +1,4 @@
-﻿  Main.cpp
-  Generating Code...
-  Compiling...
-  Window.cpp
-  Transform.cpp
-  Texture.cpp
-  Shader.cpp
-  RenderingEngine.cpp
-  MeshRenderer.cpp
-  HardwareInputs.cpp
-  GameSettings.cpp
-  GameObject.cpp
+﻿  Window.cpp
   GameEngine.cpp
-  Component.cpp
-  Camera.cpp
   Generating Code...
   HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

@@ -14,7 +14,6 @@
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/transform.hpp>
 #include <SOIL\SOIL.h>
-#include <boost\ptr_container\ptr_vector.hpp>
 
 #include <iostream>
 #include <string>

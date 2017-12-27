@@ -28,20 +28,16 @@ namespace HMEngine
 			HMEngine::Core::GameObject& operator=(const HMEngine::Core::GameObject& other);
 
 			inline HMEngine::Core::Transform& GetTransform() const { return *this->_transform; };
-			inline std::vector<HMEngine::Components::Component*> GetComponents() const { return this->_components; };
+			inline std::vector<std::reference_wrapper<HMEngine::Components::Component>> GetComponents() const { return this->_components; }
 
 			void SetTransform(const HMEngine::Core::Transform& transform);
 
 			void Draw() const;
 
-			void AddComponent(HMEngine::Components::Component* component);
+			void AddComponent(HMEngine::Components::Component& component);
 		private:
-			std::vector<HMEngine::Components::Component*> _components;
-
-
+			std::vector<std::reference_wrapper<HMEngine::Components::Component>> _components;
 			HMEngine::Core::Transform* _transform;
-			GLuint _vao = 0;
-			GLuint _vbo[2];
 		};
 	}
 }

@@ -28,11 +28,6 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 
 void HMEngine::Components::MeshRenderer::RenderEvent()
 {
-	this->Draw();
-}
-
-void HMEngine::Components::MeshRenderer::Draw() const
-{
 	glBindVertexArray(this->_vao);
 
 	glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);

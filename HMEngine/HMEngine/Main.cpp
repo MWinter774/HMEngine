@@ -30,7 +30,7 @@ int main()
 	};
 
 	HMEngine::Core::GameObject go;
-	HMEngine::Components::MeshRenderer* t = new HMEngine::Components::MeshRenderer(vertices, indices);
+	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices);
 	go.AddComponent(t);
 
 	g.AddGameObject(go);
