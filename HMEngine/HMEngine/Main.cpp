@@ -7,8 +7,6 @@ int main()
 	HMEngine::GameEngine g;
 	g.CreateNewWindow(800, 600, title, false);
 	
-	
-
 	//create cube
 	std::vector<glm::vec3> vertices =
 	{
@@ -39,10 +37,6 @@ int main()
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.5f, 0.5f, -5.0f);
 	g.Run();
-
-
-
-
 
 	return 0;
 }

@@ -3,6 +3,7 @@
 #include <SDL2.0.7\SDL.h>
 #undef main
 
+#include <boost\ptr_container\ptr_vector.hpp>
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 #include <glm\gtx\rotate_vector.hpp>
@@ -13,6 +14,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/transform.hpp>
 #include <SOIL\SOIL.h>
+#include <boost\ptr_container\ptr_vector.hpp>
 
 #include <iostream>
 #include <string>

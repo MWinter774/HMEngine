@@ -7,6 +7,10 @@ HMEngine::Core::GameObject::GameObject() : _transform(new HMEngine::Core::Transf
 HMEngine::Core::GameObject::~GameObject()
 {
 	delete this->_transform;
+	for (auto& component : this->_components)
+	{
+		delete component;
+	}
 }
 
 HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other)
@@ -26,7 +30,7 @@ HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine
 	return *this;
 }
 
-void HMEngine::Core::GameObject::SetTransform(HMEngine::Core::Transform& transform)
+void HMEngine::Core::GameObject::SetTransform(const HMEngine::Core::Transform& transform)
 {
 	*this->_transform = transform;
 }

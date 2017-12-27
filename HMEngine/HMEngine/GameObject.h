@@ -30,7 +30,7 @@ namespace HMEngine
 			inline HMEngine::Core::Transform& GetTransform() const { return *this->_transform; };
 			inline std::vector<HMEngine::Components::Component*> GetComponents() const { return this->_components; };
 
-			void SetTransform(HMEngine::Core::Transform& transform);
+			void SetTransform(const HMEngine::Core::Transform& transform);
 
 			void Draw() const;
 
