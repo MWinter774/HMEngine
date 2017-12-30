@@ -56,6 +56,5 @@ This function updates the window by swapping it with the 2nd window buffer
 */
 void HMEngine::Core::Rendering::Window::Update(std::vector<HMEngine::Core::GameObject> &objects)
 {
-
 	SDL_GL_SwapWindow(_window);
 }

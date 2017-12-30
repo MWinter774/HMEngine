@@ -6,7 +6,7 @@ int main()
 
 	HMEngine::GameEngine g;
 	g.CreateNewWindow(800, 600, title, false);
-	
+
 	//create cube
 	std::vector<glm::vec3> vertices =
 	{
@@ -69,10 +69,12 @@ int main()
 	};
 
 	HMEngine::Core::GameObject go;
-	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./textures/bricks.png");
+	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./textures/black.png");
 	go.AddComponent(t);
 
 	g.AddGameObject(go);
+
+	g.SetAmbientLight({ 0.5f, 0.5f, 0.5f });
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
 	g.Run();

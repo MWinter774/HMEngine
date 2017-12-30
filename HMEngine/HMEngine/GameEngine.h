@@ -20,10 +20,12 @@ namespace HMEngine
 		GameEngine();
 		~GameEngine();
 
-		void CreateNewWindow(int width, int height, const std::string& title, bool fullscreen);
+		void CreateNewWindow(unsigned int width, unsigned int height, const std::string& title, bool fullscreen);
 		void Run();
 
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
+
+		void SetAmbientLight(const glm::vec3& ambientLight) const;
 
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;

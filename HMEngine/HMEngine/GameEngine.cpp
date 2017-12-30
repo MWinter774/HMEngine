@@ -18,7 +18,7 @@ HMEngine::GameEngine::~GameEngine()
 	SDL_Quit();
 }
 
-void HMEngine::GameEngine::CreateNewWindow(int width, int height, const std::string& title, bool fullscreen)
+void HMEngine::GameEngine::CreateNewWindow(unsigned int width, unsigned int height, const std::string& title, bool fullscreen)
 {
 	/* Updates the game settings */
 	HMEngine::GameSettings::windowWidth = width;
@@ -110,6 +110,16 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 {
 	this->_gameObjects.push_back(gameObject);
 }
+
+void HMEngine::GameEngine::SetAmbientLight(const glm::vec3 & ambientLight) const
+{
+	HMEngine::GameSettings::ambientLight = ambientLight;
+}
+
+//void HMEngine::GameEngine::SetAmbientLight(const glm::vec3& ambientLight) const
+//{
+//	HMEngine::GameSettings::ambientLight = ambientLight;
+//}
 
 /*
 void HMEngine::GameEngine::RemoveGameObject(const HMEngine::Core::GameObject& gameObject)

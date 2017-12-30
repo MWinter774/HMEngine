@@ -21,4 +21,5 @@ void HMEngine::Core::Rendering::Shaders::BasicShader::UpdateUniforms(const HMEng
 	this->SetUniform("transformationMatrix", transform.GetModelMatrix());
 	this->SetUniform("viewMatrix", transform.GetViewMatrix());
 	this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
+	this->SetUniform("ambientLight", HMEngine::GameSettings::GetAmbientLight());
 }

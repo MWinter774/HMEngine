@@ -52,7 +52,7 @@ namespace HMEngine
 				protected:
 					static std::string ReadFileContent(const std::string& filePath);
 					static void CheckForErrors(GLuint programId, GLenum flag, bool isProgram);
-					
+
 					Shader() : _program(-1)
 					{
 						this->_program = glCreateProgram();
@@ -67,10 +67,10 @@ namespace HMEngine
 					}
 					Shader(const Shader& other) = delete;
 					Shader& operator=(const Shader& other) = delete;
-					
+
 					void AddProgram(const std::string& code, GLenum type);
 					void AddUniform(const std::string& uniformName);
-					
+
 				private:
 					GLuint _program;
 					std::unordered_map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
@@ -247,7 +247,7 @@ namespace HMEngine
 				{
 					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
 						this->AddUniform(uniformName);
-					glUniform3f(this->_uniforms[uniformName], value);
+					glUniform3f(this->_uniforms[uniformName], value.x, value.y, value.z);
 				}
 
 				template<typename T>
