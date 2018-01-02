@@ -9,6 +9,9 @@ glm::mat4 HMEngine::GameSettings::projectionMatrix = glm::perspective(glm::radia
 const glm::vec3& HMEngine::GameSettings::X_AXIS = glm::vec3(1.0, 0.0, 0.0);
 const glm::vec3& HMEngine::GameSettings::Y_AXIS = glm::vec3(0.0, 1.0, 0.0);
 const glm::vec3& HMEngine::GameSettings::Z_AXIS = glm::vec3(0.0, 0.0, 1.0);
+bool HMEngine::GameSettings::isCursorLocked = true;
+bool HMEngine::GameSettings::isCursorVisible = false;
+float HMEngine::GameSettings::sensitivity = 0.005f;
 
 /*
 Sets the fov of the game and updates the projection matrix so the change will occur in game.
@@ -54,7 +57,7 @@ void HMEngine::GameSettings::UpdateProjectionMatrix()
 /*
 Returns the projection matrix(used for drawing the objects)
 */
-glm::mat4 HMEngine::GameSettings::GetProjectionMatrix()
+glm::mat4& HMEngine::GameSettings::GetProjectionMatrix()
 {
 	return HMEngine::GameSettings::projectionMatrix;
 }

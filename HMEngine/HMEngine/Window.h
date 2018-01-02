@@ -17,7 +17,7 @@ namespace HMEngine
 			public:
 				Window(int width, int height, const std::string& title, bool fullscreen);
 				~Window();
-				void Update(std::vector<HMEngine::Core::GameObject>& objects);
+				void Update();
 				
 			private:
 				SDL_Window* _window;

@@ -7,7 +7,6 @@
 #include "HardwareInputs.h"
 #include "Transform.h"
 #include "Camera.h"
-#include "GameSettings.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(&HMEngine::Core::Rendering::RenderingEngine::GetInstance())
 {
@@ -42,74 +41,36 @@ Runs the game.
 */
 void HMEngine::GameEngine::Run()
 {
+	HMEngine::GameSettings::SetCursorVisible(HMEngine::GameSettings::IsCursorVisible());
+	HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetWindowWidth() / 2, HMEngine::GameSettings::GetWindowHeight() / 2); //locks the mouse to the center of the screen
+
 	int count = 0;
 
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
-		this->_renderingEngine->Render(this->_gameObjects); //Render objects(on the second window buffer)
-		this->_window->Update(this->_gameObjects); //Updates the window(swaps between the second window buffer and the first window buffer)
 
-		/* Temporary key checking */
-		float speed = 0.05f;
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_W))
+		for (auto& gameObject : this->_gameObjects)
 		{
-			HMEngine::Core::Rendering::Camera::GetInstance().AddPositionY(-speed);
+			gameObject.Update();
 		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_S))
-		{
-			HMEngine::Core::Rendering::Camera::GetInstance().AddPositionY(speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_A))
-		{
-			HMEngine::Core::Rendering::Camera::GetInstance().AddPositionX(-speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_D))
-		{
-			HMEngine::Core::Rendering::Camera::GetInstance().AddPositionX(speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_Q))
-		{
-			HMEngine::Core::Rendering::Camera::GetInstance().AddPositionZ(speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_E))
-		{
-			HMEngine::Core::Rendering::Camera::GetInstance().AddPositionZ(-speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_LEFT))
-		{
-			this->_gameObjects[0].GetTransform().AddRotationY(-speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_RIGHT))
-		{
-			this->_gameObjects[0].RotateY(speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_UP))
-		{
-			this->_gameObjects[0].GetTransform().AddRotationX(speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_DOWN))
-		{
-			this->_gameObjects[0].GetTransform().AddRotationX(-speed);
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_R))
-		{
-			this->_gameObjects[0].SetTransform(HMEngine::Core::Transform());
-			HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
-		}
+		if (GameSettings::IsCursorLocked())
+			HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetWindowWidth() / 2, HMEngine::GameSettings::GetWindowHeight() / 2);
+
+		this->_renderingEngine->Render(this->_gameObjects); //Render objects(on the second window buffer)
+		this->_window->Update(); //Updates the window(swaps between the second window buffer and the first window buffer)
 
 		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
 			std::cout << "left mouse button is held down" << std::endl;
 		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonTapped(SDL_BUTTON_RIGHT))
 			std::cout << "right mouse button is tapped" << std::endl;
 
-
 		if (count % 500 == 0)
 		{
 			std::cout << HMEngine::Core::Hardware::HardwareInputs::GetCursorXPos() << ", " << HMEngine::Core::Hardware::HardwareInputs::GetCursorYPos() << std::endl;
 			count = 0;
 		}
-	
+
 		count++;
 	}
 

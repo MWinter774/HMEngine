@@ -50,4 +50,3 @@ glm::mat4 HMEngine::Core::Transform::GetMVPMatrix() const
 {
 	return HMEngine::GameSettings::GetProjectionMatrix() * this->GetViewMatrix() * this->GetModelMatrix();
 }
-

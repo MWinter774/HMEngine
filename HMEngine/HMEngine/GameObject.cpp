@@ -49,6 +49,14 @@ void HMEngine::Core::GameObject::Draw() const
 	}
 }
 
+void HMEngine::Core::GameObject::Update() const
+{
+	for (auto& component : this->_components)
+	{
+		component.get().UpdateEvent(); //invoke the rendering event
+	}
+}
+
 void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& component)
 {
 	component._parentObject = this;

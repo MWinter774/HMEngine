@@ -5,6 +5,7 @@ char HMEngine::Core::Hardware::HardwareInputs::mouseButtons[HMEngine::Core::Hard
 SDL_Event HMEngine::Core::Hardware::HardwareInputs::e;
 int HMEngine::Core::Hardware::HardwareInputs::cursorXPos = 0;
 int HMEngine::Core::Hardware::HardwareInputs::cursorYPos = 0;
+SDL_Window* HMEngine::Core::Hardware::HardwareInputs::window = nullptr;
 
 /*
 Updates the input from the hardware(keyboard, mouse).

@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="BasicShader.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSettings.cpp" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="BasicShader.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraController.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSettings.h" />

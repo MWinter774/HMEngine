@@ -3,17 +3,18 @@
 
 namespace HMEngine
 {
-	namespace Core
+	namespace Components
 	{
-		class GameObject;
+		class MeshRenderer;
+		class CameraController;
 	}
-
 	class Player : public HMEngine::Core::GameObject
 	{
 	public:
 		Player();
 		~Player();
 	private:
-		HMEngine::Core::GameObject* go;
+		HMEngine::Components::MeshRenderer* _meshRenderer;
+		HMEngine::Components::CameraController* _cameraController;
 	};
 }

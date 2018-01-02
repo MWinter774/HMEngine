@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL2.0.7\SDL.h>
+#undef main
 #include <glm\glm.hpp>
 #include <glm\gtx\rotate_vector.hpp>
 #include <glm\gtc\quaternion.hpp>
@@ -23,17 +25,23 @@ namespace HMEngine
 		static const glm::vec3& Y_AXIS;
 		static const glm::vec3& Z_AXIS;
 
-		static float GetFov() { return HMEngine::GameSettings::fovInDegrees; }
-		static unsigned int GetWindowWidth() { return HMEngine::GameSettings::windowWidth; }
-		static unsigned int GetWindowHeight() { return HMEngine::GameSettings::windowHeight; }
-		static float GetZNear() { return HMEngine::GameSettings::zNear; }
-		static float GetZFar() { return HMEngine::GameSettings::zFar; }
+		static inline float GetFov() { return HMEngine::GameSettings::fovInDegrees; }
+		static inline unsigned int GetWindowWidth() { return HMEngine::GameSettings::windowWidth; }
+		static inline unsigned int GetWindowHeight() { return HMEngine::GameSettings::windowHeight; }
+		static inline float GetZNear() { return HMEngine::GameSettings::zNear; }
+		static inline float GetZFar() { return HMEngine::GameSettings::zFar; }
+		static inline bool IsCursorLocked() { return HMEngine::GameSettings::isCursorLocked; }
+		static inline bool IsCursorVisible() { return HMEngine::GameSettings::isCursorVisible; }
+		static inline float GetSensitivity() { return HMEngine::GameSettings::sensitivity; }
 
-		static void SetFov(float fovInDegrees);
-		static void SetZNear(float zNear);
-		static void SetZFar(float zFar);
+		static inline void SetFov(float fovInDegrees);
+		static inline void SetZNear(float zNear);
+		static inline void SetZFar(float zFar);
+		static inline void SetIsCursorLocked(bool isCursorLocked) { HMEngine::GameSettings::isCursorLocked = isCursorLocked; }
+		static inline void SetCursorVisible(bool isCursorVisible) { SDL_ShowCursor(isCursorVisible); HMEngine::GameSettings::isCursorVisible = isCursorVisible; }
+		static inline void SetSensitivity(float sensitivity) { HMEngine::GameSettings::sensitivity = sensitivity; }
 
-		static glm::mat4 GetProjectionMatrix();
+		static glm::mat4& GetProjectionMatrix();
 	private:
 		static void UpdateProjectionMatrix();
 
@@ -43,5 +51,8 @@ namespace HMEngine
 		static unsigned int windowWidth;
 		static unsigned int windowHeight;
 		static glm::mat4 projectionMatrix;
+		static bool isCursorLocked;
+		static bool isCursorVisible;
+		static float sensitivity;
 	};
 }
