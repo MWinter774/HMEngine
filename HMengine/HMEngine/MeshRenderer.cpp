@@ -1,4 +1,7 @@
 #include "MeshRenderer.h"
+#include "GameObject.h"
+#include "BasicShader.h"
+#include "Texture.h"
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs, const std::string& texturePath) : _vao(0), _vertices(vertices), _indices(indices), _uvs(uvs),_texture(new HMEngine::Components::Texture(texturePath))
 {

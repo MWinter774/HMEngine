@@ -1,5 +1,6 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <iostream>
+#include <vector>
 
 namespace HMEngine
 {
@@ -29,6 +30,5 @@ namespace HMEngine
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
 		std::vector<HMEngine::Core::GameObject> _gameObjects;
-
 	};
 }

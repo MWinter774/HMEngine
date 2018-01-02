@@ -1,5 +1,12 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <glm\glm.hpp>
+#include <glm\gtx\rotate_vector.hpp>
+#include <glm\gtc\quaternion.hpp>
+#include <glm\gtx\quaternion.hpp>
+#include <glm\gtx\matrix_transform_2d.hpp>
+#include <glm\gtc\type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/transform.hpp>
 
 namespace HMEngine
 {
@@ -11,6 +18,10 @@ namespace HMEngine
 	public:
 		GameSettings() = delete;
 		~GameSettings() = delete;
+
+		static const glm::vec3& X_AXIS;
+		static const glm::vec3& Y_AXIS;
+		static const glm::vec3& Z_AXIS;
 
 		static float GetFov() { return HMEngine::GameSettings::fovInDegrees; }
 		static unsigned int GetWindowWidth() { return HMEngine::GameSettings::windowWidth; }

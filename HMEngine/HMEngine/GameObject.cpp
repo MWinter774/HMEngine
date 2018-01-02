@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Transform.h"
 
 HMEngine::Core::GameObject::GameObject() : _transform(new HMEngine::Core::Transform()), _components()
 {

@@ -1,5 +1,6 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <SDL2.0.7\SDL.h>
+#undef main
 
 namespace HMEngine
 {

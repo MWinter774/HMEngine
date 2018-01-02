@@ -1,11 +1,15 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <GL\glew.h>
+#include <glm\glm.hpp>
+#include <iostream>
+#include <vector>
+#include <string>
+#include "Component.h"
 
 namespace HMEngine
 {
 	namespace Components
 	{
-		class Component;
 		class Texture;
 
 		class MeshRenderer : public Component

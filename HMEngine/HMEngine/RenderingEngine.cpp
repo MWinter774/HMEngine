@@ -1,4 +1,5 @@
 #include "RenderingEngine.h"
+#include "GameObject.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {

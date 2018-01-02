@@ -1,8 +1,6 @@
 #pragma once
-//#include "HMEngineIncludes.h"
-//#include "Transform.h"
-//#include "Camera.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <glm\glm.hpp>
 #include <unordered_map>

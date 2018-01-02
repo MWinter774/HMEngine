@@ -1,4 +1,8 @@
 #include "HMEngineIncludes.h"
+#include "GameObject.h"
+#include "GameEngine.h"
+#include "Camera.h"
+#include "MeshRenderer.h"
 
 int main()
 {

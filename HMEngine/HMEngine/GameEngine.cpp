@@ -1,4 +1,13 @@
 #include "GameEngine.h"
+#include "GameObject.h"
+#include <SDL2.0.7\SDL.h>
+#undef main
+#include "RenderingEngine.h"
+#include "Window.h"
+#include "HardwareInputs.h"
+#include "Transform.h"
+#include "Camera.h"
+#include "GameSettings.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(&HMEngine::Core::Rendering::RenderingEngine::GetInstance())
 {

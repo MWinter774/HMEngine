@@ -1,13 +1,17 @@
 #pragma once
-#include "HMEngineIncludes.h"
+//#include "HMEngineIncludes.h"
+#include <iostream>
+#include <vector>
+#include "Component.h"
+//#include "Transform.h"
+//#include "BasicShader.h"
 
 namespace HMEngine
 {
-	namespace Components
-	{	
-		class Component;
-		class Draw;
-	}
+	//namespace Components
+	//{
+		//class Component;
+	//}
 	namespace Core
 	{
 		class Transform;
@@ -18,6 +22,7 @@ namespace HMEngine
 				class BasicShader;
 			}
 		}
+
 		class GameObject
 		{
 			friend class HMEngine::Components::Component;

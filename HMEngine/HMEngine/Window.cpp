@@ -1,4 +1,10 @@
 #include "Window.h"
+#include <GL\glew.h>
+#include <SDL2.0.7\SDL.h>
+#undef main
+#include <iostream>
+#include <string>
+#include <vector>
 
 /*
 This function creates the game's window
