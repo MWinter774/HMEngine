@@ -1,3 +1,7 @@
 ﻿  Main.cpp
+  GameSettings.cpp
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\gamesettings.cpp(6): warning C4244: 'initializing': conversion from 'float' to 'unsigned int', possible loss of data
+d:\users\home\documents\visual studio 2017\projects\hmengine\hmengine\hmengine\gamesettings.cpp(7): warning C4244: 'initializing': conversion from 'float' to 'unsigned int', possible loss of data
+  Generating Code...
 lodepng.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'lodepng.obj' or at 'd:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\vc141.pdb'; linking object as if no debug info
   HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMEngine\HMengine\Debug\HMEngine.exe

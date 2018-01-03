@@ -6,7 +6,7 @@ float HMEngine::GameSettings::fovInDegrees = 60.0f;
 unsigned int HMEngine::GameSettings::windowWidth = 800.0f;
 unsigned int HMEngine::GameSettings::windowHeight = 600.0f;
 glm::mat4 HMEngine::GameSettings::projectionMatrix = glm::perspective(glm::radians(HMEngine::GameSettings::fovInDegrees), HMEngine::GameSettings::windowWidth / (float)HMEngine::GameSettings::windowHeight, HMEngine::GameSettings::zNear, HMEngine::GameSettings::zFar);
-glm::vec3 HMEngine::GameSettings::ambientLight = glm::vec3(0, 0, 0);
+glm::vec3 HMEngine::GameSettings::ambientLight = glm::vec3(0.15f, 0.15f, 0.15f);
 
 /*
 Sets the fov of the game and updates the projection matrix so the change will occur in game.
