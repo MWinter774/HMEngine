@@ -26,6 +26,7 @@ namespace HMEngine
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
 
 		void SetAmbientLight(const glm::vec3& ambientLight) const;
+		void SetAmbientLight(float r, float g, float b) const;
 
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;

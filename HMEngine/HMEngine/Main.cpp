@@ -74,7 +74,7 @@ int main()
 
 	g.AddGameObject(go);
 
-	g.SetAmbientLight({ 0.5f, 0.5f, 0.5f });
+	g.SetAmbientLight(0.5f, 0.5f, 0.5f);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
 	g.Run();

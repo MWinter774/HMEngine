@@ -100,7 +100,7 @@ void HMEngine::GameEngine::Run()
 			std::cout << HMEngine::Core::Hardware::HardwareInputs::GetCursorXPos() << ", " << HMEngine::Core::Hardware::HardwareInputs::GetCursorYPos() << std::endl;
 			count = 0;
 		}
-	
+
 		count++;
 	}
 
@@ -116,10 +116,10 @@ void HMEngine::GameEngine::SetAmbientLight(const glm::vec3 & ambientLight) const
 	HMEngine::GameSettings::ambientLight = ambientLight;
 }
 
-//void HMEngine::GameEngine::SetAmbientLight(const glm::vec3& ambientLight) const
-//{
-//	HMEngine::GameSettings::ambientLight = ambientLight;
-//}
+void HMEngine::GameEngine::SetAmbientLight(float r, float g, float b) const
+{
+	HMEngine::GameSettings::ambientLight = glm::vec3(r, g, b);
+}
 
 /*
 void HMEngine::GameEngine::RemoveGameObject(const HMEngine::Core::GameObject& gameObject)

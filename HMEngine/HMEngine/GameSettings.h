@@ -25,6 +25,7 @@ namespace HMEngine
 		static void SetZNear(float zNear);
 		static void SetZFar(float zFar);
 		static void SetAmbientLight(const glm::vec3& ambientLight) { HMEngine::GameSettings::ambientLight = ambientLight; }
+		static void SetAmbientLight(float r, float g, float b) { HMEngine::GameSettings::ambientLight = glm::vec3(r, g, b); }
 
 		static glm::mat4& GetProjectionMatrix();
 	private:
