@@ -3,7 +3,6 @@
 #include <SDL2.0.7\SDL.h>
 #undef main
 
-#include <boost\ptr_container\ptr_vector.hpp>
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 #include <glm\gtx\rotate_vector.hpp>

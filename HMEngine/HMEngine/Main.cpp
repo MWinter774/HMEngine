@@ -69,7 +69,7 @@ int main()
 	};
 
 	HMEngine::Core::GameObject go;
-	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./textures/black.png");
+	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./textures/bricks.png");
 	go.AddComponent(t);
 
 	g.AddGameObject(go);
