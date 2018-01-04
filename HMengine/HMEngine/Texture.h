@@ -1,5 +1,7 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <GL\glew.h>
+#include <string>
+#include <lodepng\lodepng.h>
 
 namespace HMEngine
 {
@@ -11,7 +13,6 @@ namespace HMEngine
 			{
 				unsigned int width;
 				unsigned int height;
-				//unsigned char* image;
 				std::vector<unsigned char> image;
 			} Image;
 		public:

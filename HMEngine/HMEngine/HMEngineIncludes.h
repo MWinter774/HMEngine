@@ -15,8 +15,8 @@
 #include <lodepng\lodepng.h>
 
 #include <iostream>
-#include <string>
 #include <vector>
+#include <string>
 #include <utility>
 #include <algorithm>
 #include <exception>
@@ -27,17 +27,18 @@
 #include <list>
 #include <memory>
 
-#include "Window.h"
-#include "GameEngine.h"
-#include "HardwareInputs.h"
-#include "Transform.h"
-#include "Constants.h"
-#include "Camera.h"
-#include "Shader.h"
-#include "BasicShader.h"
-#include "RenderingEngine.h"
-#include "GameSettings.h"
-#include "GameObject.h"
-#include "Component.h"
-#include "Texture.h"
-#include "MeshRenderer.h"
+//#include "Window.h"
+//#include "GameEngine.h"
+//#include "HardwareInputs.h"
+//#include "Transform.h"
+//#include "Constants.h"
+//#include "Camera.h"
+//#include "Shader.h"
+//#include "BasicShader.h"
+//#include "RenderingEngine.h"
+//#include "GameSettings.h"
+//#include "GameObject.h"
+//#include "Component.h"
+//#include "Texture.h"
+//#include "MeshRenderer.h"
+//#include "Player.h"

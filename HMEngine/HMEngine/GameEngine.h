@@ -1,5 +1,7 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <iostream>
+#include <vector>
+#include "GameSettings.h"
 
 namespace HMEngine
 {
@@ -23,6 +25,11 @@ namespace HMEngine
 		void CreateNewWindow(unsigned int width, unsigned int height, const std::string& title, bool fullscreen);
 		void Run();
 
+		inline void LockCursor() const { HMEngine::GameSettings::SetIsCursorLocked(true); } //locks the cursor to the center of the window
+		inline void UnlockCursor() const { HMEngine::GameSettings::SetIsCursorLocked(false); } //unlocks the cursor from the center of the window
+		inline void SetSensitivity(float sensitivity) const { HMEngine::GameSettings::SetSensitivity(sensitivity); }
+		inline void SetMouseVisible(bool isVisible) const { HMEngine::GameSettings::SetCursorVisible(isVisible); }
+
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
 
 		void SetAmbientLight(const glm::vec3& ambientLight) const;
@@ -32,6 +39,5 @@ namespace HMEngine
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
 		std::vector<HMEngine::Core::GameObject> _gameObjects;
-
 	};
 }

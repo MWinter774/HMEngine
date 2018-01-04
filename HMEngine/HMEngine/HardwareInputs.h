@@ -1,5 +1,6 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <SDL2.0.7\SDL.h>
+#undef main
 
 namespace HMEngine
 {
@@ -90,7 +91,7 @@ namespace HMEngine
 				*/
 				static inline void SetCursorPos(int xPos, int yPos)
 				{
-					SDL_WarpMouseInWindow(nullptr, xPos, yPos); //NEEDS A WINDOW!!!!!!!!!!
+					SDL_WarpMouseInWindow(HardwareInputs::window, xPos, yPos); //NEEDS A WINDOW!!!!!!!!!!
 				}
 
 				/*
@@ -117,6 +118,14 @@ namespace HMEngine
 					return HardwareInputs::mouseButtons[mouseButtonCode] & MouseButtonsStates::MouseButtonDown;
 				}
 
+				/*
+				Sets the target window to record the inputs from.
+				*/
+				static inline void SetWindow(SDL_Window* window)
+				{
+					HardwareInputs::window = window;
+				}
+
 			private:
 				typedef char KeyState;
 				typedef char MouseButtonState;
@@ -130,6 +139,7 @@ namespace HMEngine
 				static SDL_Event e;
 				static int cursorXPos;
 				static int cursorYPos;
+				static SDL_Window* window;
 			};
 		}
 	}

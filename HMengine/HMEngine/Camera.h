@@ -1,5 +1,12 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <glm\glm.hpp>
+#include <glm\gtx\rotate_vector.hpp>
+#include <glm\gtc\quaternion.hpp>
+#include <glm\gtx\quaternion.hpp>
+#include <glm\gtx\matrix_transform_2d.hpp>
+#include <glm\gtc\type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/transform.hpp>
 
 namespace HMEngine
 {
@@ -29,6 +36,14 @@ namespace HMEngine
 				void AddPosition(const glm::vec3& pos);
 				void AddPosition(float x, float y, float z);
 
+				inline void SetForawrd(const glm::vec3& forward) { this->_forward = forward; }
+				inline void SetUp(const glm::vec3& up) { this->_up = up; }
+				inline void SetRight(const glm::vec3& right) { this->_right = right; }
+
+				inline glm::vec3 GetForawrd() const { return this->_forward; }
+				inline glm::vec3 GetUp() const { return this->_up; }
+				inline glm::vec3 GetRight() const { return this->_right; }
+
 				glm::mat4 GetViewMatrix();
 				glm::mat4 GetMVP() const;
 			private:
@@ -38,7 +53,7 @@ namespace HMEngine
 				~Camera();
 
 				HMEngine::Core::Transform* _transform;
-				glm::vec3 _forward, _up;
+				glm::vec3 _forward, _right, _up;
 				glm::mat4 _viewMatrix = glm::mat4(1);
 			};
 		}

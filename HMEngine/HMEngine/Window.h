@@ -1,5 +1,9 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <SDL2.0.7\SDL.h>
+#undef main
+#include <iostream>
+#include <string>
+#include <vector>
 
 namespace HMEngine
 {
@@ -13,10 +17,8 @@ namespace HMEngine
 			public:
 				Window(int width, int height, const std::string& title, bool fullscreen);
 				~Window();
-				void Update(std::vector<HMEngine::Core::GameObject> &objects);
-
-
-
+				void Update();
+				
 			private:
 				SDL_Window* _window;
 				SDL_GLContext _context;

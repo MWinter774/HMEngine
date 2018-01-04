@@ -1,4 +1,9 @@
 #include "HMEngineIncludes.h"
+#include "GameObject.h"
+#include "GameEngine.h"
+#include "Camera.h"
+#include "MeshRenderer.h"
+#include "Player.h"
 
 int main()
 {
@@ -67,6 +72,7 @@ int main()
 		glm::vec2(1.000004f, 1.0f - 0.671847f),
 		glm::vec2(0.667979f, 1.0f - 0.335851f)
 	};
+	HMEngine::Player f;
 
 	HMEngine::Core::GameObject go;
 	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./textures/bricks.png");
@@ -75,6 +81,12 @@ int main()
 	g.AddGameObject(go);
 
 	//g.SetAmbientLight(0.15f,0.15f,0.15f);
+
+	HMEngine::Player p;
+	g.AddGameObject(p);
+
+	//g.UnlockCursor();
+	//g.SetMouseVisible(true);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
 	g.Run();

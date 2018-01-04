@@ -1,4 +1,6 @@
 #include "BasicShader.h"
+#include "Transform.h"
+#include "GameSettings.h"
 
 HMEngine::Core::Rendering::Shaders::BasicShader::BasicShader()
 {

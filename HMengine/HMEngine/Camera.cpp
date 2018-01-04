@@ -1,4 +1,6 @@
 #include "Camera.h"
+#include "Transform.h"
+#include "GameSettings.h"
 
 HMEngine::Core::Rendering::Camera& HMEngine::Core::Rendering::Camera::GetInstance()
 {
@@ -91,8 +93,7 @@ glm::mat4 HMEngine::Core::Rendering::Camera::GetMVP() const
 	return this->_transform->GetMVPMatrix();
 }
 
-
-HMEngine::Core::Rendering::Camera::Camera() : _transform(new HMEngine::Core::Transform()), _forward(HMEngine::Constants::Z_AXIS), _up(HMEngine::Constants::Y_AXIS)
+HMEngine::Core::Rendering::Camera::Camera() : _transform(new HMEngine::Core::Transform()), _forward(HMEngine::GameSettings::Z_AXIS), _up(HMEngine::GameSettings::Y_AXIS), _right()
 {
 }
 

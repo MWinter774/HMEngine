@@ -1,13 +1,10 @@
 #pragma once
-#include "HMEngineIncludes.h"
+#include <iostream>
+#include <vector>
+#include "Component.h"
 
 namespace HMEngine
 {
-	namespace Components
-	{	
-		class Component;
-		class Draw;
-	}
 	namespace Core
 	{
 		class Transform;
@@ -18,12 +15,13 @@ namespace HMEngine
 				class BasicShader;
 			}
 		}
+
 		class GameObject
 		{
 			friend class HMEngine::Components::Component;
 		public:
 			GameObject();
-			~GameObject();
+			virtual ~GameObject();
 			GameObject(const HMEngine::Core::GameObject& other);
 			HMEngine::Core::GameObject& operator=(const HMEngine::Core::GameObject& other);
 
@@ -35,9 +33,10 @@ namespace HMEngine
 			void SetTransform(const HMEngine::Core::Transform& transform);
 
 			void Draw() const;
+			void Update() const;
 
 			void AddComponent(HMEngine::Components::Component& component);
-		private:
+		protected:
 			std::vector<std::reference_wrapper<HMEngine::Components::Component>> _components;
 			HMEngine::Core::Transform* _transform;
 		};

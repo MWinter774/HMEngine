@@ -1,4 +1,11 @@
 #include "Window.h"
+#include <GL\glew.h>
+#include <SDL2.0.7\SDL.h>
+#undef main
+#include <iostream>
+#include <string>
+#include <vector>
+#include "HardwareInputs.h"
 
 /*
 This function creates the game's window
@@ -26,6 +33,8 @@ HMEngine::Core::Rendering::Window::Window(int width, int height, const std::stri
 	_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
 	_context = SDL_GL_CreateContext(_window);
 	
+	HMEngine::Core::Hardware::HardwareInputs::SetWindow(this->_window);
+
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	GLenum res = glewInit();
@@ -54,7 +63,7 @@ HMEngine::Core::Rendering::Window::~Window()
 /*
 This function updates the window by swapping it with the 2nd window buffer
 */
-void HMEngine::Core::Rendering::Window::Update(std::vector<HMEngine::Core::GameObject> &objects)
+void HMEngine::Core::Rendering::Window::Update()
 {
 	SDL_GL_SwapWindow(_window);
 }

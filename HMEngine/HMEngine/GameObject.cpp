@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Transform.h"
 
 HMEngine::Core::GameObject::GameObject() : _transform(new HMEngine::Core::Transform()), _components()
 {
@@ -45,6 +46,14 @@ void HMEngine::Core::GameObject::Draw() const
 	for (auto& component : this->_components)
 	{
 		component.get().RenderEvent(); //invoke the rendering event
+	}
+}
+
+void HMEngine::Core::GameObject::Update() const
+{
+	for (auto& component : this->_components)
+	{
+		component.get().UpdateEvent(); //invoke the rendering event
 	}
 }
 
