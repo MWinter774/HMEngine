@@ -4,8 +4,8 @@
 
 HMEngine::Core::Rendering::Shaders::BasicShader::BasicShader()
 {
-	std::string vs = "./shaders/basicShader.vs";
-	std::string fs = "./shaders/basicShader.fs";
+	std::string vs = "./resources/shaders/basicShader.vs";
+	std::string fs = "./resources/shaders/basicShader.fs";
 
 	this->AddVertexShader(vs);
 	this->AddFragmentShader(fs);

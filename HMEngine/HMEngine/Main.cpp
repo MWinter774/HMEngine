@@ -75,7 +75,7 @@ int main()
 	HMEngine::Player f;
 
 	HMEngine::Core::GameObject go;
-	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./textures/bricks.png");
+	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png");
 	go.AddComponent(t);
 
 	g.AddGameObject(go);
