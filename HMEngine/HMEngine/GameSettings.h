@@ -36,6 +36,7 @@ namespace HMEngine
 		static inline bool IsCursorVisible() { return HMEngine::GameSettings::isCursorVisible; }
 		static inline float GetSensitivity() { return HMEngine::GameSettings::sensitivity; }
 		static inline glm::vec3& GetAmbientLight() { return HMEngine::GameSettings::ambientLight; }
+		static inline bool& GetCalculateFPS() { return HMEngine::GameSettings::calculateFPS; }
 
 		static inline void SetFov(float fovInDegrees);
 		static inline void SetZNear(float zNear);
@@ -43,6 +44,7 @@ namespace HMEngine
 		static inline void SetIsCursorLocked(bool isCursorLocked) { HMEngine::GameSettings::isCursorLocked = isCursorLocked; }
 		static inline void SetCursorVisible(bool isCursorVisible) { SDL_ShowCursor(isCursorVisible); HMEngine::GameSettings::isCursorVisible = isCursorVisible; }
 		static inline void SetSensitivity(float sensitivity) { HMEngine::GameSettings::sensitivity = sensitivity; }
+		static inline void CalculateFPS(bool calculateFPS) { HMEngine::GameSettings::calculateFPS = calculateFPS; }
 
 		static glm::mat4& GetProjectionMatrix();
 	private:
@@ -58,5 +60,6 @@ namespace HMEngine
 		static bool isCursorLocked;
 		static bool isCursorVisible;
 		static float sensitivity;
+		static bool calculateFPS;
 	};
 }

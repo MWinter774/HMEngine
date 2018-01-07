@@ -1,20 +1,2 @@
-﻿  lodepng.cpp
-  Window.cpp
-  Transform.cpp
-  Texture.cpp
-  Shader.cpp
-  RenderingEngine.cpp
-  Player.cpp
-  MeshRenderer.cpp
-  Main.cpp
-  HardwareInputs.cpp
-  GameSettings.cpp
-  GameObject.cpp
-  GameEngine.cpp
-  Component.cpp
-  CameraController.cpp
-  Camera.cpp
-  BasicShader.cpp
-  Generating Code...
-  LINK : C:\Users\Maor\Desktop\HMengine\HMEngine\Debug\HMEngine.exe not found or not built by the last incremental link; performing full link
-  HMEngine.vcxproj -> C:\Users\Maor\Desktop\HMengine\HMEngine\Debug\HMEngine.exe
+﻿  Main.cpp
+  HMEngine.vcxproj -> d:\Users\HOME\Desktop\HMEngine\HMengine\Debug\HMEngine.exe

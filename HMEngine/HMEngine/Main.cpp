@@ -74,6 +74,8 @@ int main()
 	};
 	HMEngine::Player f;
 
+	HMEngine::GameSettings::CalculateFPS(true);
+
 	HMEngine::Core::GameObject go;
 	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png");
 	go.AddComponent(t);

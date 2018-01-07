@@ -44,10 +44,25 @@ void HMEngine::GameEngine::Run()
 	HMEngine::GameSettings::SetCursorVisible(HMEngine::GameSettings::IsCursorVisible());
 	HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetWindowWidth() / 2, HMEngine::GameSettings::GetWindowHeight() / 2); //locks the mouse to the center of the screen
 
-	int count = 0;
+	Uint32 lastTime = SDL_GetTicks();
+	Uint32 currTime = 0;
+	int frames = 0;
+	bool& calculateFPS = HMEngine::GameSettings::GetCalculateFPS();
 
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
+		if (calculateFPS)
+		{
+			currTime = SDL_GetTicks();
+			frames++;
+			if (currTime - lastTime >= 1000)
+			{
+				std::cout << frames << std::endl;
+				frames = 0;
+				lastTime = currTime;
+			}
+		}
+
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
 		for (auto& gameObject : this->_gameObjects)
@@ -59,19 +74,6 @@ void HMEngine::GameEngine::Run()
 
 		this->_renderingEngine->Render(this->_gameObjects); //Render objects(on the second window buffer)
 		this->_window->Update(); //Updates the window(swaps between the second window buffer and the first window buffer)
-
-		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
-			std::cout << "left mouse button is held down" << std::endl;
-		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonTapped(SDL_BUTTON_RIGHT))
-			std::cout << "right mouse button is tapped" << std::endl;
-
-		if (count % 500 == 0)
-		{
-			std::cout << HMEngine::Core::Hardware::HardwareInputs::GetCursorXPos() << ", " << HMEngine::Core::Hardware::HardwareInputs::GetCursorYPos() << std::endl;
-			count = 0;
-		}
-
-		count++;
 	}
 
 }
