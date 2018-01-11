@@ -20,7 +20,12 @@ namespace HMEngine
 			MeshRenderer(const HMEngine::Components::MeshRenderer& other);
 			HMEngine::Components::MeshRenderer& operator=(const HMEngine::Components::MeshRenderer& other);
 
-			virtual void RenderEvent() override;
+			void DrawMesh();
+
+			void AttachToGameObjectEvent() override;
+			inline HMEngine::Components::MeshRenderer* Clone() override { return new HMEngine::Components::MeshRenderer(*this); }
+
+			inline HMEngine::Components::Texture& GetTexture() const { return *this->_texture; }
 
 		private:
 			enum vboIndexes
@@ -34,7 +39,9 @@ namespace HMEngine
 			std::vector<glm::vec3> _vertices;
 			std::vector<GLuint> _indices;
 			std::vector<glm::vec2> _uvs;
+			std::string _texturePath;
 			HMEngine::Components::Texture* _texture;
+			bool _isAddedToRenderingEngine;
 
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];

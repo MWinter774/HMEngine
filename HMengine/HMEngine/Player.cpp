@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "MeshRenderer.h"
 #include "CameraController.h"
+#include "RenderingEngine.h" //DEBUG
 
 std::vector<glm::vec3> vertices = //DEBUG
 {
@@ -46,8 +47,9 @@ std::vector<glm::vec2> uvs = { //DEBUG
 
 HMEngine::Player::Player() : GameObject(), _meshRenderer(new HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png")), _cameraController(new HMEngine::Components::CameraController())
 {
-	this->_components.push_back(*this->_meshRenderer);
-	this->_components.push_back(*this->_cameraController);
+	//this->AddComponent(*this->_meshRenderer);
+	this->AddComponent(*this->_cameraController);
+	HMEngine::Core::Rendering::RenderingEngine::GetInstance();
 }
 
 HMEngine::Player::~Player()

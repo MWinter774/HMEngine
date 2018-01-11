@@ -42,13 +42,6 @@ HMEngine::Core::Rendering::Window::Window(int width, int height, const std::stri
 	{
 		std::cerr << "Glew failed to initialize!" << std::endl;
 	}
-
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-	glClearDepth(1.0f);
-	glEnable(GL_DEPTH_TEST);
-
-	glDisable(GL_CULL_FACE);
-
 }
 
 /*

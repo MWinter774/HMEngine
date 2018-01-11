@@ -2,55 +2,93 @@
 #include "GameObject.h"
 #include "BasicShader.h"
 #include "Texture.h"
+#include "RenderingEngine.h"
 
-HMEngine::Components::MeshRenderer::MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs, const std::string& texturePath) : _vao(0), _vertices(vertices), _indices(indices), _uvs(uvs),_texture(new HMEngine::Components::Texture(texturePath))
+HMEngine::Components::MeshRenderer::MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs, const std::string& texturePath) : _vao(0), _vertices(vertices), _indices(indices), _uvs(uvs), _isAddedToRenderingEngine(false), _texturePath(texturePath)
 {
-	this->InitBuffers();
 }
 
 HMEngine::Components::MeshRenderer::~MeshRenderer()
 {
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDeleteBuffers(2, this->_vbo);
-	glDeleteBuffers(1, &this->_vao);
-	delete this->_texture;
+	if (this->_isAddedToRenderingEngine)
+	{
+		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveMeshRenderer(*this);
+		glBindVertexArray(this->_vao);
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDeleteBuffers(2, this->_vbo);
+		glDeleteBuffers(1, &this->_vao);
+		glBindVertexArray(0);
+	}
 }
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::MeshRenderer& other)
 {
-	this->_vertices = other._vertices;
-	this->_indices = other._indices;
-	this->_uvs = other._uvs;
-	this->_texture = new HMEngine::Components::Texture(*other._texture);
+	if (other._isAddedToRenderingEngine)
+	{
+		this->_vertices = other._vertices;
+		this->_indices = other._indices;
+		this->_uvs = other._uvs;
+		this->_texturePath = other._texturePath;
+		this->_texture = new HMEngine::Components::Texture(*other._texture);
+		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 
-	this->InitBuffers();
+		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
+
+		this->InitBuffers();
+	}
+	else
+	{
+		this->_vertices = other._vertices;
+		this->_indices = other._indices;
+		this->_uvs = other._uvs;
+		this->_texturePath = other._texturePath;
+	}
 }
 
 HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator=(const HMEngine::Components::MeshRenderer& other)
 {
 	if (this != &other)
 	{
-		this->_vertices = other._vertices;
-		this->_indices = other._indices;
-		this->_uvs = other._uvs;
-		*this->_texture = *other._texture;
+		if (other._isAddedToRenderingEngine)
+		{
+			this->_vertices = other._vertices;
+			this->_indices = other._indices;
+			this->_uvs = other._uvs;
+			this->_texturePath = other._texturePath;
+			*this->_texture = *other._texture;
+			this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
+			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 
-		this->InitBuffers();
+			this->InitBuffers();
+		}
+		else
+		{
+			this->_vertices = other._vertices;
+			this->_indices = other._indices;
+			this->_uvs = other._uvs;
+			this->_texturePath = other._texturePath;
+		}
 	}
 
 	return *this;
 }
 
-void HMEngine::Components::MeshRenderer::RenderEvent()
+void HMEngine::Components::MeshRenderer::DrawMesh()
 {
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(this->_parentObject->GetTransform());
-	this->_texture->Bind();
-
 	glBindVertexArray(this->_vao);
 
 	glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
+
+	glBindVertexArray(0);
+}
+
+void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
+{
+	this->_isAddedToRenderingEngine = true;
+	this->_texture = new HMEngine::Components::Texture(this->_texturePath);
+	this->InitBuffers();
+	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 }
 
 void HMEngine::Components::MeshRenderer::InitBuffers()

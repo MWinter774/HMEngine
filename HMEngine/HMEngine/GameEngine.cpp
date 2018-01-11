@@ -8,7 +8,7 @@
 #include "Transform.h"
 #include "Camera.h"
 
-HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(&HMEngine::Core::Rendering::RenderingEngine::GetInstance())
+HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
@@ -21,6 +21,10 @@ HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(&HMEngin
 
 HMEngine::GameEngine::~GameEngine()
 {
+	for (auto& gameObject : this->_gameObjects)
+	{
+		delete gameObject;
+	}
 	if (this->_window != nullptr)
 		delete this->_window;
 	SDL_Quit();
@@ -34,6 +38,7 @@ void HMEngine::GameEngine::CreateNewWindow(unsigned int width, unsigned int heig
 	HMEngine::GameSettings::UpdateProjectionMatrix();
 
 	_window = new HMEngine::Core::Rendering::Window(width, height, title, fullscreen);
+	this->_renderingEngine = &HMEngine::Core::Rendering::RenderingEngine::GetInstance();
 }
 
 /*
@@ -41,6 +46,10 @@ Runs the game.
 */
 void HMEngine::GameEngine::Run()
 {
+	if (this->_window == nullptr)
+	{
+		throw std::exception("YOU NEED TO CREATE A WINDOW FIRST!!");
+	}
 	HMEngine::GameSettings::SetCursorVisible(HMEngine::GameSettings::IsCursorVisible());
 	HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetWindowWidth() / 2, HMEngine::GameSettings::GetWindowHeight() / 2); //locks the mouse to the center of the screen
 
@@ -48,6 +57,8 @@ void HMEngine::GameEngine::Run()
 	Uint32 currTime = 0;
 	int frames = 0;
 	bool& calculateFPS = HMEngine::GameSettings::GetCalculateFPS();
+	unsigned int windowWidth = HMEngine::GameSettings::GetWindowWidth();
+	unsigned int windowHeight = HMEngine::GameSettings::GetWindowHeight();
 
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
@@ -67,20 +78,22 @@ void HMEngine::GameEngine::Run()
 
 		for (auto& gameObject : this->_gameObjects)
 		{
-			gameObject.Update();
+			gameObject->Update();
+			gameObject->Draw();
 		}
 		if (GameSettings::IsCursorLocked())
-			HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetWindowWidth() / 2, HMEngine::GameSettings::GetWindowHeight() / 2);
+			HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(windowWidth / 2, windowHeight / 2);
 
 		this->_renderingEngine->Render(this->_gameObjects); //Render objects(on the second window buffer)
 		this->_window->Update(); //Updates the window(swaps between the second window buffer and the first window buffer)
 	}
-
 }
 
 void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameObject)
 {
-	this->_gameObjects.push_back(gameObject);
+	auto* go = new HMEngine::Core::GameObject(gameObject);
+	go->AttachToGameEngine();
+	this->_gameObjects.push_back(go);
 }
 
 void HMEngine::GameEngine::SetAmbientLight(const glm::vec3 & ambientLight) const

@@ -38,6 +38,6 @@ namespace HMEngine
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
-		std::vector<HMEngine::Core::GameObject> _gameObjects;
+		std::vector<HMEngine::Core::GameObject*> _gameObjects;
 	};
 }

@@ -1,5 +1,8 @@
 #include "GameObject.h"
 #include "Transform.h"
+#include "Component.h"
+#include <iostream>
+#include <memory>
 
 HMEngine::Core::GameObject::GameObject() : _transform(new HMEngine::Core::Transform()), _components()
 {
@@ -8,14 +11,19 @@ HMEngine::Core::GameObject::GameObject() : _transform(new HMEngine::Core::Transf
 HMEngine::Core::GameObject::~GameObject()
 {
 	delete this->_transform;
+	for(auto& component : this->_components)
+	{
+		delete component;
+	}
 }
 
 HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) : _transform(new HMEngine::Core::Transform(*other._transform))
 {
+	HMEngine::Components::Component* newComponent = nullptr;
 	for (auto& component : other._components)
 	{
-		auto newComponent = component;
-		newComponent.get()._parentObject = this;
+		newComponent = component->Clone();
+		newComponent->_parentObject = this;
 		this->_components.push_back(newComponent);
 	}
 }
@@ -25,15 +33,23 @@ HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine
 	if (this != &other)
 	{
 		*this->_transform = *other._transform;
-		this->_components = other._components;
+
+		HMEngine::Components::Component* newComponent = nullptr;
+		for (auto& component : this->_components)
+		{
+			delete component;
+		}
+		this->_components.clear();
+
+		for (auto& component : other._components)
+		{
+			newComponent = component->Clone();
+			newComponent->_parentObject = this;
+			this->_components.push_back(newComponent);
+		}
 	}
 
 	return *this;
-}
-
-void HMEngine::Core::GameObject::RotateY(float speed)
-{
-	this->_transform->AddRotationY(speed);
 }
 
 void HMEngine::Core::GameObject::SetTransform(const HMEngine::Core::Transform& transform)
@@ -45,7 +61,7 @@ void HMEngine::Core::GameObject::Draw() const
 {
 	for (auto& component : this->_components)
 	{
-		component.get().RenderEvent(); //invoke the rendering event
+		component->RenderEvent(); //invoke the rendering event
 	}
 }
 
@@ -53,12 +69,21 @@ void HMEngine::Core::GameObject::Update() const
 {
 	for (auto& component : this->_components)
 	{
-		component.get().UpdateEvent(); //invoke the rendering event
+		component->UpdateEvent(); //invoke the rendering event
 	}
 }
 
 void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& component)
 {
-	component._parentObject = this;
-	this->_components.push_back(component);
+	HMEngine::Components::Component* newComponent = component.Clone();
+	newComponent->_parentObject = this;
+	this->_components.push_back(newComponent);
+}
+
+void HMEngine::Core::GameObject::AttachToGameEngine()
+{
+	for (auto& component : this->_components)
+	{
+		component->AttachToGameObjectEvent();
+	}
 }

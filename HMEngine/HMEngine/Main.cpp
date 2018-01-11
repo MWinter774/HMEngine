@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "MeshRenderer.h"
 #include "Player.h"
+#include "Transform.h"
 
 int main()
 {
@@ -72,17 +73,37 @@ int main()
 		glm::vec2(1.000004f, 1.0f - 0.671847f),
 		glm::vec2(0.667979f, 1.0f - 0.335851f)
 	};
-	HMEngine::Player f;
-
 	HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject go;
 	HMEngine::Components::MeshRenderer t = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png");
 	go.AddComponent(t);
 
-	g.AddGameObject(go);
+	HMEngine::Core::GameObject go2;
+	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/black.png");
+	go2.GetTransform().SetPosition(2, 2, 0);
+	go2.AddComponent(t2);
 
-	//g.SetAmbientLight(0.15f,0.15f,0.15f);
+	int c = 0;
+	for (int i = -1; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++)
+		{
+			c++;
+			HMEngine::Core::GameObject go;
+			go.GetTransform().SetPosition(float(j * 2), float(i * 2), 0);
+			if (c % 2 != 0)
+				go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png"));
+			else
+				go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/black.png"));
+			g.AddGameObject(go);
+		}
+	}
+
+	//g.AddGameObject(go);
+	//g.AddGameObject(go2);
+
+	g.SetAmbientLight({ 1,1,1 });
 
 	HMEngine::Player p;
 	g.AddGameObject(p);

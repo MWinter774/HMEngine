@@ -27,6 +27,7 @@ namespace HMEngine
 			~CameraController();
 
 			void UpdateEvent() override;
+			inline HMEngine::Components::Component* Clone() override { return new HMEngine::Components::CameraController(*this); }
 
 		private:
 			HMEngine::Core::Rendering::Camera& _camera;
