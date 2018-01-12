@@ -1,5 +1,6 @@
 #include "Texture.h"
 #include "TextureManager.h"
+#include "Utilities.h"
 
 HMEngine::Components::Texture::Texture(const std::string& texturePath)
 {
@@ -40,7 +41,7 @@ HMEngine::Components::Texture::Texture(const std::string& texturePath, bool _1)
 	int image = lodepng::decode(this->_textureImage.image, this->_textureImage.width, this->_textureImage.height, texturePath);
 	if (image) //if the texture wasn't loaded successfully
 	{
-		throw std::exception((std::string("ERROR WHILE LOADING TEXTURE: ") + texturePath).c_str());
+		HMEngine::Core::Utilities::ThrowException("ERROR WHILE LOADING TEXTURE: " + texturePath, "Texture Loading Error");
 	}
 	this->_textureImage.imagePath = texturePath;
 

@@ -7,6 +7,7 @@
 #include "HardwareInputs.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "Utilities.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr)
 {
@@ -48,7 +49,7 @@ void HMEngine::GameEngine::Run()
 {
 	if (this->_window == nullptr)
 	{
-		throw std::exception("YOU NEED TO CREATE A WINDOW FIRST!!");
+		HMEngine::Core::Utilities::ThrowException("YOU NEED TO CREATE A WINDOW FIRST!!", "GameEngine Error");
 	}
 	HMEngine::GameSettings::SetCursorVisible(HMEngine::GameSettings::IsCursorVisible());
 	HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetWindowWidth() / 2, HMEngine::GameSettings::GetWindowHeight() / 2); //locks the mouse to the center of the screen

@@ -5,6 +5,7 @@
 #include <glm\glm.hpp>
 #include <unordered_map>
 #include <GL\glew.h>
+#include "Utilities.h"
 
 namespace HMEngine
 {
@@ -56,7 +57,7 @@ namespace HMEngine
 						this->_program = glCreateProgram();
 						if (!this->_program) //if program is 0 that means an error occured
 						{
-							throw std::exception("SHADER PROGRAM CREATION FAILED!!!");
+							HMEngine::Core::Utilities::ThrowException("SHADER PROGRAM CREATION FAILED!!!", "Shader Error");
 						}
 					}
 					virtual ~Shader()
@@ -66,7 +67,7 @@ namespace HMEngine
 					Shader(const Shader& other) = delete;
 					Shader& operator=(const Shader& other) = delete;
 
-					void AddProgram(const std::string& code, GLenum type);
+					void AddShader(const std::string& code, GLenum type);
 					void AddUniform(const std::string& uniformName);
 
 				private:
@@ -90,7 +91,7 @@ namespace HMEngine
 					shaderFile.open(filePath.c_str());
 					if (!shaderFile.is_open())
 					{
-						throw std::exception(std::string("COULDN'T OPEN " + filePath + "!!!!").c_str());
+						HMEngine::Core::Utilities::ThrowException("COULDN'T OPEN " + filePath + "!!!!", "Shader Error");
 					}
 
 					while (std::getline(shaderFile, line))
@@ -128,7 +129,7 @@ namespace HMEngine
 						else
 							glGetShaderInfoLog(programId, sizeof(infoLog), NULL, infoLog);
 
-						throw std::exception(infoLog);
+						HMEngine::Core::Utilities::ThrowException(infoLog, "GLSL Error");
 					}
 				}
 
@@ -139,10 +140,10 @@ namespace HMEngine
 				type - the shader type
 				*/
 				template<typename T>
-				inline void Shader<T>::AddProgram(const std::string& code, GLenum type)
+				inline void Shader<T>::AddShader(const std::string& code, GLenum type)
 				{
 					GLuint shader = glCreateShader(type);
-					if (!shader) throw std::exception("SHADER CREATION FAILED!!!");
+					if (!shader) HMEngine::Core::Utilities::ThrowException("SHADER CREATION FAILED!!!", "Shader Error");
 
 					const GLchar* p[1];
 					p[0] = code.c_str();
@@ -164,7 +165,7 @@ namespace HMEngine
 				{
 					GLuint uniformId = glGetUniformLocation(this->_program, uniformName.c_str());
 					if (uniformId == 0xFFFFFFFF)
-						throw std::exception(std::string("ERROR GETTING UNIFORM \"" + uniformName + "\"").c_str());
+						HMEngine::Core::Utilities::ThrowException("ERROR GETTING UNIFORM \"" + uniformName + "\"", "Shader Error");
 
 					this->_uniforms[uniformName] = uniformId;
 				}
@@ -177,7 +178,7 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::AddVertexShader(const std::string& shaderFilePath)
 				{
-					this->AddProgram(this->ReadFileContent(shaderFilePath), GL_VERTEX_SHADER);
+					this->AddShader(this->ReadFileContent(shaderFilePath), GL_VERTEX_SHADER);
 				}
 
 				/*
@@ -188,7 +189,7 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::AddFragmentShader(const std::string& shaderFilePath)
 				{
-					this->AddProgram(this->ReadFileContent(shaderFilePath), GL_FRAGMENT_SHADER);
+					this->AddShader(this->ReadFileContent(shaderFilePath), GL_FRAGMENT_SHADER);
 				}
 
 				/*
@@ -199,7 +200,7 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::AddGeometryShader(const std::string& shaderFilePath)
 				{
-					this->AddProgram(this->ReadFileContent(shaderFilePath), GL_GEOMETRY_SHADER);
+					this->AddShader(this->ReadFileContent(shaderFilePath), GL_GEOMETRY_SHADER);
 				}
 
 				/*
