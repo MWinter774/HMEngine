@@ -9,7 +9,7 @@
 #include "Camera.h"
 #include "Utilities.h"
 
-HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr)
+HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsNames(), _gameObjectsBuffer()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
@@ -74,7 +74,15 @@ void HMEngine::GameEngine::Run()
 				lastTime = currTime;
 			}
 		}
-
+		if (this->_gameObjectsBuffer.size() > 0)
+		{
+			for (auto& go : this->_gameObjectsBuffer)
+			{
+				this->_gameObjects.push_back(go);
+				this->_gameObjectsNames[go->GetName()] = go;
+			}
+			this->_gameObjectsBuffer.clear();
+		}
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
 		for (auto& gameObject : this->_gameObjects)
@@ -92,9 +100,34 @@ void HMEngine::GameEngine::Run()
 
 void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameObject)
 {
-	auto* go = new HMEngine::Core::GameObject(gameObject);
+	if (this->_gameObjectsNames.find(gameObject.GetName()) != this->_gameObjectsNames.end()) //checkes if a game object with the same name exists
+	{
+		HMEngine::Core::Utilities::PrintDebugMessage("\"" + gameObject.GetName() + "\" Wasn't added because a game object with this name already exist!", "WARNING", 6);
+		return;
+	}
+	auto* go = new HMEngine::Core::GameObject(gameObject, false);
+	go->_gameEngine = this;
 	go->AttachToGameEngine();
-	this->_gameObjects.push_back(go);
+	this->_gameObjectsBuffer.push_back(go);
+}
+
+HMEngine::Core::GameObject& HMEngine::GameEngine::GetGameObject(const std::string& name)
+{
+	if (this->_gameObjectsNames.find(name) == this->_gameObjectsNames.end()) //Game Object not found
+	{
+		HMEngine::Core::Utilities::ThrowException("\"" + name + "\" GAME OBJECT NOT FOUND!");
+	}
+	return *this->_gameObjectsNames[name];
+}
+
+void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
+{
+	if (this->_gameObjectsNames.find(name) == this->_gameObjectsNames.end()) //Game Object not found
+	{
+		HMEngine::Core::Utilities::ThrowException("\"" + name + "\" GAME OBJECT NOT FOUND!");
+	}
+	delete this->_gameObjectsNames[name];
+	this->_gameObjectsNames.erase(name);
 }
 
 void HMEngine::GameEngine::SetAmbientLight(const glm::vec3 & ambientLight) const

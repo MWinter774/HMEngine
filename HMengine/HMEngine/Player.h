@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "GameObject.h"
 
 namespace HMEngine
@@ -11,7 +12,7 @@ namespace HMEngine
 	class Player : public HMEngine::Core::GameObject
 	{
 	public:
-		Player();
+		Player(const std::string& playerName);
 		~Player();
 	private:
 		HMEngine::Components::MeshRenderer* _meshRenderer;

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <map>
 #include "GameSettings.h"
 
 namespace HMEngine
@@ -32,6 +33,10 @@ namespace HMEngine
 
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
 
+		HMEngine::Core::GameObject& GetGameObject(const std::string& name);
+
+		void RemoveGameObject(const std::string& name);
+
 		void SetAmbientLight(const glm::vec3& ambientLight) const;
 		void SetAmbientLight(float r, float g, float b) const;
 
@@ -39,5 +44,8 @@ namespace HMEngine
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
 		std::vector<HMEngine::Core::GameObject*> _gameObjects;
+		std::vector<HMEngine::Core::GameObject*> _gameObjectsBuffer;
+
+		std::map<std::string, HMEngine::Core::GameObject*> _gameObjectsNames;
 	};
 }
