@@ -83,7 +83,10 @@ void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& c
 	this->_components.push_back(newComponent);
 }
 
-HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject & other, bool _1) : _transform(new HMEngine::Core::Transform(*other._transform)), _name(other._name), _gameEngine(other._gameEngine)
+/*
+Special constructor that keeps the name of the original game object.
+*/
+HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other, bool _1) : _transform(new HMEngine::Core::Transform(*other._transform)), _name(other._name), _gameEngine(other._gameEngine)
 {
 	HMEngine::Components::Component* newComponent = nullptr;
 	for (auto& component : other._components)

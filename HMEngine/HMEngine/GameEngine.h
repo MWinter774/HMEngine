@@ -46,9 +46,11 @@ namespace HMEngine
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
 
-		std::vector<HMEngine::Core::GameObject*> _gameObjectsToAddBuffer;
-		std::vector<std::string> _gameObjectsToRemoveBuffer;
-		std::map<std::string, HMEngine::Core::GameObject*> _gameObjects;
-		std::vector<HMEngine::Core::GameObject*> _gameObjectsVector;
+		std::vector<HMEngine::Core::GameObject*> _gameObjectsToAddBuffer; //keeps track which game objects to add each iteration of the game loop
+		std::vector<std::string> _gameObjectsToRemoveBuffer; //keeps track which game objects to delete each iteration of the game loop
+		std::map<std::string, HMEngine::Core::GameObject*> _gameObjects; //maps between name of the game object to the game object itself
+		std::vector<HMEngine::Core::GameObject*> _gameObjectsVector; //list of game objects(used to improve game engine's efficiency)
+
+		void UpdateGameObjectsBuffers();
 	};
 }

@@ -48,7 +48,7 @@ Runs the game.
 */
 void HMEngine::GameEngine::Run()
 {
-	if (this->_window == nullptr)
+	if (this->_window == nullptr) //if user hasn't created a window yet
 	{
 		HMEngine::Core::Utilities::ThrowException("YOU NEED TO CREATE A WINDOW FIRST!!", "GameEngine Error");
 	}
@@ -75,27 +75,7 @@ void HMEngine::GameEngine::Run()
 				lastTime = currTime;
 			}
 		}
-		if (this->_gameObjectsToAddBuffer.size() > 0)
-		{
-			for (auto& go : this->_gameObjectsToAddBuffer)
-			{
-				/* Adds the game objects */
-				this->_gameObjects[go->GetName()] = go;
-				this->_gameObjectsVector.push_back(go);
-			}
-			this->_gameObjectsToAddBuffer.clear();
-		}
-		if (this->_gameObjectsToRemoveBuffer.size() > 0)
-		{
-			for (auto& gameObjectName : this->_gameObjectsToRemoveBuffer)
-			{
-				/* Remove Game Objects */
-				this->_gameObjectsVector.erase(std::remove(this->_gameObjectsVector.begin(), this->_gameObjectsVector.end(), this->_gameObjects[gameObjectName]), this->_gameObjectsVector.end());
-				delete this->_gameObjects[gameObjectName];
-				this->_gameObjects.erase(gameObjectName);
-			}
-			this->_gameObjectsToRemoveBuffer.clear();
-		}
+		this->UpdateGameObjectsBuffers();
 
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
@@ -112,6 +92,13 @@ void HMEngine::GameEngine::Run()
 	}
 }
 
+/*
+Adds game object to the engine.
+Input:
+gameObject - the game object to add
+Output:
+
+*/
 void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameObject)
 {
 	if (this->_gameObjects.find(gameObject.GetName()) != this->_gameObjects.end()) //checkes if a game object with the same name exists
@@ -119,12 +106,19 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 		HMEngine::Core::Utilities::PrintDebugMessage("\"" + gameObject.GetName() + "\" Wasn't added because a game object with this name already exist!", "WARNING", 6);
 		return;
 	}
-	auto* go = new HMEngine::Core::GameObject(gameObject, false);
-	go->_gameEngine = this;
-	go->AttachToGameEngine();
-	this->_gameObjectsToAddBuffer.push_back(go);
+	auto* go = new HMEngine::Core::GameObject(gameObject, false); //clones the game object
+	go->_gameEngine = this; //sets game object game engine to this
+	go->AttachToGameEngine(); //activates event
+	this->_gameObjectsToAddBuffer.push_back(go); //adds this game object to the buffer
 }
 
+/*
+Returns the game object using its name, if doesnt exist returns nullptr.
+Input:
+name - name of the game object.
+Output:
+nullptr if game object doesn't exist in the engine, else returns pointer to the game object.
+*/
 HMEngine::Core::GameObject* HMEngine::GameEngine::GetGameObject(const std::string& name)
 {
 	auto go = this->_gameObjects.find(name);
@@ -136,6 +130,13 @@ HMEngine::Core::GameObject* HMEngine::GameEngine::GetGameObject(const std::strin
 	return (*go).second;
 }
 
+/*
+Removes a game object from the game engine, throws an error if game object name doesn't exist in the engine.
+Input:
+name - name of the game object to remove.
+Output:
+
+*/
 void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
 {
 	auto go = this->_gameObjects.find(name);
@@ -157,8 +158,29 @@ void HMEngine::GameEngine::SetAmbientLight(float r, float g, float b) const
 }
 
 /*
-void HMEngine::GameEngine::RemoveGameObject(const HMEngine::Core::GameObject& gameObject)
-{
-	this->_gameObjects.erase(std::remove(this->_gameObjects.begin(), this->_gameObjects.end(), gameObject), this->_gameObjects.end());
-}
+Updates the buffers of game objects(handles adding/removing of game objects).
 */
+void HMEngine::GameEngine::UpdateGameObjectsBuffers()
+{
+	if (this->_gameObjectsToAddBuffer.size() > 0) //if game objects need to be added
+	{
+		for (auto& go : this->_gameObjectsToAddBuffer)
+		{
+			/* Adds the game objects */
+			this->_gameObjects[go->GetName()] = go; //adds the game object to the map of names and game objects
+			this->_gameObjectsVector.push_back(go); //adds the game object to the list of game objects
+		}
+		this->_gameObjectsToAddBuffer.clear(); //clears the buffer
+	}
+	if (this->_gameObjectsToRemoveBuffer.size() > 0)
+	{
+		for (auto& gameObjectName : this->_gameObjectsToRemoveBuffer)
+		{
+			/* Remove Game Objects */
+			this->_gameObjectsVector.erase(std::remove(this->_gameObjectsVector.begin(), this->_gameObjectsVector.end(), this->_gameObjects[gameObjectName]), this->_gameObjectsVector.end()); //deletes the game object from the list of game objects
+			delete this->_gameObjects[gameObjectName]; //frees the memory of the game object
+			this->_gameObjects.erase(gameObjectName); //deletes the game object name for the map of names and game objects
+		}
+		this->_gameObjectsToRemoveBuffer.clear(); //clears the buffer
+	}
+}
