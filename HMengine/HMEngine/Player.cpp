@@ -49,11 +49,27 @@ HMEngine::Player::Player(const std::string& playerName) : GameObject(playerName)
 {
 	//this->AddComponent(*this->_meshRenderer);
 	this->AddComponent(*this->_cameraController);
-	HMEngine::Core::Rendering::RenderingEngine::GetInstance();
 }
 
 HMEngine::Player::~Player()
 {
 	delete this->_meshRenderer;
 	delete this->_cameraController;
+}
+
+HMEngine::Player::Player(const HMEngine::Player& other) : GameObject(other), _meshRenderer(new HMEngine::Components::MeshRenderer(*other._meshRenderer)), _cameraController(new HMEngine::Components::CameraController(*other._cameraController))
+{
+}
+
+HMEngine::Player& HMEngine::Player::operator=(const HMEngine::Player& other)
+{
+	if (this != &other)
+	{
+		delete this->_meshRenderer;
+		this->_meshRenderer = new HMEngine::Components::MeshRenderer(*other._meshRenderer);
+		delete this->_cameraController;
+		this->_cameraController = new HMEngine::Components::CameraController(*other._cameraController);
+	}
+
+	return *this;
 }

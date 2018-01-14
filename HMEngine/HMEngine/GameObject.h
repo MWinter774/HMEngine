@@ -44,13 +44,13 @@ namespace HMEngine
 			HMEngine::Core::Transform* _transform;
 			HMEngine::GameEngine* _gameEngine;
 
+			void AttachToGameEngine();
+
 		private:
 			std::vector<HMEngine::Components::Component*> _components;
 			std::string _name;
 
 			GameObject(const HMEngine::Core::GameObject& other, bool _1);
-
-			void AttachToGameEngine();
 		};
 	}
 }

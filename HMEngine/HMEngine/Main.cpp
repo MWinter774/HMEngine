@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Utilities.h"
 #include "DebugComponent.h"
+#include "Terrain.h"
 
 int main()
 {
@@ -87,35 +88,38 @@ int main()
 	go2.AddComponent(t2);
 
 
-	int c = 0;
-	for (int i = -1; i <= 1; i++)
-	{
-		for (int j = -1; j <= 1; j++)
-		{
-			c++;
-			HMEngine::Core::GameObject go(std::to_string(c));
-			go.GetTransform().SetPosition(float(j * 2), float(i * 2), 0);
-			if (c % 2 != 0)
-				go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png"));
-			else
-				go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/black.png"));
-			g.AddGameObject(go);
-		}
-	}
+	//int c = 0;
+	//for (int i = -1; i <= 1; i++)
+	//{
+	//	for (int j = -1; j <= 1; j++)
+	//	{
+	//		c++;
+	//		HMEngine::Core::GameObject go(std::to_string(c));
+	//		go.GetTransform().SetPosition(float(j * 2), float(i * 2), 0);
+	//		if (c % 2 != 0)
+	//			go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png"));
+	//		else
+	//			go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/black.png"));
+	//		g.AddGameObject(go);
+	//	}
+	//}
 
 
-	g.AddGameObject(go);
-	//g.AddGameObject(go2);
+	//g.AddGameObject(go);
+	g.AddGameObject(go2);
 
 	g.SetAmbientLight({ 1,1,1 });
 
 	HMEngine::Player p("Player");
 	g.AddGameObject(p);
 
+	HMEngine::Terrain terrain("Terrain", glm::vec3(0,0,0), 800, "./resources/textures/grass.png");
+	g.AddGameObject(terrain);
+
 	//g.UnlockCursor();
 	//g.SetMouseVisible(true);
 
-	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
+	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 	g.Run();
 
 	return 0;
