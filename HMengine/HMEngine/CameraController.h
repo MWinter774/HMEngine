@@ -23,7 +23,7 @@ namespace HMEngine
 		class CameraController : public HMEngine::Components::Component
 		{
 		public:
-			CameraController();
+			CameraController(float walkingSpeed = 3.0f, float runningSpeed = 10.0f);
 			~CameraController();
 
 			void UpdateEvent() override;
@@ -34,6 +34,8 @@ namespace HMEngine
 			float _horizontalAngle;
 			float _verticalAngle;
 			float _movementSpeed;
+			float _runningSpeed;
+			float _walkingSpeed;
 			glm::vec3 _right;
 			glm::vec3 _forward;
 			glm::vec3 _up;

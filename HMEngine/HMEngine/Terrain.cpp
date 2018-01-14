@@ -6,7 +6,7 @@
 
 HMEngine::Terrain::Terrain(const std::string& name, const glm::vec3& position, unsigned int size, const std::string& texturePath) : GameObject(name), _terrainSize(size), _meshRenderer(nullptr), _vertexCount(unsigned int(0.16*_terrainSize))
 {
-	this->_transform->SetPosition(position.x * this->_terrainSize, position.y, position.z * this->_terrainSize);
+	this->_transform->SetPosition(position);
 	this->_meshRenderer = HMEngine::Terrain::GenerateTerrain(this->_terrainSize, this->_vertexCount, texturePath);
 	this->AddComponent(*this->_meshRenderer);
 }
@@ -50,7 +50,7 @@ HMEngine::Components::MeshRenderer* HMEngine::Terrain::GenerateTerrain(unsigned 
 			normals[vertexPointer * 3] = 0;
 			normals[vertexPointer * 3 + 1] = 1;
 			normals[vertexPointer * 3 + 2] = 0;
-			textureCoords[vertexPointer] = glm::vec2((float)j / ((float)vertexCount - 1), (float)i / ((float)vertexCount - 1));
+			textureCoords[vertexPointer] = glm::vec2((float)j / ((float)vertexCount - 1) * 40, (float)i / ((float)vertexCount - 1) * 40);
 			vertexPointer++;
 		}
 	}

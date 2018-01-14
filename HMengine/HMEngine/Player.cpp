@@ -45,7 +45,7 @@ std::vector<glm::vec2> uvs = { //DEBUG
 	glm::vec2(0.336024f, 1.0f - 0.671877f)
 };
 
-HMEngine::Player::Player(const std::string& playerName) : GameObject(playerName), _meshRenderer(new HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png")), _cameraController(new HMEngine::Components::CameraController())
+HMEngine::Player::Player(const std::string& playerName, float walkingSpeed, float runningSpeed) : GameObject(playerName), _meshRenderer(new HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png")), _cameraController(new HMEngine::Components::CameraController(walkingSpeed, runningSpeed))
 {
 	//this->AddComponent(*this->_meshRenderer);
 	this->AddComponent(*this->_cameraController);

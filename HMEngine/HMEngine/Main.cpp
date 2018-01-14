@@ -104,7 +104,6 @@ int main()
 	//	}
 	//}
 
-
 	//g.AddGameObject(go);
 	g.AddGameObject(go2);
 
@@ -113,7 +112,7 @@ int main()
 	HMEngine::Player p("Player");
 	g.AddGameObject(p);
 
-	HMEngine::Terrain terrain("Terrain", glm::vec3(0,0,0), 800, "./resources/textures/grass.png");
+	HMEngine::Terrain terrain("Terrain", glm::vec3(-50,0,-50), 800, "./resources/textures/grass.png");
 	g.AddGameObject(terrain);
 
 	//g.UnlockCursor();
