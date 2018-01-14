@@ -1,4 +1,5 @@
 #pragma once
+#include <glm\glm.hpp>
 #include <GL\glew.h>
 #include <iostream>
 #include <vector>
@@ -36,6 +37,7 @@ namespace HMEngine
 
 				//std::unordered_map<std::reference_wrapper<HMEngine::Components::Texture>, std::vector<std::reference_wrapper<HMEngine::Components::MeshRenderer>>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
 				std::unordered_map<HMEngine::Components::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
+				glm::vec3& _skyColor;
 			};
 		}
 	}

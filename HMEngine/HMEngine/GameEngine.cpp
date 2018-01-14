@@ -147,14 +147,49 @@ void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
 	this->_gameObjectsToRemoveBuffer.push_back(name);
 }
 
+glm::vec3 HMEngine::GameEngine::GetSkyColor() const
+{
+	return HMEngine::GameSettings::GetSkyColor();
+}
+
 void HMEngine::GameEngine::SetAmbientLight(const glm::vec3 & ambientLight) const
 {
-	HMEngine::GameSettings::ambientLight = ambientLight;
+	HMEngine::GameSettings::SetAmbientLight(ambientLight);
 }
 
 void HMEngine::GameEngine::SetAmbientLight(float r, float g, float b) const
 {
 	HMEngine::GameSettings::ambientLight = glm::vec3(r, g, b);
+}
+
+void HMEngine::GameEngine::SetSkyColor(const glm::vec3& skyColor) const
+{
+	HMEngine::GameSettings::SetSkyColor(skyColor);
+}
+
+void HMEngine::GameEngine::SetSkyColor(float r, float g, float b) const
+{
+	HMEngine::GameSettings::SetSkyColor(glm::vec3(r, g, b));
+}
+
+void HMEngine::GameEngine::SetFogDensity(float fogDensity) const
+{
+	HMEngine::GameSettings::SetFogDensity(fogDensity);
+}
+
+void HMEngine::GameEngine::SetFogGradient(float fogGradient) const
+{
+	HMEngine::GameSettings::SetFogGradient(fogGradient);
+}
+
+void HMEngine::GameEngine::DisableFog() const
+{
+	HMEngine::GameSettings::SetFogDensity(0.0f);
+}
+
+void HMEngine::GameEngine::EnableFog() const
+{
+	HMEngine::GameSettings::SetFogDensity(0.0035f);
 }
 
 /*

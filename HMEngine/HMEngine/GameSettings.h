@@ -9,6 +9,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/transform.hpp>
+#include "BasicShader.h"
 
 namespace HMEngine
 {
@@ -37,6 +38,9 @@ namespace HMEngine
 		static inline float GetSensitivity() { return HMEngine::GameSettings::sensitivity; }
 		static inline glm::vec3& GetAmbientLight() { return HMEngine::GameSettings::ambientLight; }
 		static inline bool& GetCalculateFPS() { return HMEngine::GameSettings::calculateFPS; }
+		static inline float GetFogDensity() { return HMEngine::GameSettings::fogDensity; }
+		static inline float GetFogGradient() { return HMEngine::GameSettings::fogGradient; }
+		static inline glm::vec3& GetSkyColor() { return HMEngine::GameSettings::skyColor; }
 
 		static inline void SetFov(float fovInDegrees);
 		static inline void SetZNear(float zNear);
@@ -44,7 +48,11 @@ namespace HMEngine
 		static inline void SetIsCursorLocked(bool isCursorLocked) { HMEngine::GameSettings::isCursorLocked = isCursorLocked; }
 		static inline void SetCursorVisible(bool isCursorVisible) { SDL_ShowCursor(isCursorVisible); HMEngine::GameSettings::isCursorVisible = isCursorVisible; }
 		static inline void SetSensitivity(float sensitivity) { HMEngine::GameSettings::sensitivity = sensitivity; }
+		static inline void SetAmbientLight(const glm::vec3& ambientLight) { HMEngine::GameSettings::ambientLight = ambientLight; HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateAmbientLight(); }
 		static inline void CalculateFPS(bool calculateFPS) { HMEngine::GameSettings::calculateFPS = calculateFPS; }
+		static inline void SetFogDensity(float fogDensity) { HMEngine::GameSettings::fogDensity = fogDensity; HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateFogDensity(); }
+		static inline void SetFogGradient(float fogGradient) { HMEngine::GameSettings::fogGradient = fogGradient; HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateFogGradient(); }
+		static inline void SetSkyColor(const glm::vec3& skyColor) { HMEngine::GameSettings::skyColor = skyColor; HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateSkyColor(); }
 
 		static glm::mat4& GetProjectionMatrix();
 	private:
@@ -61,5 +69,8 @@ namespace HMEngine
 		static bool isCursorVisible;
 		static float sensitivity;
 		static bool calculateFPS;
+		static float fogDensity;
+		static float fogGradient; //affects the transition from visible to invisible
+		static glm::vec3 skyColor;
 	};
 }

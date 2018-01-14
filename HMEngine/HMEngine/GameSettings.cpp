@@ -14,6 +14,9 @@ bool HMEngine::GameSettings::isCursorLocked = true;
 bool HMEngine::GameSettings::isCursorVisible = false;
 float HMEngine::GameSettings::sensitivity = 0.005f;
 bool HMEngine::GameSettings::calculateFPS = false;
+float HMEngine::GameSettings::fogDensity = 0.0035f;
+float HMEngine::GameSettings::fogGradient = 5.0f;
+glm::vec3 HMEngine::GameSettings::skyColor = glm::vec3(0.6f, 0.8f, 1.0f);
 
 /*
 Sets the fov of the game and updates the projection matrix so the change will occur in game.

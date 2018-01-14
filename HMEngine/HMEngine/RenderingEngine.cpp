@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "BasicShader.h"
 #include "GameObject.h"
+#include "GameSettings.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -13,6 +14,7 @@ HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::Rendering
 void HMEngine::Core::Rendering::RenderingEngine::Render() const
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(this->_skyColor.r, this->_skyColor.g, this->_skyColor.b, 1.0f);
 
 	bool hadTransparency = false;
 	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
@@ -62,9 +64,8 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveMeshRenderer(HMEngine::Co
 	}
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures()
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures(), _skyColor(HMEngine::GameSettings::GetSkyColor())
 {
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
 
 	//glEnable(GL_CULL_FACE);

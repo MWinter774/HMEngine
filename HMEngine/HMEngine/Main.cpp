@@ -104,21 +104,22 @@ int main()
 		}
 	}
 
-	//g.AddGameObject(go);
-	g.AddGameObject(go2);
+	g.AddGameObject(go);
+	//g.AddGameObject(go2);
 
 	g.SetAmbientLight({ 1,1,1 });
+	//g.DisableFog();
 
-	HMEngine::Player p("Player");
+	HMEngine::Player p("Player", 100.0f, 200.0f);
 	g.AddGameObject(p);
 
-	HMEngine::Terrain terrain("Terrain", glm::vec3(-50, 0, -50), 800, "./resources/textures/grass.png");
+	HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
 	g.AddGameObject(terrain);
 
 	//g.UnlockCursor();
 	//g.SetMouseVisible(true);
 
-	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
+	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
 
 	return 0;
