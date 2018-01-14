@@ -88,21 +88,21 @@ int main()
 	go2.AddComponent(t2);
 
 
-	//int c = 0;
-	//for (int i = -1; i <= 1; i++)
-	//{
-	//	for (int j = -1; j <= 1; j++)
-	//	{
-	//		c++;
-	//		HMEngine::Core::GameObject go(std::to_string(c));
-	//		go.GetTransform().SetPosition(float(j * 2), float(i * 2), 0);
-	//		if (c % 2 != 0)
-	//			go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png"));
-	//		else
-	//			go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/black.png"));
-	//		g.AddGameObject(go);
-	//	}
-	//}
+	int c = 0;
+	for (int i = -1; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++)
+		{
+			c++;
+			HMEngine::Core::GameObject go(std::to_string(c));
+			go.GetTransform().SetPosition(float(j * 2), float(i * 2) + 4, 0);
+			if (c % 2 != 0)
+				go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png"));
+			else
+				go.AddComponent(HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/black.png"));
+			g.AddGameObject(go);
+		}
+	}
 
 	//g.AddGameObject(go);
 	g.AddGameObject(go2);
@@ -112,7 +112,7 @@ int main()
 	HMEngine::Player p("Player");
 	g.AddGameObject(p);
 
-	HMEngine::Terrain terrain("Terrain", glm::vec3(-50,0,-50), 800, "./resources/textures/grass.png");
+	HMEngine::Terrain terrain("Terrain", glm::vec3(-50, 0, -50), 800, "./resources/textures/grass.png");
 	g.AddGameObject(terrain);
 
 	//g.UnlockCursor();

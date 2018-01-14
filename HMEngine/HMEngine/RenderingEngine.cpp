@@ -14,14 +14,30 @@ void HMEngine::Core::Rendering::RenderingEngine::Render() const
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	bool hadTransparency = false;
 	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
 	for (auto& item : this->_textures)
 	{
 		item.first->Bind();
 		for(auto& mesh : item.second)
 		{
+			/* If the mesh has transparent texture then dont cull face */
+			if (mesh->HasTransparency())
+			{
+				glDisable(GL_CULL_FACE);
+				hadTransparency = true;
+			}
+
 			HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
 			mesh->DrawMesh();
+
+			/* If the mesh had transparent texture then turn on cull */
+			if (hadTransparency)
+			{
+				glEnable(GL_CULL_FACE);
+				glCullFace(GL_BACK);
+				hadTransparency = false;
+			}
 		}
 	}
 }

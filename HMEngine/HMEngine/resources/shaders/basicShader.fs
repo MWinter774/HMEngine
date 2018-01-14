@@ -12,5 +12,11 @@ out vec4 outColor;
 void main()
 {
 	//gl_fragColor = vec4(1.0,0.0,0.0,1.0);
-	outColor = texture2D(sampler, textureCoordinates.xy) * vec4(ambientLight, 1.0f);
+	vec4 textureColor = texture2D(sampler, textureCoordinates.xy);
+	if(textureColor.a<0.5)
+	{
+		discard;
+	}
+	
+	outColor = textureColor * vec4(ambientLight, 1.0f);
 }

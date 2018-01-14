@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include "RenderingEngine.h"
 
-HMEngine::Components::MeshRenderer::MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs, const std::string& texturePath) : _vao(0), _vertices(vertices), _indices(indices), _uvs(uvs), _isAddedToRenderingEngine(false), _texturePath(texturePath)
+HMEngine::Components::MeshRenderer::MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs, const std::string& texturePath) : _vao(0), _vertices(vertices), _indices(indices), _uvs(uvs), _isAddedToRenderingEngine(false), _texturePath(texturePath), _hasTransparency(false)
 {
 }
 
@@ -24,12 +24,13 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::MeshRenderer& other)
 {
+	this->_vertices = other._vertices;
+	this->_indices = other._indices;
+	this->_uvs = other._uvs;
+	this->_texturePath = other._texturePath;
+	this->_hasTransparency = other._hasTransparency;
 	if (other._isAddedToRenderingEngine)
 	{
-		this->_vertices = other._vertices;
-		this->_indices = other._indices;
-		this->_uvs = other._uvs;
-		this->_texturePath = other._texturePath;
 		this->_texture = new HMEngine::Components::Texture(*other._texture);
 		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 
@@ -37,37 +38,24 @@ HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::Mes
 
 		this->InitBuffers();
 	}
-	else
-	{
-		this->_vertices = other._vertices;
-		this->_indices = other._indices;
-		this->_uvs = other._uvs;
-		this->_texturePath = other._texturePath;
-	}
 }
 
 HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator=(const HMEngine::Components::MeshRenderer& other)
 {
 	if (this != &other)
 	{
+		this->_vertices = other._vertices;
+		this->_indices = other._indices;
+		this->_uvs = other._uvs;
+		this->_texturePath = other._texturePath;
+		this->_hasTransparency = other._hasTransparency;
 		if (other._isAddedToRenderingEngine)
 		{
-			this->_vertices = other._vertices;
-			this->_indices = other._indices;
-			this->_uvs = other._uvs;
-			this->_texturePath = other._texturePath;
 			*this->_texture = *other._texture;
 			this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 
 			this->InitBuffers();
-		}
-		else
-		{
-			this->_vertices = other._vertices;
-			this->_indices = other._indices;
-			this->_uvs = other._uvs;
-			this->_texturePath = other._texturePath;
 		}
 	}
 
