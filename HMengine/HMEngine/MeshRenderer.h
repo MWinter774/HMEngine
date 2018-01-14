@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include "Component.h"
+#include "Mesh.h"
+
 
 namespace HMEngine
 {
@@ -15,6 +17,7 @@ namespace HMEngine
 		class MeshRenderer : public Component
 		{
 		public:
+			MeshRenderer(const std::string& meshPath, const std::string& texturePath);
 			MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs,const std::string& texturePath);
 			virtual ~MeshRenderer();
 			MeshRenderer(const HMEngine::Components::MeshRenderer& other);
@@ -40,8 +43,12 @@ namespace HMEngine
 			std::vector<GLuint> _indices;
 			std::vector<glm::vec2> _uvs;
 			std::string _texturePath;
+			std::string _meshPath;
 			HMEngine::Components::Texture* _texture;
+			HMEngine::Core::Mesh* _mesh;
+
 			bool _isAddedToRenderingEngine;
+
 
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];

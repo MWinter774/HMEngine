@@ -97,7 +97,6 @@ Adds game object to the engine.
 Input:
 gameObject - the game object to add
 Output:
-
 */
 void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameObject)
 {

@@ -134,6 +134,7 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="HardwareInputs.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="HMEngineIncludes.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderingEngine.h" />
