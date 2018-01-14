@@ -139,6 +139,7 @@
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TerrainRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TerrainRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />

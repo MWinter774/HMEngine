@@ -7,7 +7,7 @@ namespace HMEngine
 {
 	namespace Components
 	{
-		class MeshRenderer;
+		class TerrainRenderer;
 	}
 	class Terrain : public HMEngine::Core::GameObject
 	{
@@ -18,10 +18,6 @@ namespace HMEngine
 		HMEngine::Terrain& operator=(const HMEngine::Terrain& other);
 
 	private:
-		static HMEngine::Components::MeshRenderer* GenerateTerrain(unsigned int terrainSize, unsigned int vertexCount, const std::string& texturePath);
-
-		unsigned int _terrainSize;
-		unsigned int _vertexCount;
-		HMEngine::Components::MeshRenderer* _meshRenderer;
+		HMEngine::Components::TerrainRenderer* _terrainRenderer;
 	};
 }

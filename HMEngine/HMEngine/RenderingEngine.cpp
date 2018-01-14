@@ -4,6 +4,8 @@
 #include "BasicShader.h"
 #include "GameObject.h"
 #include "GameSettings.h"
+#include "TerrainRenderer.h"
+#include <algorithm>
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -42,6 +44,13 @@ void HMEngine::Core::Rendering::RenderingEngine::Render() const
 			}
 		}
 	}
+
+	for (auto& terrain : this->_terrains)
+	{
+		terrain->GetTexture().Bind();
+		HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+		terrain->DrawTerrain();
+	}
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
@@ -64,7 +73,17 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveMeshRenderer(HMEngine::Co
 	}
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures(), _skyColor(HMEngine::GameSettings::GetSkyColor())
+void HMEngine::Core::Rendering::RenderingEngine::AddTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer)
+{
+	this->_terrains.push_back(&terrainRenderer);
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer)
+{
+	this->_terrains.erase(std::remove(this->_terrains.begin(), this->_terrains.end(), &terrainRenderer), this->_terrains.end()); //deletes the game object from the list of game objects
+}
+
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrains()
 {
 	glEnable(GL_DEPTH_TEST);
 

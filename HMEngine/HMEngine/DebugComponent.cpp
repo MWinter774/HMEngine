@@ -21,7 +21,7 @@ HMEngine::Components::Component* HMEngine::Components::DebugComponent::Clone()
 void HMEngine::Components::DebugComponent::UpdateEvent()
 {
 	this->_count++;
-	if (this->_count % 10 == 0)
+	if (this->_count == 600)
 	{
 	}
 }
