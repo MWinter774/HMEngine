@@ -10,7 +10,7 @@ HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::Rendering
 	return instance;
 }
 
-void HMEngine::Core::Rendering::RenderingEngine::Render(const std::vector<HMEngine::Core::GameObject*>& gameObjects) const
+void HMEngine::Core::Rendering::RenderingEngine::Render() const
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -5,8 +5,6 @@
 #include <iostream>
 #include <memory>
 
-std::set<std::string> HMEngine::Core::GameObject::gameObjectNames = std::set<std::string>();
-
 HMEngine::Core::GameObject::GameObject(const std::string& name) : _transform(new HMEngine::Core::Transform()), _components(), _gameEngine(nullptr), _name(name)
 {
 }
@@ -18,7 +16,6 @@ HMEngine::Core::GameObject::~GameObject()
 	{
 		delete component;
 	}
-	HMEngine::Core::GameObject::gameObjectNames.erase(this->_name);
 }
 
 HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) : _transform(new HMEngine::Core::Transform(*other._transform)), _name(other._name + "_Copy"), _gameEngine(other._gameEngine)
@@ -51,9 +48,7 @@ HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine
 			newComponent->_parentObject = this;
 			this->_components.push_back(newComponent);
 		}
-		HMEngine::Core::GameObject::gameObjectNames.erase(this->_name);
 		this->_name = other._name + "_Copy";
-		HMEngine::Core::GameObject::gameObjectNames.insert(this->_name);
 		this->_gameEngine = other._gameEngine;
 	}
 

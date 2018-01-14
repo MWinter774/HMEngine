@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <queue>
 #include "GameSettings.h"
 
 namespace HMEngine
@@ -33,7 +34,8 @@ namespace HMEngine
 
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
 
-		HMEngine::Core::GameObject& GetGameObject(const std::string& name);
+		inline std::vector<HMEngine::Core::GameObject*> GetGameObjects() { return this->_gameObjectsVector; };
+		HMEngine::Core::GameObject* GetGameObject(const std::string& name);
 
 		void RemoveGameObject(const std::string& name);
 
@@ -43,9 +45,10 @@ namespace HMEngine
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
-		std::vector<HMEngine::Core::GameObject*> _gameObjects;
-		std::vector<HMEngine::Core::GameObject*> _gameObjectsBuffer;
 
-		std::map<std::string, HMEngine::Core::GameObject*> _gameObjectsNames;
+		std::vector<HMEngine::Core::GameObject*> _gameObjectsToAddBuffer;
+		std::vector<std::string> _gameObjectsToRemoveBuffer;
+		std::map<std::string, HMEngine::Core::GameObject*> _gameObjects;
+		std::vector<HMEngine::Core::GameObject*> _gameObjectsVector;
 	};
 }

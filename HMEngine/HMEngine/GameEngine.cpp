@@ -8,8 +8,9 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Utilities.h"
+#include <algorithm>
 
-HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsNames(), _gameObjectsBuffer()
+HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsToAddBuffer(), _gameObjectsVector(), _gameObjectsToRemoveBuffer()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
@@ -24,7 +25,7 @@ HMEngine::GameEngine::~GameEngine()
 {
 	for (auto& gameObject : this->_gameObjects)
 	{
-		delete gameObject;
+		delete gameObject.second;
 	}
 	if (this->_window != nullptr)
 		delete this->_window;
@@ -74,33 +75,46 @@ void HMEngine::GameEngine::Run()
 				lastTime = currTime;
 			}
 		}
-		if (this->_gameObjectsBuffer.size() > 0)
+		if (this->_gameObjectsToAddBuffer.size() > 0)
 		{
-			for (auto& go : this->_gameObjectsBuffer)
+			for (auto& go : this->_gameObjectsToAddBuffer)
 			{
-				this->_gameObjects.push_back(go);
-				this->_gameObjectsNames[go->GetName()] = go;
+				/* Adds the game objects */
+				this->_gameObjects[go->GetName()] = go;
+				this->_gameObjectsVector.push_back(go);
 			}
-			this->_gameObjectsBuffer.clear();
+			this->_gameObjectsToAddBuffer.clear();
 		}
+		if (this->_gameObjectsToRemoveBuffer.size() > 0)
+		{
+			for (auto& gameObjectName : this->_gameObjectsToRemoveBuffer)
+			{
+				/* Remove Game Objects */
+				this->_gameObjectsVector.erase(std::remove(this->_gameObjectsVector.begin(), this->_gameObjectsVector.end(), this->_gameObjects[gameObjectName]), this->_gameObjectsVector.end());
+				delete this->_gameObjects[gameObjectName];
+				this->_gameObjects.erase(gameObjectName);
+			}
+			this->_gameObjectsToRemoveBuffer.clear();
+		}
+
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
 		for (auto& gameObject : this->_gameObjects)
 		{
-			gameObject->Update();
-			gameObject->Draw();
+			gameObject.second->Update();
+			gameObject.second->Draw();
 		}
 		if (GameSettings::IsCursorLocked())
 			HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(windowWidth / 2, windowHeight / 2);
 
-		this->_renderingEngine->Render(this->_gameObjects); //Render objects(on the second window buffer)
+		this->_renderingEngine->Render(); //Render objects(on the second window buffer)
 		this->_window->Update(); //Updates the window(swaps between the second window buffer and the first window buffer)
 	}
 }
 
 void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameObject)
 {
-	if (this->_gameObjectsNames.find(gameObject.GetName()) != this->_gameObjectsNames.end()) //checkes if a game object with the same name exists
+	if (this->_gameObjects.find(gameObject.GetName()) != this->_gameObjects.end()) //checkes if a game object with the same name exists
 	{
 		HMEngine::Core::Utilities::PrintDebugMessage("\"" + gameObject.GetName() + "\" Wasn't added because a game object with this name already exist!", "WARNING", 6);
 		return;
@@ -108,26 +122,28 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 	auto* go = new HMEngine::Core::GameObject(gameObject, false);
 	go->_gameEngine = this;
 	go->AttachToGameEngine();
-	this->_gameObjectsBuffer.push_back(go);
+	this->_gameObjectsToAddBuffer.push_back(go);
 }
 
-HMEngine::Core::GameObject& HMEngine::GameEngine::GetGameObject(const std::string& name)
+HMEngine::Core::GameObject* HMEngine::GameEngine::GetGameObject(const std::string& name)
 {
-	if (this->_gameObjectsNames.find(name) == this->_gameObjectsNames.end()) //Game Object not found
+	auto go = this->_gameObjects.find(name);
+	if (go == this->_gameObjects.end()) //Game Object not found
 	{
-		HMEngine::Core::Utilities::ThrowException("\"" + name + "\" GAME OBJECT NOT FOUND!");
+		HMEngine::Core::Utilities::PrintDebugMessage("\"" + name + "\" Game Object not found!", "ERROR", 4);
+		return nullptr;
 	}
-	return *this->_gameObjectsNames[name];
+	return (*go).second;
 }
 
 void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
 {
-	if (this->_gameObjectsNames.find(name) == this->_gameObjectsNames.end()) //Game Object not found
+	auto go = this->_gameObjects.find(name);
+	if (go == this->_gameObjects.end()) //Game Object not found
 	{
 		HMEngine::Core::Utilities::ThrowException("\"" + name + "\" GAME OBJECT NOT FOUND!");
 	}
-	delete this->_gameObjectsNames[name];
-	this->_gameObjectsNames.erase(name);
+	this->_gameObjectsToRemoveBuffer.push_back(name);
 }
 
 void HMEngine::GameEngine::SetAmbientLight(const glm::vec3 & ambientLight) const

@@ -45,8 +45,6 @@ namespace HMEngine
 			HMEngine::GameEngine* _gameEngine;
 
 		private:
-			static std::set<std::string> gameObjectNames;
-
 			std::vector<HMEngine::Components::Component*> _components;
 			std::string _name;
 

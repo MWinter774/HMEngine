@@ -23,7 +23,7 @@ namespace HMEngine
 			public:
 				static HMEngine::Core::Rendering::RenderingEngine& GetInstance();
 
-				void Render(const std::vector<HMEngine::Core::GameObject*>& gameObjects) const;
+				void Render() const;
 
 				void AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
 				void RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
