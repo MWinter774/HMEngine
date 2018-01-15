@@ -5,12 +5,10 @@
 #include <sstream>
 #include <iterator>
 
-
 HMEngine::Core::Mesh::Mesh(const std::string& path)
 {
 	this->Load(path);
 }
-
 
 void HMEngine::Core::Mesh::Load(const std::string& path)
 {
@@ -94,7 +92,6 @@ const std::vector<std::string> HMEngine::Core::Mesh::SplitString(std::string& st
 		std::istream_iterator<std::string>{} };
 	return tokens;
 }
-
 
 HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& other)
 {

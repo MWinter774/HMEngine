@@ -25,12 +25,13 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 		glDeleteBuffers(2, this->_vbo);
 		glDeleteBuffers(1, &this->_vao);
 		glBindVertexArray(0);
+		delete this->_mesh;
 	}
 }
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::MeshRenderer& other)
 {
-	this->_mesh = other._mesh;
+	this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
 	if (other._isAddedToRenderingEngine)
 	{
 		this->_vertices = other._vertices;
@@ -57,6 +58,8 @@ HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator
 {
 	if (this != &other)
 	{
+		delete this->_mesh;
+		this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
 		if (other._isAddedToRenderingEngine)
 		{
 			this->_vertices = other._vertices;

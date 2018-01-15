@@ -27,9 +27,9 @@ namespace HMEngine
 				int normalIndex;
 			};
 
-			inline std::vector<glm::vec3> GetVertices() { return this->_vertices; };
-			inline std::vector<glm::vec3> GetNormals() { return this->_normals; };
-			inline std::vector<glm::vec2> GetUVs() { return this->_uvs; };
+			inline std::vector<glm::vec3>& GetVertices() { return this->_vertices; };
+			inline std::vector<glm::vec3>& GetNormals() { return this->_normals; };
+			inline std::vector<glm::vec2>& GetUVs() { return this->_uvs; };
 			inline std::vector<fIndices> GetFaceIndices() { return this->_fIndices; };
 			inline int GetNumIndices() { return this->_numIndices; };
 
