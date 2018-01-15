@@ -8,9 +8,13 @@
 
 namespace HMEngine
 {
-	namespace Components
+	namespace OpenGL
 	{
 		class Texture;
+	}
+
+	namespace Components
+	{
 
 		class MeshRenderer : public Component
 		{
@@ -25,7 +29,7 @@ namespace HMEngine
 			void AttachToGameObjectEvent() override;
 			inline HMEngine::Components::MeshRenderer* Clone() override { return new HMEngine::Components::MeshRenderer(*this); }
 
-			inline HMEngine::Components::Texture& GetTexture() const { return *this->_texture; }
+			inline HMEngine::OpenGL::Texture& GetTexture() const { return *this->_texture; }
 			inline bool HasTransparency() const { return this->_hasTransparency; }
 
 		private:
@@ -41,7 +45,7 @@ namespace HMEngine
 			std::vector<GLuint> _indices;
 			std::vector<glm::vec2> _uvs;
 			std::string _texturePath;
-			HMEngine::Components::Texture* _texture;
+			HMEngine::OpenGL::Texture* _texture;
 			bool _isAddedToRenderingEngine;
 			bool _hasTransparency;
 

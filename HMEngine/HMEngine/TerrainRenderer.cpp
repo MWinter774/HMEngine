@@ -33,7 +33,7 @@ HMEngine::Components::TerrainRenderer::TerrainRenderer(const HMEngine::Component
 	this->_texturePath = other._texturePath;
 	if (other._isAddedToRenderingEngine)
 	{
-		this->_texture = new HMEngine::Components::Texture(*other._texture);
+		this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
 		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
@@ -66,7 +66,7 @@ HMEngine::Components::TerrainRenderer& HMEngine::Components::TerrainRenderer::op
 void HMEngine::Components::TerrainRenderer::AttachToGameObjectEvent()
 {
 	this->_isAddedToRenderingEngine = true;
-	this->_texture = new HMEngine::Components::Texture(this->_texturePath);
+	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
 	this->InitBuffers();
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
 }
@@ -98,7 +98,7 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain()
 			normals[vertexPointer * 3] = 0;
 			normals[vertexPointer * 3 + 1] = 1;
 			normals[vertexPointer * 3 + 2] = 0;
-			this->_uvs[vertexPointer] = glm::vec2((float)j / ((float)this->_vertexCount - 1) * 40, (float)i / ((float)this->_vertexCount - 1) * 40);
+			this->_uvs[vertexPointer] = glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1));
 			vertexPointer++;
 		}
 	}

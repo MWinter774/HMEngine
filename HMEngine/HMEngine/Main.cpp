@@ -103,7 +103,6 @@ int main()
 			g.AddGameObject(go);
 		}
 	}
-
 	g.AddGameObject(go);
 	//g.AddGameObject(go2);
 

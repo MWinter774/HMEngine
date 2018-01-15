@@ -7,9 +7,12 @@
 
 namespace HMEngine
 {
-	namespace Components
+	namespace OpenGL
 	{
 		class Texture;
+	}
+	namespace Components
+	{
 		class TerrainRenderer : public HMEngine::Components::Component
 		{
 		public:
@@ -23,7 +26,7 @@ namespace HMEngine
 
 			void DrawTerrain() const;
 
-			inline HMEngine::Components::Texture& GetTexture() { return *this->_texture; }
+			inline HMEngine::OpenGL::Texture& GetTexture() { return *this->_texture; }
 
 		private:
 			enum vboIndexes
@@ -39,7 +42,7 @@ namespace HMEngine
 			std::vector<glm::vec3> _vertices;
 			std::vector<GLuint> _indices;
 			std::vector<glm::vec2> _uvs;
-			HMEngine::Components::Texture* _texture;
+			HMEngine::OpenGL::Texture* _texture;
 			bool  _isAddedToRenderingEngine;
 			std::string _texturePath;
 

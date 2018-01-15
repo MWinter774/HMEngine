@@ -2,6 +2,7 @@
 #include "MeshRenderer.h"
 #include "Texture.h"
 #include "BasicShader.h"
+#include "TerrainShader.h"
 #include "GameObject.h"
 #include "GameSettings.h"
 #include "TerrainRenderer.h"
@@ -18,12 +19,13 @@ void HMEngine::Core::Rendering::RenderingEngine::Render() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(this->_skyColor.r, this->_skyColor.g, this->_skyColor.b, 1.0f);
 
+	/* Renders meshes */
 	bool hadTransparency = false;
 	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-	for (auto& item : this->_textures)
+	for (auto& item : this->_meshTextures)
 	{
 		item.first->Bind();
-		for(auto& mesh : item.second)
+		for (auto& mesh : item.second)
 		{
 			/* If the mesh has transparent texture then dont cull face */
 			if (mesh->HasTransparency())
@@ -45,29 +47,35 @@ void HMEngine::Core::Rendering::RenderingEngine::Render() const
 		}
 	}
 
-	for (auto& terrain : this->_terrains)
+	/* Renders terrains */
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	for (auto& item : this->_terrainTextures)
 	{
-		terrain->GetTexture().Bind();
-		HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
-		terrain->DrawTerrain();
+		item.first->Bind();
+		for (auto& terrain : item.second)
+		{
+			item.first->Bind();
+			HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+			terrain->DrawTerrain();
+		}
 	}
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
-	this->_textures[&meshRenderer.GetTexture()].push_back(&meshRenderer);
+	this->_meshTextures[&meshRenderer.GetTexture()].push_back(&meshRenderer);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
 	int i = 0;
-	for (auto mRenderer : this->_textures[&meshRenderer.GetTexture()])
+	for (auto mRenderer : this->_meshTextures[&meshRenderer.GetTexture()])
 	{
 		if (mRenderer == &meshRenderer)
 		{
-			this->_textures[&meshRenderer.GetTexture()].erase(this->_textures[&meshRenderer.GetTexture()].begin() + i);
-			if (this->_textures[&meshRenderer.GetTexture()].size() == 0)
-				this->_textures.erase(&meshRenderer.GetTexture());
+			this->_meshTextures[&meshRenderer.GetTexture()].erase(this->_meshTextures[&meshRenderer.GetTexture()].begin() + i);
+			if (this->_meshTextures[&meshRenderer.GetTexture()].size() == 0)
+				this->_meshTextures.erase(&meshRenderer.GetTexture());
 		}
 		i++;
 	}
@@ -75,15 +83,25 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveMeshRenderer(HMEngine::Co
 
 void HMEngine::Core::Rendering::RenderingEngine::AddTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer)
 {
-	this->_terrains.push_back(&terrainRenderer);
+	this->_terrainTextures[&terrainRenderer.GetTexture()].push_back(&terrainRenderer);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer)
 {
-	this->_terrains.erase(std::remove(this->_terrains.begin(), this->_terrains.end(), &terrainRenderer), this->_terrains.end()); //deletes the game object from the list of game objects
+	int i = 0;
+	for (auto tRenderer : this->_terrainTextures[&terrainRenderer.GetTexture()])
+	{
+		if (tRenderer == &terrainRenderer)
+		{
+			this->_terrainTextures[&terrainRenderer.GetTexture()].erase(this->_terrainTextures[&terrainRenderer.GetTexture()].begin() + i);
+			if (this->_terrainTextures[&terrainRenderer.GetTexture()].size() == 0)
+				this->_terrainTextures.erase(&terrainRenderer.GetTexture());
+		}
+		i++;
+	}
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrains()
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainTextures()
 {
 	glEnable(GL_DEPTH_TEST);
 

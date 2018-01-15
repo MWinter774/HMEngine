@@ -31,7 +31,7 @@ HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::Mes
 	this->_hasTransparency = other._hasTransparency;
 	if (other._isAddedToRenderingEngine)
 	{
-		this->_texture = new HMEngine::Components::Texture(*other._texture);
+		this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
 		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
@@ -74,7 +74,7 @@ void HMEngine::Components::MeshRenderer::DrawMesh()
 void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 {
 	this->_isAddedToRenderingEngine = true;
-	this->_texture = new HMEngine::Components::Texture(this->_texturePath);
+	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
 	this->InitBuffers();
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 }

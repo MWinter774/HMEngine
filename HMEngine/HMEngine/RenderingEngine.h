@@ -10,7 +10,6 @@ namespace HMEngine
 {
 	namespace Components
 	{
-		class Texture;
 		class MeshRenderer;
 		class TerrainRenderer;
 	}
@@ -38,9 +37,8 @@ namespace HMEngine
 				RenderingEngine(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 				HMEngine::Core::Rendering::RenderingEngine& operator=(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 
-				//std::unordered_map<std::reference_wrapper<HMEngine::Components::Texture>, std::vector<std::reference_wrapper<HMEngine::Components::MeshRenderer>>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
-				std::unordered_map<HMEngine::Components::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
-				std::vector<HMEngine::Components::TerrainRenderer*> _terrains;
+				std::unordered_map<HMEngine::OpenGL::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::Texture::TextureHasher, HMEngine::OpenGL::Texture::TextureEqualer> _meshTextures;
+				std::unordered_map<HMEngine::OpenGL::Texture*, std::vector<HMEngine::Components::TerrainRenderer*>, HMEngine::OpenGL::Texture::TextureHasher, HMEngine::OpenGL::Texture::TextureEqualer> _terrainTextures;
 				glm::vec3& _skyColor;
 			};
 		}

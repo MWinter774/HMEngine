@@ -2,23 +2,23 @@
 #include "TextureManager.h"
 #include "Utilities.h"
 
-HMEngine::Components::Texture::Texture(const std::string& texturePath)
+HMEngine::OpenGL::Texture::Texture(const std::string& texturePath)
 {
-	*this = HMEngine::Components::TextureManager::GetTexture(texturePath);
+	*this = HMEngine::OpenGL::TextureManager::GetTexture(texturePath);
 }
 
-HMEngine::Components::Texture::~Texture()
+HMEngine::OpenGL::Texture::~Texture()
 {
 	glDeleteTextures(1, &this->_textureId);
 }
 
-HMEngine::Components::Texture::Texture(const HMEngine::Components::Texture& other)
+HMEngine::OpenGL::Texture::Texture(const HMEngine::OpenGL::Texture& other)
 {
 	this->_textureImage = other._textureImage;
 	this->_textureId = other._textureId;
 }
 
-HMEngine::Components::Texture& HMEngine::Components::Texture::operator=(const HMEngine::Components::Texture& other)
+HMEngine::OpenGL::Texture& HMEngine::OpenGL::Texture::operator=(const HMEngine::OpenGL::Texture& other)
 {
 	if (this != &other)
 	{
@@ -29,13 +29,13 @@ HMEngine::Components::Texture& HMEngine::Components::Texture::operator=(const HM
 	return *this;
 }
 
-void HMEngine::Components::Texture::Bind() const
+void HMEngine::OpenGL::Texture::Bind() const
 {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, this->_textureId);
 }
 
-HMEngine::Components::Texture::Texture(const std::string& texturePath, bool _1)
+HMEngine::OpenGL::Texture::Texture(const std::string& texturePath, bool _1)
 {
 	/* Loads the image */
 	int image = lodepng::decode(this->_textureImage.image, this->_textureImage.width, this->_textureImage.height, texturePath);
