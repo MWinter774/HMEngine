@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Utilities.h"
 #include "DebugComponent.h"
+#include "DirectionalLight.h"
 
 int main()
 {
@@ -16,6 +17,7 @@ int main()
 	g.CreateNewWindow(800, 600, title, false);
 
 	//create cube
+	/*
 	std::vector<glm::vec3> vertices =
 	{
 		glm::vec3(1,  1,  1),
@@ -75,19 +77,25 @@ int main()
 		glm::vec2(1.000004f, 1.0f - 0.671847f),
 		glm::vec2(0.667979f, 1.0f - 0.335851f)
 	};
+	*/
+
+
 	HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject go("d");
 	HMEngine::Components::DebugComponent dc;
 	go.AddComponent(dc);
 
-	HMEngine::Core::GameObject go2("da");
-	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer("./resources/objects/monkey.obj", "./resources/textures/black.png");
-	go2.GetTransform().SetPosition(2, 2, 0);
+	HMEngine::Core::GameObject go2("dl");
+	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer("./resources/objects/monkey.obj", "./resources/textures/VeryNice.png");
+	go2.GetTransform().SetPosition(5, 2, 0);
 	go2.AddComponent(t2);
 
+	HMEngine::Components::BaseLight bl = HMEngine::Components::BaseLight({ 1,1,1 }, 1);
+	HMEngine::Components::DirectionalLight directionalLight = HMEngine::Components::DirectionalLight(bl, { 1,1,1 });
+	go2.AddComponent(directionalLight);
 
-	/*int c = 0;
+	int c = 0;
 	for (int i = -1; i <= 1; i++)
 	{
 		for (int j = -1; j <= 1; j++)
@@ -101,13 +109,13 @@ int main()
 				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/black.png"));
 			g.AddGameObject(go);
 		}
-	}*/
+	}
 
 
 	g.AddGameObject(go);
 	g.AddGameObject(go2);
 
-	g.SetAmbientLight({ 1,1,1 });
+	g.SetAmbientLight({ 0.1,0.1,0.1 });
 
 	HMEngine::Player p("Player");
 	g.AddGameObject(p);

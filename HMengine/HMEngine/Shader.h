@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <GL\glew.h>
 #include "Utilities.h"
+#include "DirectionalLight.h"
 
 namespace HMEngine
 {
@@ -47,6 +48,7 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
 					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) { }
+					virtual void UpdateUniforms(HMEngine::Components::DirectionalLight& directionalLight) { }
 
 				protected:
 					static std::string ReadFileContent(const std::string& filePath);

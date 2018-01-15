@@ -84,17 +84,10 @@ HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator
 void HMEngine::Components::MeshRenderer::DrawMesh()
 {
 	glBindVertexArray(this->_vao);
-	if (this->_mesh)
-		if (this->_mesh->GetVertices().size() > 0)
-			glDrawArrays(GL_TRIANGLES, 0, this->_mesh->GetVertices().size());
-		else
-			std::cout << "a";
-	else
-		std::cout << "b";
+
+	glDrawArrays(GL_TRIANGLES, 0, this->_mesh->GetVertices().size());
 
 	glBindVertexArray(0);
-
-
 }
 
 void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
@@ -107,29 +100,23 @@ void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 
 void HMEngine::Components::MeshRenderer::InitBuffers()
 {
-	if (this->_mesh)
-	{
-		glGenVertexArrays(1, &this->_vao);
-		glBindVertexArray(this->_vao);
 
-		glGenBuffers(NUM_BUFFERS, this->_vbo);
+	glGenVertexArrays(1, &this->_vao);
+	glBindVertexArray(this->_vao);
 
-		/* Generates the vertices buffer */
-		glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_VERTICES]);
-		glBufferData(GL_ARRAY_BUFFER, this->_mesh->GetVertices().size() * sizeof((this->_mesh->GetVertices())[0]), &this->_mesh->GetVertices()[0], GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glGenBuffers(NUM_BUFFERS, this->_vbo);
 
-		/* Generates the uv's buffer */
-		glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_TEXTURE_COORDS]);
-		glBufferData(GL_ARRAY_BUFFER, (this->_mesh->GetUVs().size() * sizeof(this->_mesh->GetUVs()[0])), &this->_mesh->GetUVs()[0], GL_STATIC_DRAW);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	}
-	else
-	{
-		throw("Object has no mesh!");
-	}
+	/* Generates the vertices buffer */
+	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_VERTICES]);
+	glBufferData(GL_ARRAY_BUFFER, this->_mesh->GetVertices().size() * sizeof((this->_mesh->GetVertices())[0]), &this->_mesh->GetVertices()[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	/* Generates the uv's buffer */
+	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_TEXTURE_COORDS]);
+	glBufferData(GL_ARRAY_BUFFER, (this->_mesh->GetUVs().size() * sizeof(this->_mesh->GetUVs()[0])), &this->_mesh->GetUVs()[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	/* Generates the indices buffer */
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_vbo[VBO_INDICES]);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, (this->_mesh->ge * 3 * sizeof(this->_mesh->GetFaceIndices()[0].vertexIndex[0])), &this->_mesh->GetFaceIndices[, GL_STATIC_DRAW);

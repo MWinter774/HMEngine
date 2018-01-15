@@ -123,11 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugComponent.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="HardwareInputs.cpp" />
@@ -146,11 +148,13 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugComponent.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="HardwareInputs.h" />
