@@ -1,8 +1,18 @@
 #include "TerrainRenderer.h"
-#include "Texture.h"
+#include "Texture.h" //DEBUG
+#include "TerrainTexture.h"
 #include "RenderingEngine.h"
 
-HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& terrainTexturePath) : _terrainSize(size), _vertexCount(unsigned int(0.16*_terrainSize)), _texture(nullptr), _isAddedToRenderingEngine(false), _texturePath(terrainTexturePath)
+HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : _terrainSize(size), _vertexCount(unsigned int(0.16*_terrainSize)), _texture(nullptr), _isAddedToRenderingEngine(false), _terrainTexture(nullptr), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(rTextureFilePath), _gTexturePath(gTextureFilePath), _bTexturePath(bTextureFilePath), _blendMapTexturePath(blendMapFilePath)
+{
+	int count = this->_vertexCount * this->_vertexCount;
+	this->_vertices = std::vector<glm::vec3>(count * 3);
+	this->_uvs = std::vector<glm::vec2>(count * 2);
+	this->_indices = std::vector<GLuint>(6 * (this->_vertexCount - 1) * (this->_vertexCount - 1));
+	this->GenerateTerrain();
+}
+
+HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath) : _terrainSize(size), _vertexCount(unsigned int(0.16*_terrainSize)), _texture(nullptr), _isAddedToRenderingEngine(false), _terrainTexture(nullptr), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(""), _gTexturePath(""), _bTexturePath(""), _blendMapTexturePath("")
 {
 	int count = this->_vertexCount * this->_vertexCount;
 	this->_vertices = std::vector<glm::vec3>(count * 3);
@@ -16,10 +26,12 @@ HMEngine::Components::TerrainRenderer::~TerrainRenderer()
 	if (this->_isAddedToRenderingEngine)
 	{
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveTerrainRenderer(*this);
+		if (this->_rTexturePath != "")
+			delete this->_terrainTexture;
 		glBindVertexArray(this->_vao);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
-		glDeleteBuffers(2, this->_vbo);
+		glDeleteBuffers(NUM_BUFFERS, this->_vbo);
 		glDeleteBuffers(1, &this->_vao);
 		glBindVertexArray(0);
 	}
@@ -30,10 +42,15 @@ HMEngine::Components::TerrainRenderer::TerrainRenderer(const HMEngine::Component
 	this->_vertices = other._vertices;
 	this->_indices = other._indices;
 	this->_uvs = other._uvs;
-	this->_texturePath = other._texturePath;
+	this->_backroundTexturePath = other._backroundTexturePath;
+	this->_rTexturePath = other._rTexturePath;
+	this->_gTexturePath = other._gTexturePath;
+	this->_bTexturePath = other._bTexturePath;
+	this->_blendMapTexturePath = other._blendMapTexturePath;
 	if (other._isAddedToRenderingEngine)
 	{
-		this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
+		*this->_texture = *other._texture;
+		this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(*other._terrainTexture);
 		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
@@ -49,10 +66,15 @@ HMEngine::Components::TerrainRenderer& HMEngine::Components::TerrainRenderer::op
 		this->_vertices = other._vertices;
 		this->_indices = other._indices;
 		this->_uvs = other._uvs;
-		this->_texturePath = other._texturePath;
+		this->_backroundTexturePath = other._backroundTexturePath;
+		this->_rTexturePath = other._rTexturePath;
+		this->_gTexturePath = other._gTexturePath;
+		this->_bTexturePath = other._bTexturePath;
+		this->_blendMapTexturePath = other._blendMapTexturePath;
 		if (other._isAddedToRenderingEngine)
 		{
 			*this->_texture = *other._texture;
+			this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(*other._terrainTexture);
 			this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
 
@@ -66,7 +88,10 @@ HMEngine::Components::TerrainRenderer& HMEngine::Components::TerrainRenderer::op
 void HMEngine::Components::TerrainRenderer::AttachToGameObjectEvent()
 {
 	this->_isAddedToRenderingEngine = true;
-	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
+	if (this->_rTexturePath != "")
+		this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(this->_backroundTexturePath, this->_rTexturePath, this->_gTexturePath, this->_bTexturePath, this->_blendMapTexturePath);
+	else
+		this->_texture = new HMEngine::OpenGL::Texture(this->_backroundTexturePath);
 	this->InitBuffers();
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
 }
@@ -74,6 +99,14 @@ void HMEngine::Components::TerrainRenderer::AttachToGameObjectEvent()
 HMEngine::Components::Component* HMEngine::Components::TerrainRenderer::Clone()
 {
 	return new HMEngine::Components::TerrainRenderer(*this);
+}
+
+void HMEngine::Components::TerrainRenderer::BindTextures() const
+{
+	if (this->_terrainTexture != nullptr)
+		this->_terrainTexture->Bind();
+	else
+		this->_texture->Bind();
 }
 
 void HMEngine::Components::TerrainRenderer::DrawTerrain() const

@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include "RenderingEngine.h"
 
-HMEngine::Components::MeshRenderer::MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs, const std::string& texturePath) : _vao(0), _vertices(vertices), _indices(indices), _uvs(uvs), _isAddedToRenderingEngine(false), _texturePath(texturePath), _hasTransparency(false)
+HMEngine::Components::MeshRenderer::MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs, const std::string& texturePath) : _vao(0), _vertices(vertices), _indices(indices), _uvs(uvs), _isAddedToRenderingEngine(false), _texturePath(texturePath)
 {
 }
 
@@ -16,7 +16,7 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 		glBindVertexArray(this->_vao);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
-		glDeleteBuffers(2, this->_vbo);
+		glDeleteBuffers(NUM_BUFFERS, this->_vbo);
 		glDeleteBuffers(1, &this->_vao);
 		glBindVertexArray(0);
 	}
@@ -28,7 +28,6 @@ HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::Mes
 	this->_indices = other._indices;
 	this->_uvs = other._uvs;
 	this->_texturePath = other._texturePath;
-	this->_hasTransparency = other._hasTransparency;
 	if (other._isAddedToRenderingEngine)
 	{
 		this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
@@ -48,7 +47,6 @@ HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator
 		this->_indices = other._indices;
 		this->_uvs = other._uvs;
 		this->_texturePath = other._texturePath;
-		this->_hasTransparency = other._hasTransparency;
 		if (other._isAddedToRenderingEngine)
 		{
 			*this->_texture = *other._texture;

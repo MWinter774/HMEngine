@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <GL\glew.h>
 #include "Utilities.h"
+#include "ShaderTracker.h"
 
 namespace HMEngine
 {
@@ -22,10 +23,18 @@ namespace HMEngine
 		namespace Rendering
 		{
 			class Camera;
+			
 			namespace Shaders
 			{
+				/*class ShaderTracker
+				{
+				protected: 
+					static GLuint currentBoundShaderId;
+				};
+				GLuint ShaderTracker::currentBoundShaderId = 0;*/
+
 				template<typename T>
-				class Shader
+				class Shader : private HMEngine::Core::Rendering::Shaders::ShaderTracker
 				{
 					friend class HMEngine::Core::GameObject;
 				public:
@@ -71,6 +80,7 @@ namespace HMEngine
 					void AddUniform(const std::string& uniformName);
 
 				private:
+
 					GLuint _program;
 					std::unordered_map<std::string, int> _uniforms; //maps between a uniform name and a id of that uniform
 				};
@@ -222,7 +232,10 @@ namespace HMEngine
 				template<typename T>
 				inline void Shader<T>::Bind() const
 				{
+					if (this->currentBoundShaderId == this->_program)
+						return;
 					glUseProgram(this->_program);
+					this->currentBoundShaderId = this->_program;
 				}
 
 				template<typename T>

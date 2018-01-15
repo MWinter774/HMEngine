@@ -18,6 +18,7 @@ namespace HMEngine
 					void UpdateFogDensity();
 					void UpdateFogGradient();
 					void UpdateSkyColor();
+					void UpdateTextureUnits();
 
 				private:
 					TerrainShader();

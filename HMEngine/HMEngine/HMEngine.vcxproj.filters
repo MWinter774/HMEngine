@@ -84,6 +84,12 @@
     <ClCompile Include="TerrainShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TerrainTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HMEngineIncludes.h">
@@ -150,6 +156,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TerrainShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderTracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

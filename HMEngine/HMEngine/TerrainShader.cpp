@@ -29,6 +29,15 @@ void HMEngine::Core::Rendering::Shaders::TerrainShader::UpdateSkyColor()
 	this->SetUniform("skyColor", HMEngine::GameSettings::GetSkyColor());
 }
 
+void HMEngine::Core::Rendering::Shaders::TerrainShader::UpdateTextureUnits()
+{
+	this->SetUniform("backgroundTexture", 0);
+	this->SetUniform("rTexture", 1);
+	this->SetUniform("gTexture", 2);
+	this->SetUniform("bTexture", 3);
+	this->SetUniform("blendMap", 4);
+}
+
 HMEngine::Core::Rendering::Shaders::TerrainShader::TerrainShader()
 {
 	std::string vs = "./resources/shaders/terrainShader.vs";
@@ -44,6 +53,7 @@ HMEngine::Core::Rendering::Shaders::TerrainShader::TerrainShader()
 	this->UpdateFogDensity();
 	this->UpdateFogGradient();
 	this->UpdateSkyColor();
+	this->UpdateTextureUnits();
 }
 
 HMEngine::Core::Rendering::Shaders::TerrainShader::~TerrainShader()

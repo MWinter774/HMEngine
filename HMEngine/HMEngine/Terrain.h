@@ -7,11 +7,13 @@ namespace HMEngine
 {
 	namespace Components
 	{
+		class Texture;
 		class TerrainRenderer;
 	}
 	class Terrain : public HMEngine::Core::GameObject
 	{
 	public:
+		Terrain(const std::string& name, const glm::vec3& position, unsigned int size, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath);
 		Terrain(const std::string& name, const glm::vec3& position, unsigned int size, const std::string& texturePath);
 		~Terrain();
 		Terrain(const HMEngine::Terrain& other);
@@ -19,5 +21,6 @@ namespace HMEngine
 
 	private:
 		HMEngine::Components::TerrainRenderer* _terrainRenderer;
+		HMEngine::Components::Texture* _meshTexture;
 	};
 }

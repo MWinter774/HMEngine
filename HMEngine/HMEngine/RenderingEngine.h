@@ -38,7 +38,7 @@ namespace HMEngine
 				HMEngine::Core::Rendering::RenderingEngine& operator=(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 
 				std::unordered_map<HMEngine::OpenGL::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::Texture::TextureHasher, HMEngine::OpenGL::Texture::TextureEqualer> _meshTextures;
-				std::unordered_map<HMEngine::OpenGL::Texture*, std::vector<HMEngine::Components::TerrainRenderer*>, HMEngine::OpenGL::Texture::TextureHasher, HMEngine::OpenGL::Texture::TextureEqualer> _terrainTextures;
+				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;
 				glm::vec3& _skyColor;
 			};
 		}

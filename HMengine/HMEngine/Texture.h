@@ -54,10 +54,13 @@ namespace HMEngine
 
 			void Bind() const;
 			inline std::string GetTexturePath() const { return this->_textureImage.imagePath; }
+			inline bool HasTransparency() const { return this->_hasTransparency; }
+			inline GLuint GetTextureId() const { return this->_textureId; }
 
 		private:
 			GLuint _textureId;
 			HMEngine::OpenGL::Texture::Image _textureImage;
+			bool _hasTransparency;
 
 			Texture(const std::string& texturePath, bool _1);
 		};

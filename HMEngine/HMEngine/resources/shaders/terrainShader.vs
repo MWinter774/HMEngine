@@ -19,7 +19,7 @@ void main()
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	pos = worldPosition.xyz;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
-	textureCoordinates = inTextureCoordinates * 40.0;
+	textureCoordinates = inTextureCoordinates;
 	
 	float distanceToCamera = length(positionRelativeToCamera.xyz);
 	visibilty = clamp(exp(-pow((distanceToCamera * fogDensity), fogGradient)), 0.0, 1.0);

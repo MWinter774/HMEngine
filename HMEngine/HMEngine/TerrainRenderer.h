@@ -10,13 +10,15 @@ namespace HMEngine
 	namespace OpenGL
 	{
 		class Texture;
+		class TerrainTexture;
 	}
 	namespace Components
 	{
 		class TerrainRenderer : public HMEngine::Components::Component
 		{
 		public:
-			TerrainRenderer(unsigned int size, const std::string& terrainTexturePath);
+			TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath);
+			TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath);
 			~TerrainRenderer();
 			TerrainRenderer(const HMEngine::Components::TerrainRenderer& other);
 			HMEngine::Components::TerrainRenderer& operator=(const HMEngine::Components::TerrainRenderer& other);
@@ -24,6 +26,7 @@ namespace HMEngine
 			void AttachToGameObjectEvent() override;
 			HMEngine::Components::Component* Clone() override;
 
+			void BindTextures() const;
 			void DrawTerrain() const;
 
 			inline HMEngine::OpenGL::Texture& GetTexture() { return *this->_texture; }
@@ -43,8 +46,13 @@ namespace HMEngine
 			std::vector<GLuint> _indices;
 			std::vector<glm::vec2> _uvs;
 			HMEngine::OpenGL::Texture* _texture;
+			HMEngine::OpenGL::TerrainTexture* _terrainTexture;
 			bool  _isAddedToRenderingEngine;
-			std::string _texturePath;
+			std::string _backroundTexturePath;
+			std::string _rTexturePath;
+			std::string _gTexturePath;
+			std::string _bTexturePath;
+			std::string _blendMapTexturePath;
 
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];

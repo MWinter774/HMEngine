@@ -112,6 +112,7 @@ int main()
 	HMEngine::Player p("Player", 100.0f, 200.0f);
 	g.AddGameObject(p);
 
+	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
 	g.AddGameObject(terrain);
 

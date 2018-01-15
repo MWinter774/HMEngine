@@ -51,6 +51,42 @@ void HMEngine::GameSettings::SetZFar(float zFar)
 	HMEngine::GameSettings::UpdateProjectionMatrix();
 }
 
+void HMEngine::GameSettings::SetAmbientLight(const glm::vec3& ambientLight)
+{
+	HMEngine::GameSettings::ambientLight = ambientLight;
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateAmbientLight();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateAmbientLight();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+}
+
+void HMEngine::GameSettings::SetFogDensity(float fogDensity)
+{
+	HMEngine::GameSettings::fogDensity = fogDensity;
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateFogDensity();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateFogDensity();
+}
+
+void HMEngine::GameSettings::SetFogGradient(float fogGradient)
+{
+	HMEngine::GameSettings::fogGradient = fogGradient;
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateFogGradient();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateFogGradient();
+}
+
+void HMEngine::GameSettings::SetSkyColor(const glm::vec3 & skyColor)
+{
+	HMEngine::GameSettings::skyColor = skyColor;
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateSkyColor();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateSkyColor();
+}
+
 /*
 Updates the projection matrix.
 */

@@ -30,7 +30,6 @@ namespace HMEngine
 			inline HMEngine::Components::MeshRenderer* Clone() override { return new HMEngine::Components::MeshRenderer(*this); }
 
 			inline HMEngine::OpenGL::Texture& GetTexture() const { return *this->_texture; }
-			inline bool HasTransparency() const { return this->_hasTransparency; }
 
 		private:
 			enum vboIndexes
@@ -47,7 +46,6 @@ namespace HMEngine
 			std::string _texturePath;
 			HMEngine::OpenGL::Texture* _texture;
 			bool _isAddedToRenderingEngine;
-			bool _hasTransparency;
 
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];
