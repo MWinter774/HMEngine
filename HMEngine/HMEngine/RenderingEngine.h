@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_map>
 #include "Texture.h"
+#include "DirectionalLight.h"
+#include <unordered_set>
 
 namespace HMEngine
 {
@@ -11,6 +13,7 @@ namespace HMEngine
 	{
 		class Texture;
 		class MeshRenderer;
+		class DirectionalLight;
 	}
 	namespace Core
 	{
@@ -27,6 +30,8 @@ namespace HMEngine
 
 				void AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
 				void RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
+				void HMEngine::Core::Rendering::RenderingEngine::AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight);
+
 
 			private:
 				RenderingEngine();
@@ -36,6 +41,9 @@ namespace HMEngine
 
 				//std::unordered_map<std::reference_wrapper<HMEngine::Components::Texture>, std::vector<std::reference_wrapper<HMEngine::Components::MeshRenderer>>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
 				std::unordered_map<HMEngine::Components::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
+
+				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
+
 			};
 		}
 	}

@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "BasicShader.h"
 #include "GameObject.h"
+#include "DirectionalLight.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -20,8 +21,12 @@ void HMEngine::Core::Rendering::RenderingEngine::Render() const
 		item.first->Bind();
 		for(auto& mesh : item.second)
 		{
-			HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
-			mesh->DrawMesh();
+			for (auto& directionalLight : _directionalLights)
+			{
+				HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(*directionalLight);
+				HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
+				mesh->DrawMesh();
+			}
 		}
 	}
 }
@@ -57,4 +62,9 @@ HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures()
 
 HMEngine::Core::Rendering::RenderingEngine::~RenderingEngine()
 {
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight)
+{
+	_directionalLights.insert(&directionalLight);
 }

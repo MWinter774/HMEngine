@@ -90,6 +90,9 @@ void HMEngine::GameEngine::Run()
 		this->_renderingEngine->Render(); //Render objects(on the second window buffer)
 		this->_window->Update(); //Updates the window(swaps between the second window buffer and the first window buffer)
 	}
+
+
+
 }
 
 /*

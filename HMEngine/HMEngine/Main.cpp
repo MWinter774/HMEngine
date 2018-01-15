@@ -88,11 +88,11 @@ int main()
 
 	HMEngine::Core::GameObject go2("dl");
 	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer("./resources/objects/monkey.obj", "./resources/textures/VeryNice.png");
-	go2.GetTransform().SetPosition(5, 2, 0);
+	go2.GetTransform().SetPosition(0, 5, 0);
 	go2.AddComponent(t2);
 
 	HMEngine::Components::BaseLight bl = HMEngine::Components::BaseLight({ 1,1,1 }, 1);
-	HMEngine::Components::DirectionalLight directionalLight = HMEngine::Components::DirectionalLight(bl, { 1,1,1 });
+	HMEngine::Components::DirectionalLight directionalLight = HMEngine::Components::DirectionalLight(bl, { 0.5,0.5,0.5 });
 	go2.AddComponent(directionalLight);
 
 	int c = 0;
@@ -123,7 +123,7 @@ int main()
 	//g.UnlockCursor();
 	//g.SetMouseVisible(true);
 
-	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, -5.0f);
+	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, 10.0f);
 	g.Run();
 
 	return 0;

@@ -2,7 +2,7 @@
 #include "BasicShader.h"
 #include "GameObject.h"
 #include "BaseLight.h"
-
+#include "RenderingEngine.h"
 HMEngine::Components::DirectionalLight::DirectionalLight(HMEngine::Components::BaseLight& base, glm::vec3 direction)
 {
 	this->_direction = glm::normalize(direction);
@@ -11,7 +11,7 @@ HMEngine::Components::DirectionalLight::DirectionalLight(HMEngine::Components::B
 
 void HMEngine::Components::DirectionalLight::UpdateEvent()
 {
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(*this);
+	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddDirectionalLight(*this);
 }
 
 HMEngine::Components::DirectionalLight& HMEngine::Components::DirectionalLight::operator=(HMEngine::Components::DirectionalLight& other)
@@ -22,6 +22,11 @@ HMEngine::Components::DirectionalLight& HMEngine::Components::DirectionalLight::
 		this->SetDirection(other.GetDirection());
 	}
 	return *this;
+}
+
+bool HMEngine::Components::DirectionalLight::operator==(HMEngine::Components::DirectionalLight& other)
+{
+	return this == &other;
 }
 
 

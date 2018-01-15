@@ -15,6 +15,8 @@ namespace HMEngine
 			~DirectionalLight() {};
 
 			void HMEngine::Components::DirectionalLight::UpdateEvent();
+
+			bool operator==(HMEngine::Components::DirectionalLight& other);
 			HMEngine::Components::DirectionalLight& operator=(HMEngine::Components::DirectionalLight& other);
 			inline HMEngine::Components::DirectionalLight* Clone() override { return new HMEngine::Components::DirectionalLight(*this); }
 
