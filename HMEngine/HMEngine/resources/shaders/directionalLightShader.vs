@@ -2,8 +2,10 @@
 
 layout (location = 0) in vec3 inPosition;
 layout (location = 1) in vec2 inTextureCoordinates;
+layout (location = 2) in vec3 inNormals;
 
 out vec2 textureCoordinates;
+out vec3 normals;
 
 uniform mat4 transformationMatrix;
 uniform mat4 viewMatrix;
@@ -16,4 +18,5 @@ void main()
 	
 	//pass to fragmentShader
 	textureCoordinates = inTextureCoordinates;
+	normals = (transformationMatrix * vec4(inNormals,0.0)).xyz;
 }

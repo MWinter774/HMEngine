@@ -39,7 +39,6 @@ namespace HMEngine
 				RenderingEngine(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 				HMEngine::Core::Rendering::RenderingEngine& operator=(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 
-				//std::unordered_map<std::reference_wrapper<HMEngine::Components::Texture>, std::vector<std::reference_wrapper<HMEngine::Components::MeshRenderer>>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
 				std::unordered_map<HMEngine::Components::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
 
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;

@@ -4,6 +4,7 @@
 #include "BasicShader.h"
 #include "GameObject.h"
 #include "DirectionalLight.h"
+#include "DirectionalLightShader.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -19,15 +20,33 @@ void HMEngine::Core::Rendering::RenderingEngine::Render() const
 	for (auto& item : this->_textures)
 	{
 		item.first->Bind();
-		for(auto& mesh : item.second)
+		for (auto& mesh : item.second)
 		{
-			for (auto& directionalLight : _directionalLights)
+			HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
+			mesh->DrawMesh();
+		}
+	}
+
+	if (this->_directionalLights.size() > 0)
+	{
+		glEnable(GL_BLEND);
+		glDepthFunc(GL_EQUAL);
+		HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().Bind();
+		for (auto& item : this->_textures)
+		{
+			item.first->Bind();
+			for (auto& mesh : item.second)
 			{
-				HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(*directionalLight);
-				HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
-				mesh->DrawMesh();
+				for (auto& directionalLight : _directionalLights)
+				{
+					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(*directionalLight);
+					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
+					mesh->DrawMesh();
+				}
 			}
 		}
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
 	}
 }
 
@@ -55,6 +74,8 @@ HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures()
 {
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_CLAMP);
+	glDepthFunc(GL_LESS);
 
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);

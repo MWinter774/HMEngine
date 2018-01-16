@@ -17,7 +17,6 @@ namespace HMEngine
 					friend class Shader<BasicShader>;
 				public:
 					void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
-					void UpdateUniforms(HMEngine::Components::DirectionalLight& directionalLight) override;
 
 				private:
 					BasicShader();

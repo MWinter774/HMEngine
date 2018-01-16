@@ -48,7 +48,7 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
 					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) { }
-					virtual void UpdateUniforms(HMEngine::Components::DirectionalLight& directionalLight) { }
+					virtual void UpdateUniforms(const HMEngine::Components::DirectionalLight& directionalLight) { }
 
 				protected:
 					static std::string ReadFileContent(const std::string& filePath);

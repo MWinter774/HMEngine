@@ -23,13 +23,4 @@ void HMEngine::Core::Rendering::Shaders::BasicShader::UpdateUniforms(const HMEng
 	this->SetUniform("transformationMatrix", transform.GetModelMatrix());
 	this->SetUniform("viewMatrix", transform.GetViewMatrix());
 	this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
-	this->SetUniform("transform", transform.GetModelMatrix() * HMEngine::GameSettings::GetProjectionMatrix());
-	this->SetUniform("ambientLight", HMEngine::GameSettings::GetAmbientLight());
-}
-
-void HMEngine::Core::Rendering::Shaders::BasicShader::UpdateUniforms(HMEngine::Components::DirectionalLight& directionalLight)
-{
-	this->SetUniform("directionalLight.base.color", directionalLight.GetBase()->GetColor());
-	this->SetUniform("directionalLight.base.intensity", directionalLight.GetBase()->GetIntensity());
-	this->SetUniform("directionalLight.direction", directionalLight.GetDirection());
 }

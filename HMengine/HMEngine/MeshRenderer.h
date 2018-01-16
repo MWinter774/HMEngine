@@ -18,7 +18,6 @@ namespace HMEngine
 		{
 		public:
 			MeshRenderer(const std::string& meshPath, const std::string& texturePath);
-			MeshRenderer(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices, const std::vector<glm::vec2>& uvs,const std::string& texturePath);
 			virtual ~MeshRenderer();
 			MeshRenderer(const HMEngine::Components::MeshRenderer& other);
 			HMEngine::Components::MeshRenderer& operator=(const HMEngine::Components::MeshRenderer& other);
@@ -31,29 +30,12 @@ namespace HMEngine
 			inline HMEngine::Components::Texture& GetTexture() const { return *this->_texture; }
 
 		private:
-			enum vboIndexes
-			{
-				VBO_VERTICES,
-				VBO_TEXTURE_COORDS,
-				VBO_INDICES,
-
-				NUM_BUFFERS
-			};
-			std::vector<glm::vec3> _vertices;
-			std::vector<GLuint> _indices;
-			std::vector<glm::vec2> _uvs;
 			std::string _texturePath;
 			std::string _meshPath;
 			HMEngine::Components::Texture* _texture;
 			HMEngine::Core::Mesh* _mesh;
 
 			bool _isAddedToRenderingEngine;
-
-
-			GLuint _vao;
-			GLuint _vbo[NUM_BUFFERS];
-
-			void InitBuffers();
 		};
 	}
 }

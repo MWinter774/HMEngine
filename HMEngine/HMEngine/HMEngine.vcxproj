@@ -130,6 +130,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugComponent.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="DirectionalLightShader.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="HardwareInputs.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugComponent.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="DirectionalLightShader.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="HardwareInputs.h" />

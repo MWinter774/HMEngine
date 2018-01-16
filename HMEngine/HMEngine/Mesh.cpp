@@ -5,9 +5,26 @@
 #include <sstream>
 #include <iterator>
 
-HMEngine::Core::Mesh::Mesh(const std::string& path)
+HMEngine::Core::Mesh::Mesh(const std::string& path) : _numIndices(0)
 {
 	this->Load(path);
+	this->InitBuffers();
+}
+
+HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals) : _numIndices(0), _vertices(vertices), _uvs(uvs), _normals(normals)
+{
+	this->InitBuffers();
+}
+
+HMEngine::Core::Mesh::~Mesh()
+{
+	glBindVertexArray(this->_vao);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glDeleteBuffers(2, this->_vbo);
+	glDeleteBuffers(1, &this->_vao);
+	glBindVertexArray(0);
 }
 
 void HMEngine::Core::Mesh::Load(const std::string& path)
@@ -95,10 +112,53 @@ const std::vector<std::string> HMEngine::Core::Mesh::SplitString(std::string& st
 
 HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& other)
 {
-	this->_vertices = other.GetVertices();
-	this->_normals = other.GetNormals();
-	this->_uvs = other.GetUVs();
-	this->_fIndices = other.GetFaceIndices();
+	if (this != &other)
+	{
+		this->_vertices = other._vertices;
+		this->_normals = other._normals;
+		this->_uvs = other._uvs;
+		this->_fIndices = other._fIndices;
+	}
 
 	return *this;
+}
+
+void HMEngine::Core::Mesh::Draw()
+{
+	glBindVertexArray(this->_vao);
+
+	glDrawArrays(GL_TRIANGLES, 0, this->_vertices.size());
+
+	glBindVertexArray(0);
+}
+
+void HMEngine::Core::Mesh::InitBuffers()
+{
+	glGenVertexArrays(1, &this->_vao);
+	glBindVertexArray(this->_vao);
+
+	glGenBuffers(NUM_BUFFERS, this->_vbo);
+
+	/* Generates the vertices buffer */
+	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_VERTICES]);
+	glBufferData(GL_ARRAY_BUFFER, this->_vertices.size() * sizeof(this->_vertices[0]), &this->_vertices[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	/* Generates the uv's buffer */
+	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_TEXTURE_COORDS]);
+	glBufferData(GL_ARRAY_BUFFER, (this->_uvs.size() * sizeof(this->_uvs[0])), &this->_uvs[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	//set normals buffer.
+	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_NORMALS]);
+	glBufferData(GL_ARRAY_BUFFER, (this->_normals.size() * sizeof(this->_normals[0])), &this->_normals[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+
+
+	/* Generates the indices buffer */
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_vbo[VBO_INDICES]);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, (this->_mesh->GetFaceIndices * 3 * sizeof(this->_mesh->GetFaceIndices()[0].vertexIndex[0])), &this->_mesh->GetFaceIndices[, GL_STATIC_DRAW);
 }
