@@ -12,8 +12,8 @@ void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateUniforms(
 
 void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateUniforms(const HMEngine::Components::DirectionalLight& directionalLight)
 {
-	this->SetUniform("directionalLight.base.color", directionalLight.GetBase()->GetColor());
-	this->SetUniform("directionalLight.base.intensity", directionalLight.GetBase()->GetIntensity());
+	this->SetUniform("directionalLight.base.color", directionalLight.GetBase().GetColor());
+	this->SetUniform("directionalLight.base.intensity", directionalLight.GetBase().GetIntensity());
 	this->SetUniform("directionalLight.direction", directionalLight.GetDirection());
 }
 

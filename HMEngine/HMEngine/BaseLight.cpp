@@ -4,15 +4,3 @@ HMEngine::Components::BaseLight::BaseLight(glm::vec3 color, float intensity) : _
 {
 
 }
-
-
-
-HMEngine::Components::BaseLight& HMEngine::Components::BaseLight::operator=(HMEngine::Components::BaseLight& other)
-{
-	if (this != &other)
-	{
-		this->SetColor(other.GetColor());
-		this->SetIntensity(other.GetIntensity());
-	}
-	return *this;
-}

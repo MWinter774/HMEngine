@@ -3,13 +3,21 @@
 #include "GameObject.h"
 #include "BaseLight.h"
 #include "RenderingEngine.h"
-HMEngine::Components::DirectionalLight::DirectionalLight(HMEngine::Components::BaseLight& base, glm::vec3 direction)
+
+HMEngine::Components::DirectionalLight::DirectionalLight(const HMEngine::Components::BaseLight& base, const glm::vec3& direction) : _direction(glm::normalize(direction)), _base(new HMEngine::Components::BaseLight(base))
 {
-	this->_direction = glm::normalize(direction);
-	this->_base = &base;
 }
 
-void HMEngine::Components::DirectionalLight::UpdateEvent()
+HMEngine::Components::DirectionalLight::~DirectionalLight()
+{
+	delete this->_base;
+}
+
+HMEngine::Components::DirectionalLight::DirectionalLight(const HMEngine::Components::DirectionalLight& other) : _direction(other._direction), _base(new HMEngine::Components::BaseLight(*other._base))
+{
+}
+
+void HMEngine::Components::DirectionalLight::AttachToGameObjectEvent()
 {
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddDirectionalLight(*this);
 }
@@ -18,8 +26,8 @@ HMEngine::Components::DirectionalLight& HMEngine::Components::DirectionalLight::
 {
 	if (this != &other)
 	{
-		this->SetBase(*other.GetBase());
-		this->SetDirection(other.GetDirection());
+		*this->_base = *other._base;
+		this->_direction = other._direction;
 	}
 	return *this;
 }
@@ -28,18 +36,3 @@ bool HMEngine::Components::DirectionalLight::operator==(HMEngine::Components::Di
 {
 	return this == &other;
 }
-
-
-
-//void HMEngine::Components::DirectionalLight::RenderEvent()
-//{
-//	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-//	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(this->_parentObject->GetTransform());
-//
-//	this->_texture->Bind();
-//
-//	glBindVertexArray(this->_vao);
-//
-//	glDrawArrays(GL_TRIANGLES, 0, this->_mesh->GetVertices().size());
-//
-//}

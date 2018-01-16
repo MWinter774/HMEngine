@@ -74,11 +74,8 @@ HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures()
 {
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_DEPTH_CLAMP);
-	glDepthFunc(GL_LESS);
-
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	//glEnable(GL_DEPTH_CLAMP);
+	//glDepthFunc(GL_LESS);
 }
 
 HMEngine::Core::Rendering::RenderingEngine::~RenderingEngine()

@@ -1,2 +1,12 @@
-﻿  DirectionalLightShader.cpp
+﻿  DirectionalLight.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Shader.cpp
+  RenderingEngine.cpp
+  Player.cpp
+  MeshRenderer.cpp
+  Main.cpp
+  GameEngine.cpp
+  DirectionalLightShader.cpp
+  BasicShader.cpp
   HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\HMEngine.exe
