@@ -1,6 +1,7 @@
 #include "DirectionalLightShader.h"
 #include "Transform.h"
 #include "GameSettings.h"
+#include "DirectionalLight.h"
 
 void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateUniforms(const HMEngine::Core::Transform& transform)
 {

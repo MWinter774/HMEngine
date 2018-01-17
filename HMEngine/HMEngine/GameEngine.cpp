@@ -14,11 +14,14 @@ HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
-		std::cout << "SDL INITIALIZATION FAILED!" << std::endl;
-		system("pause");
-		return;
+		HMEngine::Core::Utilities::ThrowException("SDL INITIALIZATION FAILED!");
 	}
-	std::cout << "Succeeded initializing SDL..." << std::endl;
+	HMEngine::Core::Utilities::PrintDebugMessage("Succeeded initializing SDL...");
+
+	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+
 }
 
 HMEngine::GameEngine::~GameEngine()

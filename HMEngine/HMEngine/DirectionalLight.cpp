@@ -11,6 +11,8 @@ HMEngine::Components::DirectionalLight::DirectionalLight(const HMEngine::Compone
 HMEngine::Components::DirectionalLight::~DirectionalLight()
 {
 	delete this->_base;
+	if (this->_isAttachedToGameObject)
+		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveDirectionalLight(*this);
 }
 
 HMEngine::Components::DirectionalLight::DirectionalLight(const HMEngine::Components::DirectionalLight& other) : _direction(other._direction), _base(new HMEngine::Components::BaseLight(*other._base))
@@ -26,7 +28,8 @@ HMEngine::Components::DirectionalLight& HMEngine::Components::DirectionalLight::
 {
 	if (this != &other)
 	{
-		*this->_base = *other._base;
+		delete this->_base;
+		this->_base = new HMEngine::Components::BaseLight(*other._base);
 		this->_direction = other._direction;
 	}
 	return *this;

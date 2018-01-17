@@ -87,6 +87,15 @@
     <ClCompile Include="DirectionalLightShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PointLightShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientLightShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HMEngineIncludes.h">
@@ -156,6 +165,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLightShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbientLightShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

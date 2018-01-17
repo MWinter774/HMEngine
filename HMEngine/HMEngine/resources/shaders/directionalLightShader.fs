@@ -1,4 +1,4 @@
-#version 330
+#version 460
 
 in vec2 textureCoordinates;
 in vec3 normals;
@@ -53,4 +53,5 @@ void main()
 	totalLight += calcDirectionalLight(directionalLight,normal);
 	
 	outColor = texture2D(sampler, textureCoordinates.xy) * totalLight;
+	//outColor = texture2D(sampler, textureCoordinates.xy) * calcDirectionalLight(directionalLight,normal);
 }

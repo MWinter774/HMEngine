@@ -1,27 +1,24 @@
-#version 450
+#version 460
 
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec2 textureCoordinates;
-layout(location = 2) in vec3 normal;
+layout (location = 0) in vec3 inPosition;
+layout (location = 1) in vec2 inTextureCoordinates;
+layout (location = 2) in vec3 inNormals;
 
-out vec2 textureCoordinates0;
-out vec3 surfaceNormal;
-out vec3 worldPosition0;
-out vec3 toCameraVector;
+out vec2 textureCoordinates;
+out vec3 normals;
+out vec3 worldPosition;
 
 uniform mat4 transformationMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
-
 void main()
 {
-	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
-	worldPosition0 = worldPosition.xyz;
-	gl_Position = projectionMatrix * viewMatrix * worldPosition;
-	textureCoordinates0 = textureCoordinates;
+	vec4 worldPosition0 = transformationMatrix * vec4(inPosition, 1.0);
+	gl_Position = projectionMatrix * viewMatrix * worldPosition0;
+	worldPosition = worldPosition.xyz;
 	
-	surfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz;
-	
-	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
+	//pass to fragmentShader
+	textureCoordinates = inTextureCoordinates;
+	normals = (transformationMatrix * vec4(inNormals,0.0)).xyz;
 }

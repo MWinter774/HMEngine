@@ -14,7 +14,8 @@ namespace HMEngine
 		{
 		public:
 			Mesh(const std::string& path);
-			Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& _normals);
+			Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<GLuint>& indices);
+			Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals);
 			~Mesh();
 			void Load(const std::string& path);
 			const std::vector<std::string> SplitString(std::string& str);
@@ -54,6 +55,7 @@ namespace HMEngine
 			std::vector<glm::vec3> _vertices;
 			std::vector<glm::vec3> _normals;
 			std::vector<glm::vec2> _uvs;
+			std::vector<GLuint> _indices;
 
 			std::vector<fIndices> _fIndices;
 

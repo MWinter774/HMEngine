@@ -5,7 +5,7 @@
 #include "HardwareInputs.h"
 #include "GameSettings.h"
 
-HMEngine::Components::CameraController::CameraController() : _camera(HMEngine::Core::Rendering::Camera::GetInstance()), _horizontalAngle(float(M_PI)), _verticalAngle(0.0f), _right(), _forward(), _up(), _movementSpeed(3.0f)
+HMEngine::Components::CameraController::CameraController() : _camera(HMEngine::Core::Rendering::Camera::GetInstance()), _horizontalAngle(float(M_PI)), _verticalAngle(0.0f), _right(), _forward(), _up(), _movementSpeed(20.0f)
 {
 }
 
@@ -53,7 +53,7 @@ void HMEngine::Components::CameraController::UpdateEvent()
 	{
 		this->Move(this->_right, float(delta) * this->_movementSpeed);
 	}
-	this->_movementSpeed = 3.0f;
+	this->_movementSpeed = 50.0f;
 }
 
 void HMEngine::Components::CameraController::Move(const glm::vec3& direction, float amount) const

@@ -8,6 +8,7 @@
 #include "Utilities.h"
 #include "DebugComponent.h"
 #include "DirectionalLight.h"
+#include "PointLight.h"
 
 int main()
 {
@@ -17,7 +18,6 @@ int main()
 	g.CreateNewWindow(800, 600, title, false);
 
 	//create cube
-	/*
 	std::vector<glm::vec3> vertices =
 	{
 		glm::vec3(1,  1,  1),
@@ -77,24 +77,42 @@ int main()
 		glm::vec2(1.000004f, 1.0f - 0.671847f),
 		glm::vec2(0.667979f, 1.0f - 0.335851f)
 	};
-	*/
+
+	std::vector<glm::vec3> normals = {
+		glm::vec3(-1.0f, 0.0f, 0.0f), // Left Side
+		glm::vec3(0.0f, 0.0f, -1.0f), // Back Side
+		glm::vec3(0.0f,-1.0f, 0.0f), // Bottom Side
+		glm::vec3(0.0f, 0.0f, -1.0f), // Back Side
+		glm::vec3(-1.0f, 0.0f, 0.0f), // Left Side
+		glm::vec3(0.0f, -1.0f, 0.0f), // Bottom Side
+		glm::vec3(0.0f, 0.0f, 1.0f), // front Side
+		glm::vec3(1.0f, 0.0f, 0.0f), // right Side
+		glm::vec3(1.0f, 0.0f, 0.0f), // right Side
+		glm::vec3(0.0f, 1.0f, 0.0f),// top Side
+		glm::vec3(0.0f, 1.0f, 0.0f), // top Side
+		glm::vec3(0.0f, 0.0f, 1.0f) // front Side
+
+	};
 
 
 	HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject go("d");
-	HMEngine::Components::DebugComponent dc;
+	go.GetTransform().SetPosition(0, 0.5f, 0);
+	HMEngine::Components::BaseLight bl = HMEngine::Components::BaseLight({ 1,1,1 }, 1.0f);
+	HMEngine::Components::PointLight pointLight = HMEngine::Components::PointLight(bl, { 0,0,1 }, 10.0f);
+	HMEngine::Components::DirectionalLight directionalLight = HMEngine::Components::DirectionalLight(bl, { 0,1,0 });
+	//HMEngine::Components::DebugComponent dc;
+	//go.AddComponent(directionalLight);
 	//go.AddComponent(dc);
+	go.AddComponent(pointLight);
 
 	HMEngine::Core::GameObject go2("dl");
-	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer("./resources/objects/monkey.obj", "./resources/textures/VeryNice.png");
+	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/bricks.png");
 	go2.GetTransform().SetPosition(0, 0, 0);
-	go2.GetTransform().SetScale(2,2,2);
-	go2.AddComponent(t2);
+	go2.GetTransform().SetScale(2, 2, 2);
 
-	HMEngine::Components::BaseLight bl = HMEngine::Components::BaseLight({ 1,1,1 }, 1.0f);
-	HMEngine::Components::DirectionalLight directionalLight = HMEngine::Components::DirectionalLight(bl, { 0,0,0.1f });
-	go.AddComponent(directionalLight);
+	go2.AddComponent(t2);
 
 	int c = 0;
 	/*for (int i = -1; i <= 1; i++)
@@ -112,11 +130,10 @@ int main()
 		}
 	}*/
 
-
 	g.AddGameObject(go);
 	g.AddGameObject(go2);
 
-	//g.SetAmbientLight({ 0,0,1 });
+	g.SetAmbientLight({ 0.08f,0.08f,0.08f });
 
 	HMEngine::Player p("Player");
 	g.AddGameObject(p);
@@ -124,7 +141,7 @@ int main()
 	//g.UnlockCursor();
 	//g.SetMouseVisible(true);
 
-	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 0.0f, 10.0f);
+	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 	g.Run();
 
 	return 0;

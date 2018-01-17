@@ -101,6 +101,6 @@ void HMEngine::Core::GameObject::AttachToGameEngine()
 {
 	for (auto& component : this->_components)
 	{
-		component->AttachToGameObjectEvent();
+		component->AttachToGameObject();
 	}
 }

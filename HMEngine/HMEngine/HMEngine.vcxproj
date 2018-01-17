@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmbientLightShader.cpp" />
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -140,6 +141,8 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="PointLightShader.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -149,6 +152,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmbientLightShader.h" />
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
     <ClInclude Include="Camera.h" />
@@ -165,6 +169,8 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="PointLightShader.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />

@@ -6,29 +6,26 @@
 #include <unordered_map>
 #include <GL\glew.h>
 #include "Utilities.h"
-#include "DirectionalLight.h"
 
 namespace HMEngine
 {
 	namespace Components
 	{
-		class Texture;
+		class DirectionalLight;
+		class PointLight;
 	}
 
 	namespace Core
 	{
-		class GameObject;
 		class Transform;
 
 		namespace Rendering
 		{
-			class Camera;
 			namespace Shaders
 			{
 				template<typename T>
 				class Shader
 				{
-					friend class HMEngine::Core::GameObject;
 				public:
 					static T& GetInstance()
 					{
@@ -49,6 +46,7 @@ namespace HMEngine
 
 					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) { }
 					virtual void UpdateUniforms(const HMEngine::Components::DirectionalLight& directionalLight) { }
+					virtual void UpdateUniforms(const HMEngine::Components::PointLight& pointLight) { }
 
 				protected:
 					static std::string ReadFileContent(const std::string& filePath);

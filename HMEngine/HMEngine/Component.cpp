@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "GameEngine.h"
 
-HMEngine::Components::Component::Component() : _parentObject(nullptr)
+HMEngine::Components::Component::Component() : _parentObject(nullptr), _isAttachedToGameObject(false)
 {
 }
 
@@ -28,4 +28,10 @@ void HMEngine::Components::Component::AddGameObject(const HMEngine::Core::GameOb
 void HMEngine::Components::Component::RemoveGameObject(const std::string& name) const
 {
 	this->_parentObject->GetGameEngine().RemoveGameObject(name);
+}
+
+void HMEngine::Components::Component::AttachToGameObject()
+{
+	this->_isAttachedToGameObject = true;
+	this->AttachToGameObjectEvent();
 }

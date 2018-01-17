@@ -21,7 +21,7 @@ namespace HMEngine
 
 			inline HMEngine::Components::DirectionalLight* Clone() override { return new HMEngine::Components::DirectionalLight(*this); }
 
-			inline HMEngine::Components::BaseLight& GetBase() const { return *this->_base; };
+			inline HMEngine::Components::BaseLight& GetBase() const { return *this->_base; }
 			inline glm::vec3 GetDirection() const { return this->_direction; };
 
 			inline void SetBase(const HMEngine::Components::BaseLight& base) { *this->_base = base; };

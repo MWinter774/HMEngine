@@ -28,11 +28,15 @@ namespace HMEngine
 
 		protected:
 			HMEngine::Core::GameObject* _parentObject;
+			bool _isAttachedToGameObject;
 
 			std::vector<HMEngine::Core::GameObject*> GetGameObjects() const;
 			HMEngine::Core::GameObject* GetGameObject(const std::string& name) const;
 			void AddGameObject(const HMEngine::Core::GameObject& go) const;
 			void RemoveGameObject(const std::string& name) const;
+
+		private:
+			void AttachToGameObject();
 		};
 	}
 }

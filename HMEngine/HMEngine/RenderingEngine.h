@@ -14,6 +14,7 @@ namespace HMEngine
 		class Texture;
 		class MeshRenderer;
 		class DirectionalLight;
+		class PointLight;
 	}
 	namespace Core
 	{
@@ -26,14 +27,21 @@ namespace HMEngine
 			public:
 				static HMEngine::Core::Rendering::RenderingEngine& GetInstance();
 
-				void Render() const;
+				void Render();
 
 				void AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
 				void RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
-				void HMEngine::Core::Rendering::RenderingEngine::AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight);
+
+				void AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight);
+				void RemoveDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight);
+
+				void AddPointLight(HMEngine::Components::PointLight& pointLight);
+				void RemovePointLight(HMEngine::Components::PointLight& pointLight);
 
 
 			private:
+				bool _doCleanup;
+
 				RenderingEngine();
 				~RenderingEngine();
 				RenderingEngine(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
@@ -42,6 +50,7 @@ namespace HMEngine
 				std::unordered_map<HMEngine::Components::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
 
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
+				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
 
 			};
 		}
