@@ -2,12 +2,19 @@
 #include "Transform.h"
 #include "GameSettings.h"
 #include "PointLight.h"
+#include "MeshRenderer.h"
 
 void HMEngine::Core::Rendering::Shaders::PointLightShader::UpdateUniforms(const HMEngine::Core::Transform& transform)
 {
 	this->SetUniform("transformationMatrix", transform.GetModelMatrix());
 	this->SetUniform("viewMatrix", transform.GetViewMatrix());
 	this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
+}
+
+void HMEngine::Core::Rendering::Shaders::PointLightShader::UpdateUniforms(float shineDamper, float reflectivity)
+{
+	this->SetUniform("shineDamper", shineDamper);
+	this->SetUniform("reflectivity", reflectivity);
 }
 
 void HMEngine::Core::Rendering::Shaders::PointLightShader::UpdateUniforms(const HMEngine::Components::PointLight& pointLight)

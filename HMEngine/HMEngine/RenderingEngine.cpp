@@ -49,6 +49,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 				{
 					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(*directionalLight);
 					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
+					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(mesh->GetShineDamper(), mesh->GetReflectivity());
 					mesh->DrawMesh();
 				}
 			}
@@ -66,6 +67,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 				{
 					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(*pointLight);
 					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
+					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(mesh->GetShineDamper(), mesh->GetReflectivity());
 					mesh->DrawMesh();
 				}
 			}

@@ -2,6 +2,7 @@
 
 in vec2 textureCoordinates;
 in vec3 normals;
+in vec3 toCameraVector;
 
 struct BaseLight
 {
@@ -17,6 +18,8 @@ struct DirectionalLight
 
 uniform sampler2D sampler;
 uniform DirectionalLight directionalLight;
+uniform	float shineDamper;
+uniform	float reflectivity;
 
 out vec4 outColor;
 
@@ -32,10 +35,20 @@ vec4 calcLight (BaseLight base, vec3 direction, vec3 normal)
 	
 	if(diffuseFactor > 0)
 	{
-		diffuseColor = vec4(base.color,1.0) * base.intensity * diffuseFactor;
-	}
+		diffuseColor = vec4(base.color, 1.0) * base.intensity * diffuseFactor;
 	
-	return diffuseColor;
+        vec3 reflectDirection = normalize(reflect(direction, normal));
+		
+        float specularFactor = dot(toCameraVector, reflectDirection);
+        specularFactor = pow(reflectivity, shineDamper);
+        
+        if(specularFactor > 0)
+        {
+            specularColor = vec4(base.color, 1.0) * reflectivity * shineDamper;
+        } 
+	}
+    
+    return diffuseColor + specularColor;
 }
 
 vec4 calcDirectionalLight(DirectionalLight directionalLight, vec3 normal)

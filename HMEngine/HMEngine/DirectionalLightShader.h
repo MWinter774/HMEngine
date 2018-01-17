@@ -17,6 +17,7 @@ namespace HMEngine
 				public:
 					void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
 					void UpdateUniforms(const HMEngine::Components::DirectionalLight& directionalLight) override;
+					void UpdateUniforms(float shineDamper, float reflectivity) override;
 
 				private:
 					DirectionalLightShader();

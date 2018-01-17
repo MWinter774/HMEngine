@@ -5,7 +5,7 @@
 #include "RenderingEngine.h"
 #include <glm/gtx/string_cast.hpp>
 
-HMEngine::Components::MeshRenderer::MeshRenderer(const std::string& meshPath, const std::string& texturePath) : _isAddedToRenderingEngine(false), _texturePath(texturePath), _meshPath(meshPath)
+HMEngine::Components::MeshRenderer::MeshRenderer(const std::string& meshPath, const std::string& texturePath, float shineDamper, float reflectivity) : _isAddedToRenderingEngine(false), _texturePath(texturePath), _meshPath(meshPath), _shineDamper(shineDamper), _reflectivity(reflectivity)
 {
 }
 
@@ -27,6 +27,8 @@ HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::Mes
 		this->_meshPath = other._meshPath;
 		this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
 		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
+		this->_shineDamper = other._shineDamper;
+		this->_reflectivity = other._reflectivity;
 
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 	}
@@ -34,6 +36,8 @@ HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::Mes
 	{
 		this->_meshPath = other._meshPath;
 		this->_texturePath = other._texturePath;
+		this->_shineDamper = other._shineDamper;
+		this->_reflectivity = other._reflectivity;
 	}
 }
 
@@ -50,11 +54,15 @@ HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator
 			this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
 			this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
+			this->_shineDamper = other._shineDamper;
+			this->_reflectivity = other._reflectivity;
 		}
 		else
 		{
 			this->_meshPath = other._meshPath;
 			this->_texturePath = other._texturePath;
+			this->_shineDamper = other._shineDamper;
+			this->_reflectivity = other._reflectivity;
 		}
 	}
 
@@ -72,4 +80,9 @@ void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 	this->_texture = new HMEngine::Components::Texture(this->_texturePath);
 	this->_mesh = new HMEngine::Core::Mesh(this->_meshPath);
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
+}
+
+void HMEngine::Components::MeshRenderer::SetTexture(const std::string& texturePath)
+{
+	this->_texture = new HMEngine::Components::Texture(this->_texturePath);
 }

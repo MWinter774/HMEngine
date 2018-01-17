@@ -13,6 +13,7 @@ namespace HMEngine
 	{
 		class DirectionalLight;
 		class PointLight;
+		class MeshRenderer;
 	}
 
 	namespace Core
@@ -47,6 +48,7 @@ namespace HMEngine
 					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) { }
 					virtual void UpdateUniforms(const HMEngine::Components::DirectionalLight& directionalLight) { }
 					virtual void UpdateUniforms(const HMEngine::Components::PointLight& pointLight) { }
+					virtual void UpdateUniforms(float shineDamper, float reflectivity) { }
 
 				protected:
 					static std::string ReadFileContent(const std::string& filePath);

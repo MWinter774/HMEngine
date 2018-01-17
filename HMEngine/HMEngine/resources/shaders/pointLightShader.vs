@@ -7,6 +7,7 @@ layout (location = 2) in vec3 inNormals;
 out vec2 textureCoordinates;
 out vec3 normals;
 out vec3 worldPosition;
+out vec3 toCameraVector;
 
 uniform mat4 transformationMatrix;
 uniform mat4 viewMatrix;
@@ -21,4 +22,5 @@ void main()
 	//pass to fragmentShader
 	textureCoordinates = inTextureCoordinates;
 	normals = (transformationMatrix * vec4(inNormals, 0.0)).xyz;
+	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition0.xyz;
 }

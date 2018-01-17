@@ -15,6 +15,7 @@ namespace HMEngine
 					friend class Shader<PointLightShader>;
 				public:
 					void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
+					void UpdateUniforms(float shineDamper, float reflectivity) override;
 					void UpdateUniforms(const HMEngine::Components::PointLight& pointLight) override;
 
 				private:

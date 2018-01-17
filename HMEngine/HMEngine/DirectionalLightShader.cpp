@@ -17,6 +17,12 @@ void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateUniforms(
 	this->SetUniform("directionalLight.direction", directionalLight.GetDirection());
 }
 
+void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateUniforms(float shineDamper, float reflectivity)
+{
+	this->SetUniform("shineDamper", shineDamper);
+	this->SetUniform("reflectivity", reflectivity);
+}
+
 HMEngine::Core::Rendering::Shaders::DirectionalLightShader::DirectionalLightShader()
 {
 	std::string vs = "./resources/shaders/directionalLightShader.vs";

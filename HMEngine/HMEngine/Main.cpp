@@ -128,7 +128,6 @@ int main()
 	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/bricks.png");
 	go3.GetTransform().SetPosition(0, 0, 0);
 	go3.GetTransform().SetScale(2, 2, 2);
-
 	go3.AddComponent(t2);
 
 	int c = 0;
