@@ -98,9 +98,9 @@ int main()
 	HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject go("d");
-	go.GetTransform().SetPosition(0, 0.5f, 0);
-	HMEngine::Components::BaseLight bl = HMEngine::Components::BaseLight({ 1,1,1 }, 1.0f);
-	HMEngine::Components::PointLight pointLight = HMEngine::Components::PointLight(bl, { 0,0,1 }, 10.0f);
+	go.GetTransform().SetPosition(0, 1.0f, 0);
+	HMEngine::Components::BaseLight bl = HMEngine::Components::BaseLight({ 0,1,0 }, 5.0f);
+	HMEngine::Components::PointLight pointLight = HMEngine::Components::PointLight(bl, { 0,0,0.1f }, 10.0f);
 	HMEngine::Components::DirectionalLight directionalLight = HMEngine::Components::DirectionalLight(bl, { 0,1,0 });
 	//HMEngine::Components::DebugComponent dc;
 	//go.AddComponent(directionalLight);

@@ -1,11 +1,12 @@
-#version 460
+#version 330
 
 in vec2 textureCoordinates;
+in vec3 worldPosition0;
+
+out vec4 outColor;
 
 uniform sampler2D sampler;
 uniform vec3 ambientLight;
-
-out vec4 outColor;
 
 void main()
 {

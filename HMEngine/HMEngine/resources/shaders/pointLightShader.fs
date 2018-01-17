@@ -1,4 +1,4 @@
-#version 460
+#version 330
 
 in vec2 textureCoordinates;
 in vec3 normals;
@@ -21,9 +21,9 @@ struct PointLight
 };
 
 uniform sampler2D sampler;
-uniform vec3 ambientLight;
-
 uniform PointLight pointLight;
+//uniform vec3 ambientLight;
+
 
 vec4 calcLight (BaseLight base, vec3 direction, vec3 normal)
 {
@@ -52,9 +52,9 @@ vec4 calcPointLight(PointLight pLight, vec3 normal)
 	
 	vec4 color = calcLight(pLight.base, lightDirection, normal);
 	
-	float attenuation = pLight.attenuation.x + pLight.attenuation.y * distanceToPointLight + pLight.attenuation.z * distanceToPointLight * distanceToPointLight + 0.0001; 
+	float attenuation = pLight.attenuation.x + pLight.attenuation.y * distanceToPointLight + pLight.attenuation.z * distanceToPointLight * distanceToPointLight + 0.0001;
 
-	return color * attenuation;
+	return color / attenuation;
 }
 
 void main()

@@ -40,13 +40,13 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			mesh->DrawMesh();
 		}
 	}
-	//if (this->_doCleanup = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
-	//{
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE);
-	glDepthFunc(GL_EQUAL);
-	glDepthMask(GL_FALSE);
-	//}
+	if (this->_doCleanup = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+	}
 
 	if (this->_directionalLights.size() > 0)
 	{
@@ -75,10 +75,8 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			{
 				for (auto& pointLight : this->_pointLights)
 				{
-					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().Bind();
 					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(*pointLight);
 					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
-					item.first->Bind();
 					mesh->DrawMesh();
 				}
 			}
@@ -87,12 +85,12 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 
 
 
-	//if (this->_doCleanup)
-	//{
-	glDepthFunc(GL_LESS);
-	glDepthMask(GL_TRUE);
-	glDisable(GL_BLEND);
-	//}
+	if (this->_doCleanup)
+	{
+		glDepthFunc(GL_LESS);
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+	}
 
 }
 
