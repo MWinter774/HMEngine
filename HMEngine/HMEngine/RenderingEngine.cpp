@@ -18,18 +18,7 @@ HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::Rendering
 void HMEngine::Core::Rendering::RenderingEngine::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
 
-	//HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-	//for (auto& item : this->_textures)
-	//{
-	//	item.first->Bind();
-	//	for (auto& mesh : item.second)
-	//	{
-	//		HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
-	//		mesh->DrawMesh();
-	//	}
-	//}
 	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
 	for (auto& item : this->_textures)
 	{
@@ -48,7 +37,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		glDepthFunc(GL_EQUAL);
 	}
 
-	if (this->_directionalLights.size() > 0)
+	if (this->_directionalLights.size() > 0) //if there are any directional lights then render all the meshed with the directional lights effect on them
 	{
 		HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().Bind();
 		for (auto& item : this->_textures)
@@ -65,7 +54,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			}
 		}
 	}
-	if (this->_pointLights.size() > 0)
+	if (this->_pointLights.size() > 0) //if there are any point lights then render all the meshed with the point light effect on them
 	{
 		HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().Bind();
 		for (auto& item : this->_textures)
@@ -83,9 +72,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		}
 	}
 
-
-
-	if (this->_doCleanup)
+	if (this->_doCleanup) //if there are some lights in the scene then load back the settings from blending the new lights
 	{
 		glDepthFunc(GL_LESS);
 		glDepthMask(GL_TRUE);
@@ -121,7 +108,6 @@ HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures(), _di
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
-	glEnable(GL_TEXTURE_2D);
 }
 
 HMEngine::Core::Rendering::RenderingEngine::~RenderingEngine()

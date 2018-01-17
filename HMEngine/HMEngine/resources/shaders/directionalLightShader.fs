@@ -16,8 +16,6 @@ struct DirectionalLight
 };
 
 uniform sampler2D sampler;
-uniform vec3 ambientLight;
-
 uniform DirectionalLight directionalLight;
 
 out vec4 outColor;
@@ -47,11 +45,5 @@ vec4 calcDirectionalLight(DirectionalLight directionalLight, vec3 normal)
 
 void main()
 {
-	vec4 totalLight = vec4(ambientLight, 1.0f);
-	vec3 normal = normalize(normals);
-	
-	totalLight += calcDirectionalLight(directionalLight,normal);
-	
-	outColor = texture2D(sampler, textureCoordinates.xy) * totalLight;
-	//outColor = texture2D(sampler, textureCoordinates.xy) * calcDirectionalLight(directionalLight,normal);
+	outColor = texture2D(sampler, textureCoordinates.xy) * calcDirectionalLight(directionalLight, normalize(normals));
 }

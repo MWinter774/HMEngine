@@ -8,7 +8,6 @@ void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateUniforms(
 	this->SetUniform("transformationMatrix", transform.GetModelMatrix());
 	this->SetUniform("viewMatrix", transform.GetViewMatrix());
 	this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
-	this->SetUniform("ambientLight", HMEngine::GameSettings::GetAmbientLight());
 }
 
 void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateUniforms(const HMEngine::Components::DirectionalLight& directionalLight)

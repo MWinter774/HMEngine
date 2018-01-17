@@ -22,8 +22,6 @@ struct PointLight
 
 uniform sampler2D sampler;
 uniform PointLight pointLight;
-//uniform vec3 ambientLight;
-
 
 vec4 calcLight (BaseLight base, vec3 direction, vec3 normal)
 {
@@ -59,12 +57,5 @@ vec4 calcPointLight(PointLight pLight, vec3 normal)
 
 void main()
 {
-/*
-	vec4 totalLight = vec4(ambientLight, 1.0f);
-	vec3 normal = normalize(normals);
-	
-	totalLight += calcPointLight(pointLight, normal);
-	
-	outColor = texture2D(sampler, textureCoordinates.xy) * totalLight;*/
 	outColor = texture2D(sampler, textureCoordinates.xy) * calcPointLight(pointLight, normalize(normals));
 }

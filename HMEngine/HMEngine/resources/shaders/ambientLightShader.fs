@@ -1,7 +1,6 @@
 #version 330
 
 in vec2 textureCoordinates;
-in vec3 worldPosition0;
 
 out vec4 outColor;
 
