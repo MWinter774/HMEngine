@@ -9,6 +9,7 @@
 #include "DebugComponent.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "CircleMovement.h"
 
 int main()
 {
@@ -97,69 +98,17 @@ int main()
 
 	HMEngine::GameSettings::CalculateFPS(true);
 
-	HMEngine::Core::GameObject go("d");
-	go.GetTransform().SetPosition(0, 1.0f, 0);
-	HMEngine::Components::BaseLight bl = HMEngine::Components::BaseLight({ 1,0,0 }, 0.5f);
-	HMEngine::Components::BaseLight bl2 = HMEngine::Components::BaseLight({ 0,1,0 }, 5.0f);
-	HMEngine::Components::PointLight pointLight = HMEngine::Components::PointLight(bl2, { 0,0,1 }, 10.0f);
-	HMEngine::Components::DirectionalLight directionalLight = HMEngine::Components::DirectionalLight(bl, { 0,1,0 });
-	HMEngine::Components::DebugComponent dc;
-	//go.AddComponent(directionalLight);
-	go.AddComponent(dc);
-	go.AddComponent(pointLight);
+	HMEngine::Core::GameObject gameMaster("master");
+	gameMaster.AddComponent(HMEngine::Components::DebugComponent());
 
-	HMEngine::Core::GameObject go1("d1");
-	go1.GetTransform().SetPosition(0, 1.0f, 0);
-	bl2 = HMEngine::Components::BaseLight({ 0,0,1 }, 5.0f);
-	pointLight = HMEngine::Components::PointLight(bl2, { 0,0,1 }, 10.0f);
-	//go.AddComponent(directionalLight);
-	go1.AddComponent(dc);
-	go1.AddComponent(pointLight);
-
-	HMEngine::Core::GameObject go2("d2");
-	go2.GetTransform().SetPosition(0, 1.0f, 0);
-	bl2 = HMEngine::Components::BaseLight({ 1,0,0 }, 5.0f);
-	pointLight = HMEngine::Components::PointLight(bl2, { 0,0,1 }, 10.0f);
-	//go.AddComponent(directionalLight);
-	go2.AddComponent(dc);
-	go2.AddComponent(pointLight);
-
-	HMEngine::Core::GameObject go3("dl");
-	HMEngine::Components::MeshRenderer t2 = HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/bricks.png");
-	go3.GetTransform().SetPosition(0, 0, 0);
-	go3.GetTransform().SetScale(2, 2, 2);
-	go3.AddComponent(t2);
-
-	int c = 0;
-	/*for (int i = -1; i <= 1; i++)
-	{
-		for (int j = -1; j <= 1; j++)
-		{
-			c++;
-			HMEngine::Core::GameObject go(std::to_string(c));
-			go.GetTransform().SetPosition(float(j * 2), float(i * 2), 0);
-			if (c % 2 != 0)
-				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/bricks.png"));
-			else
-				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/black.png"));
-			g.AddGameObject(go);
-		}
-	}*/
-
-	g.AddGameObject(go);
-	g.AddGameObject(go1);
-	g.AddGameObject(go2);
-	g.AddGameObject(go3);
-
-	g.SetAmbientLight({ 0.01f,0.01f,0.01f });
+	//g.SetAmbientLight({ 1,1,1 });
 
 	HMEngine::Player p("Player");
+
 	g.AddGameObject(p);
+	g.AddGameObject(gameMaster);
 
-	//g.UnlockCursor();
-	//g.SetMouseVisible(true);
-
-	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
+	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 	g.Run();
 
 	return 0;

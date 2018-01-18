@@ -128,6 +128,7 @@
     <ClCompile Include="BasicShader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
+    <ClCompile Include="CircleMovement.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugComponent.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="BasicShader.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
+    <ClInclude Include="CircleMovement.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugComponent.h" />
     <ClInclude Include="DirectionalLight.h" />

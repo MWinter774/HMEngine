@@ -1,7 +1,7 @@
 #include "GameSettings.h"
 
 float HMEngine::GameSettings::zNear = 0.1f;
-float HMEngine::GameSettings::zFar = 100.0f;
+float HMEngine::GameSettings::zFar = 1000.0f;
 float HMEngine::GameSettings::fovInDegrees = 60.0f;
 unsigned int HMEngine::GameSettings::windowWidth = 800;
 unsigned int HMEngine::GameSettings::windowHeight = 600;
