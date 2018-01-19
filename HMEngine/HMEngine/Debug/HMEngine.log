@@ -1,15 +1,7 @@
-﻿  Terrain.cpp
-  Player.cpp
+﻿  TerrainRenderer.cpp
   Main.cpp
-  GameObject.cpp
-  Generating Code...
-  Compiling...
-  GameEngine.cpp
   Generating Code...
   Skipping... (no relevant changes detected)
+  Terrain.cpp
   RenderingEngine.cpp
-  MeshRenderer.cpp
-  DebugComponent.cpp
-  Component.cpp
-  CameraController.cpp
-  HMEngine.vcxproj -> D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\HMEngine.exe
+  HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\HMEngine.exe

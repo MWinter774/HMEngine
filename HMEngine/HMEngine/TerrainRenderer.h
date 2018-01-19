@@ -27,7 +27,7 @@ namespace HMEngine
 			HMEngine::Components::TerrainRenderer& operator=(const HMEngine::Components::TerrainRenderer& other);
 
 			void AttachToGameObjectEvent() override;
-			HMEngine::Components::Component* Clone() override;
+			inline HMEngine::Components::Component* Clone() override { return new HMEngine::Components::TerrainRenderer(*this); }
 
 			void BindTextures() const;
 			void DrawTerrain() const;
@@ -67,6 +67,7 @@ namespace HMEngine
 			void GenerateTerrain(const std::string& heightMapPath);
 			void InitBuffers();
 			float GetHeightFromPixel(const cv::Mat& image, unsigned int x, unsigned int y);
+			glm::vec3 CalculateNormal(const cv::Mat& image, unsigned int x, unsigned int y);
 		};
 	}
 }

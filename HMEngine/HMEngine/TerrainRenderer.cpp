@@ -111,11 +111,6 @@ void HMEngine::Components::TerrainRenderer::AttachToGameObjectEvent()
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
 }
 
-HMEngine::Components::Component* HMEngine::Components::TerrainRenderer::Clone()
-{
-	return new HMEngine::Components::TerrainRenderer(*this);
-}
-
 void HMEngine::Components::TerrainRenderer::BindTextures() const
 {
 	if (this->_terrainTexture != nullptr)
@@ -194,9 +189,10 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain(const std::string& h
 		{
 			//this->_vertices[vertexPointer] = glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, 0, (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize);
 			this->_vertices.push_back(glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, this->GetHeightFromPixel(img, j, i), (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize));
-			normals[vertexPointer * 3] = 0;
-			normals[vertexPointer * 3 + 1] = 1;
-			normals[vertexPointer * 3 + 2] = 0;
+			glm::vec3 normal = this->CalculateNormal(img, j, i);
+			normals[vertexPointer * 3] = normal.x;
+			normals[vertexPointer * 3 + 1] = normal.y;
+			normals[vertexPointer * 3 + 2] = normal.z;
 			//this->_uvs[vertexPointer] = glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1));
 			this->_uvs.push_back(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)));
 			vertexPointer++;
@@ -271,4 +267,14 @@ float HMEngine::Components::TerrainRenderer::GetHeightFromPixel(const cv::Mat& i
 	height *= this->_maxHeight;
 
 	return height * -1;
+}
+
+glm::vec3 HMEngine::Components::TerrainRenderer::CalculateNormal(const cv::Mat & image, unsigned int x, unsigned int y)
+{
+	float heightL = this->GetHeightFromPixel(image, x - 1, y);
+	float heightR = this->GetHeightFromPixel(image, x + 1, y);
+	float heightD = this->GetHeightFromPixel(image, x, y - 1);
+	float heightU = this->GetHeightFromPixel(image, x, y + 1);
+
+	return glm::normalize(glm::vec3(heightL - heightR, 2.0f, heightD - heightU));
 }
