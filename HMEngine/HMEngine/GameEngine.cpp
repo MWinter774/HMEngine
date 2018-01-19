@@ -106,7 +106,7 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 		HMEngine::Core::Utilities::PrintDebugMessage("\"" + gameObject.GetName() + "\" Wasn't added because a game object with this name already exist!", "WARNING", 6);
 		return;
 	}
-	auto* go = new HMEngine::Core::GameObject(gameObject, false); //clones the game object
+	auto go = gameObject.Clone();
 	go->_gameEngine = this; //sets game object game engine to this
 	go->AttachToGameEngine(); //activates event
 	this->_gameObjectsToAddBuffer.push_back(go); //adds this game object to the buffer

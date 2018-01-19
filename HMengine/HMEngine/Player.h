@@ -17,6 +17,8 @@ namespace HMEngine
 		Player(const HMEngine::Player& other);
 		HMEngine::Player& operator=(const HMEngine::Player& other);
 
+		inline HMEngine::Core::GameObject* Clone() const override { return new HMEngine::Player(*this); }
+
 	private:
 		HMEngine::Components::MeshRenderer* _meshRenderer;
 		HMEngine::Components::CameraController* _cameraController;

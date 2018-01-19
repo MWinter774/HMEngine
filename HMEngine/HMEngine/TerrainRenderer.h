@@ -4,6 +4,7 @@
 #include <vector>
 #include <GL\glew.h>
 #include <glm\glm.hpp>
+#include "opencv2\opencv.hpp"
 
 namespace HMEngine
 {
@@ -19,6 +20,8 @@ namespace HMEngine
 		public:
 			TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath);
 			TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath);
+			TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& texturePath);
+			TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath);
 			~TerrainRenderer();
 			TerrainRenderer(const HMEngine::Components::TerrainRenderer& other);
 			HMEngine::Components::TerrainRenderer& operator=(const HMEngine::Components::TerrainRenderer& other);
@@ -32,6 +35,8 @@ namespace HMEngine
 			inline HMEngine::OpenGL::Texture& GetTexture() { return *this->_texture; }
 
 		private:
+			static constexpr float MAX_PIXEL_COLOR = 256 * 256 * 256;
+
 			enum vboIndexes
 			{
 				VBO_VERTICES,
@@ -42,6 +47,7 @@ namespace HMEngine
 			};
 			unsigned int _terrainSize;
 			unsigned int _vertexCount;
+			unsigned int _maxHeight;
 			std::vector<glm::vec3> _vertices;
 			std::vector<GLuint> _indices;
 			std::vector<glm::vec2> _uvs;
@@ -58,7 +64,9 @@ namespace HMEngine
 			GLuint _vbo[NUM_BUFFERS];
 
 			void GenerateTerrain();
+			void GenerateTerrain(const std::string& heightMapPath);
 			void InitBuffers();
+			float GetHeightFromPixel(const cv::Mat& image, unsigned int x, unsigned int y);
 		};
 	}
 }

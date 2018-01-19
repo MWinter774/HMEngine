@@ -1,7 +1,15 @@
-﻿  MeshRenderer.cpp
+﻿  Terrain.cpp
+  Player.cpp
+  Main.cpp
+  GameObject.cpp
+  Generating Code...
+  Compiling...
   GameEngine.cpp
   Generating Code...
-Utilities.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'Utilities.obj' or at 'd:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\vc141.pdb'; linking object as if no debug info
-lodepng.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'lodepng.obj' or at 'd:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\vc141.pdb'; linking object as if no debug info
-HardwareInputs.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'HardwareInputs.obj' or at 'd:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\vc141.pdb'; linking object as if no debug info
-  HMEngine.vcxproj -> d:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\HMEngine.exe
+  Skipping... (no relevant changes detected)
+  RenderingEngine.cpp
+  MeshRenderer.cpp
+  DebugComponent.cpp
+  Component.cpp
+  CameraController.cpp
+  HMEngine.vcxproj -> D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\HMEngine\Debug\HMEngine.exe

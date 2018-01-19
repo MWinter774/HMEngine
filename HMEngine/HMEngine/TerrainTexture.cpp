@@ -8,6 +8,11 @@ HMEngine::OpenGL::TerrainTexture::TerrainTexture(const std::string& backroundTex
 
 HMEngine::OpenGL::TerrainTexture::~TerrainTexture()
 {
+	delete this->_backgroundTexture;
+	delete this->_rTexture;
+	delete this->_gTexture;
+	delete this->_bTexture;
+	delete this->_blendMap;
 }
 
 HMEngine::OpenGL::TerrainTexture::TerrainTexture(const HMEngine::OpenGL::TerrainTexture& other)
@@ -23,6 +28,12 @@ HMEngine::OpenGL::TerrainTexture& HMEngine::OpenGL::TerrainTexture::operator=(co
 {
 	if (this != &other)
 	{
+		delete this->_backgroundTexture;
+		delete this->_rTexture;
+		delete this->_gTexture;
+		delete this->_bTexture;
+		delete this->_blendMap;
+
 		this->_backgroundTexture = new HMEngine::OpenGL::Texture(*other._backgroundTexture);
 		this->_rTexture = new HMEngine::OpenGL::Texture(*other._rTexture);
 		this->_gTexture = new HMEngine::OpenGL::Texture(*other._gTexture);
