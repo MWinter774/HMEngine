@@ -13,6 +13,7 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 	if (this->_isAddedToRenderingEngine)
 	{
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveMeshRenderer(*this);
+		delete this->_texture;
 		glBindVertexArray(this->_vao);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

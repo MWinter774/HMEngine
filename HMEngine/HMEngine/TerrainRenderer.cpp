@@ -28,6 +28,8 @@ HMEngine::Components::TerrainRenderer::~TerrainRenderer()
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveTerrainRenderer(*this);
 		if (this->_rTexturePath != "")
 			delete this->_terrainTexture;
+		else
+			delete this->_texture;
 		glBindVertexArray(this->_vao);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

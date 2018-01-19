@@ -1,5 +1,5 @@
 #pragma once
-#include "Texture.h"
+#include "OpenGLTexture.h"
 #include <memory>
 #include <unordered_map>
 #include <string>
@@ -14,11 +14,10 @@ namespace HMEngine
 			TextureManager() = delete;
 			~TextureManager() = delete;
 
-			static HMEngine::OpenGL::Texture& GetTexture(const std::string& texturePath);
-			static bool CanDeleteTexture(const HMEngine::OpenGL::Texture& texture);
+			static HMEngine::OpenGL::OpenGLTexture& GetTexture(const std::string& texturePath);
 
 		private:
-			static std::unordered_map<std::string, std::unique_ptr<HMEngine::OpenGL::Texture>> textures; //maps between texture file path to texture object
+			static std::unordered_map<std::string, std::unique_ptr<HMEngine::OpenGL::OpenGLTexture>> textures; //maps between texture file path to texture object
 		};
 	}
 }

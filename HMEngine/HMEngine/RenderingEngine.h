@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-#include "Texture.h"
+#include "OpenGLTexture.h"
 
 namespace HMEngine
 {
@@ -37,7 +37,7 @@ namespace HMEngine
 				RenderingEngine(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 				HMEngine::Core::Rendering::RenderingEngine& operator=(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 
-				std::unordered_map<HMEngine::OpenGL::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::Texture::TextureHasher, HMEngine::OpenGL::Texture::TextureEqualer> _meshTextures;
+				std::unordered_map<HMEngine::OpenGL::OpenGLTexture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::OpenGLTexture::TextureHasher, HMEngine::OpenGL::OpenGLTexture::TextureEqualer> _meshTextures;
 				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;
 				glm::vec3& _skyColor;
 			};

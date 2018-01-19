@@ -70,7 +70,7 @@ void HMEngine::GameEngine::Run()
 			frames++;
 			if (currTime - lastTime >= 1000)
 			{
-				std::cout << frames << std::endl;
+				std::cout << 1000.0f / frames << std::endl;
 				frames = 0;
 				lastTime = currTime;
 			}

@@ -58,19 +58,19 @@ void HMEngine::Core::Rendering::RenderingEngine::Render() const
 
 void HMEngine::Core::Rendering::RenderingEngine::AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
-	this->_meshTextures[&meshRenderer.GetTexture()].push_back(&meshRenderer);
+	this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].push_back(&meshRenderer);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
 	int i = 0;
-	for (auto mRenderer : this->_meshTextures[&meshRenderer.GetTexture()])
+	for (auto mRenderer : this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()])
 	{
 		if (mRenderer == &meshRenderer)
 		{
-			this->_meshTextures[&meshRenderer.GetTexture()].erase(this->_meshTextures[&meshRenderer.GetTexture()].begin() + i);
-			if (this->_meshTextures[&meshRenderer.GetTexture()].size() == 0)
-				this->_meshTextures.erase(&meshRenderer.GetTexture());
+			this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].erase(this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].begin() + i);
+			if (this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].size() == 0)
+				this->_meshTextures.erase(&meshRenderer.GetTexture().GetOpenGLTexture());
 		}
 		i++;
 	}
