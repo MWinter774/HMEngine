@@ -10,6 +10,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "CircleMovement.h"
+#include "Terrain.h"
 
 int main()
 {
@@ -94,21 +95,55 @@ int main()
 		glm::vec3(0.0f, 0.0f, 1.0f) // front Side
 
 	};
-
-
+	
 	HMEngine::GameSettings::CalculateFPS(true);
 
-	HMEngine::Core::GameObject gameMaster("master");
-	gameMaster.AddComponent(HMEngine::Components::DebugComponent());
+	//HMEngine::Core::GameObject gameMaster("master");
+	//gameMaster.AddComponent(HMEngine::Components::DebugComponent());
 
 	//g.SetAmbientLight({ 1,1,1 });
 
-	HMEngine::Player p("Player");
+	//HMEngine::Player p("Player");
 
-	g.AddGameObject(p);
-	g.AddGameObject(gameMaster);
+	//g.AddGameObject(p);
+	//g.AddGameObject(gameMaster);
 
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
+	
+	int c = 0;
+	for (int i = -1; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++)
+		{
+			c++;
+			HMEngine::Core::GameObject go(std::to_string(c));
+			go.GetTransform().SetPosition(float(j * 2), float(i * 2) + 4, 0);
+			if (c % 2 != 0)
+				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/bricks.png"));
+			else
+				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/black.png"));
+			g.AddGameObject(go);
+		}
+	}
+	//g.AddGameObject(go);
+	//g.AddGameObject(go2);
+
+	g.SetAmbientLight({ 1,1,1 });
+	//g.DisableFog();
+
+	HMEngine::Player p("Player", 100.0f, 200.0f);
+	g.AddGameObject(p);
+
+	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
+	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
+	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png");
+	HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/grassFlowers.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
+	g.AddGameObject(terrain);
+
+	//g.UnlockCursor();
+	//g.SetMouseVisible(true);
+
+	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
 
 	return 0;

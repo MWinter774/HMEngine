@@ -45,7 +45,8 @@ std::vector<glm::vec2> uvs = { //DEBUG
 	glm::vec2(0.336024f, 1.0f - 0.671877f)
 };
 
-HMEngine::Player::Player(const std::string& playerName) : GameObject(playerName), /*_meshRenderer(new HMEngine::Components::MeshRenderer(vertices, indices, uvs, "./resources/textures/bricks.png")),*/ _cameraController(new HMEngine::Components::CameraController())
+
+HMEngine::Player::Player(const std::string& playerName, float walkingSpeed, float runningSpeed) : GameObject(playerName), _meshRenderer(new HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/bricks.png")), _cameraController(new HMEngine::Components::CameraController(walkingSpeed, runningSpeed))
 {
 	//this->AddComponent(*this->_meshRenderer);
 	this->AddComponent(*this->_cameraController);
@@ -55,4 +56,21 @@ HMEngine::Player::~Player()
 {
 	delete this->_meshRenderer;
 	delete this->_cameraController;
+}
+
+HMEngine::Player::Player(const HMEngine::Player& other) : GameObject(other), _meshRenderer(new HMEngine::Components::MeshRenderer(*other._meshRenderer)), _cameraController(new HMEngine::Components::CameraController(*other._cameraController))
+{
+}
+
+HMEngine::Player& HMEngine::Player::operator=(const HMEngine::Player& other)
+{
+	if (this != &other)
+	{
+		delete this->_meshRenderer;
+		this->_meshRenderer = new HMEngine::Components::MeshRenderer(*other._meshRenderer);
+		delete this->_cameraController;
+		this->_cameraController = new HMEngine::Components::CameraController(*other._cameraController);
+	}
+
+	return *this;
 }

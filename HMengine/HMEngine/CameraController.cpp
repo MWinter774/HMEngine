@@ -5,7 +5,7 @@
 #include "HardwareInputs.h"
 #include "GameSettings.h"
 
-HMEngine::Components::CameraController::CameraController() : _camera(HMEngine::Core::Rendering::Camera::GetInstance()), _horizontalAngle(float(M_PI)), _verticalAngle(0.0f), _right(), _forward(), _up(), _movementSpeed(20.0f)
+HMEngine::Components::CameraController::CameraController(float walkingSpeed, float runningSpeed) : _camera(HMEngine::Core::Rendering::Camera::GetInstance()), _horizontalAngle(float(M_PI)), _verticalAngle(0.0f), _right(), _forward(), _up(), _walkingSpeed(walkingSpeed), _runningSpeed(runningSpeed), _movementSpeed(walkingSpeed)
 {
 }
 
@@ -35,7 +35,7 @@ void HMEngine::Components::CameraController::UpdateEvent()
 
 	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_LSHIFT))
 	{
-		this->_movementSpeed = 10.0f;
+		this->_movementSpeed = this->_runningSpeed;
 	}
 	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_W))
 	{
@@ -53,7 +53,7 @@ void HMEngine::Components::CameraController::UpdateEvent()
 	{
 		this->Move(this->_right, float(delta) * this->_movementSpeed);
 	}
-	this->_movementSpeed = 50.0f;
+	this->_movementSpeed = this->_walkingSpeed;
 }
 
 void HMEngine::Components::CameraController::Move(const glm::vec3& direction, float amount) const

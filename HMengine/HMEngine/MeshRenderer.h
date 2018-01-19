@@ -8,9 +8,13 @@
 
 namespace HMEngine
 {
-	namespace Components
+	namespace OpenGL
 	{
 		class Texture;
+	}
+
+	namespace Components
+	{
 
 		class MeshRenderer : public Component
 		{
@@ -25,7 +29,7 @@ namespace HMEngine
 			void AttachToGameObjectEvent() override;
 			inline HMEngine::Components::MeshRenderer* Clone() override { return new HMEngine::Components::MeshRenderer(*this); }
 
-			inline HMEngine::Components::Texture& GetTexture() const { return *this->_texture; }
+			inline HMEngine::OpenGL::Texture& GetTexture() const { return *this->_texture; }
 			inline float GetShineDamper() const { return this->_shineDamper; }
 			inline float GetReflectivity() const { return this->_reflectivity; }
 
@@ -36,7 +40,7 @@ namespace HMEngine
 		private:
 			std::string _texturePath;
 			std::string _meshPath;
-			HMEngine::Components::Texture* _texture;
+			HMEngine::OpenGL::Texture* _texture;
 			HMEngine::Core::Mesh* _mesh;
 
 			bool _isAddedToRenderingEngine;

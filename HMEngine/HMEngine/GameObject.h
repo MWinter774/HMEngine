@@ -18,7 +18,13 @@ namespace HMEngine
 			}
 		}
 
-		class GameObject
+		class GameObjectCore
+		{
+		public:
+			virtual HMEngine::Core::GameObject* Clone() const = 0;
+		};
+
+		class GameObject : public GameObjectCore
 		{
 			friend class HMEngine::Components::Component;
 			friend class HMEngine::GameEngine;
@@ -27,6 +33,8 @@ namespace HMEngine
 			virtual ~GameObject();
 			GameObject(const HMEngine::Core::GameObject& other);
 			HMEngine::Core::GameObject& operator=(const HMEngine::Core::GameObject& other);
+
+			virtual HMEngine::Core::GameObject* Clone() const override { return new HMEngine::Core::GameObject(*this); }
 
 			inline HMEngine::Core::Transform& GetTransform() const { return *this->_transform; };
 			inline std::vector<HMEngine::Components::Component*> GetComponents() const { return this->_components; }
@@ -44,13 +52,13 @@ namespace HMEngine
 			HMEngine::Core::Transform* _transform;
 			HMEngine::GameEngine* _gameEngine;
 
+			void AttachToGameEngine();
+
 		private:
 			std::vector<HMEngine::Components::Component*> _components;
 			std::string _name;
 
 			GameObject(const HMEngine::Core::GameObject& other, bool _1);
-
-			void AttachToGameEngine();
 		};
 	}
 }

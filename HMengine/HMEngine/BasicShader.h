@@ -17,6 +17,10 @@ namespace HMEngine
 					friend class Shader<BasicShader>;
 				public:
 					void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
+					void UpdateAmbientLight();
+					void UpdateFogDensity();
+					void UpdateFogGradient();
+					void UpdateSkyColor();
 
 				private:
 					BasicShader();

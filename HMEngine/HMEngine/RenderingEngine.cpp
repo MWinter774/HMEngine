@@ -1,13 +1,18 @@
 #include "RenderingEngine.h"
 #include "MeshRenderer.h"
 #include "Texture.h"
+#include "OpenGLTexture.h"
 #include "BasicShader.h"
+#include "TerrainShader.h"
 #include "GameObject.h"
 #include "DirectionalLight.h"
 #include "DirectionalLightShader.h"
 #include "PointLight.h"
 #include "PointLightShader.h"
 #include "AmbientLightShader.h"
+#include "GameSettings.h"
+#include "TerrainRenderer.h"
+#include <algorithm>
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -18,17 +23,45 @@ HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::Rendering
 void HMEngine::Core::Rendering::RenderingEngine::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(this->_skyColor.r, this->_skyColor.g, this->_skyColor.b, 1.0f);
 
+	/* Renders meshes */
+	bool hadTransparency = false;
 	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
-	for (auto& item : this->_textures)
+	for (auto& item : this->_meshTextures)
 	{
 		item.first->Bind();
+		/* If the mesh has transparent texture then dont cull face */
+		if (item.first->HasTransparency())
+		{
+			glDisable(GL_CULL_FACE);
+			hadTransparency = true;
+		}
+		
 		for (auto& mesh : item.second)
 		{
 			HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
 			mesh->DrawMesh();
 		}
+		
+		/* If the mesh had transparent texture then turn on cull */
+		if (hadTransparency)
+		{
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			hadTransparency = false;
+		}
 	}
+
+	/* Renders terrains */
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	for (auto& terrain : this->_terrainRenderers)
+	{
+		HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+		terrain->BindTextures(); //Binds terrain textures
+		terrain->DrawTerrain();
+	}
+	
 	if (this->_doCleanup = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
 	{
 		glEnable(GL_BLEND);
@@ -40,7 +73,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	if (this->_directionalLights.size() > 0) //if there are any directional lights then render all the meshed with the directional lights effect on them
 	{
 		HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().Bind();
-		for (auto& item : this->_textures)
+		for (auto& item : this->_meshTextures)
 		{
 			item.first->Bind();
 			for (auto& mesh : item.second)
@@ -58,7 +91,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	if (this->_pointLights.size() > 0) //if there are any point lights then render all the meshed with the point light effect on them
 	{
 		HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().Bind();
-		for (auto& item : this->_textures)
+		for (auto& item : this->_meshTextures)
 		{
 			item.first->Bind();
 			for (auto& mesh : item.second)
@@ -85,27 +118,36 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 
 void HMEngine::Core::Rendering::RenderingEngine::AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
-	this->_textures[&meshRenderer.GetTexture()].push_back(&meshRenderer);
+	this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].push_back(&meshRenderer);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
 	int i = 0;
-	for (auto mRenderer : this->_textures[&meshRenderer.GetTexture()])
+	for (auto mRenderer : this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()])
 	{
 		if (mRenderer == &meshRenderer)
 		{
-			this->_textures[&meshRenderer.GetTexture()].erase(this->_textures[&meshRenderer.GetTexture()].begin() + i);
-			if (this->_textures[&meshRenderer.GetTexture()].size() == 0)
-				this->_textures.erase(&meshRenderer.GetTexture());
+			this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].erase(this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].begin() + i);
+			if (this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].size() == 0)
+				this->_meshTextures.erase(&meshRenderer.GetTexture().GetOpenGLTexture());
 		}
 		i++;
 	}
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _textures(), _directionalLights(), _pointLights(), _doCleanup(false)
+void HMEngine::Core::Rendering::RenderingEngine::AddTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer)
 {
-	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
+	this->_terrainRenderers.push_back(&terrainRenderer);
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer)
+{
+	this->_terrainRenderers.erase(std::remove(this->_terrainRenderers.begin(), this->_terrainRenderers.end(), &terrainRenderer), this->_terrainRenderers.end());
+}
+
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanup(false)
+{
 	//glCullFace(GL_BACK); //Causes the back of things not to be drawn
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
 	glEnable(GL_DEPTH_TEST);

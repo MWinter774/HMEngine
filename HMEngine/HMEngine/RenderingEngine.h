@@ -1,9 +1,10 @@
 #pragma once
+#include <glm\glm.hpp>
 #include <GL\glew.h>
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-#include "Texture.h"
+#include "OpenGLTexture.h"
 #include "DirectionalLight.h"
 #include <unordered_set>
 
@@ -11,10 +12,10 @@ namespace HMEngine
 {
 	namespace Components
 	{
-		class Texture;
 		class MeshRenderer;
 		class DirectionalLight;
 		class PointLight;
+		class TerrainRenderer;
 	}
 	namespace Core
 	{
@@ -31,6 +32,8 @@ namespace HMEngine
 
 				void AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
 				void RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer);
+				void AddTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer);
+				void RemoveTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer);
 
 				void AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight);
 				void RemoveDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight);
@@ -47,11 +50,12 @@ namespace HMEngine
 				RenderingEngine(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 				HMEngine::Core::Rendering::RenderingEngine& operator=(const HMEngine::Core::Rendering::RenderingEngine& other) = delete;
 
-				std::unordered_map<HMEngine::Components::Texture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::Components::Texture::TextureHasher, HMEngine::Components::Texture::TextureEqualer> _textures;
-
+				std::unordered_map<HMEngine::OpenGL::OpenGLTexture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::OpenGLTexture::TextureHasher, HMEngine::OpenGL::OpenGLTexture::TextureEqualer> _meshTextures;
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
 				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
 
+				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;
+				glm::vec3& _skyColor;
 			};
 		}
 	}

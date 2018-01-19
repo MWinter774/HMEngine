@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\HMEngine\lib;%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A\Lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.0.7\SDL2.lib;SDL2.0.7\SDL2main.lib;SDL2.0.7\SDL2test.lib;OpenGL32.lib;glew/glew32.lib;glew/glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.0.7\SDL2.lib;SDL2.0.7\SDL2main.lib;SDL2.0.7\SDL2test.lib;OpenGL32.lib;glew/glew32.lib;glew/glew32s.lib;opencv2/opencv_core340.lib;opencv2/opencv_core340d.lib;opencv2/opencv_imgproc340.lib;opencv2/opencv_imgproc340d.lib;opencv2/opencv_shape340.lib;opencv2/opencv_shape340d.lib;opencv2/opencv_photo340.lib;opencv2/opencv_photo340d.lib;opencv2/opencv_stitching340.lib;opencv2/opencv_stitching340d.lib;opencv2/opencv_dnn340.lib;opencv2/opencv_dnn340d.lib;opencv2/opencv_features2d340.lib;opencv2/opencv_features2d340d.lib;opencv2/opencv_flann340.lib;opencv2/opencv_flann340d.lib;opencv2/opencv_highgui340.lib;opencv2/opencv_highgui340d.lib;opencv2/opencv_imgcodecs340.lib;opencv2/opencv_imgcodecs340d.lib;opencv2/opencv_ml340.lib;opencv2/opencv_ml340d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -141,11 +141,17 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="OpenGLTexture.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="PointLightShader.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderTracker.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TerrainRenderer.cpp" />
+    <ClCompile Include="TerrainShader.cpp" />
+    <ClCompile Include="TerrainTexture.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -170,11 +176,17 @@
     <ClInclude Include="HMEngineIncludes.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="OpenGLTexture.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="PointLightShader.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderTracker.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TerrainRenderer.h" />
+    <ClInclude Include="TerrainShader.h" />
+    <ClInclude Include="TerrainTexture.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />

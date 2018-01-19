@@ -73,7 +73,7 @@ void HMEngine::GameEngine::Run()
 			frames++;
 			if (currTime - lastTime >= 1000)
 			{
-				std::cout << frames << std::endl;
+				std::cout << 1000.0f / frames << std::endl;
 				frames = 0;
 				lastTime = currTime;
 			}
@@ -111,7 +111,7 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 		HMEngine::Core::Utilities::PrintDebugMessage("\"" + gameObject.GetName() + "\" Wasn't added because a game object with this name already exist!", "WARNING", 6);
 		return;
 	}
-	auto* go = new HMEngine::Core::GameObject(gameObject, false); //clones the game object
+	auto go = gameObject.Clone();
 	go->_gameEngine = this; //sets game object game engine to this
 	go->AttachToGameEngine(); //activates event
 	this->_gameObjectsToAddBuffer.push_back(go); //adds this game object to the buffer
@@ -152,14 +152,49 @@ void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
 	this->_gameObjectsToRemoveBuffer.push_back(name);
 }
 
+glm::vec3 HMEngine::GameEngine::GetSkyColor() const
+{
+	return HMEngine::GameSettings::GetSkyColor();
+}
+
 void HMEngine::GameEngine::SetAmbientLight(const glm::vec3 & ambientLight) const
 {
-	HMEngine::GameSettings::ambientLight = ambientLight;
+	HMEngine::GameSettings::SetAmbientLight(ambientLight);
 }
 
 void HMEngine::GameEngine::SetAmbientLight(float r, float g, float b) const
 {
 	HMEngine::GameSettings::ambientLight = glm::vec3(r, g, b);
+}
+
+void HMEngine::GameEngine::SetSkyColor(const glm::vec3& skyColor) const
+{
+	HMEngine::GameSettings::SetSkyColor(skyColor);
+}
+
+void HMEngine::GameEngine::SetSkyColor(float r, float g, float b) const
+{
+	HMEngine::GameSettings::SetSkyColor(glm::vec3(r, g, b));
+}
+
+void HMEngine::GameEngine::SetFogDensity(float fogDensity) const
+{
+	HMEngine::GameSettings::SetFogDensity(fogDensity);
+}
+
+void HMEngine::GameEngine::SetFogGradient(float fogGradient) const
+{
+	HMEngine::GameSettings::SetFogGradient(fogGradient);
+}
+
+void HMEngine::GameEngine::DisableFog() const
+{
+	HMEngine::GameSettings::SetFogDensity(0.0f);
+}
+
+void HMEngine::GameEngine::EnableFog() const
+{
+	HMEngine::GameSettings::SetFogDensity(0.0035f);
 }
 
 /*

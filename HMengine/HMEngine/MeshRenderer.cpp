@@ -15,29 +15,23 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 	{
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveMeshRenderer(*this);
 		delete this->_mesh;
+		delete this->_texture;
 	}
 }
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::MeshRenderer& other)
 {
+	this->_texturePath = other._texturePath;
+	this->_meshPath = other._meshPath;
+	this->_shineDamper = other._shineDamper;
+	this->_reflectivity = other._reflectivity;
 	if (other._isAddedToRenderingEngine)
 	{
-		this->_texturePath = other._texturePath;
-		this->_texture = new HMEngine::Components::Texture(*other._texture);
-		this->_meshPath = other._meshPath;
+		this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
 		this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
 		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
-		this->_shineDamper = other._shineDamper;
-		this->_reflectivity = other._reflectivity;
 
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
-	}
-	else
-	{
-		this->_meshPath = other._meshPath;
-		this->_texturePath = other._texturePath;
-		this->_shineDamper = other._shineDamper;
-		this->_reflectivity = other._reflectivity;
 	}
 }
 
@@ -45,24 +39,18 @@ HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator
 {
 	if (this != &other)
 	{
+		this->_texturePath = other._texturePath;
+		this->_shineDamper = other._shineDamper;
+		this->_reflectivity = other._reflectivity;
+		this->_meshPath = other._meshPath;
 		if (other._isAddedToRenderingEngine)
 		{
-			this->_texturePath = other._texturePath;
-			*this->_texture = *other._texture;
-			this->_meshPath = other._meshPath;
+			delete this->_texture;
+			this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
 			delete this->_mesh;
 			this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
 			this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
 			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
-			this->_shineDamper = other._shineDamper;
-			this->_reflectivity = other._reflectivity;
-		}
-		else
-		{
-			this->_meshPath = other._meshPath;
-			this->_texturePath = other._texturePath;
-			this->_shineDamper = other._shineDamper;
-			this->_reflectivity = other._reflectivity;
 		}
 	}
 
@@ -77,12 +65,13 @@ void HMEngine::Components::MeshRenderer::DrawMesh()
 void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 {
 	this->_isAddedToRenderingEngine = true;
-	this->_texture = new HMEngine::Components::Texture(this->_texturePath);
+	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
 	this->_mesh = new HMEngine::Core::Mesh(this->_meshPath);
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 }
 
 void HMEngine::Components::MeshRenderer::SetTexture(const std::string& texturePath)
 {
-	this->_texture = new HMEngine::Components::Texture(this->_texturePath);
+	delete this->_texture;
+	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
 }

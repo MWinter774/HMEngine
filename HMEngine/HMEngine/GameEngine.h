@@ -33,14 +33,20 @@ namespace HMEngine
 		inline void SetMouseVisible(bool isVisible) const { HMEngine::GameSettings::SetCursorVisible(isVisible); }
 
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
-
 		inline std::vector<HMEngine::Core::GameObject*> GetGameObjects() { return this->_gameObjectsVector; };
 		HMEngine::Core::GameObject* GetGameObject(const std::string& name);
-
 		void RemoveGameObject(const std::string& name);
+
+		glm::vec3 GetSkyColor() const;
 
 		void SetAmbientLight(const glm::vec3& ambientLight) const;
 		void SetAmbientLight(float r, float g, float b) const;
+		void SetSkyColor(const glm::vec3& skyColor) const;
+		void SetSkyColor(float r, float g, float b) const;
+		void SetFogDensity(float fogDensity) const;
+		void SetFogGradient(float fogGradient) const;
+		void DisableFog() const;
+		void EnableFog() const;
 
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
