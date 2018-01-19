@@ -43,7 +43,6 @@ namespace HMEngine
 			HMEngine::OpenGL::Texture* _texture;
 			HMEngine::Core::Mesh* _mesh;
 
-			bool _isAddedToRenderingEngine;
 			float _shineDamper;
 			float _reflectivity;
 		};

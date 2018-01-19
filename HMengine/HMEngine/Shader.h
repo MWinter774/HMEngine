@@ -23,7 +23,6 @@ namespace HMEngine
 
 		namespace Rendering
 		{
-			class Camera; //DEBUG
 			namespace Shaders
 			{
 				/*class ShaderTracker

@@ -13,9 +13,11 @@ namespace HMEngine
 		class Mesh
 		{
 		public:
+			Mesh();
 			Mesh(const std::string& path);
 			Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<GLuint>& indices);
 			Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals);
+			Mesh(const HMEngine::Core::Mesh& other);
 			~Mesh();
 			void Load(const std::string& path);
 			const std::vector<std::string> SplitString(std::string& str);
@@ -34,6 +36,13 @@ namespace HMEngine
 			inline std::vector<glm::vec2>& GetUVs() { return this->_uvs; };
 			inline std::vector<fIndices> GetFaceIndices() { return this->_fIndices; };
 			inline int GetNumIndices() { return this->_numIndices; };
+
+			inline void AddVertex(const glm::vec3& vertex) { this->_vertices.push_back(vertex); }
+			inline void AddUV(const glm::vec2& uv) { this->_uvs.push_back(uv); }
+			inline void AddNormal(const glm::vec3& normal) { this->_normals.push_back(normal); }
+			inline void AddIndex(GLuint vertex) { this->_indices.push_back(vertex); }
+
+			void InitBuffers();
 
 			void Draw();
 
@@ -63,8 +72,6 @@ namespace HMEngine
 
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];
-
-			void InitBuffers();
 
 		};
 

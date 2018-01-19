@@ -1,4 +1,6 @@
 #include "GameSettings.h"
+#include "AmbientLightShader.h"
+#include "TerrainShader.h"
 
 float HMEngine::GameSettings::zNear = 0.1f;
 float HMEngine::GameSettings::zFar = 1000.0f;
@@ -54,17 +56,15 @@ void HMEngine::GameSettings::SetZFar(float zFar)
 void HMEngine::GameSettings::SetAmbientLight(const glm::vec3& ambientLight)
 {
 	HMEngine::GameSettings::ambientLight = ambientLight;
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateAmbientLight();
-	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateAmbientLight();
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateAmbientLight();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateAmbientLight();
 }
 
 void HMEngine::GameSettings::SetFogDensity(float fogDensity)
 {
 	HMEngine::GameSettings::fogDensity = fogDensity;
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateFogDensity();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateFogDensity();
 }
@@ -72,8 +72,6 @@ void HMEngine::GameSettings::SetFogDensity(float fogDensity)
 void HMEngine::GameSettings::SetFogGradient(float fogGradient)
 {
 	HMEngine::GameSettings::fogGradient = fogGradient;
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateFogGradient();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateFogGradient();
 }
@@ -81,8 +79,6 @@ void HMEngine::GameSettings::SetFogGradient(float fogGradient)
 void HMEngine::GameSettings::SetSkyColor(const glm::vec3 & skyColor)
 {
 	HMEngine::GameSettings::skyColor = skyColor;
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().Bind();
-	HMEngine::Core::Rendering::Shaders::BasicShader::GetInstance().UpdateSkyColor();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateSkyColor();
 }

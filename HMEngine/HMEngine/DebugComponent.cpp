@@ -195,7 +195,7 @@ void HMEngine::Components::DebugComponent::UpdateEvent()
 	{
 		this->_isAdded = true;
 		this->AddGameObject(*this->_floor);
-		this->RemoveGameObject("fakeCube_Copy_Copy");
+		this->RemoveGameObject("fakeCube_Copy_Copy_Copy");
 		HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0, 2, 10);
 		for (auto& crate : this->_crates)
 		{

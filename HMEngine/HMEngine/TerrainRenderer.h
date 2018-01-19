@@ -8,6 +8,10 @@
 
 namespace HMEngine
 {
+	namespace Core
+	{
+		class Mesh;
+	}
 	namespace OpenGL
 	{
 		class Texture;
@@ -48,24 +52,27 @@ namespace HMEngine
 			unsigned int _terrainSize;
 			unsigned int _vertexCount;
 			unsigned int _maxHeight;
-			std::vector<glm::vec3> _vertices;
-			std::vector<GLuint> _indices;
-			std::vector<glm::vec2> _uvs;
+			//std::vector<glm::vec3> _vertices;
+			//std::vector<GLuint> _indices;
+			//std::vector<glm::vec2> _uvs;
+			//std::vector<glm::vec3> _normals;
+
+			HMEngine::Core::Mesh* _mesh;
+
 			HMEngine::OpenGL::Texture* _texture;
 			HMEngine::OpenGL::TerrainTexture* _terrainTexture;
-			bool  _isAddedToRenderingEngine;
 			std::string _backroundTexturePath;
 			std::string _rTexturePath;
 			std::string _gTexturePath;
 			std::string _bTexturePath;
 			std::string _blendMapTexturePath;
 
-			GLuint _vao;
-			GLuint _vbo[NUM_BUFFERS];
+			//GLuint _vao;
+			//GLuint _vbo[NUM_BUFFERS];
 
 			void GenerateTerrain();
 			void GenerateTerrain(const std::string& heightMapPath);
-			void InitBuffers();
+			//void InitBuffers();
 			float GetHeightFromPixel(const cv::Mat& image, unsigned int x, unsigned int y);
 			glm::vec3 CalculateNormal(const cv::Mat& image, unsigned int x, unsigned int y);
 		};

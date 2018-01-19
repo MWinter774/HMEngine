@@ -11,6 +11,8 @@ namespace HMEngine::Core
 			friend class Shader<AmbientLightShader>;
 		public:
 			void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
+			void UpdateAmbientLight();
+
 		private:
 			AmbientLightShader();
 			~AmbientLightShader();

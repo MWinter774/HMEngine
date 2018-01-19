@@ -3,73 +3,65 @@
 #include "TerrainTexture.h"
 #include "RenderingEngine.h"
 #include "Utilities.h"
+#include "Mesh.h"
 
-HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : _terrainSize(size), _vertexCount(unsigned int(0.16*_terrainSize)), _texture(nullptr), _isAddedToRenderingEngine(false), _terrainTexture(nullptr), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(rTextureFilePath), _gTexturePath(gTextureFilePath), _bTexturePath(bTextureFilePath), _blendMapTexturePath(blendMapFilePath)
+HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : _terrainSize(size), _vertexCount(unsigned int(0.16*_terrainSize)), _texture(nullptr), _terrainTexture(nullptr), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(rTextureFilePath), _gTexturePath(gTextureFilePath), _bTexturePath(bTextureFilePath), _blendMapTexturePath(blendMapFilePath)
 {
+	this->_mesh = new HMEngine::Core::Mesh();
 	int count = this->_vertexCount * this->_vertexCount;
-	this->_vertices = std::vector<glm::vec3>(count * 3);
-	this->_uvs = std::vector<glm::vec2>(count * 2);
-	this->_indices = std::vector<GLuint>(6 * (this->_vertexCount - 1) * (this->_vertexCount - 1));
 	this->GenerateTerrain();
 }
 
-HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath) : _terrainSize(size), _vertexCount(unsigned int(1.6f*size)), _texture(nullptr), _isAddedToRenderingEngine(false), _terrainTexture(nullptr), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(""), _gTexturePath(""), _bTexturePath(""), _blendMapTexturePath("")
+HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath) : _terrainSize(size), _vertexCount(unsigned int(1.6f*size)), _texture(nullptr), _terrainTexture(nullptr), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(""), _gTexturePath(""), _bTexturePath(""), _blendMapTexturePath("")
 {
+	this->_mesh = new HMEngine::Core::Mesh();
 	int count = this->_vertexCount * this->_vertexCount;
-	this->_vertices = std::vector<glm::vec3>(count * 3);
-	this->_uvs = std::vector<glm::vec2>(count * 2);
-	this->_indices = std::vector<GLuint>(6 * (this->_vertexCount - 1) * (this->_vertexCount - 1));
 	this->GenerateTerrain();
 }
 
-HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& texturePath) : _terrainSize(size), _texture(nullptr), _isAddedToRenderingEngine(false), _terrainTexture(nullptr), _backroundTexturePath(texturePath), _maxHeight(unsigned int(maxHeight))
+HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& texturePath) : _terrainSize(size), _texture(nullptr), _terrainTexture(nullptr), _backroundTexturePath(texturePath), _maxHeight(unsigned int(maxHeight))
 {
+	this->_mesh = new HMEngine::Core::Mesh();
 	this->GenerateTerrain(heightMapPath);
 }
 
-HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : _terrainSize(size), _texture(nullptr), _isAddedToRenderingEngine(false), _terrainTexture(nullptr), _maxHeight(unsigned int(maxHeight)), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(rTextureFilePath), _gTexturePath(gTextureFilePath), _bTexturePath(bTextureFilePath), _blendMapTexturePath(blendMapFilePath)
+HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : _terrainSize(size), _texture(nullptr), _terrainTexture(nullptr), _maxHeight(unsigned int(maxHeight)), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(rTextureFilePath), _gTexturePath(gTextureFilePath), _bTexturePath(bTextureFilePath), _blendMapTexturePath(blendMapFilePath)
 {
+	this->_mesh = new HMEngine::Core::Mesh();
 	this->GenerateTerrain(heightMapPath);
 }
 
 HMEngine::Components::TerrainRenderer::~TerrainRenderer()
 {
-	if (this->_isAddedToRenderingEngine)
+	delete this->_mesh;
+	if (this->_isAttachedToGameObject)
 	{
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveTerrainRenderer(*this);
 		if (this->_rTexturePath != "")
 			delete this->_terrainTexture;
 		else
 			delete this->_texture;
-		glBindVertexArray(this->_vao);
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDeleteBuffers(NUM_BUFFERS, this->_vbo);
-		glDeleteBuffers(1, &this->_vao);
-		glBindVertexArray(0);
 	}
 }
 
 HMEngine::Components::TerrainRenderer::TerrainRenderer(const HMEngine::Components::TerrainRenderer& other)
 {
-	this->_vertices = other._vertices;
-	this->_indices = other._indices;
-	this->_uvs = other._uvs;
 	this->_backroundTexturePath = other._backroundTexturePath;
 	this->_rTexturePath = other._rTexturePath;
 	this->_gTexturePath = other._gTexturePath;
 	this->_bTexturePath = other._bTexturePath;
 	this->_blendMapTexturePath = other._blendMapTexturePath;
 	this->_maxHeight = other._maxHeight;
-	if (other._isAddedToRenderingEngine)
+	this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
+	if (other._isAttachedToGameObject)
 	{
-		*this->_texture = *other._texture;
-		this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(*other._terrainTexture);
-		this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
+		if (other._texture != nullptr)
+			this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
+		else
+			this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(*other._terrainTexture);
+		this->_isAttachedToGameObject = other._isAttachedToGameObject;
 
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
-
-		this->InitBuffers();
 	}
 }
 
@@ -77,23 +69,29 @@ HMEngine::Components::TerrainRenderer& HMEngine::Components::TerrainRenderer::op
 {
 	if (this != &other)
 	{
-		this->_vertices = other._vertices;
-		this->_indices = other._indices;
-		this->_uvs = other._uvs;
 		this->_backroundTexturePath = other._backroundTexturePath;
 		this->_rTexturePath = other._rTexturePath;
 		this->_gTexturePath = other._gTexturePath;
 		this->_bTexturePath = other._bTexturePath;
 		this->_blendMapTexturePath = other._blendMapTexturePath;
 		this->_maxHeight = other._maxHeight;
-		if (other._isAddedToRenderingEngine)
+		delete this->_mesh;
+		this->_mesh = new HMEngine::Core::Mesh(*other._mesh);
+		if (other._isAttachedToGameObject)
 		{
-			*this->_texture = *other._texture;
+			if (other._texture != nullptr)
+			{
+				delete this->_texture;
+				this->_texture = new HMEngine::OpenGL::Texture(*other._texture);
+			}
+			else
+			{
+				delete this->_terrainTexture;
+				this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(*other._terrainTexture);
+			}
 			this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(*other._terrainTexture);
-			this->_isAddedToRenderingEngine = other._isAddedToRenderingEngine;
+			this->_isAttachedToGameObject = other._isAttachedToGameObject;
 			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
-
-			this->InitBuffers();
 		}
 	}
 
@@ -102,13 +100,12 @@ HMEngine::Components::TerrainRenderer& HMEngine::Components::TerrainRenderer::op
 
 void HMEngine::Components::TerrainRenderer::AttachToGameObjectEvent()
 {
-	this->_isAddedToRenderingEngine = true;
 	if (this->_rTexturePath != "")
 		this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(this->_backroundTexturePath, this->_rTexturePath, this->_gTexturePath, this->_bTexturePath, this->_blendMapTexturePath);
 	else
 		this->_texture = new HMEngine::OpenGL::Texture(this->_backroundTexturePath);
-	this->InitBuffers();
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
+	//this->_mesh->InitBuffers();
 }
 
 void HMEngine::Components::TerrainRenderer::BindTextures() const
@@ -121,11 +118,7 @@ void HMEngine::Components::TerrainRenderer::BindTextures() const
 
 void HMEngine::Components::TerrainRenderer::DrawTerrain() const
 {
-	glBindVertexArray(this->_vao);
-
-	glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
-
-	glBindVertexArray(0);
+	this->_mesh->Draw();
 }
 
 void HMEngine::Components::TerrainRenderer::GenerateTerrain()
@@ -137,11 +130,9 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain()
 	{
 		for (unsigned int j = 0; j < this->_vertexCount; j++)
 		{
-			this->_vertices[vertexPointer] = glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, 0, (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize);
-			normals[vertexPointer * 3] = 0;
-			normals[vertexPointer * 3 + 1] = 1;
-			normals[vertexPointer * 3 + 2] = 0;
-			this->_uvs[vertexPointer] = glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1));
+			this->_mesh->AddVertex(glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, 0, (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize));
+			this->_mesh->AddNormal(glm::vec3(0, 1, 0));
+			this->_mesh->AddUV(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)));
 			vertexPointer++;
 		}
 	}
@@ -155,12 +146,12 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain()
 			int topRight = topLeft + 1;
 			int bottomLeft = ((gz + 1) * this->_vertexCount) + gx;
 			int bottomRight = bottomLeft + 1;
-			this->_indices[pointer++] = topLeft;
-			this->_indices[pointer++] = bottomLeft;
-			this->_indices[pointer++] = topRight;
-			this->_indices[pointer++] = topRight;
-			this->_indices[pointer++] = bottomLeft;
-			this->_indices[pointer++] = bottomRight;
+			this->_mesh->AddIndex(topLeft);
+			this->_mesh->AddIndex(bottomLeft);
+			this->_mesh->AddIndex(topRight);
+			this->_mesh->AddIndex(topRight);
+			this->_mesh->AddIndex(bottomLeft);
+			this->_mesh->AddIndex(bottomRight);
 		}
 	}
 
@@ -181,20 +172,14 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain(const std::string& h
 	this->_vertexCount = img.rows;
 
 	int count = this->_vertexCount * this->_vertexCount;
-	float* normals = new float[count * 3];
 	int vertexPointer = 0;
 	for (unsigned int i = 0; i < this->_vertexCount; i++)
 	{
 		for (unsigned int j = 0; j < this->_vertexCount; j++)
 		{
-			//this->_vertices[vertexPointer] = glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, 0, (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize);
-			this->_vertices.push_back(glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, this->GetHeightFromPixel(img, j, i), (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize));
-			glm::vec3 normal = this->CalculateNormal(img, j, i);
-			normals[vertexPointer * 3] = normal.x;
-			normals[vertexPointer * 3 + 1] = normal.y;
-			normals[vertexPointer * 3 + 2] = normal.z;
-			//this->_uvs[vertexPointer] = glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1));
-			this->_uvs.push_back(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)));
+			this->_mesh->AddVertex(glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, this->GetHeightFromPixel(img, j, i), (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize));
+			this->_mesh->AddNormal(this->CalculateNormal(img, j, i));
+			this->_mesh->AddUV(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)));
 			vertexPointer++;
 		}
 	}
@@ -208,46 +193,20 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain(const std::string& h
 			int topRight = topLeft + 1;
 			int bottomLeft = ((gz + 1) * this->_vertexCount) + gx;
 			int bottomRight = bottomLeft + 1;
-			this->_indices.push_back(topLeft);
+			this->_mesh->AddIndex(topLeft);
 			pointer++;
-			this->_indices.push_back(bottomLeft);
+			this->_mesh->AddIndex(bottomLeft);
 			pointer++;
-			this->_indices.push_back(topRight);
+			this->_mesh->AddIndex(topRight);
 			pointer++;
-			this->_indices.push_back(topRight);
+			this->_mesh->AddIndex(topRight);
 			pointer++;
-			this->_indices.push_back(bottomLeft);
+			this->_mesh->AddIndex(bottomLeft);
 			pointer++;
-			this->_indices.push_back(bottomRight);
+			this->_mesh->AddIndex(bottomRight);
 			pointer++;
 		}
 	}
-
-	delete normals;
-}
-
-void HMEngine::Components::TerrainRenderer::InitBuffers()
-{
-	glGenVertexArrays(1, &this->_vao);
-	glBindVertexArray(this->_vao);
-
-	glGenBuffers(NUM_BUFFERS, this->_vbo);
-
-	/* Generates the vertices buffer */
-	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_VERTICES]);
-	glBufferData(GL_ARRAY_BUFFER, (this->_vertices.size() * sizeof(this->_vertices[0])), &this->_vertices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-	/* Generates the uv's buffer */
-	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_TEXTURE_COORDS]);
-	glBufferData(GL_ARRAY_BUFFER, (this->_uvs.size() * sizeof(this->_uvs[0])), &this->_uvs[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-	/* Generates the indices buffer */
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_vbo[VBO_INDICES]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (this->_indices.size() * sizeof(this->_indices[0])), &this->_indices[0], GL_STATIC_DRAW);
 }
 
 float HMEngine::Components::TerrainRenderer::GetHeightFromPixel(const cv::Mat& image, unsigned int x, unsigned int y)

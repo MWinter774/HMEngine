@@ -5,6 +5,10 @@
 #include <sstream>
 #include <iterator>
 
+HMEngine::Core::Mesh::Mesh()
+{
+}
+
 HMEngine::Core::Mesh::Mesh(const std::string& path) : _numIndices(0)
 {
 	this->Load(path);
@@ -19,6 +23,18 @@ HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::ve
 HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals) : _numIndices(0), _vertices(vertices), _uvs(uvs), _normals(normals)
 {
 	this->InitBuffers();
+}
+
+HMEngine::Core::Mesh::Mesh(const HMEngine::Core::Mesh& other)
+{
+	this->_vertices = other._vertices;
+	this->_normals = other._normals;
+	this->_uvs = other._uvs;
+	this->_fIndices = other._fIndices;
+	this->_indices = other._indices;
+
+	this->InitBuffers();
+
 }
 
 HMEngine::Core::Mesh::~Mesh()
@@ -119,11 +135,23 @@ HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& othe
 {
 	if (this != &other)
 	{
+		/* Sets the new vertices, normals, uvs and indices */
 		this->_vertices = other._vertices;
 		this->_normals = other._normals;
 		this->_uvs = other._uvs;
 		this->_fIndices = other._fIndices;
 		this->_indices = other._indices;
+
+		/* Gets rid of old buffers */
+		glBindVertexArray(this->_vao);
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
+		glDeleteBuffers(2, this->_vbo);
+		glDeleteBuffers(1, &this->_vao);
+
+		/* Generate new ones with the new values */
+		this->InitBuffers();
 	}
 
 	return *this;
@@ -131,11 +159,22 @@ HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& othe
 
 void HMEngine::Core::Mesh::Draw()
 {
-	glBindVertexArray(this->_vao);
+	if (this->_indices.size() > 0)
+	{
+		glBindVertexArray(this->_vao);
 
-	glDrawArrays(GL_TRIANGLES, 0, this->_vertices.size());
+		glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
 
-	glBindVertexArray(0);
+		glBindVertexArray(0);
+	}
+	else
+	{
+		glBindVertexArray(this->_vao);
+
+		glDrawArrays(GL_TRIANGLES, 0, this->_vertices.size());
+
+		glBindVertexArray(0);
+	}
 }
 
 void HMEngine::Core::Mesh::InitBuffers()
@@ -164,6 +203,9 @@ void HMEngine::Core::Mesh::InitBuffers()
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
 
 	/* Generates the indices buffer */
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_vbo[VBO_INDICES]);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, (this->_indices.size() * sizeof(this->_indices[0])), &this->_indices[0], GL_STATIC_DRAW);
+	if (this->_indices.size() > 0)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_vbo[VBO_INDICES]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (this->_indices.size() * sizeof(this->_indices[0])), &this->_indices[0], GL_STATIC_DRAW);
+	}
 }

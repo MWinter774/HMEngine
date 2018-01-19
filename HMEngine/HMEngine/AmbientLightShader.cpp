@@ -7,6 +7,10 @@ void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateUniforms(cons
 	this->SetUniform("transformationMatrix", transform.GetModelMatrix());
 	this->SetUniform("viewMatrix", transform.GetViewMatrix());
 	this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
+}
+
+void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateAmbientLight()
+{
 	this->SetUniform("ambientLight", HMEngine::GameSettings::GetAmbientLight());
 }
 
@@ -20,6 +24,8 @@ HMEngine::Core::Rendering::Shaders::AmbientLightShader::AmbientLightShader()
 
 	this->Compile();
 	this->Bind();
+
+	this->UpdateAmbientLight();
 }
 
 HMEngine::Core::Rendering::Shaders::AmbientLightShader::~AmbientLightShader()
