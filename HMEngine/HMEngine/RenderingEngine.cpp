@@ -25,42 +25,8 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(this->_skyColor.r, this->_skyColor.g, this->_skyColor.b, 1.0f);
 
-	/* Renders meshes */
-	bool hadTransparency = false;
-	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
-	for (auto& item : this->_meshTextures)
-	{
-		item.first->Bind();
-		/* If the mesh has transparent texture then dont cull face */
-		if (item.first->HasTransparency())
-		{
-			glDisable(GL_CULL_FACE);
-			hadTransparency = true;
-		}
-		
-		for (auto& mesh : item.second)
-		{
-			HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
-			mesh->DrawMesh();
-		}
-		
-		/* If the mesh had transparent texture then turn on cull */
-		if (hadTransparency)
-		{
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_BACK);
-			hadTransparency = false;
-		}
-	}
-
-	/* Renders terrains */
-	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
-	for (auto& terrain : this->_terrainRenderers)
-	{
-		HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
-		terrain->BindTextures(); //Binds terrain textures
-		terrain->DrawTerrain();
-	}
+	this->RenderMeshes();
+	this->RenderTerrains();
 	
 	if (this->_doCleanup = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
 	{
@@ -156,6 +122,49 @@ HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(),
 
 HMEngine::Core::Rendering::RenderingEngine::~RenderingEngine()
 {
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RenderMeshes() const
+{
+	/* Renders meshes */
+	bool hadTransparency = false;
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
+	for (auto& item : this->_meshTextures)
+	{
+		item.first->Bind();
+		/* If the mesh has transparent texture then dont cull face */
+		if (item.first->HasTransparency())
+		{
+			glDisable(GL_CULL_FACE);
+			hadTransparency = true;
+		}
+
+		for (auto& mesh : item.second)
+		{
+			HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
+			mesh->DrawMesh();
+		}
+
+		/* If the mesh had transparent texture then turn on cull */
+		if (hadTransparency)
+		{
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			hadTransparency = false;
+		}
+	}
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
+{
+	/* Renders terrains */
+	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	for (auto& terrain : this->_terrainRenderers)
+	{
+		HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+		terrain->BindTextures(); //Binds terrain textures
+		terrain->DrawTerrain();
+	}
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight)

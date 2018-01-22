@@ -56,6 +56,9 @@ namespace HMEngine
 
 				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;
 				glm::vec3& _skyColor;
+
+				void RenderMeshes() const;
+				void RenderTerrains() const;
 			};
 		}
 	}

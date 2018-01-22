@@ -132,7 +132,7 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain()
 		{
 			this->_mesh->AddVertex(glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, 0, (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize));
 			this->_mesh->AddNormal(glm::vec3(0, 1, 0));
-			this->_mesh->AddUV(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)));
+			this->_mesh->AddUV(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)) *= 40);
 			vertexPointer++;
 		}
 	}
@@ -179,7 +179,7 @@ void HMEngine::Components::TerrainRenderer::GenerateTerrain(const std::string& h
 		{
 			this->_mesh->AddVertex(glm::vec3(float(j) / ((float)this->_vertexCount - 1) * this->_terrainSize, this->GetHeightFromPixel(img, j, i), (float)i / ((float)this->_vertexCount - 1) * this->_terrainSize));
 			this->_mesh->AddNormal(this->CalculateNormal(img, j, i));
-			this->_mesh->AddUV(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)));
+			this->_mesh->AddUV(glm::vec2((float)j / ((float)this->_vertexCount - 1), (float)i / ((float)this->_vertexCount - 1)) *= 40);
 			vertexPointer++;
 		}
 	}

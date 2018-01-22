@@ -18,9 +18,9 @@ out vec4 outColor;
 
 void main()
 {
-	vec4 blendMapColor = texture2D(blendMap, textureCoordinates);
+	vec4 blendMapColor = texture2D(blendMap, textureCoordinates / 40);
 	float backgroundTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
-	vec2 tiledUV = 40.0 * textureCoordinates;
+	vec2 tiledUV = textureCoordinates;
 	
 	/* Calculates amount of color from each texture according to the blend map */
 	vec4 backgroundTextureColor = texture2D(backgroundTexture, tiledUV) * backgroundTextureAmount;
