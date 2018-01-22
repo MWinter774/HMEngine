@@ -59,6 +59,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			{
 				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(*directionalLight);
 				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(0.05f, 1.0f);
 				terrain->BindTextures(); //Binds terrain textures
 				terrain->DrawTerrain();
 			}
@@ -87,6 +88,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			{
 				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(*pointLight);
 				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(0.05f, 1.0f);
 				terrain->BindTextures(); //Binds terrain textures
 				terrain->DrawTerrain();
 			}

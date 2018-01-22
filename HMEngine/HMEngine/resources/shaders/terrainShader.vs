@@ -4,7 +4,6 @@ layout (location = 0) in vec3 inPosition;
 layout (location = 1) in vec2 inTextureCoordinates;
 
 out vec2 textureCoordinates;
-out vec3 pos;
 out float visibilty;
 
 uniform mat4 transformationMatrix;
@@ -17,7 +16,6 @@ void main()
 {
 	vec4 worldPosition = transformationMatrix * vec4(inPosition, 1.0);
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
-	pos = worldPosition.xyz;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	textureCoordinates = inTextureCoordinates;
 	

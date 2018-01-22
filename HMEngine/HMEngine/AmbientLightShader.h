@@ -12,6 +12,9 @@ namespace HMEngine::Core
 		public:
 			void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
 			void UpdateAmbientLight();
+			void UpdateFogDensity();
+			void UpdateFogGradient();
+			void UpdateSkyColor();
 
 		private:
 			AmbientLightShader();

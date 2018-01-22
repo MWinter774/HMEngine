@@ -65,6 +65,8 @@ void HMEngine::GameSettings::SetAmbientLight(const glm::vec3& ambientLight)
 void HMEngine::GameSettings::SetFogDensity(float fogDensity)
 {
 	HMEngine::GameSettings::fogDensity = fogDensity;
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateFogDensity();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateFogDensity();
 }
@@ -72,6 +74,8 @@ void HMEngine::GameSettings::SetFogDensity(float fogDensity)
 void HMEngine::GameSettings::SetFogGradient(float fogGradient)
 {
 	HMEngine::GameSettings::fogGradient = fogGradient;
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateFogGradient();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateFogGradient();
 }
@@ -79,6 +83,8 @@ void HMEngine::GameSettings::SetFogGradient(float fogGradient)
 void HMEngine::GameSettings::SetSkyColor(const glm::vec3 & skyColor)
 {
 	HMEngine::GameSettings::skyColor = skyColor;
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateSkyColor();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
 	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateSkyColor();
 }

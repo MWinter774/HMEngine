@@ -14,6 +14,21 @@ void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateAmbientLight(
 	this->SetUniform("ambientLight", HMEngine::GameSettings::GetAmbientLight());
 }
 
+void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateFogDensity()
+{
+	this->SetUniform("fogDensity", HMEngine::GameSettings::GetFogDensity());
+}
+
+void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateFogGradient()
+{
+	this->SetUniform("fogGradient", HMEngine::GameSettings::GetFogGradient());
+}
+
+void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateSkyColor()
+{
+	this->SetUniform("skyColor", HMEngine::GameSettings::GetSkyColor());
+}
+
 HMEngine::Core::Rendering::Shaders::AmbientLightShader::AmbientLightShader()
 {
 	std::string vs = "./resources/shaders/ambientLightShader.vs";
@@ -26,6 +41,9 @@ HMEngine::Core::Rendering::Shaders::AmbientLightShader::AmbientLightShader()
 	this->Bind();
 
 	this->UpdateAmbientLight();
+	this->UpdateFogDensity();
+	this->UpdateFogGradient();
+	this->UpdateSkyColor();
 }
 
 HMEngine::Core::Rendering::Shaders::AmbientLightShader::~AmbientLightShader()

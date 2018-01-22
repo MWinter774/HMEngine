@@ -11,7 +11,6 @@ uniform sampler2D blendMap;
 uniform vec3 ambientLight;
 uniform vec3 skyColor;
 
-in vec3 pos;
 in float visibilty;
 
 out vec4 outColor;
