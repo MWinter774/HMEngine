@@ -24,6 +24,8 @@ namespace HMEngine
 					~DirectionalLightShader();
 					DirectionalLightShader(const HMEngine::Core::Rendering::Shaders::DirectionalLightShader& other) = delete;
 					HMEngine::Core::Rendering::Shaders::DirectionalLightShader& operator=(const HMEngine::Core::Rendering::Shaders::DirectionalLightShader& other) = delete;
+
+					void UpdateTextureUnits();
 				};
 			}
 		}

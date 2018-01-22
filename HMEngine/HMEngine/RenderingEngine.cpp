@@ -53,6 +53,16 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 				}
 			}
 		}
+		for (auto& terrain : this->_terrainRenderers)
+		{
+			for (auto& directionalLight : _directionalLights)
+			{
+				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(*directionalLight);
+				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+				terrain->BindTextures(); //Binds terrain textures
+				terrain->DrawTerrain();
+			}
+		}
 	}
 	if (this->_pointLights.size() > 0) //if there are any point lights then render all the meshed with the point light effect on them
 	{
@@ -69,6 +79,16 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(mesh->GetShineDamper(), mesh->GetReflectivity());
 					mesh->DrawMesh();
 				}
+			}
+		}
+		for (auto& terrain : this->_terrainRenderers)
+		{
+			for (auto& pointLight : this->_pointLights)
+			{
+				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(*pointLight);
+				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+				terrain->BindTextures(); //Binds terrain textures
+				terrain->DrawTerrain();
 			}
 		}
 	}

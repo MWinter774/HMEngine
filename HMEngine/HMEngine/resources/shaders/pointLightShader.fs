@@ -22,6 +22,10 @@ struct PointLight
 };
 
 uniform sampler2D sampler;
+uniform sampler2D rTexture;
+uniform sampler2D gTexture;
+uniform sampler2D bTexture;
+uniform sampler2D blendMap;
 uniform PointLight pointLight;
 uniform	float shineDamper;
 uniform	float reflectivity;
@@ -70,5 +74,17 @@ vec4 calcPointLight(PointLight pLight, vec3 normal)
 
 void main()
 {
-	outColor = texture2D(sampler, textureCoordinates.xy) * calcPointLight(pointLight, normalize(normals));
+	vec4 blendMapColor = texture2D(blendMap, textureCoordinates / 40);
+	float backgroundTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
+	vec2 tiledUV = textureCoordinates;
+	
+	/* Calculates amount of color from each texture according to the blend map */
+	vec4 backgroundTextureColor = texture2D(sampler, tiledUV) * backgroundTextureAmount;
+	vec4 rTextureColor = texture2D(rTexture, tiledUV) * blendMapColor.r;
+	vec4 gTextureColor = texture2D(gTexture, tiledUV) * blendMapColor.g;
+	vec4 bTextureColor = texture2D(bTexture, tiledUV) * blendMapColor.b;
+	
+	vec4 textureColor = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
+
+	outColor = textureColor * calcPointLight(pointLight, normalize(normals));
 }

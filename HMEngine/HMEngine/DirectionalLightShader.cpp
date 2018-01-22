@@ -33,8 +33,19 @@ HMEngine::Core::Rendering::Shaders::DirectionalLightShader::DirectionalLightShad
 
 	this->Compile();
 	this->Bind();
+
+	this->UpdateTextureUnits();
 }
 
 HMEngine::Core::Rendering::Shaders::DirectionalLightShader::~DirectionalLightShader()
 {
+}
+
+void HMEngine::Core::Rendering::Shaders::DirectionalLightShader::UpdateTextureUnits()
+{
+	this->SetUniform("sampler", 0);
+	this->SetUniform("rTexture", 1);
+	this->SetUniform("gTexture", 2);
+	this->SetUniform("bTexture", 3);
+	this->SetUniform("blendMap", 4);
 }

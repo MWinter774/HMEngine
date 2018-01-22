@@ -36,8 +36,19 @@ HMEngine::Core::Rendering::Shaders::PointLightShader::PointLightShader()
 
 	this->Compile();
 	this->Bind();
+
+	this->UpdateTextureUnits();
 }
 
 HMEngine::Core::Rendering::Shaders::PointLightShader::~PointLightShader()
 {
+}
+
+void HMEngine::Core::Rendering::Shaders::PointLightShader::UpdateTextureUnits()
+{
+	this->SetUniform("sampler", 0);
+	this->SetUniform("rTexture", 1);
+	this->SetUniform("gTexture", 2);
+	this->SetUniform("bTexture", 3);
+	this->SetUniform("blendMap", 4);
 }
