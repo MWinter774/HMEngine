@@ -43,6 +43,8 @@ namespace HMEngine
 
 
 			private:
+				enum term { A = 0, B, C, D };
+
 				bool _doCleanup;
 
 				RenderingEngine();
@@ -54,11 +56,19 @@ namespace HMEngine
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
 				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
 
+				std::list<HMEngine::Components::MeshRenderer*> _meshesToRender;
 				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;
 				glm::vec3& _skyColor;
 
+				std::unordered_map<HMEngine::OpenGL::OpenGLTexture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::OpenGLTexture::TextureHasher, HMEngine::OpenGL::OpenGLTexture::TextureEqualer> _unseenObjects;
+
+
 				void RenderMeshes() const;
 				void RenderTerrains() const;
+
+				void CullFrustrum();
+
+				bool IsObjectVisible(const glm::mat4& objectMVPMatrix, const glm::vec3& objectPos, float radius);
 			};
 		}
 	}

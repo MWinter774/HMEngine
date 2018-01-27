@@ -22,12 +22,14 @@ HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::Rendering
 
 void HMEngine::Core::Rendering::RenderingEngine::Render()
 {
+	this->CullFrustrum(); //Calculates which objects are visible
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(this->_skyColor.r, this->_skyColor.g, this->_skyColor.b, 1.0f);
 
 	this->RenderMeshes();
 	this->RenderTerrains();
-	
+
 	if (this->_doCleanup = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
 	{
 		glEnable(GL_BLEND);
@@ -102,26 +104,17 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		glDisable(GL_BLEND);
 	}
 
+	this->_meshTextures.clear(); //resets the objects that are visible
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::AddMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
-	this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].push_back(&meshRenderer);
+	this->_meshesToRender.push_back(&meshRenderer);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveMeshRenderer(HMEngine::Components::MeshRenderer& meshRenderer)
 {
-	int i = 0;
-	for (auto mRenderer : this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()])
-	{
-		if (mRenderer == &meshRenderer)
-		{
-			this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].erase(this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].begin() + i);
-			if (this->_meshTextures[&meshRenderer.GetTexture().GetOpenGLTexture()].size() == 0)
-				this->_meshTextures.erase(&meshRenderer.GetTexture().GetOpenGLTexture());
-		}
-		i++;
-	}
+	this->_meshesToRender.remove(&meshRenderer);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::AddTerrainRenderer(HMEngine::Components::TerrainRenderer& terrainRenderer)
@@ -187,6 +180,150 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 		terrain->BindTextures(); //Binds terrain textures
 		terrain->DrawTerrain();
 	}
+}
+
+/*
+Calculates which objects are visible and updates the _meshTextures map accrodingly.
+*/
+void HMEngine::Core::Rendering::RenderingEngine::CullFrustrum()
+{
+	HMEngine::Core::Transform* objectTransform = nullptr;
+	for (auto& meshRenderer : this->_meshesToRender)
+	{
+		objectTransform = &meshRenderer->GetParent().GetTransform();
+		if (this->IsObjectVisible(objectTransform->GetMVPMatrix(), objectTransform->GetPosition(), 5)) //DEBUG
+		{
+			this->_meshTextures[&meshRenderer->GetTexture().GetOpenGLTexture()].push_back(meshRenderer);
+		}
+	}
+}
+
+/*
+Returns whether the object is visible or not.
+Input:
+objectMVPMatrix - mvp matrix of the object to check
+objectPos - position of the object to check
+radius - radius of the object capsule
+Output:
+True if object is seen, false of isn't.
+*/
+bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4& objectMVPMatrix, const glm::vec3& objectPos, float radius)
+{
+	GLfloat xPos = objectPos.x, yPos = objectPos.y, zPos = objectPos.z;
+	const GLfloat* MVPMatrix = glm::value_ptr(objectMVPMatrix);
+	GLfloat leftPlane[4];
+	GLfloat rightPlane[4];
+	GLfloat bottomPlane[4];
+	GLfloat nearPlane[4];
+	GLfloat topPlane[4];
+	GLfloat farPlane[4];
+	GLfloat length;
+	GLfloat distance;
+
+	leftPlane[A] = MVPMatrix[3] + MVPMatrix[0];
+	leftPlane[B] = MVPMatrix[7] + MVPMatrix[4];
+	leftPlane[C] = MVPMatrix[11] + MVPMatrix[8];
+	leftPlane[D] = MVPMatrix[15] + MVPMatrix[12];
+
+	/* Normalise the plane */
+	length = sqrtf(leftPlane[A] * leftPlane[A] + leftPlane[B] * leftPlane[B] + leftPlane[C] * leftPlane[C]);
+	leftPlane[A] /= length;
+	leftPlane[B] /= length;
+	leftPlane[C] /= length;
+	leftPlane[D] /= length;
+
+	/* Check the point's location with respect to the left plane of viewing frustrum */
+	distance = leftPlane[A] * xPos + leftPlane[B] * yPos + leftPlane[C] * zPos + leftPlane[D];
+	if (distance <= -radius)
+		return false; //Bounding sphere is outside the left plane
+
+	/* Check the point's location with respect to the right plane of viewing frustum */
+	rightPlane[A] = MVPMatrix[3] - MVPMatrix[0];
+	rightPlane[B] = MVPMatrix[7] - MVPMatrix[4];
+	rightPlane[C] = MVPMatrix[11] - MVPMatrix[8];
+	rightPlane[D] = MVPMatrix[15] - MVPMatrix[12];
+
+	/* Normalise the plane */
+	length = sqrtf(rightPlane[A] * rightPlane[A] + rightPlane[B] * rightPlane[B] + rightPlane[C] * rightPlane[C]);
+	rightPlane[A] /= length;
+	rightPlane[B] /= length;
+	rightPlane[C] /= length;
+	rightPlane[D] /= length;
+
+	distance = rightPlane[A] * xPos + rightPlane[B] * yPos + rightPlane[C] * zPos + rightPlane[D];
+	if (distance <= -radius)
+		return false; //Bounding sphere is outside the right plane
+
+	/* Check the point's location with respect to the bottom plane of viewing frustum */
+	bottomPlane[A] = MVPMatrix[3] + MVPMatrix[1];
+	bottomPlane[B] = MVPMatrix[7] + MVPMatrix[5];
+	bottomPlane[C] = MVPMatrix[11] + MVPMatrix[9];
+	bottomPlane[D] = MVPMatrix[15] + MVPMatrix[13];
+
+	/* Normalise the plane */
+	length = sqrtf(bottomPlane[A] * bottomPlane[A] + bottomPlane[B] * bottomPlane[B] + bottomPlane[C] * bottomPlane[C]);
+	bottomPlane[A] /= length;
+	bottomPlane[B] /= length;
+	bottomPlane[C] /= length;
+	bottomPlane[D] /= length;
+
+	distance = bottomPlane[A] * xPos + bottomPlane[B] * yPos + bottomPlane[C] * zPos + bottomPlane[D];
+	if (distance <= -radius)
+		return false; //Bounding sphere is outside the bottom plane
+
+	/* Check the point's location with respect to the top plane of viewing frustrum */
+	topPlane[A] = MVPMatrix[3] - MVPMatrix[1];
+	topPlane[B] = MVPMatrix[7] - MVPMatrix[5];
+	topPlane[C] = MVPMatrix[11] - MVPMatrix[9];
+	topPlane[D] = MVPMatrix[15] - MVPMatrix[13];
+
+	/* Normalise the plane */
+	length = sqrtf(topPlane[A] * topPlane[A] + topPlane[B] * topPlane[B] + topPlane[C] * topPlane[C]);
+	topPlane[A] /= length;
+	topPlane[B] /= length;
+	topPlane[C] /= length;
+	topPlane[D] /= length;
+
+	distance = topPlane[A] * xPos + topPlane[B] * yPos + topPlane[C] * zPos + topPlane[D];
+	if (distance <= -radius)
+		return false; //Bounding sphere is outside the top plane
+
+	/* Check the point's location with respect to the near plane of viewing frustum */
+	nearPlane[A] = MVPMatrix[3] + MVPMatrix[2];
+	nearPlane[B] = MVPMatrix[7] + MVPMatrix[6];
+	nearPlane[C] = MVPMatrix[11] + MVPMatrix[10];
+	nearPlane[D] = MVPMatrix[15] + MVPMatrix[14];
+
+	/* Normalise the plane */
+	length = sqrtf(nearPlane[A] * nearPlane[A] + nearPlane[B] * nearPlane[B] + nearPlane[C] * nearPlane[C]);
+	nearPlane[A] /= length;
+	nearPlane[B] /= length;
+	nearPlane[C] /= length;
+	nearPlane[D] /= length;
+
+	distance = nearPlane[A] * xPos + nearPlane[B] * yPos + nearPlane[C] * zPos + nearPlane[D];
+	if (distance <= -radius)
+		return false; //Bounding sphere is completely outside the near plane
+
+	/* Check the point's location with respect to the far plane of viewing frustum */
+	farPlane[A] = MVPMatrix[3] - MVPMatrix[2];
+	farPlane[B] = MVPMatrix[7] - MVPMatrix[6];
+	farPlane[C] = MVPMatrix[11] - MVPMatrix[10];
+	farPlane[D] = MVPMatrix[15] - MVPMatrix[14];
+
+	/* Normalise the plane */
+	length = sqrtf(farPlane[A] * farPlane[A] + farPlane[B] * farPlane[B] + farPlane[C] * farPlane[C]);
+	farPlane[A] /= length;
+	farPlane[B] /= length;
+	farPlane[C] /= length;
+	farPlane[D] /= length;
+
+	distance = farPlane[A] * xPos + farPlane[B] * yPos + farPlane[C] * zPos + farPlane[D];
+	if (distance <= -radius)
+		return false; //Bounding sphere is outside the far plane
+
+	/* The bounding sphere is within at least all six sides of the view frustum, so it's visible */
+	return true;
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight)
