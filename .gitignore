@@ -6,6 +6,7 @@
 *.pdb
 *.idb
 *.obj
+!/HMEngine/HMEngine/resources/*
 *.tlog
 *.lastbuildstate
 *.log
