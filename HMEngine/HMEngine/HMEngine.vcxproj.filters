@@ -117,6 +117,12 @@
     <ClCompile Include="OpenGLTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BoundingSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IntersectionData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HMEngineIncludes.h">
@@ -216,6 +222,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntersectionData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

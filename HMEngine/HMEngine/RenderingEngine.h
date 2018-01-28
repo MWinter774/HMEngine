@@ -20,6 +20,7 @@ namespace HMEngine
 	namespace Core
 	{
 		class GameObject;
+		class Transform;
 
 		namespace Rendering
 		{
@@ -69,6 +70,8 @@ namespace HMEngine
 				void CullFrustrum();
 
 				bool IsObjectVisible(const glm::mat4& objectMVPMatrix, const glm::vec3& objectPos, float radius);
+
+				float Test(HMEngine::Core::Transform& transform) const;
 			};
 		}
 	}

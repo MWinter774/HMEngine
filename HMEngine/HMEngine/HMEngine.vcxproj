@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>.\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\HMEngine\lib;%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A\Lib;</AdditionalLibraryDirectories>
@@ -126,6 +127,7 @@
     <ClCompile Include="AmbientLightShader.cpp" />
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
+    <ClCompile Include="BoundingSphere.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="CircleMovement.cpp" />
@@ -137,6 +139,7 @@
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="HardwareInputs.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="IntersectionData.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -162,6 +165,7 @@
     <ClInclude Include="AmbientLightShader.h" />
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
+    <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CircleMovement.h" />
@@ -174,6 +178,7 @@
     <ClInclude Include="HardwareInputs.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="HMEngineIncludes.h" />
+    <ClInclude Include="IntersectionData.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="OpenGLTexture.h" />

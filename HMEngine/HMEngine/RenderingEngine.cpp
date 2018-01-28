@@ -191,7 +191,7 @@ void HMEngine::Core::Rendering::RenderingEngine::CullFrustrum()
 	for (auto& meshRenderer : this->_meshesToRender)
 	{
 		objectTransform = &meshRenderer->GetParent().GetTransform();
-		if (this->IsObjectVisible(objectTransform->GetMVPMatrix(), objectTransform->GetPosition(), 5)) //DEBUG
+		if (this->IsObjectVisible(objectTransform->GetMVPMatrix(), meshRenderer->GetCenter(), meshRenderer->GetRadius()))
 		{
 			this->_meshTextures[&meshRenderer->GetTexture().GetOpenGLTexture()].push_back(meshRenderer);
 		}

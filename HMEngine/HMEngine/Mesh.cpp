@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iterator>
+#include "BoundingSphere.h"
 
 HMEngine::Core::Mesh::Mesh()
 {
@@ -12,16 +13,19 @@ HMEngine::Core::Mesh::Mesh()
 HMEngine::Core::Mesh::Mesh(const std::string& path) : _numIndices(0)
 {
 	this->Load(path);
+	this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(this->_vertices);
 	this->InitBuffers();
 }
 
-HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<GLuint>& indices): _numIndices(0), _vertices(vertices), _uvs(uvs), _normals(normals), _indices(indices)
+HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<GLuint>& indices) : _numIndices(0), _vertices(vertices), _uvs(uvs), _normals(normals), _indices(indices)
 {
+	this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(this->_vertices);
 	this->InitBuffers();
 }
 
 HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals) : _numIndices(0), _vertices(vertices), _uvs(uvs), _normals(normals)
 {
+	this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(this->_vertices);
 	this->InitBuffers();
 }
 
@@ -32,9 +36,10 @@ HMEngine::Core::Mesh::Mesh(const HMEngine::Core::Mesh& other)
 	this->_uvs = other._uvs;
 	this->_fIndices = other._fIndices;
 	this->_indices = other._indices;
+	if (other._boundingSphere != nullptr)
+		this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(*other._boundingSphere);
 
 	this->InitBuffers();
-
 }
 
 HMEngine::Core::Mesh::~Mesh()
@@ -46,6 +51,8 @@ HMEngine::Core::Mesh::~Mesh()
 	glDeleteBuffers(2, this->_vbo);
 	glDeleteBuffers(1, &this->_vao);
 	glBindVertexArray(0);
+	if (this->_boundingSphere != nullptr)
+		delete this->_boundingSphere;
 }
 
 void HMEngine::Core::Mesh::Load(const std::string& path)
@@ -53,6 +60,7 @@ void HMEngine::Core::Mesh::Load(const std::string& path)
 	std::ifstream file(path.c_str());
 	std::string line;
 	std::vector<std::string> tokens;
+
 	if (file.is_open())
 	{
 		while (file.good())
@@ -150,6 +158,9 @@ HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& othe
 		glDeleteBuffers(2, this->_vbo);
 		glDeleteBuffers(1, &this->_vao);
 
+		if (other._boundingSphere != nullptr)
+			*this->_boundingSphere = *other._boundingSphere;
+
 		/* Generate new ones with the new values */
 		this->InitBuffers();
 	}
@@ -175,6 +186,20 @@ void HMEngine::Core::Mesh::Draw()
 
 		glBindVertexArray(0);
 	}
+}
+
+float HMEngine::Core::Mesh::GetRadius() const
+{
+	if (this->_boundingSphere != nullptr)
+		return this->_boundingSphere->GetRadius();
+	return 0.0f;
+}
+
+glm::vec3 HMEngine::Core::Mesh::GetCenter() const
+{
+	if (this->_boundingSphere != nullptr)
+		return this->_boundingSphere->GetCenter();
+	return glm::vec3();
 }
 
 void HMEngine::Core::Mesh::InitBuffers()

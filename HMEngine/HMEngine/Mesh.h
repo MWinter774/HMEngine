@@ -9,6 +9,10 @@ namespace HMEngine
 {
 	namespace Core
 	{
+		namespace Physics
+		{
+			class BoundingSphere;
+		}
 
 		class Mesh
 		{
@@ -36,6 +40,8 @@ namespace HMEngine
 			inline std::vector<glm::vec2>& GetUVs() { return this->_uvs; };
 			inline std::vector<fIndices> GetFaceIndices() { return this->_fIndices; };
 			inline int GetNumIndices() { return this->_numIndices; };
+			float GetRadius() const;
+			glm::vec3 GetCenter() const;
 
 			inline void AddVertex(const glm::vec3& vertex) { this->_vertices.push_back(vertex); }
 			inline void AddUV(const glm::vec2& uv) { this->_uvs.push_back(uv); }
@@ -73,6 +79,7 @@ namespace HMEngine
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];
 
+			HMEngine::Core::Physics::BoundingSphere* _boundingSphere;
 		};
 
 	}
