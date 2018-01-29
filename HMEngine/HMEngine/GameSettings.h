@@ -28,8 +28,8 @@ namespace HMEngine
 		static const glm::vec3& Z_AXIS;
 
 		static inline float GetFov() { return HMEngine::GameSettings::fovInDegrees; }
-		static inline unsigned int GetWindowWidth() { return HMEngine::GameSettings::windowWidth; }
-		static inline unsigned int GetWindowHeight() { return HMEngine::GameSettings::windowHeight; }
+		static inline const unsigned int& GetWindowWidth() { return HMEngine::GameSettings::windowWidth; }
+		static inline const unsigned int& GetWindowHeight() { return HMEngine::GameSettings::windowHeight; }
 		static inline float GetZNear() { return HMEngine::GameSettings::zNear; }
 		static inline float GetZFar() { return HMEngine::GameSettings::zFar; }
 		static inline bool IsCursorLocked() { return HMEngine::GameSettings::isCursorLocked; }

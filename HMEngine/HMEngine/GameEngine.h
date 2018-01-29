@@ -14,6 +14,7 @@ namespace HMEngine
 		namespace Rendering
 		{
 			class Window;
+			class Camera;
 			class RenderingEngine;
 		}
 	}
@@ -33,6 +34,7 @@ namespace HMEngine
 		inline void SetMouseVisible(bool isVisible) const { HMEngine::GameSettings::SetCursorVisible(isVisible); }
 
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
+		void AddGameObject(HMEngine::Core::GameObject* gameObject);
 		inline std::vector<HMEngine::Core::GameObject*> GetGameObjects() { return this->_gameObjectsVector; };
 		HMEngine::Core::GameObject* GetGameObject(const std::string& name);
 		void RemoveGameObject(const std::string& name);
@@ -51,6 +53,7 @@ namespace HMEngine
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
 		HMEngine::Core::Rendering::Window* _window;
+		HMEngine::Core::Rendering::Camera* _camera;
 
 		std::vector<HMEngine::Core::GameObject*> _gameObjectsToAddBuffer; //keeps track which game objects to add each iteration of the game loop
 		std::vector<std::string> _gameObjectsToRemoveBuffer; //keeps track which game objects to delete each iteration of the game loop

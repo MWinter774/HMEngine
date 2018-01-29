@@ -12,6 +12,10 @@ namespace HMEngine
 {
 	namespace Core
 	{
+		namespace Physics
+		{
+			class Ray;
+		}
 		class Transform;
 		namespace Rendering
 		{
@@ -19,6 +23,8 @@ namespace HMEngine
 			{
 			public:
 				static HMEngine::Core::Rendering::Camera& GetInstance();
+
+				void Update();
 
 				/* Getters/Setters/Adders for position */
 				float GetPositionX() const;
@@ -44,8 +50,10 @@ namespace HMEngine
 				inline glm::vec3 GetUp() const { return this->_up; }
 				inline glm::vec3 GetRight() const { return this->_right; }
 
-				glm::mat4 GetViewMatrix();
-				glm::mat4 GetMVP() const;
+				HMEngine::Core::Physics::Ray GetRayFromScreenPoint(const glm::vec2& screenPos);
+
+				inline glm::mat4 GetViewMatrix() const { return this->_viewMatrix; }
+				inline glm::mat4 GetMVP() const;
 			private:
 				Camera();
 				Camera(const HMEngine::Core::Rendering::Camera& other) = delete;
@@ -55,6 +63,13 @@ namespace HMEngine
 				HMEngine::Core::Transform* _transform;
 				glm::vec3 _forward, _right, _up;
 				glm::mat4 _viewMatrix = glm::mat4(1);
+				const unsigned int& _windowWidth, _windowHeight;
+				glm::mat4& _projectionMatrix;
+
+				inline glm::vec2 GetNormalizedCoords(float x, float y) const { return glm::vec2((2.0f * x) / this->_windowWidth - 1.0f, -((2.0f * y) / this->_windowHeight - 1.0f)); }
+				inline glm::vec2 GetNormalizedCoords(const glm::vec2& pos) const { return glm::vec2((2.0f * pos.x) / this->_windowWidth - 1.0f, -((2.0f * pos.y) / this->_windowHeight - 1.0f)); }
+				glm::vec4 ConvertToEyeCoords(const glm::vec4& coords) const;
+				glm::vec3 ConvertToWorldCoords(const glm::vec4& coords) const;
 			};
 		}
 	}

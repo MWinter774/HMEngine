@@ -145,9 +145,11 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="PointLightShader.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderTracker.cpp" />
@@ -182,9 +184,11 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="OpenGLTexture.h" />
+    <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="PointLightShader.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderTracker.h" />

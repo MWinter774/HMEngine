@@ -10,7 +10,7 @@
 #include "Utilities.h"
 #include <algorithm>
 
-HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsToAddBuffer(), _gameObjectsVector(), _gameObjectsToRemoveBuffer()
+HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsToAddBuffer(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance())
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
@@ -79,6 +79,7 @@ void HMEngine::GameEngine::Run()
 			}
 		}
 		this->UpdateGameObjectsBuffers();
+		this->_camera->Update();
 
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
@@ -99,9 +100,9 @@ void HMEngine::GameEngine::Run()
 }
 
 /*
-Adds game object to the engine.
+Copies the game object and adds the copy to the engine.
 Input:
-gameObject - the game object to add
+gameObject - the game object to clone and add
 Output:
 */
 void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameObject)
@@ -115,6 +116,24 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 	go->_gameEngine = this; //sets game object game engine to this
 	go->AttachToGameEngine(); //activates event
 	this->_gameObjectsToAddBuffer.push_back(go); //adds this game object to the buffer
+}
+
+/*
+Adds game object to the engine.
+Input:
+gameObject - the game object to add
+Output:
+*/
+void HMEngine::GameEngine::AddGameObject(HMEngine::Core::GameObject* gameObject)
+{
+	if (this->_gameObjects.find(gameObject->GetName()) != this->_gameObjects.end()) //checkes if a game object with the same name exists
+	{
+		HMEngine::Core::Utilities::PrintDebugMessage("\"" + gameObject->GetName() + "\" Wasn't added because a game object with this name already exist!", "WARNING", 6);
+		return;
+	}
+	gameObject->_gameEngine = this; //sets game object game engine to this
+	gameObject->AttachToGameEngine(); //activates event
+	this->_gameObjectsToAddBuffer.push_back(gameObject); //adds this game object to the buffer
 }
 
 /*

@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2.0.7\SDL.h>
 #undef main
+#include "glm\glm.hpp"
 
 namespace HMEngine
 {
@@ -84,6 +85,14 @@ namespace HMEngine
 				static inline int GetCursorYPos()
 				{
 					return HardwareInputs::cursorYPos;
+				}
+
+				/*
+				Returns vector representing the mouse position
+				*/
+				static inline glm::vec2 GetCursorPos()
+				{
+					return glm::vec2(HardwareInputs::cursorXPos, HardwareInputs::cursorYPos);
 				}
 
 				/*

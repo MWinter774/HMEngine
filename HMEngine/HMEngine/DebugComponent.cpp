@@ -10,6 +10,7 @@
 #include "PointLight.h"
 #include "CircleMovement.h"
 #include "DirectionalLight.h"
+#include "Ray.h"
 
 float intesity = 15.0f;
 HMEngine::Components::DebugComponent::DebugComponent() : _isAdded(false)
@@ -213,5 +214,14 @@ void HMEngine::Components::DebugComponent::UpdateEvent()
 		{
 			this->AddGameObject(*pointLightMonkey);
 		}
+	}
+	else if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
+	{
+		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
+		std::cout << ray.GetOrigin().x << ", " << ray.GetOrigin().y << ", " << ray.GetOrigin().z << " | " << ray.GetDirection().x << ", " << ray.GetDirection().y << ", " << ray.GetDirection().z << std::endl;
+	}
+	else if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_E))
+	{
+		HMEngine::GameSettings::SetIsCursorLocked(!HMEngine::GameSettings::IsCursorLocked());
 	}
 }
