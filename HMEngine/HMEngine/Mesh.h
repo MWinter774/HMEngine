@@ -42,6 +42,7 @@ namespace HMEngine
 			inline int GetNumIndices() { return this->_numIndices; };
 			float GetRadius() const;
 			glm::vec3 GetCenter() const;
+			HMEngine::Core::Physics::BoundingSphere& GetBoundingSphere();
 
 			inline void AddVertex(const glm::vec3& vertex) { this->_vertices.push_back(vertex); }
 			inline void AddUV(const glm::vec2& uv) { this->_uvs.push_back(uv); }

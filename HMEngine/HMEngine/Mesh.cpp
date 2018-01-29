@@ -202,6 +202,11 @@ glm::vec3 HMEngine::Core::Mesh::GetCenter() const
 	return glm::vec3();
 }
 
+HMEngine::Core::Physics::BoundingSphere& HMEngine::Core::Mesh::GetBoundingSphere()
+{
+	return *this->_boundingSphere;
+}
+
 void HMEngine::Core::Mesh::InitBuffers()
 {
 	glGenVertexArrays(1, &this->_vao);

@@ -11,6 +11,7 @@
 #include "CircleMovement.h"
 #include "DirectionalLight.h"
 #include "Ray.h"
+#include "PhysicsEngine.h"
 
 float intesity = 15.0f;
 HMEngine::Components::DebugComponent::DebugComponent() : _isAdded(false)
@@ -219,6 +220,10 @@ void HMEngine::Components::DebugComponent::UpdateEvent()
 	{
 		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
 		std::cout << ray.GetOrigin().x << ", " << ray.GetOrigin().y << ", " << ray.GetOrigin().z << " | " << ray.GetDirection().x << ", " << ray.GetDirection().y << ", " << ray.GetDirection().z << std::endl;
+		if (HMEngine::Core::Physics::PhysicsEngine::Raycast(ray, 50.0f))
+		{
+			std::cout << "Hit!" << std::endl;
+		}
 	}
 	else if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_E))
 	{

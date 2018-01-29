@@ -3,6 +3,7 @@
 #include "BasicShader.h"
 #include "Texture.h"
 #include "RenderingEngine.h"
+#include "PhysicsEngine.h"
 #include <glm/gtx/string_cast.hpp>
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const std::string& meshPath, const std::string& texturePath, float shineDamper, float reflectivity) : _texturePath(texturePath), _meshPath(meshPath), _shineDamper(shineDamper), _reflectivity(reflectivity)
@@ -14,6 +15,7 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 	if (this->_isAttachedToGameObject)
 	{
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveMeshRenderer(*this);
+		HMEngine::Core::Physics::PhysicsEngine::RemoveGameObjectCollider(&this->_mesh->GetBoundingSphere());
 		delete this->_mesh;
 		delete this->_texture;
 	}
@@ -67,6 +69,7 @@ void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
 	this->_mesh = new HMEngine::Core::Mesh(this->_meshPath);
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
+	HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(&this->_mesh->GetBoundingSphere(), this->_parentObject);
 }
 
 void HMEngine::Components::MeshRenderer::SetTexture(const std::string& texturePath)
