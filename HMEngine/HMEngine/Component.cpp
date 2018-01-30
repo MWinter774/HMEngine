@@ -25,6 +25,11 @@ void HMEngine::Components::Component::AddGameObject(const HMEngine::Core::GameOb
 	this->_parentObject->GetGameEngine().AddGameObject(go);
 }
 
+void HMEngine::Components::Component::AddGameObject(HMEngine::Core::GameObject* go) const
+{
+	this->_parentObject->GetGameEngine().AddGameObject(go);
+}
+
 void HMEngine::Components::Component::RemoveGameObject(const std::string& name) const
 {
 	this->_parentObject->GetGameEngine().RemoveGameObject(name);

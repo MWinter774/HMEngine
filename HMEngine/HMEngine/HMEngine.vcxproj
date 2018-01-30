@@ -150,6 +150,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="PointLightShader.cpp" />
     <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="RaycastInfo.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderTracker.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="PointLightShader.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="RaycastInfo.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderTracker.h" />

@@ -12,6 +12,7 @@
 #include "DirectionalLight.h"
 #include "Ray.h"
 #include "PhysicsEngine.h"
+#include "RaycastInfo.h"
 
 float intesity = 15.0f;
 HMEngine::Components::DebugComponent::DebugComponent() : _isAdded(false)
@@ -138,24 +139,6 @@ HMEngine::Components::DebugComponent::DebugComponent() : _isAdded(false)
 
 HMEngine::Components::DebugComponent::~DebugComponent()
 {
-	delete this->_floor;
-	delete this->_fakeCube;
-	for (auto& crate : this->_crates)
-	{
-		delete crate;
-	}
-	for (auto& pointLight : this->_pointLights)
-	{
-		delete pointLight;
-	}
-	for (auto& monkey : this->_monkies)
-	{
-		delete monkey;
-	}
-	for (auto& pointLightMonkey : this->_pointLightMonkies)
-	{
-		delete pointLightMonkey;
-	}
 }
 
 HMEngine::Components::DebugComponent::DebugComponent(const HMEngine::Components::DebugComponent& other)
@@ -196,34 +179,37 @@ void HMEngine::Components::DebugComponent::UpdateEvent()
 	if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_F))
 	{
 		this->_isAdded = true;
-		this->AddGameObject(*this->_floor);
-		this->RemoveGameObject("fakeCube_Copy_Copy_Copy");
+		this->AddGameObject(this->_floor);
+		//this->RemoveGameObject("fakeCube_Copy_Copy_Copy");
 		HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0, 2, 10);
 		for (auto& crate : this->_crates)
 		{
-			this->AddGameObject(*crate);
+			this->AddGameObject(crate);
 		}
 		for (auto& pointLight : this->_pointLights)
 		{
-			this->AddGameObject(*pointLight);
+			this->AddGameObject(pointLight);
 		}
 		for (auto& monkey : this->_monkies)
 		{
-			this->AddGameObject(*monkey);
+			this->AddGameObject(monkey);
 		}
 		for (auto& pointLightMonkey : this->_pointLightMonkies)
 		{
-			this->AddGameObject(*pointLightMonkey);
+			this->AddGameObject(pointLightMonkey);
 		}
 	}
 	else if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
 	{
 		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
-		std::cout << ray.GetOrigin().x << ", " << ray.GetOrigin().y << ", " << ray.GetOrigin().z << " | " << ray.GetDirection().x << ", " << ray.GetDirection().y << ", " << ray.GetDirection().z << std::endl;
-		if (HMEngine::Core::Physics::PhysicsEngine::Raycast(ray, 50.0f))
-		{
-			std::cout << "Hit!" << std::endl;
-		}
+		//std::cout << ray.GetOrigin().x << ", " << ray.GetOrigin().y << ", " << ray.GetOrigin().z << " | " << ray.GetDirection().x << ", " << ray.GetDirection().y << ", " << ray.GetDirection().z << std::endl;
+		HMEngine::Core::Physics::RaycastInfo f = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray, 50.0f);
+		if (f)
+			f.hits.begin()->second->GetTransform().SetPosition(f.GetEndPoint(5.0f));
+		//for (auto item : f.hits)
+		//{
+			//std::cout << "[" << item.first << ", " << item.second->GetName() << "]" << std::endl;
+		//}
 	}
 	else if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_E))
 	{

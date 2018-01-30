@@ -36,6 +36,7 @@ namespace HMEngine
 			inline void AddPositionZ(float z) { this->_position.z += z; };
 			inline void AddPosition(const glm::vec3& other) { this->_position += other; };
 			inline void AddPosition(float x, float y, float z) { this->_position += glm::vec3(x, y, z); };
+			inline void AddPosition(float count) { this->_position += glm::vec3(count, count, count); };
 
 			/* Rotation getters/setters/adders */
 			inline float GetRotationX() const { return this->_rotation.x; }
