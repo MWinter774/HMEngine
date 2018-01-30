@@ -39,7 +39,6 @@ HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Ray
 
 	float b = 0.0f;
 	float c = 0.0f;
-	float res = 0.0f;
 	glm::vec3 center;
 	float radius = 0.0f;
 	glm::vec3 distance;
@@ -53,8 +52,7 @@ HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Ray
 
 		b = glm::dot(rayDirection, distance);
 		c = glm::dot(distance, distance) - radius * radius;
-		res = b * b - c;
-		if (res >= 0)
+		if (b * b - c >= 0)
 		{
 			info.isHit = true;
 			info.hits.emplace(glm::distance(rayOrigin, center), item.second);
