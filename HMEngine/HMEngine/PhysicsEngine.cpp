@@ -29,15 +29,13 @@ maxDistance - maximum distance of the ray
 Output:
 True if ray hitting some object, false otherwise.
 */
-HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Raycast(const HMEngine::Core::Physics::Ray& ray, float maxDistance)
+HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Raycast(const HMEngine::Core::Physics::Ray& ray)
 {
 	HMEngine::Core::Physics::RaycastInfo info = HMEngine::Core::Physics::RaycastInfo();
 	info.ray = ray;
 
 	glm::vec3 rayDirection = ray.GetDirection();
 	glm::vec3 rayOrigin = ray.GetOrigin();
-	float rayLength = sqrt(rayDirection.x * rayDirection.x + rayDirection.y * rayDirection.y + rayDirection.z * rayDirection.z);
-	float vLen = maxDistance / 10.0f;
 
 	float b = 0.0f;
 	float c = 0.0f;
@@ -46,8 +44,6 @@ HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Ray
 	float radius = 0.0f;
 	glm::vec3 distance;
 	HMEngine::Core::Physics::BoundingSphere* boundingSphere = nullptr;
-	glm::vec3 deltaVector;
-	glm::vec3 endPoint;
 	for (auto item : HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders)
 	{
 		boundingSphere = item.first;
@@ -60,11 +56,6 @@ HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Ray
 		res = b * b - c;
 		if (res >= 0)
 		{
-			//deltaVector = rayDirection / rayLength;
-			//endPoint = rayOrigin + vLen * deltaVector;
-
-			//item.second->GetTransform().SetPosition(endPoint);
-			//isColliding = true;
 			info.isHit = true;
 			info.hits.emplace(glm::distance(rayOrigin, center), item.second);
 		}

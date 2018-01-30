@@ -18,7 +18,7 @@ namespace HMEngine
 			{
 			public:
 				static HMEngine::Core::Physics::RaycastInfo Raycast(const glm::vec3& origin, const glm::vec3& direction, float maxDistance);
-				static HMEngine::Core::Physics::RaycastInfo Raycast(const HMEngine::Core::Physics::Ray& ray, float maxDistance);
+				static HMEngine::Core::Physics::RaycastInfo Raycast(const HMEngine::Core::Physics::Ray& ray);
 
 				static void AddGameObjectCollider(HMEngine::Core::Physics::BoundingSphere* boundingSphere, HMEngine::Core::GameObject* gameObject);
 				static void RemoveGameObjectCollider(HMEngine::Core::Physics::BoundingSphere* boundingSphere);

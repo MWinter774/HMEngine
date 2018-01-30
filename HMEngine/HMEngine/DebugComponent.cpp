@@ -203,9 +203,9 @@ void HMEngine::Components::DebugComponent::UpdateEvent()
 	{
 		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
 		//std::cout << ray.GetOrigin().x << ", " << ray.GetOrigin().y << ", " << ray.GetOrigin().z << " | " << ray.GetDirection().x << ", " << ray.GetDirection().y << ", " << ray.GetDirection().z << std::endl;
-		HMEngine::Core::Physics::RaycastInfo f = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray, 50.0f);
+		HMEngine::Core::Physics::RaycastInfo f = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray);
 		if (f)
-			f.hits.begin()->second->GetTransform().SetPosition(f.GetEndPoint(5.0f));
+			f.hits.begin()->second->GetTransform().SetPosition(f.GetEndPoint(glm::distance(f.hits.begin()->second->GetTransform().GetPosition(), HMEngine::Core::Rendering::Camera::GetInstance().GetPosition())));
 		//for (auto item : f.hits)
 		//{
 			//std::cout << "[" << item.first << ", " << item.second->GetName() << "]" << std::endl;
