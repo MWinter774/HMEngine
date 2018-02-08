@@ -199,7 +199,7 @@ void HMEngine::Components::DebugComponent::UpdateEvent()
 			this->AddGameObject(pointLightMonkey);
 		}
 	}
-	else if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
+	else if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
 	{
 		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
 		//std::cout << ray.GetOrigin().x << ", " << ray.GetOrigin().y << ", " << ray.GetOrigin().z << " | " << ray.GetDirection().x << ", " << ray.GetDirection().y << ", " << ray.GetDirection().z << std::endl;
@@ -207,7 +207,7 @@ void HMEngine::Components::DebugComponent::UpdateEvent()
 		if (f)
 		{
 			f.hits.begin()->second->GetTransform().SetPosition(f.GetEndPoint(glm::distance(f.hits.begin()->second->GetTransform().GetPosition(), HMEngine::Core::Rendering::Camera::GetInstance().GetPosition())));
-			this->RemoveGameObject(f.hits.begin()->second->GetName());
+			//this->RemoveGameObject(f.hits.begin()->second->GetName());
 		}//for (auto item : f.hits)
 		//{
 			//std::cout << "[" << item.first << ", " << item.second->GetName() << "]" << std::endl;

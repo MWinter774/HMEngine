@@ -111,7 +111,7 @@ int main()
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 	
 	int c = 0;
-	for (int i = -1; i <= 1; i++)
+	/*for (int i = -1; i <= 1; i++)
 	{
 		for (int j = -1; j <= 1; j++)
 		{
@@ -124,7 +124,7 @@ int main()
 				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/black.png"));
 			g.AddGameObject(go);
 		}
-	}
+	}*/
 	//g.AddGameObject(go);
 	//g.AddGameObject(go2);
 
