@@ -48,7 +48,7 @@ HMEngine::Core::Mesh::~Mesh()
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
-	glDeleteBuffers(2, this->_vbo);
+	glDeleteBuffers(NUM_BUFFERS, this->_vbo);
 	glDeleteBuffers(1, &this->_vao);
 	glBindVertexArray(0);
 	if (this->_boundingSphere != nullptr)
@@ -175,16 +175,12 @@ void HMEngine::Core::Mesh::Draw()
 		glBindVertexArray(this->_vao);
 
 		glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
-
-		glBindVertexArray(0);
 	}
 	else
 	{
 		glBindVertexArray(this->_vao);
 
 		glDrawArrays(GL_TRIANGLES, 0, this->_vertices.size());
-
-		glBindVertexArray(0);
 	}
 }
 

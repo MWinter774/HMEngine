@@ -7,6 +7,10 @@
 
 namespace HMEngine
 {
+	namespace UI
+	{
+		class Quad;
+	}
 	namespace Core
 	{
 		class Transform;
@@ -24,6 +28,8 @@ namespace HMEngine
 	public:
 		GameEngine();
 		~GameEngine();
+		GameEngine(const HMEngine::GameEngine& other) = delete;
+		HMEngine::GameEngine& operator=(const HMEngine::GameEngine& other) = delete;
 
 		void CreateNewWindow(unsigned int width, unsigned int height, const std::string& title, bool fullscreen);
 		void Run();
@@ -38,6 +44,8 @@ namespace HMEngine
 		inline std::vector<HMEngine::Core::GameObject*> GetGameObjects() { return this->_gameObjectsVector; };
 		HMEngine::Core::GameObject* GetGameObject(const std::string& name);
 		void RemoveGameObject(const std::string& name);
+		void AddUI(const HMEngine::UI::Quad& ui);
+		void RemoveUI(const std::string& name);
 
 		glm::vec3 GetSkyColor() const;
 
@@ -55,10 +63,15 @@ namespace HMEngine
 		HMEngine::Core::Rendering::Window* _window;
 		HMEngine::Core::Rendering::Camera* _camera;
 
+		std::map<std::string, HMEngine::Core::GameObject*> _gameObjects; //maps between name of the game object to the game object itself
 		std::vector<HMEngine::Core::GameObject*> _gameObjectsToAddBuffer; //keeps track which game objects to add each iteration of the game loop
 		std::vector<std::string> _gameObjectsToRemoveBuffer; //keeps track which game objects to delete each iteration of the game loop
-		std::map<std::string, HMEngine::Core::GameObject*> _gameObjects; //maps between name of the game object to the game object itself
 		std::vector<HMEngine::Core::GameObject*> _gameObjectsVector; //list of game objects(used to improve game engine's efficiency)
+		
+		std::map<std::string, HMEngine::UI::Quad*> _quads;
+		std::vector<std::string> _quadsToRemoveBuffer;
+		std::vector<HMEngine::UI::Quad*> _quadsToAddBuffer;
+		std::vector<HMEngine::UI::Quad*> _quadsVector;
 
 		void UpdateGameObjectsBuffers();
 	};

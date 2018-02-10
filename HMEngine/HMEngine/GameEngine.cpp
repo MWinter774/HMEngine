@@ -9,8 +9,11 @@
 #include "Camera.h"
 #include "Utilities.h"
 #include <algorithm>
+#include "Quad.h"
 
-HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsToAddBuffer(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance())
+#include "Image.h"
+
+HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsToAddBuffer(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToAddBuffer(), _quadsToRemoveBuffer()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
@@ -30,6 +33,10 @@ HMEngine::GameEngine::~GameEngine()
 	{
 		delete gameObject.second;
 	}
+	for (auto& quad : this->_quads)
+	{
+		delete quad.second;
+	}
 	if (this->_window != nullptr)
 		delete this->_window;
 	SDL_Quit();
@@ -42,7 +49,7 @@ void HMEngine::GameEngine::CreateNewWindow(unsigned int width, unsigned int heig
 	HMEngine::GameSettings::windowHeight = height;
 	HMEngine::GameSettings::UpdateProjectionMatrix();
 
-	_window = new HMEngine::Core::Rendering::Window(width, height, title, fullscreen);
+	this->_window = new HMEngine::Core::Rendering::Window(width, height, title, fullscreen);
 	this->_renderingEngine = &HMEngine::Core::Rendering::RenderingEngine::GetInstance();
 }
 
@@ -83,6 +90,10 @@ void HMEngine::GameEngine::Run()
 
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
+		for (auto& quad : this->_quadsVector)
+		{
+			quad->Update();
+		}
 		for (auto& gameObject : this->_gameObjects)
 		{
 			gameObject.second->Update();
@@ -94,9 +105,6 @@ void HMEngine::GameEngine::Run()
 		this->_renderingEngine->Render(); //Render objects(on the second window buffer)
 		this->_window->Update(); //Updates the window(swaps between the second window buffer and the first window buffer)
 	}
-
-
-
 }
 
 /*
@@ -171,6 +179,31 @@ void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
 	this->_gameObjectsToRemoveBuffer.push_back(name);
 }
 
+void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
+{
+	if (this->_quads.find(ui.GetName()) != this->_quads.end()) //checkes if a game object with the same name exists
+	{
+		HMEngine::Core::Utilities::PrintDebugMessage("\"" + ui.GetName() + "\" Wasn't added because a ui with this name already exist!", "WARNING", 6);
+		return;
+	}
+	auto uiClone = ui.Clone();
+	uiClone->_gameEngine = this; //sets game object game engine to this
+	uiClone->AttachToGameEngine();
+	this->_quadsToAddBuffer.push_back(uiClone); //adds this game object to the buffer
+	this->_renderingEngine->AddUI(*uiClone);
+	this->_quadsVector.push_back(uiClone);
+}
+
+void HMEngine::GameEngine::RemoveUI(const std::string& name)
+{
+	auto quad = this->_quads.find(name);
+	if (quad == this->_quads.end()) //Game Object not found
+	{
+		HMEngine::Core::Utilities::ThrowException("\"" + name + "\" GAME OBJECT NOT FOUND!");
+	}
+	this->_quadsToRemoveBuffer.push_back(name);
+}
+
 glm::vec3 HMEngine::GameEngine::GetSkyColor() const
 {
 	return HMEngine::GameSettings::GetSkyColor();
@@ -221,6 +254,7 @@ Updates the buffers of game objects(handles adding/removing of game objects).
 */
 void HMEngine::GameEngine::UpdateGameObjectsBuffers()
 {
+	/* Handles game object buffers */
 	if (this->_gameObjectsToAddBuffer.size() > 0) //if game objects need to be added
 	{
 		for (auto& go : this->_gameObjectsToAddBuffer)
@@ -241,5 +275,26 @@ void HMEngine::GameEngine::UpdateGameObjectsBuffers()
 			this->_gameObjects.erase(gameObjectName); //deletes the game object name for the map of names and game objects
 		}
 		this->_gameObjectsToRemoveBuffer.clear(); //clears the buffer
+	}
+
+	/* Handles quads buffers */
+	if (this->_quadsToAddBuffer.size() > 0)
+	{
+		for (auto& quad : this->_quadsToAddBuffer)
+		{
+			this->_quads[quad->GetName()] = quad;
+		}
+		this->_quadsToAddBuffer.clear();
+	}
+	if (this->_quadsToRemoveBuffer.size() > 0)
+	{
+		for (auto& quadName : this->_quadsToRemoveBuffer)
+		{
+			this->_quadsVector.erase(std::remove(this->_quadsVector.begin(), this->_quadsVector.end(), this->_quads[quadName]), this->_quadsVector.end()); //deletes the quad from the list of game objects
+			this->_renderingEngine->RemoveUI(*this->_quads[quadName]);
+			delete this->_quads[quadName]; //frees the memory of the game object
+			this->_quads.erase(quadName); //deletes the game object name for the map of names and game objects
+		}
+		this->_quadsToRemoveBuffer.clear(); //clears the buffer
 	}
 }

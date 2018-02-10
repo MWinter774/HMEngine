@@ -11,6 +11,7 @@
 #include "PointLight.h"
 #include "CircleMovement.h"
 #include "Terrain.h"
+#include "Image.h"
 
 int main()
 {
@@ -109,7 +110,7 @@ int main()
 	g.AddGameObject(gameMaster);
 
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
-	
+
 	int c = 0;
 	/*for (int i = -1; i <= 1; i++)
 	{
@@ -134,6 +135,8 @@ int main()
 	HMEngine::Player p("Player", 100.0f, 200.0f);
 	g.AddGameObject(p);
 
+	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/textures/crosshair.png", { 400, 300 }, { 0.05,0.05 });
+	g.AddUI(crosshair);
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png");

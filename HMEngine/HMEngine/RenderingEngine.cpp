@@ -13,6 +13,8 @@
 #include "GameSettings.h"
 #include "TerrainRenderer.h"
 #include <algorithm>
+#include "Quad.h"
+#include "UIShader.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -27,12 +29,19 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(this->_skyColor.r, this->_skyColor.g, this->_skyColor.b, 1.0f);
 
-	this->RenderMeshes();
-	this->RenderTerrains();
+	if (this->_meshTextures.size() > 0)
+	{
+		this->RenderMeshes();
+	}
+	if (this->_terrainRenderers.size() > 0)
+	{
+		this->RenderTerrains();
+	}
+	
 
+	glEnable(GL_BLEND);
 	if (this->_doCleanup = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
 	{
-		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
@@ -97,12 +106,22 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		}
 	}
 
+	if (this->_quads.size() > 0)
+	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_DEPTH_TEST);
+		this->RenderQuads();
+		glEnable(GL_DEPTH_TEST);
+	}
+
 	if (this->_doCleanup) //if there are some lights in the scene then load back the settings from blending the new lights
 	{
 		glDepthFunc(GL_LESS);
 		glDepthMask(GL_TRUE);
-		glDisable(GL_BLEND);
 	}
+	glDisable(GL_BLEND);
+
+	
 
 	this->_meshTextures.clear(); //resets the objects that are visible
 }
@@ -179,6 +198,17 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 		HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
 		terrain->BindTextures(); //Binds terrain textures
 		terrain->DrawTerrain();
+	}
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
+{
+	HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
+	for (auto& quad : this->_quads)
+	{
+		HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad->GetTransform());
+		quad->BindTexture();
+		quad->Draw();
 	}
 }
 
@@ -344,4 +374,14 @@ void HMEngine::Core::Rendering::RenderingEngine::AddPointLight(HMEngine::Compone
 void HMEngine::Core::Rendering::RenderingEngine::RemovePointLight(HMEngine::Components::PointLight& pointLight)
 {
 	this->_pointLights.erase(&pointLight);
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::AddUI(HMEngine::UI::Quad & ui)
+{
+	this->_quads.insert(&ui);
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RemoveUI(HMEngine::UI::Quad & ui)
+{
+	this->_quads.erase(&ui);
 }
