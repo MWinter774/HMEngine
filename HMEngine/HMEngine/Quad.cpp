@@ -6,7 +6,7 @@
 
 const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1),glm::vec2(-1,-1), glm::vec2(1,1),glm::vec2(1,-1) };
 
-HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) : _name(name), _vertices(vertices), _scale(scale), _gameEngine(nullptr), _texture(new HMEngine::OpenGL::UITexture(texturePath)), _isAddedToGameEngine(false), _position(position)
+HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) : _name(name), _vertices(vertices), _scale(scale), _gameEngine(nullptr), _texture(new HMEngine::OpenGL::UITexture(texturePath)), _isAddedToGameEngine(false), _position(position.x, HMEngine::GameSettings::GetWindowHeight() - position.y)
 {
 	float fixedPositionX = (2 * position.x - HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowWidth();
 	float fixedPositionY = (2 * position.y - HMEngine::GameSettings::GetWindowHeight()) / HMEngine::GameSettings::GetWindowHeight();

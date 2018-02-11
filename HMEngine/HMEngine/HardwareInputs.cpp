@@ -1,4 +1,5 @@
 #include "HardwareInputs.h"
+#include <iostream>
 
 char HMEngine::Core::Hardware::HardwareInputs::keys[HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS] = { KeyStates::KeyNone };
 char HMEngine::Core::Hardware::HardwareInputs::mouseButtons[HMEngine::Core::Hardware::HardwareInputs::NUM_MOUSE_BUTTONS] = { MouseButtonsStates::MouseButtonNone };

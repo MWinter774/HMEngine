@@ -12,6 +12,7 @@
 #include "CircleMovement.h"
 #include "Terrain.h"
 #include "Image.h"
+#include "Button.h"
 
 int main()
 {
@@ -96,8 +97,8 @@ int main()
 		glm::vec3(0.0f, 0.0f, 1.0f) // front Side
 
 	};
-	
-	HMEngine::GameSettings::CalculateFPS(true);
+
+	//HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject gameMaster("master");
 	gameMaster.AddComponent(HMEngine::Components::DebugComponent());
@@ -135,8 +136,11 @@ int main()
 	HMEngine::Player p("Player", 100.0f, 200.0f);
 	//g.AddGameObject(p);
 
-	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/textures/crosshair.png", { 400, 300 }, { 0.05,0.05 });
+	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/textures/crosshair.png", { 400, 300 }, { 0.05, 0.05 });
 	g.AddUI(crosshair);
+	HMEngine::UI::Button button = HMEngine::UI::Button("crosshair", "./resources/textures/crosshair.png", { 400, 100 }, { 0.05, 0.05 });
+	g.AddUI(button);
+
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png");
