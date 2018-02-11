@@ -1,7 +1,6 @@
 #include "Quad.h"
 #include "UITexture.h"
 #include "Transform.h"
-#include "GameSettings.h"
 #include <math.h>
 #include <iostream>
 
@@ -12,6 +11,7 @@ HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath
 	float fixedPositionX = (2 * position.x - HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowWidth();
 	float fixedPositionY = (2 * position.y - HMEngine::GameSettings::GetWindowHeight()) / HMEngine::GameSettings::GetWindowHeight();
 	this->_transform = new HMEngine::Core::Transform(glm::vec3(glm::vec2(fixedPositionX, fixedPositionY), 0.0f), glm::vec3(0), glm::vec3(scale, 1.0f));
+	this->UpdateQuadDetails();
 }
 
 HMEngine::UI::Quad::~Quad()
@@ -28,7 +28,8 @@ HMEngine::UI::Quad::~Quad()
 	delete this->_transform;
 }
 
-HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _vertices(other._vertices), _scale(other._scale), _gameEngine(other._gameEngine), _texture(new HMEngine::OpenGL::UITexture(*other._texture)), _isAddedToGameEngine(other._isAddedToGameEngine), _position(other._position), _transform(new HMEngine::Core::Transform(*other._transform))
+HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _vertices(other._vertices), _scale(other._scale), _gameEngine(other._gameEngine), _texture(new HMEngine::OpenGL::UITexture(*other._texture)), _isAddedToGameEngine(other._isAddedToGameEngine), _position(other._position), _transform(new HMEngine::Core::Transform(*other._transform)),
+_width(other._width), _height(other._height), _topLeft(other._topLeft), _bottomRight(other._bottomRight)
 {
 	if (this->_isAddedToGameEngine)
 		this->InitBuffers();
@@ -47,6 +48,10 @@ HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& othe
 		this->_name = other._name;
 		this->_scale = other._scale;
 		this->_position = other._position;
+		this->_bottomRight = other._bottomRight;
+		this->_topLeft = other._topLeft;
+		this->_width = other._width;
+		this->_height = other._height;
 		this->_isAddedToGameEngine = other._isAddedToGameEngine;
 		if (this->_isAddedToGameEngine)
 		{
@@ -61,6 +66,20 @@ HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& othe
 	}
 
 	return *this;
+}
+
+void HMEngine::UI::Quad::SetPosition(const glm::vec2 & position)
+{
+	this->_position = position;
+	this->_transform->SetPosition(glm::vec3(position, 0.0f));
+	this->UpdateQuadDetails();
+}
+
+void HMEngine::UI::Quad::SetScale(const glm::vec2 & scale)
+{
+	this->_scale = scale;
+	this->_transform->SetScale(glm::vec3(scale, 1.0f));
+	this->UpdateQuadDetails();
 }
 
 void HMEngine::UI::Quad::BindTexture() const

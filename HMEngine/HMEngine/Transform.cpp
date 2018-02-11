@@ -10,15 +10,6 @@ HMEngine::Core::Transform::~Transform()
 {
 }
 
-//HMEngine::Core::Transform HMEngine::Core::Transform::operator=(const Transform& transform)
-//{
-//	this->_position = transform._position;
-//	this->_rotation = transform._rotation;
-//	this->_scale = transform._scale;
-//
-//	return *this;
-//}
-
 /*
 Calculates and returns the model matrix.
 */

@@ -78,7 +78,7 @@ namespace HMEngine
 				{
 					return HardwareInputs::cursorXPos;
 				}
-				
+
 				/*
 				Returns the y position of the cursor.
 				*/
@@ -133,6 +133,15 @@ namespace HMEngine
 				static inline void SetWindow(SDL_Window* window)
 				{
 					HardwareInputs::window = window;
+				}
+
+				/*
+				Returns whether the cursor is within the given boundaries.
+				*/
+				static inline bool IsCursorWithinBoundaries(const glm::vec2& topLeft, const glm::vec2& bottomRight)
+				{
+					return HardwareInputs::cursorXPos >= topLeft.x && HardwareInputs::cursorXPos <= bottomRight.x &&
+						HardwareInputs::cursorYPos >= topLeft.y && HardwareInputs::cursorYPos <= bottomRight.y;
 				}
 
 			private:

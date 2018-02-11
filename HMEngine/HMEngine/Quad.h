@@ -4,6 +4,7 @@
 #include "glm\glm.hpp"
 #include "GL\glew.h"
 #include "Transform.h"
+#include "GameSettings.h"
 
 namespace HMEngine
 {
@@ -34,8 +35,8 @@ namespace HMEngine
 			inline glm::vec2 GetScale() const { return this->_scale; }
 			inline HMEngine::Core::Transform& GetTransform() { return *this->_transform; }
 
-			void SetPosition(const glm::vec2& position) { this->_position = position; this->_transform->SetPosition(glm::vec3(position, 0.0f)); }
-			void SetScale(const glm::vec2& scale) { this->_scale = scale; this->_transform->SetScale(glm::vec3(scale, 1.0f)); }
+			void SetPosition(const glm::vec2& position);
+			void SetScale(const glm::vec2& scale);
 
 			void BindTexture() const;
 			void Draw() const;
@@ -43,15 +44,15 @@ namespace HMEngine
 		protected:
 			static const std::vector<glm::vec2> rectangle;
 
-			HMEngine::OpenGL::UITexture* _texture;
 			std::string _name;
-			std::vector<glm::vec2> _vertices;
 			glm::vec2 _position;
 			glm::vec2 _scale;
-			HMEngine::Core::Transform* _transform;
-			bool _isAddedToGameEngine;
+			glm::vec2 _topLeft;
+			glm::vec2 _bottomRight;
+			float _width;
+			float _height;
 
-			virtual void AttachToGameEngine();
+			bool _isAddedToGameEngine;
 
 			HMEngine::GameEngine* _gameEngine;
 
@@ -62,9 +63,20 @@ namespace HMEngine
 
 				VBO_COUNT
 			};
+			HMEngine::OpenGL::UITexture* _texture;
+			std::vector<glm::vec2> _vertices;
+			HMEngine::Core::Transform* _transform;
 			GLuint _vao;
 			GLuint _vbo[VBO_COUNT];
+			virtual void AttachToGameEngine();
 
+			inline void UpdateQuadDetails()
+			{
+				this->_width = this->_scale.x * HMEngine::GameSettings::GetWindowWidth();
+				this->_height = this->_scale.y * HMEngine::GameSettings::GetWindowHeight();
+				this->_topLeft = glm::vec2(this->_position.x - this->_width / 2, this->_position.y - this->_height / 2);
+				this->_bottomRight = glm::vec2(this->_position.x + this->_width / 2, this->_position.y + this->_height / 2);
+			}
 			void InitBuffers();
 		};
 	}

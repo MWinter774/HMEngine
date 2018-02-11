@@ -18,6 +18,8 @@ namespace HMEngine
 			Image(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale);
 			~Image();
 
+			void Update() override;
+
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::Image(*this); }
 		};
 	}
