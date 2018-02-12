@@ -10,9 +10,14 @@ const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1),g
 HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) : _name(name), _vertices(vertices), _scale(scale), _gameEngine(nullptr), _textures{ new HMEngine::OpenGL::UITexture(texturePath) }, _isAddedToGameEngine(false), _position(position.x, HMEngine::GameSettings::GetWindowHeight() - position.y)
 {
 	this->_currentTexture = _textures[0];
+
 	float fixedPositionX = (2 * position.x - HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowWidth();
 	float fixedPositionY = (2 * position.y - HMEngine::GameSettings::GetWindowHeight()) / HMEngine::GameSettings::GetWindowHeight();
-	this->_transform = new HMEngine::Core::Transform(glm::vec3(glm::vec2(fixedPositionX, fixedPositionY), 0.0f), glm::vec3(0), glm::vec3(scale, 1.0f));
+	glm::vec2 fixedPosition = glm::vec2(fixedPositionX, fixedPositionY);
+	float fixedScaleX = scale.x / HMEngine::GameSettings::GetWindowWidth();
+	float fixedScaleY = scale.y / HMEngine::GameSettings::GetWindowHeight();
+	glm::vec2 fixedScale(fixedScaleX, fixedScaleY);
+	this->_transform = new HMEngine::Core::Transform(glm::vec3(fixedPosition, 0.0f), glm::vec3(0), glm::vec3(fixedScale, 1.0f));
 	this->UpdateQuadDetails();
 }
 
@@ -104,7 +109,7 @@ void HMEngine::UI::Quad::SetScale(const glm::vec2& scale)
 	this->UpdateQuadDetails();
 }
 
-void HMEngine::UI::Quad::SetTexture(int i)
+void HMEngine::UI::Quad::SetTexture(unsigned int i)
 {
 	if (i >= this->_textures.size())
 	{

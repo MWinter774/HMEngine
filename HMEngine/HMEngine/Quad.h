@@ -39,7 +39,7 @@ namespace HMEngine
 
 			void SetPosition(const glm::vec2& position);
 			void SetScale(const glm::vec2& scale);
-			void SetTexture(int i = 0);
+			void SetTexture(unsigned int i = 0);
 
 			void BindTexture(int i = 0) const;
 			void Draw() const;
@@ -76,8 +76,8 @@ namespace HMEngine
 
 			inline void UpdateQuadDetails()
 			{
-				this->_width = this->_scale.x * HMEngine::GameSettings::GetWindowWidth();
-				this->_height = this->_scale.y * HMEngine::GameSettings::GetWindowHeight();
+				this->_width = this->_scale.x;
+				this->_height = this->_scale.y;
 				this->_topLeft = glm::vec2(this->_position.x - this->_width / 2, this->_position.y - this->_height / 2);
 				this->_bottomRight = glm::vec2(this->_position.x + this->_width / 2, this->_position.y + this->_height / 2);
 			}
