@@ -4,32 +4,34 @@
 #include <math.h>
 #include <iostream>
 #include "Utilities.h"
+#include "GameSettings.h"
+#include "OpenGLQuad.h"
 
 const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1),glm::vec2(-1,-1), glm::vec2(1,1),glm::vec2(1,-1) };
 
-HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) : _name(name), _vertices(vertices), _scale(scale), _gameEngine(nullptr), _textures{ new HMEngine::OpenGL::UITexture(texturePath) }, _isAddedToGameEngine(false), _position(position.x, HMEngine::GameSettings::GetWindowHeight() - position.y)
+HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) :
+	_name(name), _vertices(vertices), _gameEngine(nullptr), _textures{ new HMEngine::OpenGL::UITexture(texturePath) },
+	_isAddedToGameEngine(false), _quad(nullptr), _transform(new HMEngine::Core::Transform())
 {
 	this->_currentTexture = _textures[0];
 
-	float fixedPositionX = (2 * position.x - HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowWidth();
-	float fixedPositionY = (2 * position.y - HMEngine::GameSettings::GetWindowHeight()) / HMEngine::GameSettings::GetWindowHeight();
-	glm::vec2 fixedPosition = glm::vec2(fixedPositionX, fixedPositionY);
-	float fixedScaleX = scale.x / HMEngine::GameSettings::GetWindowWidth();
-	float fixedScaleY = scale.y / HMEngine::GameSettings::GetWindowHeight();
-	glm::vec2 fixedScale(fixedScaleX, fixedScaleY);
-	this->_transform = new HMEngine::Core::Transform(glm::vec3(fixedPosition, 0.0f), glm::vec3(0), glm::vec3(fixedScale, 1.0f));
+	this->_quadDetails.position = position;
+	this->_quadDetails.scale = scale;
 	this->UpdateQuadDetails();
+
+	this->UpdateTransform();
+}
+
+HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale) :
+	Quad(name, texturePath, HMEngine::UI::Quad::rectangle, position, scale)
+{
 }
 
 HMEngine::UI::Quad::~Quad()
 {
 	if (this->_isAddedToGameEngine)
 	{
-		glBindVertexArray(this->_vao);
-		glDisableVertexAttribArray(0);
-		glDeleteBuffers(this->VBO_COUNT, this->_vbo);
-		glDeleteBuffers(1, &this->_vao);
-		glBindVertexArray(0);
+		delete this->_quad;
 	}
 	for (auto& texture : this->_textures)
 	{
@@ -38,8 +40,8 @@ HMEngine::UI::Quad::~Quad()
 	delete this->_transform;
 }
 
-HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _vertices(other._vertices), _scale(other._scale), _gameEngine(other._gameEngine), _isAddedToGameEngine(other._isAddedToGameEngine), _position(other._position), _transform(new HMEngine::Core::Transform(*other._transform)),
-_width(other._width), _height(other._height), _topLeft(other._topLeft), _bottomRight(other._bottomRight)
+HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _vertices(other._vertices), _quadDetails(other._quadDetails),
+_gameEngine(other._gameEngine), _isAddedToGameEngine(other._isAddedToGameEngine), _transform(new HMEngine::Core::Transform(*other._transform))
 {
 	for (auto& otherTexture : other._textures)
 	{
@@ -47,7 +49,7 @@ _width(other._width), _height(other._height), _topLeft(other._topLeft), _bottomR
 	}
 	this->_currentTexture = this->_textures[0];
 	if (this->_isAddedToGameEngine)
-		this->InitBuffers();
+		this->_quad = new HMEngine::OpenGL::OpenGLQuad(*other._quad);
 }
 
 HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& other)
@@ -68,22 +70,15 @@ HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& othe
 
 		this->_vertices = other._vertices;
 		this->_name = other._name;
-		this->_scale = other._scale;
-		this->_position = other._position;
-		this->_bottomRight = other._bottomRight;
-		this->_topLeft = other._topLeft;
-		this->_width = other._width;
-		this->_height = other._height;
+		this->_quadDetails = other._quadDetails;
 		this->_isAddedToGameEngine = other._isAddedToGameEngine;
 		if (this->_isAddedToGameEngine)
 		{
-			glBindVertexArray(this->_vao);
-			glDisableVertexAttribArray(0);
-			glDeleteBuffers(this->VBO_COUNT, this->_vbo);
-			glDeleteBuffers(1, &this->_vao);
-			glBindVertexArray(0);
-
-			this->InitBuffers();
+			if (this->_quad != nullptr)
+			{
+				delete this->_quad;
+			}
+			this->_quad = new HMEngine::OpenGL::OpenGLQuad(*other._quad);
 		}
 	}
 
@@ -95,20 +90,6 @@ void HMEngine::UI::Quad::AddTexture(const std::string& texturePath)
 	this->_textures.push_back(new HMEngine::OpenGL::UITexture(texturePath));
 }
 
-void HMEngine::UI::Quad::SetPosition(const glm::vec2& position)
-{
-	this->_position = position;
-	this->_transform->SetPosition(glm::vec3(position, 0.0f));
-	this->UpdateQuadDetails();
-}
-
-void HMEngine::UI::Quad::SetScale(const glm::vec2& scale)
-{
-	this->_scale = scale;
-	this->_transform->SetScale(glm::vec3(scale, 1.0f));
-	this->UpdateQuadDetails();
-}
-
 void HMEngine::UI::Quad::SetTexture(unsigned int i)
 {
 	if (i >= this->_textures.size())
@@ -118,38 +99,45 @@ void HMEngine::UI::Quad::SetTexture(unsigned int i)
 	this->_currentTexture = this->_textures[i];
 }
 
-void HMEngine::UI::Quad::BindTexture(int i) const
+void HMEngine::UI::Quad::BindTexture() const
 {
 	this->_currentTexture->Bind();
 }
 
 void HMEngine::UI::Quad::Draw() const
 {
-	glBindVertexArray(this->_vao);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, this->_vertices.size());
+	this->_quad->Draw();
 }
 
 void HMEngine::UI::Quad::AttachToGameEngine()
 {
 	this->_isAddedToGameEngine = true;
-	this->InitBuffers();
+	this->_quad = new HMEngine::OpenGL::OpenGLQuad(this->_vertices);
 
 	this->AttachToGameEngineEvent();
 }
 
-void HMEngine::UI::Quad::InitBuffers()
+void HMEngine::UI::Quad::UpdateTransform()
 {
-	glGenVertexArrays(1, &this->_vao);
-	glBindVertexArray(this->_vao);
+	glm::vec2 position(this->_quadDetails.position.x, HMEngine::GameSettings::GetWindowHeight() - this->_quadDetails.position.y);
 
-	glGenBuffers(this->VBO_COUNT, this->_vbo);
+	float fixedPositionX = (2 * position.x - HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowWidth();
+	float fixedPositionY = (2 * position.y - HMEngine::GameSettings::GetWindowHeight()) / HMEngine::GameSettings::GetWindowHeight();
+	glm::vec2 fixedPosition = glm::vec2(fixedPositionX, fixedPositionY);
+	float fixedScaleX = this->_quadDetails.scale.x / HMEngine::GameSettings::GetWindowWidth();
+	float fixedScaleY = this->_quadDetails.scale.y / HMEngine::GameSettings::GetWindowHeight();
+	glm::vec2 fixedScale(fixedScaleX, fixedScaleY);
 
-	/* Generates the vertices buffer */
-	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[this->VBO_VERTICES]);
-	glBufferData(GL_ARRAY_BUFFER, this->_vertices.size() * sizeof(this->_vertices[0]), &this->_vertices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	this->_transform->SetPosition(glm::vec3(fixedPosition, 0.0f));
+	this->_transform->SetScale(glm::vec3(fixedScale, 1.0f));
+}
 
-	glBindVertexArray(0);
+void HMEngine::UI::Quad::UpdateQuadDetails()
+{
+	float width = this->_quadDetails.scale.x;
+	float height = this->_quadDetails.scale.y;
+	this->_quadDetails.width = width;
+	this->_quadDetails.height = height;
+	this->_quadDetails.topLeft = glm::vec2(this->_quadDetails.position.x - width / 2, this->_quadDetails.position.y - height / 2);
+	this->_quadDetails.bottomRight = glm::vec2(this->_quadDetails.position.x + width / 2, this->_quadDetails.position.y + height / 2);
 }

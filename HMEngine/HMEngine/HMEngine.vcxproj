@@ -138,6 +138,8 @@
     <ClCompile Include="DirectionalLightShader.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSettings.cpp" />
+    <ClCompile Include="Label.cpp" />
+    <ClCompile Include="OpenGLQuad.cpp" />
     <ClCompile Include="UIShader.cpp" />
     <ClCompile Include="UITexture.cpp" />
     <ClCompile Include="HardwareInputs.cpp" />
@@ -184,6 +186,8 @@
     <ClInclude Include="DirectionalLightShader.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="Label.h" />
+    <ClInclude Include="OpenGLQuad.h" />
     <ClInclude Include="UIShader.h" />
     <ClInclude Include="UITexture.h" />
     <ClInclude Include="HardwareInputs.h" />

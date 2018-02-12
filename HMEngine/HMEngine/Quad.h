@@ -4,13 +4,13 @@
 #include "glm\glm.hpp"
 #include "GL\glew.h"
 #include "Transform.h"
-#include "GameSettings.h"
 
 namespace HMEngine
 {
 	class GameEngine;
 	namespace OpenGL
 	{
+		class OpenGLQuad;
 		class UITexture;
 	}
 
@@ -19,8 +19,18 @@ namespace HMEngine
 		class Quad
 		{
 			friend class HMEngine::GameEngine;
+			typedef struct QuadDetails
+			{
+				glm::vec2 position;
+				glm::vec2 scale;
+				glm::vec2 topLeft;
+				glm::vec2 bottomRight;
+				float width;
+				float height;
+			} QuadDetails;
 		public:
 			Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale);
+			Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale);
 			virtual ~Quad();
 			Quad(const HMEngine::UI::Quad& other);
 			HMEngine::UI::Quad& operator=(const HMEngine::UI::Quad& other);
@@ -33,55 +43,40 @@ namespace HMEngine
 			void AddTexture(const std::string& texturePath);
 
 			inline std::string GetName() const { return this->_name; }
-			inline glm::vec2 GetPosition() const { return this->_position; }
-			inline glm::vec2 GetScale() const { return this->_scale; }
+			inline glm::vec2 GetPosition() const { return this->_quadDetails.position; }
+			inline glm::vec2 GetScale() const { return this->_quadDetails.scale; }
+			inline float GetWidth() const { return this->_quadDetails.width; }
+			inline float GetHeight() const { return this->_quadDetails.height; }
 			inline HMEngine::Core::Transform& GetTransform() { return *this->_transform; }
 
-			void SetPosition(const glm::vec2& position);
-			void SetScale(const glm::vec2& scale);
+			inline void SetPosition(const glm::vec2& position) { this->_quadDetails.position = position; this->UpdateQuadDetails(); this->UpdateTransform(); }
+			inline void SetScale(const glm::vec2& scale) { this->_quadDetails.scale = scale; this->UpdateQuadDetails(); this->UpdateTransform(); }
 			void SetTexture(unsigned int i = 0);
 
-			void BindTexture(int i = 0) const;
+			void BindTexture() const;
 			void Draw() const;
 
 		protected:
 			static const std::vector<glm::vec2> rectangle;
 
 			std::string _name;
-			glm::vec2 _position;
-			glm::vec2 _scale;
-			glm::vec2 _topLeft;
-			glm::vec2 _bottomRight;
-			float _width;
-			float _height;
+			HMEngine::OpenGL::OpenGLQuad* _quad;
+			HMEngine::UI::Quad::QuadDetails _quadDetails;
 
 			bool _isAddedToGameEngine;
 
 			HMEngine::GameEngine* _gameEngine;
 
 		private:
-			enum
-			{
-				VBO_VERTICES,
-
-				VBO_COUNT
-			};
 			HMEngine::OpenGL::UITexture* _currentTexture;
 			std::vector<HMEngine::OpenGL::UITexture*> _textures;
-			std::vector<glm::vec2> _vertices;
 			HMEngine::Core::Transform* _transform;
-			GLuint _vao;
-			GLuint _vbo[VBO_COUNT];
+			std::vector<glm::vec2> _vertices;
+
 			virtual void AttachToGameEngine();
 
-			inline void UpdateQuadDetails()
-			{
-				this->_width = this->_scale.x;
-				this->_height = this->_scale.y;
-				this->_topLeft = glm::vec2(this->_position.x - this->_width / 2, this->_position.y - this->_height / 2);
-				this->_bottomRight = glm::vec2(this->_position.x + this->_width / 2, this->_position.y + this->_height / 2);
-			}
-			void InitBuffers();
+			void UpdateTransform();
+			void UpdateQuadDetails();
 		};
 	}
 }
