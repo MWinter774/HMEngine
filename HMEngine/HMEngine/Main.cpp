@@ -138,7 +138,7 @@ int main()
 
 	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/textures/crosshair.png", { 400, 300 }, { 0.05, 0.05 });
 	g.AddUI(crosshair);
-	HMEngine::UI::Button button = HMEngine::UI::Button("crosshair", "./resources/textures/crosshair.png", { 400, 100 }, { 0.05, 0.05 });
+	HMEngine::UI::Button button = HMEngine::UI::Button("crosshair", "./resources/textures/crosshair.png", "./resources/textures/testUI.png", { 400, 100 }, { 0.05, 0.05 });
 	g.AddUI(button);
 
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");

@@ -30,6 +30,8 @@ namespace HMEngine
 			virtual inline void Update() {}
 			virtual inline void AttachToGameEngineEvent() {}
 
+			void AddTexture(const std::string& texturePath);
+
 			inline std::string GetName() const { return this->_name; }
 			inline glm::vec2 GetPosition() const { return this->_position; }
 			inline glm::vec2 GetScale() const { return this->_scale; }
@@ -37,8 +39,9 @@ namespace HMEngine
 
 			void SetPosition(const glm::vec2& position);
 			void SetScale(const glm::vec2& scale);
+			void SetTexture(int i = 0);
 
-			void BindTexture() const;
+			void BindTexture(int i = 0) const;
 			void Draw() const;
 
 		protected:
@@ -63,7 +66,8 @@ namespace HMEngine
 
 				VBO_COUNT
 			};
-			HMEngine::OpenGL::UITexture* _texture;
+			HMEngine::OpenGL::UITexture* _currentTexture;
+			std::vector<HMEngine::OpenGL::UITexture*> _textures;
 			std::vector<glm::vec2> _vertices;
 			HMEngine::Core::Transform* _transform;
 			GLuint _vao;

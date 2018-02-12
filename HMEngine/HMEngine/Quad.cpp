@@ -3,11 +3,13 @@
 #include "Transform.h"
 #include <math.h>
 #include <iostream>
+#include "Utilities.h"
 
 const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1),glm::vec2(-1,-1), glm::vec2(1,1),glm::vec2(1,-1) };
 
-HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) : _name(name), _vertices(vertices), _scale(scale), _gameEngine(nullptr), _texture(new HMEngine::OpenGL::UITexture(texturePath)), _isAddedToGameEngine(false), _position(position.x, HMEngine::GameSettings::GetWindowHeight() - position.y)
+HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) : _name(name), _vertices(vertices), _scale(scale), _gameEngine(nullptr), _textures{ new HMEngine::OpenGL::UITexture(texturePath) }, _isAddedToGameEngine(false), _position(position.x, HMEngine::GameSettings::GetWindowHeight() - position.y)
 {
+	this->_currentTexture = _textures[0];
 	float fixedPositionX = (2 * position.x - HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowWidth();
 	float fixedPositionY = (2 * position.y - HMEngine::GameSettings::GetWindowHeight()) / HMEngine::GameSettings::GetWindowHeight();
 	this->_transform = new HMEngine::Core::Transform(glm::vec3(glm::vec2(fixedPositionX, fixedPositionY), 0.0f), glm::vec3(0), glm::vec3(scale, 1.0f));
@@ -24,13 +26,21 @@ HMEngine::UI::Quad::~Quad()
 		glDeleteBuffers(1, &this->_vao);
 		glBindVertexArray(0);
 	}
-	delete this->_texture;
+	for (auto& texture : this->_textures)
+	{
+		delete texture;
+	}
 	delete this->_transform;
 }
 
-HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _vertices(other._vertices), _scale(other._scale), _gameEngine(other._gameEngine), _texture(new HMEngine::OpenGL::UITexture(*other._texture)), _isAddedToGameEngine(other._isAddedToGameEngine), _position(other._position), _transform(new HMEngine::Core::Transform(*other._transform)),
+HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _vertices(other._vertices), _scale(other._scale), _gameEngine(other._gameEngine), _isAddedToGameEngine(other._isAddedToGameEngine), _position(other._position), _transform(new HMEngine::Core::Transform(*other._transform)),
 _width(other._width), _height(other._height), _topLeft(other._topLeft), _bottomRight(other._bottomRight)
 {
+	for (auto& otherTexture : other._textures)
+	{
+		this->_textures.push_back(new HMEngine::OpenGL::UITexture(*otherTexture));
+	}
+	this->_currentTexture = this->_textures[0];
 	if (this->_isAddedToGameEngine)
 		this->InitBuffers();
 }
@@ -39,8 +49,15 @@ HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& othe
 {
 	if (this != &other)
 	{
-		delete this->_texture;
-		this->_texture = new HMEngine::OpenGL::UITexture(*other._texture);
+		for (auto& texture : this->_textures)
+		{
+			delete texture;
+		}
+		for (auto& otherTexture : other._textures)
+		{
+			this->_textures.push_back(new HMEngine::OpenGL::UITexture(*otherTexture));
+		}
+		this->_currentTexture = this->_textures[0];
 		delete this->_transform;
 		this->_transform = new HMEngine::Core::Transform(*other._transform);
 
@@ -68,23 +85,37 @@ HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& othe
 	return *this;
 }
 
-void HMEngine::UI::Quad::SetPosition(const glm::vec2 & position)
+void HMEngine::UI::Quad::AddTexture(const std::string& texturePath)
+{
+	this->_textures.push_back(new HMEngine::OpenGL::UITexture(texturePath));
+}
+
+void HMEngine::UI::Quad::SetPosition(const glm::vec2& position)
 {
 	this->_position = position;
 	this->_transform->SetPosition(glm::vec3(position, 0.0f));
 	this->UpdateQuadDetails();
 }
 
-void HMEngine::UI::Quad::SetScale(const glm::vec2 & scale)
+void HMEngine::UI::Quad::SetScale(const glm::vec2& scale)
 {
 	this->_scale = scale;
 	this->_transform->SetScale(glm::vec3(scale, 1.0f));
 	this->UpdateQuadDetails();
 }
 
-void HMEngine::UI::Quad::BindTexture() const
+void HMEngine::UI::Quad::SetTexture(int i)
 {
-	this->_texture->Bind();
+	if (i >= this->_textures.size())
+	{
+		HMEngine::Core::Utilities::ThrowException("Quad texture index is out of range!");
+	}
+	this->_currentTexture = this->_textures[i];
+}
+
+void HMEngine::UI::Quad::BindTexture(int i) const
+{
+	this->_currentTexture->Bind();
 }
 
 void HMEngine::UI::Quad::Draw() const

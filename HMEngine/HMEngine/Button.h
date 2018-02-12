@@ -8,12 +8,16 @@ namespace HMEngine
 		class Button : public HMEngine::UI::Quad
 		{
 		public:
-			Button(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale);
+			Button(const std::string& name, const std::string& buttonReleasedTexture, const std::string& buttonPressedTexture, const glm::vec2& position, const glm::vec2& scale);
 			~Button();
 
 			void Update() override;
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::Button(*this); }
+
+		private:
+			std::string _buttonReleasedTexture;
+			std::string _buttonPressedTexture;
 		};
 	}
 }
