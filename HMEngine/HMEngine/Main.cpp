@@ -136,7 +136,7 @@ int main()
 	HMEngine::Player p("Player", 100.0f, 200.0f);
 	//g.AddGameObject(p);
 
-	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/textures/crosshair.png", { 400, 300 }, { 40, 30 });
+	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 400, 300 }, { 40, 30 });
 	g.AddUI(crosshair);
 	HMEngine::UI::Button button = HMEngine::UI::Button("crosshair", "./resources/UITextures/UIButtonReleased.png", "./resources/UITextures/UIButtonHover.png", "./resources/UITextures/UIButtonPressed.png", { 400, 100 }, { 100, 30 });
 	g.AddUI(button);
