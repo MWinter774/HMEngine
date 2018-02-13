@@ -8,6 +8,10 @@ namespace HMEngine
 	{
 		class GameObject;
 	}
+	namespace UI
+	{
+		class Quad;
+	}
 
 	namespace Components
 	{
@@ -32,9 +36,13 @@ namespace HMEngine
 
 			std::vector<HMEngine::Core::GameObject*> GetGameObjects() const;
 			HMEngine::Core::GameObject* GetGameObject(const std::string& name) const;
+
 			void AddGameObject(const HMEngine::Core::GameObject& go) const;
 			void AddGameObject(HMEngine::Core::GameObject* go) const;
 			void RemoveGameObject(const std::string& name) const;
+			void AddUI(const HMEngine::UI::Quad& ui) const;
+			void AddUI(HMEngine::UI::Quad* ui) const;
+			void RemoveUI(const std::string& name) const;
 
 		private:
 			void AttachToGameObject();

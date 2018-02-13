@@ -192,8 +192,34 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 	uiClone->_gameEngine = this; //sets game object game engine to this
 	uiClone->AttachToGameEngine();
 	this->_quads[uiClone->GetName()] = uiClone; //adds the ui quad to the quad map
-	this->_renderingEngine->AddUI(*uiClone); //adds the quad to the rendering engine
 	this->_quadsVector.push_back(uiClone); //adds the quad to the quad vector
+	this->_renderingEngine->AddUI(*uiClone); //adds the quad to the rendering engine
+}
+
+void HMEngine::GameEngine::AddUI(HMEngine::UI::Quad* ui)
+{
+	if (this->_quads.find(ui->GetName()) != this->_quads.end()) //checkes if a game object with the same name exists
+	{
+		HMEngine::Core::Utilities::PrintDebugMessage("\"" + ui->GetName() + "\" Wasn't added because a ui with this name already exist!", "WARNING", 6);
+		return;
+	}
+
+	ui->_gameEngine = this; //sets game object game engine to this
+	ui->AttachToGameEngine();
+	this->_quads[ui->GetName()] = ui; //adds the ui quad to the quad map
+	this->_quadsVector.push_back(ui); //adds the quad to the quad vector
+	this->_renderingEngine->AddUI(*ui); //adds the quad to the rendering engine
+}
+
+HMEngine::UI::Quad* HMEngine::GameEngine::GetUI(const std::string& name)
+{
+	auto ui = this->_quads.find(name);
+	if (ui == this->_quads.end()) //Game Object not found
+	{
+		HMEngine::Core::Utilities::PrintDebugMessage("\"" + name + "\" UI not found!", "ERROR", 4);
+		return nullptr;
+	}
+	return (*ui).second;
 }
 
 void HMEngine::GameEngine::RemoveUI(const std::string& name)

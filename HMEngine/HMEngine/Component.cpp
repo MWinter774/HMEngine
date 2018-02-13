@@ -35,6 +35,21 @@ void HMEngine::Components::Component::RemoveGameObject(const std::string& name) 
 	this->_parentObject->GetGameEngine().RemoveGameObject(name);
 }
 
+void HMEngine::Components::Component::AddUI(const HMEngine::UI::Quad& ui) const
+{
+	this->_parentObject->GetGameEngine().AddUI(ui);
+}
+
+void HMEngine::Components::Component::AddUI(HMEngine::UI::Quad* ui) const
+{
+	this->_parentObject->GetGameEngine().AddUI(ui);
+}
+
+void HMEngine::Components::Component::RemoveUI(const std::string& name) const
+{
+	this->_parentObject->GetGameEngine().RemoveUI(name);
+}
+
 void HMEngine::Components::Component::AttachToGameObject()
 {
 	this->_isAttachedToGameObject = true;

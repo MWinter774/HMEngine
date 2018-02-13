@@ -41,10 +41,14 @@ namespace HMEngine
 
 		void AddGameObject(const HMEngine::Core::GameObject& gameObject);
 		void AddGameObject(HMEngine::Core::GameObject* gameObject);
-		inline std::vector<HMEngine::Core::GameObject*> GetGameObjects() { return this->_gameObjectsVector; };
+		inline std::vector<HMEngine::Core::GameObject*> GetGameObjects() { return this->_gameObjectsVector; }
 		HMEngine::Core::GameObject* GetGameObject(const std::string& name);
 		void RemoveGameObject(const std::string& name);
+
 		void AddUI(const HMEngine::UI::Quad& ui);
+		void AddUI(HMEngine::UI::Quad* ui);
+		inline std::vector<HMEngine::UI::Quad*> GetUIs() { return this->_quadsVector; };
+		HMEngine::UI::Quad* GetUI(const std::string& name);
 		void RemoveUI(const std::string& name);
 
 		glm::vec3 GetSkyColor() const;
