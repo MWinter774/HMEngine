@@ -100,7 +100,7 @@ namespace HMEngine
 			static bool StringToFloat(float& data, const std::string& toConvert);
 			static void StringToBool(bool& data, const std::string& toConvert);
 
-			static std::unordered_map<std::string, HMEngine::UI::Font> _fonts; //maps between file path to Font object
+			static std::unordered_map<std::string, HMEngine::UI::Font> fonts; //maps between file path to Font object
 
 			std::string _fntFilePath;
 			std::ifstream _fntFile;

@@ -8,16 +8,24 @@ HMEngine::UI::Font& HMEngine::UI::Font::ARIAL = HMEngine::UI::Font("./resources/
 
 HMEngine::UI::Font::Font(const std::string& fntFilePath) : _fntFile(fntFilePath), _fntFilePath(fntFilePath)
 {
-	std::vector<std::string>* lines = HMEngine::UI::Font::ReadLines(this->_fntFile);
-	std::vector<std::string> words;
-	for (auto& line : *lines)
+	auto font = HMEngine::UI::Font::fonts.find(fntFilePath);
+	if (font != HMEngine::UI::Font::fonts.end())
+		*this = (*font).second;
+	else
 	{
-		words = HMEngine::UI::Font::SplitString(line, ' ');
+		std::vector<std::string>* lines = HMEngine::UI::Font::ReadLines(this->_fntFile);
+		std::vector<std::string> words;
+		for (auto& line : *lines)
+		{
+			words = HMEngine::UI::Font::SplitString(line, ' ');
 
-		this->ProcessLine(words);
+			this->ProcessLine(words);
+		}
+
+		delete lines;
+
+		HMEngine::UI::Font::fonts[this->_fntFilePath] = *this;
 	}
-
-	delete lines;
 }
 
 HMEngine::UI::Font::~Font()
