@@ -14,6 +14,7 @@
 #include "Image.h"
 #include "Button.h"
 #include "Font.h"
+#include <string>
 
 int main()
 {
@@ -155,7 +156,8 @@ int main()
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
 	*/
-	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/Arial.fnt");
+	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
+	HMEngine::UI::Font arial2 = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
 
 	system("pause");
 	return 0;

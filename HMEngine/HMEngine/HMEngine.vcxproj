@@ -127,6 +127,7 @@
     <ClCompile Include="AmbientLightShader.cpp" />
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
+    <ClCompile Include="FNTFile.cpp" />
     <ClCompile Include="BoundingSphere.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DirectionalLightShader.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FNTFileManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="Label.cpp" />
@@ -176,6 +178,7 @@
     <ClInclude Include="AmbientLightShader.h" />
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
+    <ClInclude Include="FNTFile.h" />
     <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
@@ -186,6 +189,7 @@
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DirectionalLightShader.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="FNTFileManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="Label.h" />

@@ -1,5 +1,4 @@
 #include "TextureManager.h"
-#include "RenderingEngine.h"
 
 std::unordered_map<std::string, std::unique_ptr<HMEngine::OpenGL::OpenGLTexture>> HMEngine::OpenGL::TextureManager::textures;
 
