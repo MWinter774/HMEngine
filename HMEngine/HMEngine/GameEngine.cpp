@@ -123,7 +123,7 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 	auto go = gameObject.Clone();
 	go->_gameEngine = this; //sets game object game engine to this
 	go->AttachToGameEngine(); //activates event
-	this->_gameObjectsToAddBuffer.push_back(go); //adds this game object to the buffer
+	this->_gameObjects[go->GetName()] = go;
 }
 
 /*
@@ -141,7 +141,7 @@ void HMEngine::GameEngine::AddGameObject(HMEngine::Core::GameObject* gameObject)
 	}
 	gameObject->_gameEngine = this; //sets game object game engine to this
 	gameObject->AttachToGameEngine(); //activates event
-	this->_gameObjectsToAddBuffer.push_back(gameObject); //adds this game object to the buffer
+	this->_gameObjects[gameObject->GetName()] = gameObject;
 }
 
 /*
@@ -189,7 +189,7 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 	auto uiClone = ui.Clone();
 	uiClone->_gameEngine = this; //sets game object game engine to this
 	uiClone->AttachToGameEngine();
-	this->_quadsToAddBuffer.push_back(uiClone); //adds this game object to the buffer
+	this->_quads[uiClone->GetName()] = uiClone;
 	this->_renderingEngine->AddUI(*uiClone);
 	this->_quadsVector.push_back(uiClone);
 }

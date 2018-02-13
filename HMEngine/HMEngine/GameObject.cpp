@@ -18,7 +18,7 @@ HMEngine::Core::GameObject::~GameObject()
 	}
 }
 
-HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) : _transform(new HMEngine::Core::Transform(*other._transform)), _name(other._name + "_Copy"), _gameEngine(other._gameEngine)
+HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) : _transform(new HMEngine::Core::Transform(*other._transform)), _name(other._name), _gameEngine(other._gameEngine)
 {
 	HMEngine::Components::Component* newComponent = nullptr;
 	for (auto& component : other._components)
