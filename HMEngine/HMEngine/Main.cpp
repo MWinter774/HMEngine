@@ -13,9 +13,11 @@
 #include "Terrain.h"
 #include "Image.h"
 #include "Button.h"
+#include "Font.h"
 
 int main()
 {
+	/*
 	std::string title = "HMEngine";
 
 	HMEngine::GameEngine g;
@@ -126,7 +128,7 @@ int main()
 				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/black.png"));
 			g.AddGameObject(go);
 		}
-	}*/
+	}//
 	//g.AddGameObject(go);
 	//g.AddGameObject(go2);
 
@@ -152,6 +154,9 @@ int main()
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
+	*/
+	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/Arial.fnt");
 
+	system("pause");
 	return 0;
 }
