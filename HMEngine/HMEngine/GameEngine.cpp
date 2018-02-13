@@ -13,7 +13,7 @@
 
 #include "Image.h"
 
-HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsToAddBuffer(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToAddBuffer(), _quadsToRemoveBuffer()
+HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToRemoveBuffer()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
 	{
@@ -123,7 +123,8 @@ void HMEngine::GameEngine::AddGameObject(const HMEngine::Core::GameObject& gameO
 	auto go = gameObject.Clone();
 	go->_gameEngine = this; //sets game object game engine to this
 	go->AttachToGameEngine(); //activates event
-	this->_gameObjects[go->GetName()] = go;
+	this->_gameObjects[go->GetName()] = go; //Adds game object to the game object map
+	this->_gameObjectsVector.push_back(go); //Adds game object to the vector of game objects
 }
 
 /*
@@ -141,7 +142,8 @@ void HMEngine::GameEngine::AddGameObject(HMEngine::Core::GameObject* gameObject)
 	}
 	gameObject->_gameEngine = this; //sets game object game engine to this
 	gameObject->AttachToGameEngine(); //activates event
-	this->_gameObjects[gameObject->GetName()] = gameObject;
+	this->_gameObjects[gameObject->GetName()] = gameObject; //Adds game object to the game object map
+	this->_gameObjectsVector.push_back(gameObject); //Adds game object to the vector of game objects
 }
 
 /*
@@ -189,9 +191,9 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 	auto uiClone = ui.Clone();
 	uiClone->_gameEngine = this; //sets game object game engine to this
 	uiClone->AttachToGameEngine();
-	this->_quads[uiClone->GetName()] = uiClone;
-	this->_renderingEngine->AddUI(*uiClone);
-	this->_quadsVector.push_back(uiClone);
+	this->_quads[uiClone->GetName()] = uiClone; //adds the ui quad to the quad map
+	this->_renderingEngine->AddUI(*uiClone); //adds the quad to the rendering engine
+	this->_quadsVector.push_back(uiClone); //adds the quad to the quad vector
 }
 
 void HMEngine::GameEngine::RemoveUI(const std::string& name)
@@ -254,17 +256,7 @@ Updates the buffers of game objects(handles adding/removing of game objects).
 */
 void HMEngine::GameEngine::UpdateGameObjectsBuffers()
 {
-	/* Handles game object buffers */
-	if (this->_gameObjectsToAddBuffer.size() > 0) //if game objects need to be added
-	{
-		for (auto& go : this->_gameObjectsToAddBuffer)
-		{
-			/* Adds the game objects */
-			this->_gameObjects[go->GetName()] = go; //adds the game object to the map of names and game objects
-			this->_gameObjectsVector.push_back(go); //adds the game object to the list of game objects
-		}
-		this->_gameObjectsToAddBuffer.clear(); //clears the buffer
-	}
+	/* Handles game object buffer */
 	if (this->_gameObjectsToRemoveBuffer.size() > 0)
 	{
 		for (auto& gameObjectName : this->_gameObjectsToRemoveBuffer)
@@ -277,15 +269,7 @@ void HMEngine::GameEngine::UpdateGameObjectsBuffers()
 		this->_gameObjectsToRemoveBuffer.clear(); //clears the buffer
 	}
 
-	/* Handles quads buffers */
-	if (this->_quadsToAddBuffer.size() > 0)
-	{
-		for (auto& quad : this->_quadsToAddBuffer)
-		{
-			this->_quads[quad->GetName()] = quad;
-		}
-		this->_quadsToAddBuffer.clear();
-	}
+	/* Handles quads buffer */
 	if (this->_quadsToRemoveBuffer.size() > 0)
 	{
 		for (auto& quadName : this->_quadsToRemoveBuffer)

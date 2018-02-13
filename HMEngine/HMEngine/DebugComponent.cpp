@@ -13,10 +13,13 @@
 #include "Ray.h"
 #include "PhysicsEngine.h"
 #include "RaycastInfo.h"
+#include <time.h>
+#include "Image.h"
 
 float intesity = 15.0f;
 HMEngine::Components::DebugComponent::DebugComponent() : _isAdded(false)
 {
+	srand(time(NULL));
 	this->_floor = new HMEngine::Core::GameObject("floor");
 	this->_floor->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 	this->_floor->AddComponent(HMEngine::Components::DirectionalLight(HMEngine::Components::BaseLight({ 1,1,1 }, 0.07f), { 0,1,1 }));

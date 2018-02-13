@@ -64,13 +64,11 @@ namespace HMEngine
 		HMEngine::Core::Rendering::Camera* _camera;
 
 		std::map<std::string, HMEngine::Core::GameObject*> _gameObjects; //maps between name of the game object to the game object itself
-		std::vector<HMEngine::Core::GameObject*> _gameObjectsToAddBuffer; //keeps track which game objects to add each iteration of the game loop
 		std::vector<std::string> _gameObjectsToRemoveBuffer; //keeps track which game objects to delete each iteration of the game loop
 		std::vector<HMEngine::Core::GameObject*> _gameObjectsVector; //list of game objects(used to improve game engine's efficiency)
 		
 		std::map<std::string, HMEngine::UI::Quad*> _quads;
 		std::vector<std::string> _quadsToRemoveBuffer;
-		std::vector<HMEngine::UI::Quad*> _quadsToAddBuffer;
 		std::vector<HMEngine::UI::Quad*> _quadsVector;
 
 		void UpdateGameObjectsBuffers();

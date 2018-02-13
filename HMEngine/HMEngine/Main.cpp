@@ -98,7 +98,7 @@ int main()
 
 	};
 
-	//HMEngine::GameSettings::CalculateFPS(true);
+	HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject gameMaster("master");
 	gameMaster.AddComponent(HMEngine::Components::DebugComponent());
@@ -134,7 +134,7 @@ int main()
 	//g.DisableFog();
 
 	HMEngine::Player p("Player", 100.0f, 200.0f);
-	//g.AddGameObject(p);
+	g.AddGameObject(p);
 
 	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 400, 300 }, { 40, 30 });
 	g.AddUI(crosshair);
@@ -147,8 +147,8 @@ int main()
 	HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/grassFlowers.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	g.AddGameObject(terrain);
 
-	g.UnlockCursor();
-	g.SetMouseVisible(true);
+	//g.UnlockCursor();
+	//g.SetMouseVisible(true);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
