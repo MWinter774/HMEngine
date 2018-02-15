@@ -3,6 +3,7 @@
 #include "glm\glm.hpp"
 #include <vector>
 #include <any>
+#include <iostream>
 
 namespace HMEngine
 {
@@ -10,10 +11,12 @@ namespace HMEngine
 	{
 		class OpenGLObject
 		{
+			typedef std::vector<glm::vec2> UVBuffer;
+			typedef std::vector<glm::vec3> VerticesBuffer;
+			typedef std::vector<GLuint> IndicesBuffer;
 		public:
 			template <class T, class ... Args>
 			OpenGLObject(T& first, Args&... args);
-			OpenGLObject(const std::vector<std::any>& vboData);
 			virtual ~OpenGLObject();
 			OpenGLObject(const HMEngine::OpenGL::OpenGLObject& other);
 			HMEngine::OpenGL::OpenGLObject& operator=(const HMEngine::OpenGL::OpenGLObject& other);
@@ -21,13 +24,15 @@ namespace HMEngine
 			inline std::vector<std::any> GetVBOData() const { return this->_vboData; }
 
 		private:
+			static void ConvertAnyToType(std::any);
+
 			GLuint _vao;
 			std::vector<GLuint> _vbo;
 			std::vector<std::any> _vboData;
 			unsigned int _vboCount;
 			unsigned int _vboCounter;
 
-			void InitVBOFromVector(const std::vector<std::any>& vboData);
+			void InitVBOFromVector();
 			template <class T, class ... Args>
 			void InitVBO(T& first, Args&... args);
 			inline void InitVBO() {}
@@ -38,10 +43,21 @@ namespace HMEngine
 		};
 
 		template<class T, class ...Args>
-		inline OpenGLObject::OpenGLObject(T& first, Args&...args) : _vboCount(sizeof...(args)+1), _vboCounter(0), _vboData()
+		inline OpenGLObject::OpenGLObject(T& first, Args&... args) : _vboCount(sizeof...(args)+1), _vboCounter(0), _vboData()
 		{
-			this->InitBuffers();
-			this->InitVBO(first, args...);
+			if (typeid(std::vector<std::any>&) == typeid(first) && sizeof...(args) == 0)
+			{
+				this->_vboData = first;
+				this->_vboCount = this->_vboData.size();
+				this->_vboCounter = 0;
+				this->InitBuffers();
+				this->InitVBOFromVector();
+			}
+			else
+			{
+				this->InitBuffers();
+				this->InitVBO(first, args...);
+			}
 		}
 
 		template<class T, class ...Args>

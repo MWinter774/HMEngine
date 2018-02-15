@@ -1,10 +1,5 @@
 #include "OpenGLObject.h"
-
-HMEngine::OpenGL::OpenGLObject::OpenGLObject(const std::vector<std::any>& vboData) : _vboCount(vboData.size()), _vboCounter(0), _vboData(vboData)
-{
-	this->InitBuffers();
-	this->InitVBOFromVector(this->_vboData);
-}
+#include <variant>
 
 HMEngine::OpenGL::OpenGLObject::~OpenGLObject()
 {
@@ -14,7 +9,7 @@ HMEngine::OpenGL::OpenGLObject::~OpenGLObject()
 HMEngine::OpenGL::OpenGLObject::OpenGLObject(const HMEngine::OpenGL::OpenGLObject& other) : _vboData(other._vboData), _vboCount(other._vboCount), _vboCounter(0)
 {
 	this->InitBuffers();
-	this->InitVBOFromVector(this->_vboData);
+	this->InitVBOFromVector();
 }
 
 HMEngine::OpenGL::OpenGLObject& HMEngine::OpenGL::OpenGLObject::operator=(const HMEngine::OpenGL::OpenGLObject& other)
@@ -26,14 +21,24 @@ HMEngine::OpenGL::OpenGLObject& HMEngine::OpenGL::OpenGLObject::operator=(const 
 		this->_vboCount = other._vboCount;
 		this->_vboCounter = 0;
 		this->InitBuffers();
-		this->InitVBOFromVector(this->_vboData);
+		this->InitVBOFromVector();
 	}
 
 	return *this;
 }
 
-void HMEngine::OpenGL::OpenGLObject::InitVBOFromVector(const std::vector<std::any>& vboData)
+void HMEngine::OpenGL::OpenGLObject::InitVBOFromVector()
 {
+	int i = 0;
+	
+	for (auto& buffer : this->_vboData)
+	{
+		if (typeid(buffer) == typeid(UVBuffer))
+		{
+			UVBuffer bufferData = std::any_cast<UVBuffer>(buffer);
+		}
+		i++;
+	}
 }
 
 void HMEngine::OpenGL::OpenGLObject::InitBuffers()

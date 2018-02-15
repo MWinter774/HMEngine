@@ -178,9 +178,11 @@ int main()
 	std::vector<glm::vec3> uvs = { glm::vec3(0,1.5f, 5.2f), glm::vec3(1,5,69.21f) };
 	std::vector<glm::vec4> kaki = { glm::vec4(1, 4, 5, 6) };
 	//HMEngine::OpenGL::OpenGLQuad quad = HMEngine::OpenGL::OpenGLQuad(vertices);
-	HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(vertices, uvs, kaki);
-	HMEngine::OpenGL::OpenGLObject object2 = object;
-	HMEngine::OpenGL::OpenGLObject object3 = HMEngine::OpenGL::OpenGLObject(object);
+	std::vector<std::any> hi = { 5, 1.2f, "a" };
+	HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(hi);
+	//HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(vertices, uvs, kaki);
+	//HMEngine::OpenGL::OpenGLObject object2 = object;
+	//HMEngine::OpenGL::OpenGLObject object3 = HMEngine::OpenGL::OpenGLObject(object);
 
 	auto k = object.GetVBOData();
 	for (auto& data : k)
