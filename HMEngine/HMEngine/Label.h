@@ -14,6 +14,8 @@ namespace HMEngine
 				const HMEngine::UI::Font& font);
 			~Label();
 
+			void AttachToGameEngineEvent() override;
+
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::Label(*this); }
 
 		private:

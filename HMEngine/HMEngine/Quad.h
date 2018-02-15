@@ -67,6 +67,8 @@ namespace HMEngine
 
 			HMEngine::GameEngine* _gameEngine;
 
+			void SetVertices(const std::vector<glm::vec2>& vertices);
+
 		private:
 			HMEngine::OpenGL::UITexture* _currentTexture;
 			std::vector<HMEngine::OpenGL::UITexture*> _textures;

@@ -9,8 +9,8 @@
 
 const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1),glm::vec2(-1,-1), glm::vec2(1,1),glm::vec2(1,-1) };
 
-HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale) :
-	_name(name), _vertices(vertices), _gameEngine(nullptr), _textures{ new HMEngine::OpenGL::UITexture(texturePath) },
+HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position,
+	const glm::vec2& scale) : _name(name), _vertices(vertices), _gameEngine(nullptr), _textures{ new HMEngine::OpenGL::UITexture(texturePath) },
 	_isAddedToGameEngine(false), _quad(nullptr), _transform(new HMEngine::Core::Transform())
 {
 	this->_currentTexture = _textures[0];
@@ -107,6 +107,15 @@ void HMEngine::UI::Quad::BindTexture() const
 void HMEngine::UI::Quad::Draw() const
 {
 	this->_quad->Draw();
+}
+
+void HMEngine::UI::Quad::SetVertices(const std::vector<glm::vec2>& vertices)
+{
+	this->_vertices = vertices;
+	if (this->_isAddedToGameEngine)
+	{
+		this->_quad->SetVertices(vertices);
+	}
 }
 
 void HMEngine::UI::Quad::AttachToGameEngine()

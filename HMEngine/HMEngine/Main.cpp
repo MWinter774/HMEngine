@@ -15,6 +15,9 @@
 #include "Button.h"
 #include "Font.h"
 #include <string>
+#include "OpenGLObject.h"
+#include "OpenGLQuad.h"
+#include <variant>
 
 int main()
 {
@@ -156,9 +159,61 @@ int main()
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
 	*/
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
+	{
+		HMEngine::Core::Utilities::ThrowException("SDL INITIALIZATION FAILED!");
+	}
+	HMEngine::Core::Utilities::PrintDebugMessage("Succeeded initializing SDL...");
+	SDL_Window* window = SDL_CreateWindow("kaki", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
+	SDL_GLContext context = SDL_GL_CreateContext(window);
+	GLenum res = glewInit();
+	if (res != GLEW_OK)
+	{
+		std::cerr << "Glew failed to initialize!" << std::endl;
+	}
+
 	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
 	HMEngine::UI::Font arial2 = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
+	std::vector<glm::vec2> vertices = { glm::vec2(0,0), glm::vec2(1,0.5f) };
+	std::vector<glm::vec3> uvs = { glm::vec3(0,1.5f, 5.2f), glm::vec3(1,5,69.21f) };
+	std::vector<glm::vec4> kaki = { glm::vec4(1, 4, 5, 6) };
+	//HMEngine::OpenGL::OpenGLQuad quad = HMEngine::OpenGL::OpenGLQuad(vertices);
+	HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(vertices, uvs, kaki);
+	HMEngine::OpenGL::OpenGLObject object2 = object;
+	HMEngine::OpenGL::OpenGLObject object3 = HMEngine::OpenGL::OpenGLObject(object);
 
+	auto k = object.GetVBOData();
+	for (auto& data : k)
+	{
+		if (data.type() == typeid(std::vector<glm::vec2>))
+		{
+			auto vec = std::any_cast<std::vector<glm::vec2>>(data);
+			for (auto v : vec)
+			{
+				std::cout << v.x << ", " << v.y << std::endl;
+			}
+		}
+		else if (data.type() == typeid(std::vector<glm::vec3>))
+		{
+			auto vec = std::any_cast<std::vector<glm::vec3>>(data);
+			for (auto v : vec)
+			{
+				std::cout << v.x << ", " << v.y << ", " << v.z << std::endl;
+			}
+		}
+		else if (data.type() == typeid(std::vector<glm::vec4>))
+		{
+			auto vec = std::any_cast<std::vector<glm::vec4>>(data);
+			for (auto v : vec)
+			{
+				std::cout << v.x << ", " << v.y << ", " << v.z << ", " << v.w << std::endl;
+			}
+		}
+	}
+
+	SDL_GL_DeleteContext(context);
+	SDL_DestroyWindow(window);
+	SDL_Quit();
 	system("pause");
 	return 0;
 }

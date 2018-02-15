@@ -17,6 +17,8 @@ namespace HMEngine
 
 			void Draw() const;
 
+			inline void SetVertices(const std::vector<glm::vec2>& vertices) { this->_vertices = vertices; }
+
 		private:
 			enum
 			{
