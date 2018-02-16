@@ -216,13 +216,13 @@ void HMEngine::Core::Mesh::InitBuffers()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	/* Generates the uv's buffer */
+	/* Generates the uvs buffer */
 	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_TEXTURE_COORDS]);
 	glBufferData(GL_ARRAY_BUFFER, (this->_uvs.size() * sizeof(this->_uvs[0])), &this->_uvs[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	//set normals buffer.
+	/* Generates the normals buffer */
 	glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[VBO_NORMALS]);
 	glBufferData(GL_ARRAY_BUFFER, (this->_normals.size() * sizeof(this->_normals[0])), &this->_normals[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(2);

@@ -17,7 +17,7 @@
 #include <string>
 #include "OpenGLObject.h"
 #include "OpenGLQuad.h"
-#include <variant>
+#include <thread>
 
 int main()
 {
@@ -174,45 +174,26 @@ int main()
 
 	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
 	HMEngine::UI::Font arial2 = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
-	std::vector<glm::vec2> vertices = { glm::vec2(0,0), glm::vec2(1,0.5f) };
-	std::vector<glm::vec3> uvs = { glm::vec3(0,1.5f, 5.2f), glm::vec3(1,5,69.21f) };
+	std::vector<glm::vec3> vertices = { glm::vec3(0,0.5f, 0), glm::vec3(1,0,1), glm::vec3(1,0,0) };
+	std::vector<glm::vec2> uvs = { glm::vec2(0,0), glm::vec2(1,0.5f) };
 	std::vector<glm::vec4> kaki = { glm::vec4(1, 4, 5, 6) };
 	//HMEngine::OpenGL::OpenGLQuad quad = HMEngine::OpenGL::OpenGLQuad(vertices);
-	std::vector<std::any> hi = { 5, 1.2f, "a" };
-	HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(hi);
+	std::vector<std::any> hi = { vertices, uvs, kaki };
+	std::vector<GLuint> toAdd = { 1,2,8,6 };
+	//HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(vertices, uvs);
+	HMEngine::OpenGL::OpenGLObject object;
+	object.SetVertices(vertices);
+	object.SetUVs(uvs);
 	//HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(vertices, uvs, kaki);
-	//HMEngine::OpenGL::OpenGLObject object2 = object;
-	//HMEngine::OpenGL::OpenGLObject object3 = HMEngine::OpenGL::OpenGLObject(object);
+	HMEngine::OpenGL::OpenGLObject object2 = object;
+	HMEngine::OpenGL::OpenGLObject object3 = HMEngine::OpenGL::OpenGLObject(object);
 
-	auto k = object.GetVBOData();
-	for (auto& data : k)
-	{
-		if (data.type() == typeid(std::vector<glm::vec2>))
-		{
-			auto vec = std::any_cast<std::vector<glm::vec2>>(data);
-			for (auto v : vec)
-			{
-				std::cout << v.x << ", " << v.y << std::endl;
-			}
-		}
-		else if (data.type() == typeid(std::vector<glm::vec3>))
-		{
-			auto vec = std::any_cast<std::vector<glm::vec3>>(data);
-			for (auto v : vec)
-			{
-				std::cout << v.x << ", " << v.y << ", " << v.z << std::endl;
-			}
-		}
-		else if (data.type() == typeid(std::vector<glm::vec4>))
-		{
-			auto vec = std::any_cast<std::vector<glm::vec4>>(data);
-			for (auto v : vec)
-			{
-				std::cout << v.x << ", " << v.y << ", " << v.z << ", " << v.w << std::endl;
-			}
-		}
-	}
+	//object.SetVertices(vertices);
+	//object.Initialize();
+	//object.Draw();
 
+	SDL_GL_SwapWindow(window);
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

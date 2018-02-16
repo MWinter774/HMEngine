@@ -11,66 +11,54 @@ namespace HMEngine
 	{
 		class OpenGLObject
 		{
-			typedef std::vector<glm::vec2> UVBuffer;
-			typedef std::vector<glm::vec3> VerticesBuffer;
-			typedef std::vector<GLuint> IndicesBuffer;
+			typedef std::vector<GLuint> GLuintBuffer;
+			typedef std::vector<glm::vec2> Vec2Buffer;
+			typedef std::vector<glm::vec3> Vec3Buffer;
+			typedef std::vector<glm::vec4> Vec4Buffer;
 		public:
-			template <class T, class ... Args>
-			OpenGLObject(T& first, Args&... args);
+			OpenGLObject();
 			virtual ~OpenGLObject();
 			OpenGLObject(const HMEngine::OpenGL::OpenGLObject& other);
 			HMEngine::OpenGL::OpenGLObject& operator=(const HMEngine::OpenGL::OpenGLObject& other);
 
-			inline std::vector<std::any> GetVBOData() const { return this->_vboData; }
+			inline Vec3Buffer Get3dVertices() const { return this->_3dVertices; }
+			inline Vec2Buffer Get2dVertices() const { return this->_2dVertices; }
+			inline GLuintBuffer GetIndices() const { return this->_indices; }
+			inline Vec2Buffer GetUVs() const { return this->_uvs; }
+			inline Vec3Buffer GetNormals() const { return this->_normals; }
+
+			inline void SetVertices(const Vec3Buffer& vertices) { this->_3dVertices = vertices; }
+			inline void SetVertices(const Vec2Buffer& vertices) { this->_2dVertices = vertices; }
+			inline void SetIndices(const GLuintBuffer& indices) { this->_indices = indices; this->_hasIndices = indices.size(); }
+			inline void SetUVs(const Vec2Buffer& uvs) { this->_uvs = uvs; }
+			inline void SetNormals(const Vec3Buffer& normals) { this->_normals = normals; }
+
+			void Initialize();
+			void Draw();
 
 		private:
-			static void ConvertAnyToType(std::any);
-
 			GLuint _vao;
 			std::vector<GLuint> _vbo;
-			std::vector<std::any> _vboData;
 			unsigned int _vboCount;
-			unsigned int _vboCounter;
+			bool _isInitialized;
+			bool _hasIndices;
+			GLuintBuffer _indices;
+			Vec2Buffer _uvs;
+			unsigned int _uvsIndex;
+			Vec2Buffer _2dVertices;
+			unsigned int _2dVerticesIndex;
+			Vec3Buffer _3dVertices;
+			unsigned int _3dVerticesIndex;
+			Vec3Buffer _normals;
+			unsigned int _normalsIndex;
 
-			void InitVBOFromVector();
-			template <class T, class ... Args>
-			void InitVBO(T& first, Args&... args);
-			inline void InitVBO() {}
+			void InitVBO();
 
 			void InitBuffers();
 
 			void DeleteBuffers();
+
+			void CalculateVBOCount();
 		};
-
-		template<class T, class ...Args>
-		inline OpenGLObject::OpenGLObject(T& first, Args&... args) : _vboCount(sizeof...(args)+1), _vboCounter(0), _vboData()
-		{
-			if (typeid(std::vector<std::any>&) == typeid(first) && sizeof...(args) == 0)
-			{
-				this->_vboData = first;
-				this->_vboCount = this->_vboData.size();
-				this->_vboCounter = 0;
-				this->InitBuffers();
-				this->InitVBOFromVector();
-			}
-			else
-			{
-				this->InitBuffers();
-				this->InitVBO(first, args...);
-			}
-		}
-
-		template<class T, class ...Args>
-		inline void OpenGLObject::InitVBO(T& first, Args&...args)
-		{
-			int sizeOfElement = typeid(first[0]) == typeid(GLuint) ? 1 : typeid(first[0]) == typeid(glm::vec2) ? 2 : typeid(first[0]) == typeid(glm::vec3) ? 3 : 4;
-			glBindBuffer(GL_ARRAY_BUFFER, this->_vbo[this->_vboCounter]);
-			glBufferData(GL_ARRAY_BUFFER, first.size() * sizeof(first[0]), &first[0], GL_STATIC_DRAW);
-			glEnableVertexAttribArray(this->_vboCounter);
-			glVertexAttribPointer(this->_vboCounter, sizeOfElement, GL_FLOAT, GL_FALSE, 0, (void*)0);
-			this->_vboData.push_back(first);
-			this->_vboCounter++;
-			this->InitVBO(args...);
-		}
 	}
 }
