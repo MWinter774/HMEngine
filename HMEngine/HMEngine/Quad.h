@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "glm\glm.hpp"
 #include "GL\glew.h"
 #include "Transform.h"
+#include <map>
 
 namespace HMEngine
 {
@@ -30,7 +32,8 @@ namespace HMEngine
 			} QuadDetails;
 		public:
 			Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale);
-			Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale);
+			Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale, bool useVertices = true);
+			Quad(const std::string& name, const glm::vec2& position, const glm::vec2& scale);
 			virtual ~Quad();
 			Quad(const HMEngine::UI::Quad& other);
 			HMEngine::UI::Quad& operator=(const HMEngine::UI::Quad& other);
@@ -50,30 +53,29 @@ namespace HMEngine
 			inline HMEngine::Core::Transform& GetTransform() { return *this->_transform; }
 
 			inline void SetPosition(const glm::vec2& position) { this->_quadDetails.position = position; this->UpdateQuadDetails(); this->UpdateTransform(); }
+			inline void SetPosition(float x, float y) { this->_quadDetails.position.x = x; this->_quadDetails.position.y = y; this->UpdateQuadDetails(); this->UpdateTransform(); }
 			inline void SetScale(const glm::vec2& scale) { this->_quadDetails.scale = scale; this->UpdateQuadDetails(); this->UpdateTransform(); }
+			inline void SetScale(float scaleX, float scaleY) { this->_quadDetails.scale.x = scaleX; this->_quadDetails.scale.y = scaleY; this->UpdateQuadDetails(); this->UpdateTransform(); }
 			void SetTexture(unsigned int i = 0);
 
 			void BindTexture() const;
-			void Draw() const;
+			virtual void Draw() const;
 
 		protected:
 			static const std::vector<glm::vec2> rectangle;
 
 			std::string _name;
-			HMEngine::OpenGL::OpenGLQuad* _quad;
 			HMEngine::UI::Quad::QuadDetails _quadDetails;
 
 			bool _isAddedToGameEngine;
 
 			HMEngine::GameEngine* _gameEngine;
 
-			void SetVertices(const std::vector<glm::vec2>& vertices);
-
 		private:
 			HMEngine::OpenGL::UITexture* _currentTexture;
-			std::vector<HMEngine::OpenGL::UITexture*> _textures;
+			HMEngine::OpenGL::OpenGLQuad* _openglQuad;
+			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
-			std::vector<glm::vec2> _vertices;
 
 			virtual void AttachToGameEngine();
 

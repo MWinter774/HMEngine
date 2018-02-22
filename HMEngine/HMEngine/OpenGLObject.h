@@ -34,7 +34,7 @@ namespace HMEngine
 			inline void SetNormals(const Vec3Buffer& normals) { this->_normals = normals; }
 
 			void Initialize();
-			void Draw();
+			void Draw(const unsigned char& drawMode);
 
 		private:
 			GLuint _vao;

@@ -6,11 +6,7 @@ uniform sampler2D sampler;
 
 out vec4 outColor;
 
-void main()
-{
+void main(void)
+{	
 	outColor = texture2D(sampler, textureCoordinates);
-	if(outColor == vec4(1.0))
-	{
-		outColor.a = 0.0;
-	}
 }

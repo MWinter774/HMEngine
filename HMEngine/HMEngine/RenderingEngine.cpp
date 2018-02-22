@@ -15,6 +15,8 @@
 #include <algorithm>
 #include "Quad.h"
 #include "UIShader.h"
+#include "Label.h"
+#include "LabelShader.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -37,10 +39,10 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	{
 		this->RenderTerrains();
 	}
-	
+
 
 	glEnable(GL_BLEND);
-	if (this->_doCleanup = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
+	if (this->_doCleanupForMeshes = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
 	{
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -106,22 +108,32 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		}
 	}
 
-	if (this->_quads.size() > 0)
+	if (this->_doCleanupForQuads = this->_quads.size() > 0 || this->_labels.size() > 0)
 	{
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
+	}
+	if (this->_quads.size() > 0)
+	{
 		this->RenderQuads();
+	}
+	if (this->_labels.size() > 0)
+	{
+		this->RenderLabels();
+	}
+	if (this->_doCleanupForQuads)
+	{
 		glEnable(GL_DEPTH_TEST);
 	}
 
-	if (this->_doCleanup) //if there are some lights in the scene then load back the settings from blending the new lights
+	if (this->_doCleanupForMeshes) //if there are some lights in the scene then load back the settings from blending the new lights
 	{
 		glDepthFunc(GL_LESS);
 		glDepthMask(GL_TRUE);
 	}
 	glDisable(GL_BLEND);
 
-	
+
 
 	this->_meshTextures.clear(); //resets the objects that are visible
 }
@@ -146,7 +158,7 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine:
 	this->_terrainRenderers.erase(std::remove(this->_terrainRenderers.begin(), this->_terrainRenderers.end(), &terrainRenderer), this->_terrainRenderers.end());
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanup(false)
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false)
 {
 	//glCullFace(GL_BACK); //Causes the back of things not to be drawn
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
@@ -207,8 +219,17 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
 	for (auto& quad : this->_quads)
 	{
 		HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad->GetTransform());
-		quad->BindTexture();
 		quad->Draw();
+	}
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RenderLabels() const
+{
+	HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
+	for (const auto& label : this->_labels)
+	{
+		HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(label->GetTransform());
+		label->Draw();
 	}
 }
 
@@ -376,12 +397,15 @@ void HMEngine::Core::Rendering::RenderingEngine::RemovePointLight(HMEngine::Comp
 	this->_pointLights.erase(&pointLight);
 }
 
-void HMEngine::Core::Rendering::RenderingEngine::AddUI(HMEngine::UI::Quad & ui)
+void HMEngine::Core::Rendering::RenderingEngine::AddUI(HMEngine::UI::Quad& ui)
 {
-	this->_quads.insert(&ui);
+	if (typeid(ui) != typeid(HMEngine::UI::Label))
+		this->_quads.insert(&ui);
+	else
+		this->_labels.insert(static_cast<HMEngine::UI::Label*>(&ui));
 }
 
-void HMEngine::Core::Rendering::RenderingEngine::RemoveUI(HMEngine::UI::Quad & ui)
+void HMEngine::Core::Rendering::RenderingEngine::RemoveUI(HMEngine::UI::Quad& ui)
 {
 	this->_quads.erase(&ui);
 }

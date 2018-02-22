@@ -2,9 +2,9 @@
 #include "TextureManager.h"
 #include "Utilities.h"
 
-HMEngine::OpenGL::Texture::Texture(const std::string& texturePath)
+HMEngine::OpenGL::Texture::Texture(const std::string& texturePath, const unsigned int& internalFormat)
 {
-	this->_texture = &HMEngine::OpenGL::TextureManager::GetTexture(texturePath);
+	this->_texture = &HMEngine::OpenGL::TextureManager::GetTexture(texturePath, internalFormat);
 }
 
 HMEngine::OpenGL::Texture::~Texture()

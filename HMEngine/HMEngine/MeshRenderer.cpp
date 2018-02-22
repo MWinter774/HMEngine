@@ -66,7 +66,7 @@ void HMEngine::Components::MeshRenderer::DrawMesh()
 
 void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 {
-	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
+	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath, GL_RGB);
 	this->_mesh = new HMEngine::Core::Mesh(this->_meshPath);
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 	HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(&this->_mesh->GetBoundingSphere(), this->_parentObject);
@@ -75,5 +75,5 @@ void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 void HMEngine::Components::MeshRenderer::SetTexture(const std::string& texturePath)
 {
 	delete this->_texture;
-	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath);
+	this->_texture = new HMEngine::OpenGL::Texture(this->_texturePath, GL_RGB);
 }

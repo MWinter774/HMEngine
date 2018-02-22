@@ -5,16 +5,16 @@
 #include <algorithm>
 #include "FNTFileManager.h"
 
-HMEngine::UI::Font::Font(const std::string& fntFilePath, const std::string& fntTexturePath) : _fntTexturePath(fntTexturePath)
+HMEngine::UI::Font::Font(const std::string& ttfFilePath, const std::string& fntTexturePath) : _fntTexturePath(fntTexturePath)
 {
-	this->_fontFile = &HMEngine::UI::FNTFileManager::GetFont(fntFilePath);
+	this->_fontFile = &HMEngine::UI::FNTFileManager::GetFont(ttfFilePath);
 }
 
 HMEngine::UI::Font::~Font()
 {
 }
 
-HMEngine::Core::FNTFile::BMFontCharacter HMEngine::UI::Font::operator[](int asciiCode) const
+HMEngine::Core::FNTFile::Glyph HMEngine::UI::Font::operator[](char character) const
 {
-	return this->_fontFile->GetCharacter(asciiCode);
+	return this->_fontFile->GetCharacter(character);
 }

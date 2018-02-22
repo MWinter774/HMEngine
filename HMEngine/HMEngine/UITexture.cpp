@@ -1,7 +1,7 @@
 #include "UITexture.h"
 #include "Texture.h"
 
-HMEngine::OpenGL::UITexture::UITexture(const std::string& texturePath) : _texture(new HMEngine::OpenGL::Texture(texturePath))
+HMEngine::OpenGL::UITexture::UITexture(const std::string& texturePath) : _texture(new HMEngine::OpenGL::Texture(texturePath, GL_RGBA))
 {
 }
 

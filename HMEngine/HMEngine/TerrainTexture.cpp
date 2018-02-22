@@ -2,7 +2,11 @@
 #include "Texture.h"
 #include <GL\glew.h>
 
-HMEngine::OpenGL::TerrainTexture::TerrainTexture(const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : _backgroundTexture(new HMEngine::OpenGL::Texture(backroundTextureFilePath)), _rTexture(new HMEngine::OpenGL::Texture(rTextureFilePath)), _gTexture(new HMEngine::OpenGL::Texture(gTextureFilePath)), _bTexture(new HMEngine::OpenGL::Texture(bTextureFilePath)), _blendMap(new HMEngine::OpenGL::Texture(blendMapFilePath))
+HMEngine::OpenGL::TerrainTexture::TerrainTexture(const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, 
+	const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : 
+	_backgroundTexture(new HMEngine::OpenGL::Texture(backroundTextureFilePath, GL_RGB)), _rTexture(new HMEngine::OpenGL::Texture(rTextureFilePath, GL_RGB)),
+	_gTexture(new HMEngine::OpenGL::Texture(gTextureFilePath, GL_RGB)), _bTexture(new HMEngine::OpenGL::Texture(bTextureFilePath, GL_RGB)),
+	_blendMap(new HMEngine::OpenGL::Texture(blendMapFilePath, GL_RGB))
 {
 }
 

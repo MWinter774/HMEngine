@@ -11,27 +11,12 @@ namespace HMEngine
 		class OpenGLQuad : public HMEngine::OpenGL::OpenGLObject
 		{
 		public:
+			OpenGLQuad();
 			OpenGLQuad(const std::vector<glm::vec2>& vertices);
+			OpenGLQuad(const std::vector<glm::vec2>& vertices, const std::vector<glm::vec2>& uvs);
 			~OpenGLQuad();
-			OpenGLQuad(const HMEngine::OpenGL::OpenGLQuad& other);
-			HMEngine::OpenGL::OpenGLQuad& operator=(const HMEngine::OpenGL::OpenGLQuad& other);
-
-			void Draw() const;
-
-			inline void SetVertices(const std::vector<glm::vec2>& vertices) { this->_vertices = vertices; }
 
 		private:
-			enum
-			{
-				VBO_VERTICES,
-
-				VBO_COUNT
-			};
-			GLuint _vao;
-			GLuint _vbo[VBO_COUNT];
-			std::vector<glm::vec2> _vertices;
-
-			void InitBuffers();
 		};
 	}
 }

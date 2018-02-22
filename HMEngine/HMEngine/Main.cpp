@@ -14,6 +14,7 @@
 #include "Image.h"
 #include "Button.h"
 #include "Font.h"
+#include "Label.h"
 #include <string>
 #include "OpenGLObject.h"
 #include "OpenGLQuad.h"
@@ -21,11 +22,10 @@
 
 int main()
 {
-	/*
 	std::string title = "HMEngine";
 
 	HMEngine::GameEngine g;
-	g.CreateNewWindow(800, 600, title, false);
+	g.CreateNewWindow(1200, 720, title, false);
 
 	//create cube
 	std::vector<glm::vec3> vertices =
@@ -132,20 +132,28 @@ int main()
 				go.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/black.png"));
 			g.AddGameObject(go);
 		}
-	}//
+	}*/
 	//g.AddGameObject(go);
 	//g.AddGameObject(go2);
 
-	//g.SetAmbientLight({ 1,1,1 });
+	g.SetAmbientLight({ 1,1,1 });
 	//g.DisableFog();
 
-	HMEngine::Player p("Player", 100.0f, 200.0f);
-	//g.AddGameObject(p);
+	HMEngine::Core::GameObject testObject("test");
+	testObject.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/VeryNice.png"));
+	testObject.GetTransform().SetPositionY(10);
+	g.AddGameObject(testObject);
 
-	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 400, 300 }, { 40, 30 });
+	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/Arial.ttf", "./resources/fonts/Arial.png");
+
+	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 600, 360 }, { 25, 25 });
 	g.AddUI(crosshair);
-	HMEngine::UI::Button button = HMEngine::UI::Button("button", "./resources/UITextures/UIButtonReleased.png", "./resources/UITextures/UIButtonHover.png", "./resources/UITextures/UIButtonPressed.png", { 400, 100 }, { 100, 30 });
+
+	HMEngine::UI::Button button = HMEngine::UI::Button("button", "./resources/UITextures/UIButtonReleased.png", "./resources/UITextures/UIButtonHover.png", "./resources/UITextures/UIButtonPressed.png", { 600, 650 }, { 90, 30 });
 	g.AddUI(button);
+
+	HMEngine::UI::Label label = HMEngine::UI::Label("label", { 0,360 }, { 300, 200 }, "Hi! this is a text", arial, 16);
+	g.AddUI(label);
 
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
@@ -153,50 +161,14 @@ int main()
 	HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/grassFlowers.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	g.AddGameObject(terrain);
 
+	HMEngine::Player p("Player", 100.0f, 200.0f);
+	//g.AddGameObject(p);
+
 	g.UnlockCursor();
 	g.SetMouseVisible(true);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
-	*/
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) //try to initialize SDL
-	{
-		HMEngine::Core::Utilities::ThrowException("SDL INITIALIZATION FAILED!");
-	}
-	HMEngine::Core::Utilities::PrintDebugMessage("Succeeded initializing SDL...");
-	SDL_Window* window = SDL_CreateWindow("kaki", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
-	SDL_GLContext context = SDL_GL_CreateContext(window);
-	GLenum res = glewInit();
-	if (res != GLEW_OK)
-	{
-		std::cerr << "Glew failed to initialize!" << std::endl;
-	}
 
-	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
-	HMEngine::UI::Font arial2 = HMEngine::UI::Font("./resources/fonts/arial.fnt", "./resources/fonts/arial.png");
-	std::vector<glm::vec3> vertices = { glm::vec3(0,0.5f, 0), glm::vec3(1,0,1), glm::vec3(1,0,0) };
-	std::vector<glm::vec2> uvs = { glm::vec2(0,0), glm::vec2(1,0.5f) };
-	std::vector<glm::vec4> kaki = { glm::vec4(1, 4, 5, 6) };
-	//HMEngine::OpenGL::OpenGLQuad quad = HMEngine::OpenGL::OpenGLQuad(vertices);
-	std::vector<std::any> hi = { vertices, uvs, kaki };
-	std::vector<GLuint> toAdd = { 1,2,8,6 };
-	//HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(vertices, uvs);
-	HMEngine::OpenGL::OpenGLObject object;
-	object.SetVertices(vertices);
-	object.SetUVs(uvs);
-	//HMEngine::OpenGL::OpenGLObject object = HMEngine::OpenGL::OpenGLObject(vertices, uvs, kaki);
-	HMEngine::OpenGL::OpenGLObject object2 = object;
-	HMEngine::OpenGL::OpenGLObject object3 = HMEngine::OpenGL::OpenGLObject(object);
-
-	//object.SetVertices(vertices);
-	//object.Initialize();
-	//object.Draw();
-
-	SDL_GL_SwapWindow(window);
-	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-	SDL_GL_DeleteContext(context);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-	system("pause");
 	return 0;
 }

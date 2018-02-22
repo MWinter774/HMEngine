@@ -103,7 +103,7 @@ void HMEngine::Components::TerrainRenderer::AttachToGameObjectEvent()
 	if (this->_rTexturePath != "")
 		this->_terrainTexture = new HMEngine::OpenGL::TerrainTexture(this->_backroundTexturePath, this->_rTexturePath, this->_gTexturePath, this->_bTexturePath, this->_blendMapTexturePath);
 	else
-		this->_texture = new HMEngine::OpenGL::Texture(this->_backroundTexturePath);
+		this->_texture = new HMEngine::OpenGL::Texture(this->_backroundTexturePath, GL_RGB);
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
 	//this->_mesh->InitBuffers();
 }

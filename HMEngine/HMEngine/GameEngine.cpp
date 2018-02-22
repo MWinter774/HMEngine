@@ -193,7 +193,6 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 	uiClone->AttachToGameEngine();
 	this->_quads[uiClone->GetName()] = uiClone; //adds the ui quad to the quad map
 	this->_quadsVector.push_back(uiClone); //adds the quad to the quad vector
-	this->_renderingEngine->AddUI(*uiClone); //adds the quad to the rendering engine
 }
 
 void HMEngine::GameEngine::AddUI(HMEngine::UI::Quad* ui)

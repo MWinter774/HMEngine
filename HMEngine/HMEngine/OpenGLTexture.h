@@ -45,7 +45,7 @@ namespace HMEngine
 					return a.get()._textureImage.imagePath == b.get()._textureImage.imagePath;
 				}
 			};
-			OpenGLTexture(const std::string& texturePath);
+			OpenGLTexture(const std::string& texturePath, const unsigned int& internalFormat);
 			~OpenGLTexture();
 
 			void Bind() const;

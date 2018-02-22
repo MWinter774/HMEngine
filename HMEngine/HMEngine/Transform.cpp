@@ -10,6 +10,12 @@ HMEngine::Core::Transform::~Transform()
 {
 }
 
+
+glm::mat4 HMEngine::Core::Transform::GetTranslationMatrix() const
+{
+	return glm::translate(this->_position);
+}
+
 /*
 Calculates and returns the model matrix.
 */

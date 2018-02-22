@@ -2,7 +2,7 @@
 #include <lodepng\lodepng.h>
 #include "Utilities.h"
 
-HMEngine::OpenGL::OpenGLTexture::OpenGLTexture(const std::string& texturePath) : _hasTransparency(false)
+HMEngine::OpenGL::OpenGLTexture::OpenGLTexture(const std::string& texturePath, const unsigned int& internalFormat) : _hasTransparency(false)
 {
 	/* Loads the image */
 	int image = lodepng::decode(this->_textureImage.image, this->_textureImage.width, this->_textureImage.height, texturePath);
@@ -15,7 +15,7 @@ HMEngine::OpenGL::OpenGLTexture::OpenGLTexture(const std::string& texturePath) :
 	/* Generates and configures the texture buffer */
 	glGenTextures(1, &this->_textureId); //generate one texture
 	glBindTexture(GL_TEXTURE_2D, this->_textureId); //binds the texture so its properties can be changed
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->_textureImage.width, this->_textureImage.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &this->_textureImage.image[0]); //fill the buffer with the texture
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, this->_textureImage.width, this->_textureImage.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &this->_textureImage.image[0]); //fill the buffer with the texture
 																																								//changes the properties of the texture
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //sets how the texture will sample if an invalid coordinate is given
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //sets how the texture will sample if an invalid coordinate is given

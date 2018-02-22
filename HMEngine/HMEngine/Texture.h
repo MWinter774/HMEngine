@@ -10,7 +10,7 @@ namespace HMEngine
 		{
 			friend class TextureManager;
 		public:
-			Texture(const std::string& texturePath);
+			Texture(const std::string& texturePath, const unsigned int& internalFormat);
 			~Texture();
 			Texture(const HMEngine::OpenGL::Texture& other);
 			HMEngine::OpenGL::Texture& operator=(const HMEngine::OpenGL::Texture& other);

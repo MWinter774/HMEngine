@@ -14,7 +14,7 @@ namespace HMEngine
 			TextureManager() = delete;
 			~TextureManager() = delete;
 
-			static HMEngine::OpenGL::OpenGLTexture& GetTexture(const std::string& texturePath);
+			static HMEngine::OpenGL::OpenGLTexture& GetTexture(const std::string& texturePath, const unsigned int& internalFormat);
 
 		private:
 			static std::unordered_map<std::string, std::unique_ptr<HMEngine::OpenGL::OpenGLTexture>> textures; //maps between texture file path to texture object

@@ -70,6 +70,7 @@ namespace HMEngine
 			inline void AddScale(const glm::vec3& other) { this->_scale += other; };
 			inline void AddScale(float x, float y, float z) { this->_scale += glm::vec3(x, y, z); };
 
+			glm::mat4 GetTranslationMatrix() const;
 			glm::mat4 GetModelMatrix() const;
 			glm::mat4 GetViewMatrix() const;
 			glm::mat4 GetMVPMatrix() const;

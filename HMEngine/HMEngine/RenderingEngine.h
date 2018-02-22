@@ -13,6 +13,7 @@ namespace HMEngine
 	namespace UI
 	{
 		class Quad;
+		class Label;
 	}
 	namespace Components
 	{
@@ -53,7 +54,8 @@ namespace HMEngine
 			private:
 				enum term { A = 0, B, C, D };
 
-				bool _doCleanup;
+				bool _doCleanupForMeshes;
+				bool _doCleanupForQuads;
 
 				RenderingEngine();
 				~RenderingEngine();
@@ -64,6 +66,7 @@ namespace HMEngine
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
 				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
 				std::unordered_set<HMEngine::UI::Quad*> _quads;
+				std::unordered_set<HMEngine::UI::Label*> _labels;
 
 				std::list<HMEngine::Components::MeshRenderer*> _meshesToRender;
 				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;
@@ -75,6 +78,7 @@ namespace HMEngine
 				void RenderMeshes() const;
 				void RenderTerrains() const;
 				void RenderQuads() const;
+				void RenderLabels() const;
 
 				void CullFrustrum();
 

@@ -6,14 +6,16 @@
 #include "Utilities.h"
 #include "GameSettings.h"
 #include "OpenGLQuad.h"
+#include "RenderingEngine.h"
 
-const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1),glm::vec2(-1,-1), glm::vec2(1,1),glm::vec2(1,-1) };
+const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1), glm::vec2(-1,-1), glm::vec2(1,1), glm::vec2(1,-1) };
 
 HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position,
-	const glm::vec2& scale) : _name(name), _vertices(vertices), _gameEngine(nullptr), _textures{ new HMEngine::OpenGL::UITexture(texturePath) },
-	_isAddedToGameEngine(false), _quad(nullptr), _transform(new HMEngine::Core::Transform())
+	const glm::vec2& scale) : _name(name), _gameEngine(nullptr), _isAddedToGameEngine(false), _transform(new HMEngine::Core::Transform()),
+	_quadTextures{ new HMEngine::OpenGL::UITexture(texturePath) }, _openglQuad(new HMEngine::OpenGL::OpenGLQuad())
 {
-	this->_currentTexture = _textures[0];
+	this->_currentTexture = _quadTextures[0];
+	this->_openglQuad->SetVertices(HMEngine::UI::Quad::rectangle);
 
 	this->_quadDetails.position = position;
 	this->_quadDetails.scale = scale;
@@ -22,63 +24,80 @@ HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath
 	this->UpdateTransform();
 }
 
-HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale) :
-	Quad(name, texturePath, HMEngine::UI::Quad::rectangle, position, scale)
+HMEngine::UI::Quad::Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale, bool useVertices) :
+	_name(name), _gameEngine(nullptr), _isAddedToGameEngine(false), _transform(new HMEngine::Core::Transform()), _openglQuad(new HMEngine::OpenGL::OpenGLQuad()),
+	_quadTextures{ new HMEngine::OpenGL::UITexture(texturePath) }
 {
+	this->_currentTexture = _quadTextures[0];
+	if (useVertices)
+		this->_openglQuad->SetVertices(HMEngine::UI::Quad::rectangle);
+
+	this->_quadDetails.position = position;
+	this->_quadDetails.scale = scale;
+	this->UpdateQuadDetails();
+
+	this->UpdateTransform();
+}
+
+HMEngine::UI::Quad::Quad(const std::string& name, const glm::vec2& position, const glm::vec2& scale) : _name(name), _gameEngine(nullptr),
+_isAddedToGameEngine(false), _transform(new HMEngine::Core::Transform())
+{
+	this->_quadDetails.position = position;
+	this->_quadDetails.scale = scale;
+	this->UpdateQuadDetails();
+
+	this->UpdateTransform();
 }
 
 HMEngine::UI::Quad::~Quad()
 {
-	if (this->_isAddedToGameEngine)
+	for (auto& quadTexture : this->_quadTextures)
 	{
-		delete this->_quad;
+		delete quadTexture;
 	}
-	for (auto& texture : this->_textures)
-	{
-		delete texture;
-	}
+
+	delete this->_openglQuad;
 	delete this->_transform;
 }
 
-HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _vertices(other._vertices), _quadDetails(other._quadDetails),
-_gameEngine(other._gameEngine), _isAddedToGameEngine(other._isAddedToGameEngine), _transform(new HMEngine::Core::Transform(*other._transform))
+HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : _name(other._name), _quadDetails(other._quadDetails), _gameEngine(other._gameEngine),
+_isAddedToGameEngine(other._isAddedToGameEngine), _transform(new HMEngine::Core::Transform(*other._transform))
 {
-	for (auto& otherTexture : other._textures)
+	for (auto& quadTexture : other._quadTextures)
 	{
-		this->_textures.push_back(new HMEngine::OpenGL::UITexture(*otherTexture));
+		this->_quadTextures.push_back(new HMEngine::OpenGL::UITexture(*quadTexture));
 	}
-	this->_currentTexture = this->_textures[0];
-	if (this->_isAddedToGameEngine)
-		this->_quad = new HMEngine::OpenGL::OpenGLQuad(*other._quad);
+	if (this->_quadTextures.size() > 0)
+		this->_currentTexture = this->_quadTextures[0];
+
+	if (other._openglQuad != nullptr)
+		this->_openglQuad = new HMEngine::OpenGL::OpenGLQuad(*other._openglQuad);
 }
 
 HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& other)
 {
 	if (this != &other)
 	{
-		for (auto& texture : this->_textures)
-		{
-			delete texture;
-		}
-		for (auto& otherTexture : other._textures)
-		{
-			this->_textures.push_back(new HMEngine::OpenGL::UITexture(*otherTexture));
-		}
-		this->_currentTexture = this->_textures[0];
 		delete this->_transform;
-		this->_transform = new HMEngine::Core::Transform(*other._transform);
+		for (auto& quadTexture : this->_quadTextures)
+		{
+			delete quadTexture;
+		}
+		delete this->_openglQuad;
 
-		this->_vertices = other._vertices;
+		this->_openglQuad = new HMEngine::OpenGL::OpenGLQuad(*other._openglQuad);
+		this->_transform = new HMEngine::Core::Transform(*other._transform);
 		this->_name = other._name;
 		this->_quadDetails = other._quadDetails;
 		this->_isAddedToGameEngine = other._isAddedToGameEngine;
 		if (this->_isAddedToGameEngine)
 		{
-			if (this->_quad != nullptr)
+			for (auto& quadTexture : other._quadTextures)
 			{
-				delete this->_quad;
+				this->_quadTextures.push_back(new HMEngine::OpenGL::UITexture(*quadTexture));
 			}
-			this->_quad = new HMEngine::OpenGL::OpenGLQuad(*other._quad);
+			if (this->_quadTextures.size() > 0)
+				this->_currentTexture = this->_quadTextures[0];
 		}
 	}
 
@@ -87,41 +106,37 @@ HMEngine::UI::Quad& HMEngine::UI::Quad::operator=(const HMEngine::UI::Quad& othe
 
 void HMEngine::UI::Quad::AddTexture(const std::string& texturePath)
 {
-	this->_textures.push_back(new HMEngine::OpenGL::UITexture(texturePath));
+	this->_quadTextures.push_back(new HMEngine::OpenGL::UITexture(texturePath));
 }
 
 void HMEngine::UI::Quad::SetTexture(unsigned int i)
 {
-	if (i >= this->_textures.size())
+	if (i >= this->_quadTextures.size())
 	{
 		HMEngine::Core::Utilities::ThrowException("Quad texture index is out of range!");
 	}
-	this->_currentTexture = this->_textures[i];
+	this->_currentTexture = this->_quadTextures[i];
 }
 
 void HMEngine::UI::Quad::BindTexture() const
 {
+	if (this->_currentTexture == nullptr)
+		HMEngine::Core::Utilities::ThrowException("NO TEXTURE ASSIGNED TO QUAD!");
 	this->_currentTexture->Bind();
 }
 
 void HMEngine::UI::Quad::Draw() const
 {
-	this->_quad->Draw();
-}
-
-void HMEngine::UI::Quad::SetVertices(const std::vector<glm::vec2>& vertices)
-{
-	this->_vertices = vertices;
-	if (this->_isAddedToGameEngine)
-	{
-		this->_quad->SetVertices(vertices);
-	}
+	this->BindTexture();
+	this->_openglQuad->Draw(GL_TRIANGLE_STRIP);
 }
 
 void HMEngine::UI::Quad::AttachToGameEngine()
 {
 	this->_isAddedToGameEngine = true;
-	this->_quad = new HMEngine::OpenGL::OpenGLQuad(this->_vertices);
+	if (this->_openglQuad != nullptr)
+		this->_openglQuad->Initialize();
+	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddUI(*this); //adds the quad to the rendering engine
 
 	this->AttachToGameEngineEvent();
 }
