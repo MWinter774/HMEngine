@@ -6,13 +6,13 @@
 #include "GL\glew.h"
 #include "Transform.h"
 #include <map>
+#include "OpenGLQuad.h"
 
 namespace HMEngine
 {
 	class GameEngine;
 	namespace OpenGL
 	{
-		class OpenGLQuad;
 		class UITexture;
 	}
 
@@ -64,8 +64,12 @@ namespace HMEngine
 		protected:
 			static const std::vector<glm::vec2> rectangle;
 
+			inline void SetVertices(const std::vector<glm::vec2>& vertices) { this->_openglQuad->SetVertices(vertices); }
+			inline void SetUVs(const std::vector<glm::vec2>& vertices) { this->_openglQuad->SetUVs(vertices); }
+
 			std::string _name;
 			HMEngine::UI::Quad::QuadDetails _quadDetails;
+			HMEngine::OpenGL::OpenGLQuad* _openglQuad;
 
 			bool _isAddedToGameEngine;
 
@@ -73,7 +77,6 @@ namespace HMEngine
 
 		private:
 			HMEngine::OpenGL::UITexture* _currentTexture;
-			HMEngine::OpenGL::OpenGLQuad* _openglQuad;
 			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
 

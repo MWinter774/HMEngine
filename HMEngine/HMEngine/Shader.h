@@ -51,6 +51,7 @@ namespace HMEngine
 					void SetUniform(const std::string& uniformName, int value);
 					void SetUniform(const std::string& uniformName, float value);
 					void SetUniform(const std::string& uniformName, const glm::vec3& value);
+					void SetUniform(const std::string& uniformName, const glm::vec2& value);
 					void SetUniform(const std::string& uniformName, const glm::mat4& value);
 
 					virtual void UpdateUniforms(const HMEngine::Core::Transform& transform) { }
@@ -261,6 +262,14 @@ namespace HMEngine
 					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
 						this->AddUniform(uniformName);
 					glUniform3f(this->_uniforms[uniformName], value.x, value.y, value.z);
+				}
+
+				template<typename T>
+				inline void Shader<T>::SetUniform(const std::string& uniformName, const glm::vec2& value)
+				{
+					if (this->_uniforms.find(uniformName) == this->_uniforms.end())
+						this->AddUniform(uniformName);
+					glUniform2f(this->_uniforms[uniformName], value.x, value.y);
 				}
 
 				template<typename T>

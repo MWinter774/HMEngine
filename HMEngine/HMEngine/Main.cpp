@@ -144,7 +144,7 @@ int main()
 	testObject.GetTransform().SetPositionY(10);
 	g.AddGameObject(testObject);
 
-	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/Arial.ttf", "./resources/fonts/Arial.png");
+	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/Arial.fnt", "./resources/fonts/Arial.png");
 
 	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 600, 360 }, { 25, 25 });
 	g.AddUI(crosshair);
@@ -152,7 +152,7 @@ int main()
 	HMEngine::UI::Button button = HMEngine::UI::Button("button", "./resources/UITextures/UIButtonReleased.png", "./resources/UITextures/UIButtonHover.png", "./resources/UITextures/UIButtonPressed.png", { 600, 650 }, { 90, 30 });
 	g.AddUI(button);
 
-	HMEngine::UI::Label label = HMEngine::UI::Label("label", { 0,360 }, { 300, 200 }, "Hi! this is a text", arial, 16);
+	HMEngine::UI::Label label = HMEngine::UI::Label("label", { 600,360 }, "HI! this is a text 3.14", arial, 3.0f);
 	g.AddUI(label);
 
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");

@@ -5,7 +5,6 @@
 #include <iostream>
 #include "Utilities.h"
 #include "GameSettings.h"
-#include "OpenGLQuad.h"
 #include "RenderingEngine.h"
 
 const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1), glm::vec2(-1,-1), glm::vec2(1,1), glm::vec2(1,-1) };

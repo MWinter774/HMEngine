@@ -1,22 +1,31 @@
 #include "Label.h"
-#include "Utilities.h"
 #include "OpenGLQuad.h"
 #include "GameSettings.h"
 
-HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& text,
-	const HMEngine::UI::Font& font, float fontSize) : HMEngine::UI::Quad(name, position, scale), _text(text), _font(font), _fontSize(fontSize)
+HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const std::string& text, const HMEngine::UI::Font& font, float fontSize) : 
+	HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, glm::vec2(1, 1), false), _text(text), _font(font), _fontSize(fontSize)
 {
-	const unsigned int& WINDOW_WIDTH = HMEngine::GameSettings::GetWindowWidth();
-	const unsigned int& WINDOW_HEIGHT = HMEngine::GameSettings::GetWindowHeight();
-	const float ASPECT_RATIO = float(WINDOW_WIDTH) / WINDOW_HEIGHT;
-	this->_width = 0;
-	this->_height = 0;
-	this->CalculateVerticesAndUVs();
-	//this->_width /= ASPECT_RATIO;
-	this->_height *= ASPECT_RATIO;
-	std::cout << this->_width << std::endl;
-	std::cout << this->_height << std::endl;
-	this->SetScale(this->_width, scale.y);
+	/* Calculates vertices, uvs, and width and height of the label */
+	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_quadDetails.position, this->_fontSize);
+
+	/* Calculates the width and height of the label */
+	const float ASPECT_RATIO = float(HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowHeight();
+	float width = dimensions.x, height = float(dimensions.x) / ASPECT_RATIO;
+	this->SetScale(width, height);
+
+	this->SetVertices(vertices);
+	this->SetUVs(uvs);
+}
+
+HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& text,
+	const HMEngine::UI::Font& font, float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, scale, false), _text(text), _font(font),
+	_fontSize(fontSize)
+{
+	/* Calculates vertices, uvs, and width and height of the label */
+	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_quadDetails.position, this->_fontSize);
+
+	this->SetVertices(vertices);
+	this->SetUVs(uvs);
 }
 
 HMEngine::UI::Label::~Label()
@@ -51,13 +60,8 @@ HMEngine::UI::Label& HMEngine::UI::Label::operator=(const HMEngine::UI::Label& o
 
 void HMEngine::UI::Label::Draw() const
 {
-	for (auto& item : this->_characters)
-	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, item.first);
-		for (auto& quad : item.second)
-			quad->Draw(GL_TRIANGLES);
-	}
+	this->BindTexture();
+	this->_openglQuad->Draw(GL_TRIANGLES);
 }
 
 void HMEngine::UI::Label::AttachToGameEngineEvent()
@@ -67,63 +71,81 @@ void HMEngine::UI::Label::AttachToGameEngineEvent()
 			quad->Initialize();
 }
 
-void HMEngine::UI::Label::CalculateVerticesAndUVs()
+/*
+Calculates vertices and uvs of a label.
+Input:
+text - the text to calculate vertices and uvs
+font - the font of the text
+bottomLeft - bottom left corner of the label
+fontSize - the size of the font
+Output:
+Tuple that the first element is vertices, second is uvs and the third is the dimension of the quad.
+The quad's vertices are alligned so the label's position is in the center of the quad.
+*/
+std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> HMEngine::UI::Label::GetVerticesAndUVsFromText(const std::string& text,
+	const HMEngine::UI::Font& font, const glm::vec2& bottomLeft, float fontSize)
 {
-	this->_characters.clear();
-	std::vector<glm::vec2> vertices;
-	std::vector<glm::vec2> uvs;
-	GLuint textureId = -1;
-	HMEngine::OpenGL::OpenGLQuad* quad = nullptr;
-	HMEngine::Core::FNTFile::Glyph glyph;
-	GLfloat scale = this->_fontSize;
-	GLfloat xPos = -1;
-	GLfloat yPos = -1;
-	GLfloat w = -1;
-	GLfloat h = -1;
-	GLfloat x = 0;
-	GLfloat y = 0;
-	const unsigned int& WINDOW_WIDTH = HMEngine::GameSettings::GetWindowWidth();
-	const unsigned int& WINDOW_HEIGHT = HMEngine::GameSettings::GetWindowHeight();
-	const float ASPECT_RATIO = float(WINDOW_WIDTH) / WINDOW_HEIGHT;
+	float cursorX = bottomLeft.x / HMEngine::GameSettings::GetWindowWidth();
+	float cursorY = bottomLeft.y / HMEngine::GameSettings::GetWindowHeight();
 
-	for (auto& c : this->_text)
+	std::vector<glm::vec2> vertices = std::vector<glm::vec2>();
+	std::vector<glm::vec2> uvs = std::vector<glm::vec2>();
+
+	glm::vec2 dimensions;
+
+	for (auto& character : text)
 	{
-		glyph = this->_font[c];
+		HMEngine::Core::FNTFile::BMFontCharacter fntChar = font[character];
+		HMEngine::UI::Label::AddVerticesForCharacter(vertices, fntChar, cursorX, cursorY, fontSize);
+		HMEngine::UI::Label::AddUVs(uvs, fntChar.xTextureCoordiante, fntChar.yTextureCoordiante, fntChar.xMaxTextureCoordinate, fntChar.yMaxTextureCoordinate);
 
-		textureId = glyph.textureId;
-		quad = new HMEngine::OpenGL::OpenGLQuad();
-
-		xPos = x + glyph.offsets.x * scale;
-		yPos = y - (glyph.size.y - glyph.offsets.y) * scale;
-
-		w = glyph.size.x * scale;
-		h = glyph.size.y * scale;
-
-		// Update VBO for each character
-		vertices.push_back(glm::vec2(xPos, yPos + h) /= WINDOW_WIDTH);
-		vertices.push_back(glm::vec2(xPos, yPos) /= WINDOW_WIDTH);
-		vertices.push_back(glm::vec2(xPos + w, yPos) /= WINDOW_WIDTH);
-		vertices.push_back(glm::vec2(xPos, yPos + h) /= WINDOW_WIDTH);
-		vertices.push_back(glm::vec2(xPos + w, yPos) /= WINDOW_WIDTH);
-		vertices.push_back(glm::vec2(xPos + w, yPos + h) /= WINDOW_WIDTH);
-
-		uvs.push_back(glm::vec2(0.0, 0.0));
-		uvs.push_back(glm::vec2(0.0, 1.0));
-		uvs.push_back(glm::vec2(1.0, 1.0));
-		uvs.push_back(glm::vec2(0.0, 0.0));
-		uvs.push_back(glm::vec2(1.0, 1.0));
-		uvs.push_back(glm::vec2(1.0, 0.0));
-
-		x += (glyph.advance >> 6) * scale;
-
-		this->_width += (glyph.advance >> 6);/* >> 6) * scale;*/
-		this->_height = h > this->_height ? h : this->_height;
-
-		quad->SetVertices(vertices);
-		quad->SetUVs(uvs);
-		this->_characters[textureId].push_back(quad);
-
-		vertices.clear();
-		uvs.clear();
+		cursorX += fntChar.xAdvance * fontSize;
+		dimensions.x += fntChar.xAdvance * fontSize;
+		dimensions.y = std::fmax(dimensions.y, fntChar.quadHeight * fontSize);
 	}
+
+	for (auto& vertex : vertices)
+	{
+		vertex.x -= dimensions.x;
+		vertex.y += dimensions.y;
+	}
+
+	dimensions.x *= HMEngine::GameSettings::GetWindowWidth();
+	dimensions.y *= HMEngine::GameSettings::GetWindowHeight();
+
+	return std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2>(vertices, uvs, dimensions);
+}
+
+void HMEngine::UI::Label::AddVerticesForCharacter(std::vector<glm::vec2>& vertices, const HMEngine::Core::FNTFile::BMFontCharacter& character,
+	float cursorX, float cursorY, float fontSize)
+{
+	float x = cursorX + (character.xOffset * fontSize);
+	float y = cursorY + (character.yOffset * fontSize);
+	float maxX = x + (character.quadWidth * fontSize);
+	float maxY = y + (character.quadHeight * fontSize);
+	float properX = (2 * x) - 1;
+	float properY = (-2 * y) + 1;
+	float properMaxX = (2 * maxX) - 1;
+	float properMaxY = (-2 * maxY) + 1;
+	HMEngine::UI::Label::AddVertices(vertices, properX, properY, properMaxX, properMaxY);
+}
+
+void HMEngine::UI::Label::AddVertices(std::vector<glm::vec2>& vertices, float x, float y, float maxX, float maxY)
+{
+	vertices.push_back(glm::vec2(x, y));
+	vertices.push_back(glm::vec2(x, maxY));
+	vertices.push_back(glm::vec2(maxX, maxY));
+	vertices.push_back(glm::vec2(maxX, maxY));
+	vertices.push_back(glm::vec2(maxX, y));
+	vertices.push_back(glm::vec2(x, y));
+}
+
+void HMEngine::UI::Label::AddUVs(std::vector<glm::vec2>& uvs, float x, float y, float maxX, float maxY)
+{
+	uvs.push_back(glm::vec2(x, y));
+	uvs.push_back(glm::vec2(x, maxY));
+	uvs.push_back(glm::vec2(maxX, maxY));
+	uvs.push_back(glm::vec2(maxX, maxY));
+	uvs.push_back(glm::vec2(maxX, y));
+	uvs.push_back(glm::vec2(x, y));
 }

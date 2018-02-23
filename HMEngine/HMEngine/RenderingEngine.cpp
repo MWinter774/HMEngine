@@ -208,7 +208,6 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 	for (auto& terrain : this->_terrainRenderers)
 	{
 		HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
-		terrain->BindTextures(); //Binds terrain textures
 		terrain->DrawTerrain();
 	}
 }

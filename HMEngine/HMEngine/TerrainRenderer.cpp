@@ -118,6 +118,7 @@ void HMEngine::Components::TerrainRenderer::BindTextures() const
 
 void HMEngine::Components::TerrainRenderer::DrawTerrain() const
 {
+	this->BindTextures(); //Binds terrain textures
 	this->_mesh->Draw();
 }
 
