@@ -152,7 +152,7 @@ int main()
 	HMEngine::UI::Button button = HMEngine::UI::Button("button", "./resources/UITextures/UIButtonReleased.png", "./resources/UITextures/UIButtonHover.png", "./resources/UITextures/UIButtonPressed.png", { 600, 650 }, { 90, 30 });
 	g.AddUI(button);
 
-	HMEngine::UI::Label label = HMEngine::UI::Label("label", { 600,360 }, "HI! this is a text 3.14", arial, 3.0f);
+	HMEngine::UI::Label label = HMEngine::UI::Label("label", { 600,360 }, "HI! this is a text 3.14", arial, { 51, 204, 255 }, 3.0f);
 	g.AddUI(label);
 
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");

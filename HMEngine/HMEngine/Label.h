@@ -17,9 +17,9 @@ namespace HMEngine
 		{
 		public:
 			Label(const std::string& name, const glm::vec2& position, const std::string& text,
-				const HMEngine::UI::Font& font, float fontSize);
+				const HMEngine::UI::Font& font, const glm::vec3& color, float fontSize);
 			Label(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& text,
-				const HMEngine::UI::Font& font, float fontSize);
+				const HMEngine::UI::Font& font, const glm::vec3& color, float fontSize);
 			~Label();
 			Label(const HMEngine::UI::Label& other);
 			HMEngine::UI::Label& operator=(const HMEngine::UI::Label& other);
@@ -30,8 +30,9 @@ namespace HMEngine
 			inline float GetTextSize() const { return this->_fontSize; }
 			inline glm::vec3 GetColor() const { return this->_color; }
 
+			inline void SetText(const std::string& text) { this->_text = text; }
+
 			void Draw() const override;
-			void AttachToGameEngineEvent() override;
 
 		private:
 			static std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> GetVerticesAndUVsFromText(const std::string& text, 
@@ -41,12 +42,12 @@ namespace HMEngine
 			static void AddVertices(std::vector<glm::vec2>& vertices, float x, float y, float maxX, float maxY);
 			static void AddUVs(std::vector<glm::vec2>& uvs, float x, float y, float maxX, float maxY);
 
+			void InitLabel(bool hasScale);
+
 			std::string _text;
 			float _fontSize;
 			glm::vec3 _color;
 			HMEngine::UI::Font _font;
-			std::map<GLuint, std::vector<HMEngine::OpenGL::OpenGLQuad*>> _characters; //maps between texture id to vector of OpenGLQuad objects
-			GLfloat _width, _height;
 		};
 	}
 }

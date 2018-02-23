@@ -2,44 +2,29 @@
 #include "OpenGLQuad.h"
 #include "GameSettings.h"
 
-HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const std::string& text, const HMEngine::UI::Font& font, float fontSize) : 
-	HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, glm::vec2(1, 1), false), _text(text), _font(font), _fontSize(fontSize)
+HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const std::string& text, const HMEngine::UI::Font& font, const glm::vec3& color,
+	float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, glm::vec2(1, 1), false), _text(text), _font(font), _fontSize(fontSize), 
+	_color(color)
 {
-	/* Calculates vertices, uvs, and width and height of the label */
-	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_quadDetails.position, this->_fontSize);
-
-	/* Calculates the width and height of the label */
-	const float ASPECT_RATIO = float(HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowHeight();
-	float width = dimensions.x, height = float(dimensions.x) / ASPECT_RATIO;
-	this->SetScale(width, height);
-
-	this->SetVertices(vertices);
-	this->SetUVs(uvs);
+	this->_color /= 255;
+	this->InitLabel(false);
 }
 
 HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& text,
-	const HMEngine::UI::Font& font, float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, scale, false), _text(text), _font(font),
-	_fontSize(fontSize)
+	const HMEngine::UI::Font& font, const glm::vec3& color , float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, scale, false),
+	_text(text), _font(font), _fontSize(fontSize), _color(color)
 {
-	/* Calculates vertices, uvs, and width and height of the label */
-	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_quadDetails.position, this->_fontSize);
-
-	this->SetVertices(vertices);
-	this->SetUVs(uvs);
+	this->_color /= 255;
+	this->InitLabel(true);
 }
 
 HMEngine::UI::Label::~Label()
 {
-	for (auto& item : this->_characters)
-		for (auto& quad : item.second)
-			delete quad;
 }
 
-HMEngine::UI::Label::Label(const HMEngine::UI::Label& other) : HMEngine::UI::Quad(other), _text(other._text), _font(other._font), _fontSize(other._fontSize)
+HMEngine::UI::Label::Label(const HMEngine::UI::Label& other) : HMEngine::UI::Quad(other), _text(other._text), _font(other._font), _fontSize(other._fontSize), 
+_color(other._color)
 {
-	for (auto& item : other._characters)
-		for (const auto& quad : item.second)
-			this->_characters[item.first].push_back(new HMEngine::OpenGL::OpenGLQuad(*quad));
 }
 
 HMEngine::UI::Label& HMEngine::UI::Label::operator=(const HMEngine::UI::Label& other)
@@ -50,9 +35,7 @@ HMEngine::UI::Label& HMEngine::UI::Label::operator=(const HMEngine::UI::Label& o
 		this->_text = other._text;
 		this->_font = other._font;
 		this->_fontSize = other._fontSize;
-		for (auto& item : other._characters)
-			for (const auto& quad : item.second)
-				this->_characters[item.first].push_back(new HMEngine::OpenGL::OpenGLQuad(*quad));
+		this->_color = other._color;
 	}
 
 	return *this;
@@ -62,13 +45,6 @@ void HMEngine::UI::Label::Draw() const
 {
 	this->BindTexture();
 	this->_openglQuad->Draw(GL_TRIANGLES);
-}
-
-void HMEngine::UI::Label::AttachToGameEngineEvent()
-{
-	for (auto& item : this->_characters)
-		for (const auto& quad : item.second)
-			quad->Initialize();
 }
 
 /*
@@ -148,4 +124,21 @@ void HMEngine::UI::Label::AddUVs(std::vector<glm::vec2>& uvs, float x, float y, 
 	uvs.push_back(glm::vec2(maxX, maxY));
 	uvs.push_back(glm::vec2(maxX, y));
 	uvs.push_back(glm::vec2(x, y));
+}
+
+void HMEngine::UI::Label::InitLabel(bool hasScale)
+{
+	/* Calculates vertices, uvs, and width and height of the label */
+	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_quadDetails.position, this->_fontSize);
+
+	/* Calculates the width and height of the label */
+	if (!hasScale) //if the user didn't specified a scale
+	{
+		const float ASPECT_RATIO = float(HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowHeight();
+		float width = dimensions.x, height = float(dimensions.x) / ASPECT_RATIO;
+		this->SetScale(width, height);
+	}
+
+	this->SetVertices(vertices);
+	this->SetUVs(uvs);
 }

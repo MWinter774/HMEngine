@@ -1,9 +1,11 @@
 #include "LabelShader.h"
 #include "Transform.h"
+#include "Label.h"
 
-void HMEngine::Core::Rendering::Shaders::LabelShader::UpdateUniforms(const HMEngine::Core::Transform& transform)
+void HMEngine::Core::Rendering::Shaders::LabelShader::UpdateUniforms(HMEngine::UI::Label& label)
 {
-	this->SetUniform("transformationMatrix", transform.GetModelMatrix());
+	this->SetUniform("transformationMatrix", label.GetTransform().GetModelMatrix());
+	this->SetUniform("textColor", label.GetColor());
 }
 
 HMEngine::Core::Rendering::Shaders::LabelShader::LabelShader()

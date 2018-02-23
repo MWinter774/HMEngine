@@ -225,9 +225,9 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
 void HMEngine::Core::Rendering::RenderingEngine::RenderLabels() const
 {
 	HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
-	for (const auto& label : this->_labels)
+	for (auto& label : this->_labels)
 	{
-		HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(label->GetTransform());
+		HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*label);
 		label->Draw();
 	}
 }

@@ -3,6 +3,11 @@
 
 namespace HMEngine
 {
+	namespace UI
+	{
+		class Label;
+	}
+
 	namespace Core
 	{
 		class Transform;
@@ -15,7 +20,7 @@ namespace HMEngine
 				{
 					friend class Shader<LabelShader>;
 				public:
-					void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
+					void UpdateUniforms(HMEngine::UI::Label& label) override;
 
 				private:
 					LabelShader();
