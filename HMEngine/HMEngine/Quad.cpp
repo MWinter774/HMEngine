@@ -130,14 +130,13 @@ void HMEngine::UI::Quad::Draw() const
 	this->_openglQuad->Draw(GL_TRIANGLE_STRIP);
 }
 
-void HMEngine::UI::Quad::AttachToGameEngine()
+void HMEngine::UI::Quad::AttachToGameEngine(HMEngine::GameEngine& gameEngine)
 {
 	this->_isAddedToGameEngine = true;
 	if (this->_openglQuad != nullptr)
 		this->_openglQuad->Initialize();
-	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddUI(*this); //adds the quad to the rendering engine
 
-	this->AttachToGameEngineEvent();
+	this->AttachToGameEngineEvent(gameEngine);
 }
 
 void HMEngine::UI::Quad::UpdateTransform()

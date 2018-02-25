@@ -56,8 +56,6 @@ void HMEngine::OpenGL::OpenGLObject::Draw(const unsigned char& drawMode)
 {
 	if (!this->_isInitialized) this->Initialize();
 	glBindVertexArray(this->_vao);
-	//glEnableVertexAttribArray(0);
-	//glEnableVertexAttribArray(1);
 	if (!this->_hasIndices)
 	{
 		int size = this->_3dVertices.size();
@@ -70,8 +68,6 @@ void HMEngine::OpenGL::OpenGLObject::Draw(const unsigned char& drawMode)
 	{
 		glDrawElements(GL_TRIANGLES, this->_indices.size(), GL_UNSIGNED_INT, 0);
 	}
-	//glDisableVertexAttribArray(0);
-	//glDisableVertexAttribArray(1);
 	glBindVertexArray(0);
 }
 

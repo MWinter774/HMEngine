@@ -3,7 +3,7 @@
 #include "GameSettings.h"
 
 HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const std::string& text, const HMEngine::UI::Font& font, const glm::vec3& color,
-	float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, glm::vec2(1, 1), false), _text(text), _font(font), _fontSize(fontSize), 
+	float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, glm::vec2(1, 1), false), _text(text), _font(font), _fontSize(fontSize),
 	_color(color)
 {
 	this->_color /= 255;
@@ -11,7 +11,7 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 }
 
 HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& text,
-	const HMEngine::UI::Font& font, const glm::vec3& color , float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, scale, false),
+	const HMEngine::UI::Font& font, const glm::vec3& color, float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, scale, false),
 	_text(text), _font(font), _fontSize(fontSize), _color(color)
 {
 	this->_color /= 255;
@@ -22,7 +22,7 @@ HMEngine::UI::Label::~Label()
 {
 }
 
-HMEngine::UI::Label::Label(const HMEngine::UI::Label& other) : HMEngine::UI::Quad(other), _text(other._text), _font(other._font), _fontSize(other._fontSize), 
+HMEngine::UI::Label::Label(const HMEngine::UI::Label& other) : HMEngine::UI::Quad(other), _text(other._text), _font(other._font), _fontSize(other._fontSize),
 _color(other._color)
 {
 }
@@ -61,8 +61,11 @@ The quad's vertices are alligned so the label's position is in the center of the
 std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> HMEngine::UI::Label::GetVerticesAndUVsFromText(const std::string& text,
 	const HMEngine::UI::Font& font, const glm::vec2& bottomLeft, float fontSize)
 {
-	float cursorX = bottomLeft.x / HMEngine::GameSettings::GetWindowWidth();
-	float cursorY = bottomLeft.y / HMEngine::GameSettings::GetWindowHeight();
+	/*float cursorX = bottomLeft.x / HMEngine::GameSettings::GetWindowWidth();
+	float cursorY = bottomLeft.y / HMEngine::GameSettings::GetWindowHeight();*/
+
+	float cursorX = 0;
+	float cursorY = 0;
 
 	std::vector<glm::vec2> vertices = std::vector<glm::vec2>();
 	std::vector<glm::vec2> uvs = std::vector<glm::vec2>();
@@ -77,13 +80,18 @@ std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> HMEngine::
 
 		cursorX += fntChar.xAdvance * fontSize;
 		dimensions.x += fntChar.xAdvance * fontSize;
-		dimensions.y = std::fmax(dimensions.y, fntChar.quadHeight * fontSize);
+		//dimensions.y = std::fmax(dimensions.y, fntChar.quadHeight * fontSize);
 	}
+
+	dimensions.y = 0.03f * fontSize;
+
+	const float ASPECT_RATIO = float(HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowHeight();
+	float width = float(dimensions.x), height = float(dimensions.y);
 
 	for (auto& vertex : vertices)
 	{
-		vertex.x -= dimensions.x;
-		vertex.y += dimensions.y;
+		vertex.x -= width;
+		vertex.y += height;
 	}
 
 	dimensions.x *= HMEngine::GameSettings::GetWindowWidth();
@@ -135,7 +143,7 @@ void HMEngine::UI::Label::InitLabel(bool hasScale)
 	if (!hasScale) //if the user didn't specified a scale
 	{
 		const float ASPECT_RATIO = float(HMEngine::GameSettings::GetWindowWidth()) / HMEngine::GameSettings::GetWindowHeight();
-		float width = dimensions.x, height = float(dimensions.x) / ASPECT_RATIO;
+		float width = dimensions.x, height = float(dimensions.y);
 		this->SetScale(width, height);
 	}
 

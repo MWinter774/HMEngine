@@ -41,7 +41,7 @@ namespace HMEngine
 			virtual HMEngine::UI::Quad* Clone() const = 0;
 
 			virtual inline void Update() {}
-			virtual inline void AttachToGameEngineEvent() {}
+			virtual inline void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) {}
 
 			void AddTexture(const std::string& texturePath);
 
@@ -80,7 +80,7 @@ namespace HMEngine
 			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
 
-			virtual void AttachToGameEngine();
+			virtual void AttachToGameEngine(HMEngine::GameEngine& gameEngine);
 
 			void UpdateTransform();
 			void UpdateQuadDetails();
