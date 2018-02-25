@@ -19,7 +19,7 @@ namespace HMEngine
 			Label(const std::string& name, const glm::vec2& position, const std::string& text,
 				const HMEngine::UI::Font& font, const glm::vec3& color, float fontSize);
 			Label(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& text,
-				const HMEngine::UI::Font& font, const glm::vec3& color, float fontSize);
+				const HMEngine::UI::Font& font, const glm::vec3& color);
 			~Label();
 			Label(const HMEngine::UI::Label& other);
 			HMEngine::UI::Label& operator=(const HMEngine::UI::Label& other);
@@ -35,8 +35,10 @@ namespace HMEngine
 			void Draw() const override;
 
 		private:
-			static std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> GetVerticesAndUVsFromText(const std::string& text, 
-				const HMEngine::UI::Font& font, const glm::vec2& bottomLeft, float fontSize);
+			static std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> GetVerticesAndUVsFromText(const std::string& text,
+				const HMEngine::UI::Font& font, float fontSize);
+			static std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> GetVerticesAndUVsFromText(const std::string& text,
+				const HMEngine::UI::Font& font, const glm::vec2& scale);
 			static void AddVerticesForCharacter(std::vector<glm::vec2>& vertices, const HMEngine::Core::FNTFile::BMFontCharacter& character, 
 				float cursorX, float cursorY, float fontSize);
 			static void AddVertices(std::vector<glm::vec2>& vertices, float x, float y, float maxX, float maxY);

@@ -7,9 +7,9 @@
 
 HMEngine::UI::Button::Button(const std::string& name, const std::string& buttonReleasedTexture, const std::string& buttonHoverTexture,
 	const std::string& buttonPressedTexture, const glm::vec2& position, const glm::vec2& scale, const std::string& labelText, const HMEngine::UI::Font& font,
-	const glm::vec3& labelTextColor, float labelFontSize) : HMEngine::UI::Quad(name, buttonReleasedTexture, position, scale), _buttonReleasedTexture(buttonReleasedTexture),
-	_buttonPressedTexture(buttonPressedTexture), 
-	_label(new HMEngine::UI::Label(name + "_button_label", position, { scale.x, scale.y }, labelText, font, labelTextColor, labelFontSize))
+	const glm::vec3& labelTextColor, float labelFontSize) : HMEngine::UI::Quad(name, buttonReleasedTexture, position, scale), 
+	_buttonReleasedTexture(buttonReleasedTexture), _buttonPressedTexture(buttonPressedTexture),  
+	_label(new HMEngine::UI::Label(name + "_button_label", position, scale, labelText, font, labelTextColor))
 {
 	this->AddTexture(buttonHoverTexture);
 	this->AddTexture(buttonPressedTexture);
