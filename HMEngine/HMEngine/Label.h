@@ -30,7 +30,7 @@ namespace HMEngine
 			inline float GetTextSize() const { return this->_fontSize; }
 			inline glm::vec3 GetColor() const { return this->_color; }
 
-			inline void SetText(const std::string& text) { this->_text = text; this->InitLabel(false); }
+			inline void SetText(const std::string& text) { this->_text = text; this->UpdateText(); }
 
 			void Draw() const override;
 
@@ -45,6 +45,8 @@ namespace HMEngine
 			static void AddUVs(std::vector<glm::vec2>& uvs, float x, float y, float maxX, float maxY);
 
 			void InitLabel(bool hasScale);
+
+			void UpdateText();
 
 			std::string _text;
 			float _fontSize;

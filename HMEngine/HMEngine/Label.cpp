@@ -202,12 +202,26 @@ void HMEngine::UI::Label::InitLabel(bool hasScale)
 	else //calculate quad vertices, uvs, width and height using scale of label
 	{
 		/* Calculates vertices, uvs, and width and height of the label */
-		auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(
-			this->_text, this->_font, this->_quadDetails.scale);
+		auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_quadDetails.scale);
 
 		this->_fontSize = dimensions.x;
 
 		this->SetVertices(vertices);
 		this->SetUVs(uvs);
 	}
+}
+
+void HMEngine::UI::Label::UpdateText()
+{
+	/* Calculates label's data using the font size */
+	/* Calculates vertices, uvs, and width and height of the label */
+	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_fontSize);
+
+	/* Calculates the width and height of the label */
+	float width = dimensions.x, height = dimensions.y;
+	this->SetScale(width, height);
+
+	this->SetVertices(vertices);
+	this->SetUVs(uvs);
+	this->_openglQuad->Initialize();
 }

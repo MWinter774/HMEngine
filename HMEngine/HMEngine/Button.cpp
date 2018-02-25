@@ -50,6 +50,7 @@ void HMEngine::UI::Button::Update()
 		}
 		else
 		{
+			this->_label->SetText("Hovered!");
 			this->SetTexture(this->BUTTON_HOVER);
 		}
 	}
