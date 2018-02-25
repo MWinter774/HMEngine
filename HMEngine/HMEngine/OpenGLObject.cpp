@@ -128,6 +128,15 @@ void HMEngine::OpenGL::OpenGLObject::DeleteBuffers()
 	glDeleteBuffers(this->_vbo.size(), &this->_vbo[0]);
 	glDeleteBuffers(1, &this->_vao);
 	this->_isInitialized = false;
+	this->_2dVertices.clear();
+	this->_2dVerticesIndex = 0;
+	this->_3dVertices.clear();
+	this->_3dVerticesIndex = 0;
+	this->_indices.clear();
+	this->_normals.clear();
+	this->_normalsIndex = 0;
+	this->_uvs.clear();
+	this->_uvsIndex = 0;
 }
 
 void HMEngine::OpenGL::OpenGLObject::CalculateVBOCount()

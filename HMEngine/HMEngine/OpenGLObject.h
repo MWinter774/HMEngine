@@ -28,7 +28,7 @@ namespace HMEngine
 			inline Vec3Buffer GetNormals() const { return this->_normals; }
 
 			inline void SetVertices(const Vec3Buffer& vertices) { this->_3dVertices = vertices; }
-			inline void SetVertices(const Vec2Buffer& vertices) { this->_2dVertices = vertices; }
+			inline void SetVertices(const Vec2Buffer& vertices) { this->_2dVertices = vertices; this->Initialize(); }
 			inline void SetIndices(const GLuintBuffer& indices) { this->_indices = indices; this->_hasIndices = indices.size(); }
 			inline void SetUVs(const Vec2Buffer& uvs) { this->_uvs = uvs; }
 			inline void SetNormals(const Vec3Buffer& normals) { this->_normals = normals; }

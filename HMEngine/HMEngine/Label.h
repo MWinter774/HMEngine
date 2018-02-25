@@ -30,7 +30,7 @@ namespace HMEngine
 			inline float GetTextSize() const { return this->_fontSize; }
 			inline glm::vec3 GetColor() const { return this->_color; }
 
-			inline void SetText(const std::string& text) { this->_text = text; }
+			inline void SetText(const std::string& text) { this->_text = text; this->InitLabel(false); }
 
 			void Draw() const override;
 

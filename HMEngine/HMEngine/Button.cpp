@@ -45,6 +45,7 @@ void HMEngine::UI::Button::Update()
 	{
 		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
 		{
+			this->_label->SetText("Clicked!");
 			this->SetTexture(this->BUTTON_PRESSED);
 		}
 		else
@@ -54,6 +55,7 @@ void HMEngine::UI::Button::Update()
 	}
 	else
 	{
+		this->_label->SetText("Released!");
 		this->SetTexture(this->BUTTON_RELEASED);
 	}
 }

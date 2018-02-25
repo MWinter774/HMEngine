@@ -132,6 +132,7 @@ std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> HMEngine::
 	}
 
 	float width = dimensions.x, height = 0.03f * fontSize;
+	dimensions.y = height;
 
 	for (auto& vertex : vertices)
 	{
@@ -185,9 +186,6 @@ void HMEngine::UI::Label::InitLabel(bool hasScale)
 {
 	if (this->_fontSize > 0) //if user specified a font size
 	{
-		std::vector<glm::vec2> vertices, uvs;
-		glm::vec2 dimensions;
-
 		/* Calculates vertices, uvs, and width and height of the label */
 		auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_fontSize);
 
@@ -203,9 +201,6 @@ void HMEngine::UI::Label::InitLabel(bool hasScale)
 	}
 	else //calculate quad vertices, uvs, width and height using scale of label
 	{
-		std::vector<glm::vec2> vertices, uvs;
-		glm::vec2 dimensions;
-
 		/* Calculates vertices, uvs, and width and height of the label */
 		auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(
 			this->_text, this->_font, this->_quadDetails.scale);
