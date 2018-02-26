@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include <map>
 #include "OpenGLQuad.h"
+#include "GameEngineObject.h"
 
 namespace HMEngine
 {
@@ -18,7 +19,7 @@ namespace HMEngine
 
 	namespace UI
 	{
-		class Quad
+		class Quad : public HMEngine::Core::GameEngineObject
 		{
 			friend class HMEngine::GameEngine;
 			typedef struct QuadDetails
@@ -34,14 +35,12 @@ namespace HMEngine
 			Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale);
 			Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale, bool useVertices = true);
 			Quad(const std::string& name, const glm::vec2& position, const glm::vec2& scale);
+
 			virtual ~Quad();
 			Quad(const HMEngine::UI::Quad& other);
 			HMEngine::UI::Quad& operator=(const HMEngine::UI::Quad& other);
 
 			virtual HMEngine::UI::Quad* Clone() const = 0;
-
-			virtual inline void Update() {}
-			virtual inline void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) {}
 
 			void AddTexture(const std::string& texturePath);
 
@@ -65,22 +64,18 @@ namespace HMEngine
 			static const std::vector<glm::vec2> rectangle;
 
 			inline void SetVertices(const std::vector<glm::vec2>& vertices) { this->_openglQuad->SetVertices(vertices); }
-			inline void SetUVs(const std::vector<glm::vec2>& vertices) { this->_openglQuad->SetUVs(vertices); }
+			inline void SetUVs(const std::vector<glm::vec2>& uvs) { this->_openglQuad->SetUVs(uvs); }
 
 			std::string _name;
 			HMEngine::UI::Quad::QuadDetails _quadDetails;
 			HMEngine::OpenGL::OpenGLQuad* _openglQuad;
-
-			bool _isAddedToGameEngine;
-
-			HMEngine::GameEngine* _gameEngine;
 
 		private:
 			HMEngine::OpenGL::UITexture* _currentTexture;
 			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
 
-			virtual void AttachToGameEngine(HMEngine::GameEngine& gameEngine);
+			virtual void AttachToGameEngine(HMEngine::GameEngine& gameEngine) override;
 
 			void UpdateTransform();
 			void UpdateQuadDetails();

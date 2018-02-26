@@ -19,7 +19,7 @@ namespace HMEngine
 			Button(const HMEngine::UI::Button& other);
 			HMEngine::UI::Button& operator=(const HMEngine::UI::Button& other);
 
-			void Update() override;
+			void UpdateEvent() override;
 			void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) override;
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::Button(*this); }

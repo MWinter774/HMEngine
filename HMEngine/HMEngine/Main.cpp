@@ -18,7 +18,7 @@
 #include <string>
 #include "OpenGLObject.h"
 #include "OpenGLQuad.h"
-#include <thread>
+#include "TextBox.h"
 
 int main()
 {
@@ -104,7 +104,7 @@ int main()
 
 	};
 
-	//HMEngine::GameSettings::CalculateFPS(true);
+	HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject gameMaster("master");
 	gameMaster.AddComponent(HMEngine::Components::DebugComponent());
@@ -156,6 +156,9 @@ int main()
 	HMEngine::UI::Label label = HMEngine::UI::Label("label", { 600, 360 }, "HI! this is a text 3.14", arial, { 0,0,0 }, 1.0f);
 	g.AddUI(label);
 
+	HMEngine::UI::TextBox txtBox = HMEngine::UI::TextBox("txtBox", { 600, 500 }, { 100, 30 }, arial);
+	g.AddUI(txtBox);
+
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png");
@@ -163,9 +166,9 @@ int main()
 	g.AddGameObject(terrain);
 
 	HMEngine::Player p("Player", 100.0f, 200.0f);
-	//g.AddGameObject(p);
+	g.AddGameObject(p);
 
-	g.UnlockCursor();
+	//g.UnlockCursor();
 	g.SetMouseVisible(true);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);

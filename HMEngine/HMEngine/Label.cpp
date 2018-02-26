@@ -6,6 +6,7 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 	float fontSize) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, glm::vec2(1, 1), false), _text(text), _font(font), _fontSize(fontSize),
 	_color(color)
 {
+	this->InitializeEvents<Label>(this);
 	this->_color /= 255;
 	this->InitLabel(false);
 }
@@ -14,6 +15,7 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 	const HMEngine::UI::Font& font, const glm::vec3& color) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, scale, false),
 	_text(text), _font(font), _color(color)
 {
+	this->InitializeEvents<Label>(this);
 	this->_color /= 255;
 	this->InitLabel(true);
 }
@@ -213,13 +215,11 @@ void HMEngine::UI::Label::InitLabel(bool hasScale)
 
 void HMEngine::UI::Label::UpdateText()
 {
-	/* Calculates label's data using the font size */
+	/* Calculates label's data using scale of the quad */
 	/* Calculates vertices, uvs, and width and height of the label */
-	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_fontSize);
+	auto[vertices, uvs, dimensions] = HMEngine::UI::Label::GetVerticesAndUVsFromText(this->_text, this->_font, this->_quadDetails.scale);
 
-	/* Calculates the width and height of the label */
-	float width = dimensions.x, height = dimensions.y;
-	this->SetScale(width, height);
+	this->_fontSize = dimensions.x;
 
 	this->SetVertices(vertices);
 	this->SetUVs(uvs);

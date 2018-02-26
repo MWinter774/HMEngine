@@ -11,6 +11,8 @@ HMEngine::UI::Button::Button(const std::string& name, const std::string& buttonR
 	_buttonReleasedTexture(buttonReleasedTexture), _buttonPressedTexture(buttonPressedTexture),  
 	_label(new HMEngine::UI::Label(name + "_button_label", position, scale, labelText, font, labelTextColor))
 {
+	this->InitializeEvents<Button>(this);
+
 	this->AddTexture(buttonHoverTexture);
 	this->AddTexture(buttonPressedTexture);
 }
@@ -22,6 +24,8 @@ HMEngine::UI::Button::~Button()
 HMEngine::UI::Button::Button(const HMEngine::UI::Button& other) : HMEngine::UI::Quad(other), _buttonReleasedTexture(other._buttonReleasedTexture),
 _buttonPressedTexture(other._buttonPressedTexture)
 {
+	this->InitializeEvents<Button>(this);
+
 	this->_label = new HMEngine::UI::Label(*other._label);
 }
 
@@ -30,7 +34,6 @@ HMEngine::UI::Button& HMEngine::UI::Button::operator=(const HMEngine::UI::Button
 	if (this != &other)
 	{
 		HMEngine::UI::Quad::operator=(other);
-		delete this->_label;
 		this->_label = new HMEngine::UI::Label(*other._label);
 		this->_buttonReleasedTexture = other._buttonReleasedTexture;
 		this->_buttonPressedTexture = other._buttonPressedTexture;
@@ -39,7 +42,7 @@ HMEngine::UI::Button& HMEngine::UI::Button::operator=(const HMEngine::UI::Button
 	return *this;
 }
 
-void HMEngine::UI::Button::Update()
+void HMEngine::UI::Button::UpdateEvent()
 {
 	if (HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_quadDetails.topLeft, this->_quadDetails.bottomRight))
 	{

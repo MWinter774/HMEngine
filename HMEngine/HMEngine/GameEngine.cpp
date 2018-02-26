@@ -10,7 +10,7 @@
 #include "Utilities.h"
 #include <algorithm>
 #include "Quad.h"
-
+#include "EventManager.h"
 #include "Image.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToRemoveBuffer()
@@ -20,11 +20,6 @@ HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr)
 		HMEngine::Core::Utilities::ThrowException("SDL INITIALIZATION FAILED!");
 	}
 	HMEngine::Core::Utilities::PrintDebugMessage("Succeeded initializing SDL...");
-
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
-
 }
 
 HMEngine::GameEngine::~GameEngine()
@@ -90,10 +85,11 @@ void HMEngine::GameEngine::Run()
 
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
-		for (auto& quad : this->_quadsVector)
+		HMEngine::Core::EventManager::UpdateObjects();
+		/*for (auto& quad : this->_quadsVector)
 		{
-			quad->Update();
-		}
+			quad->UpdateEvent();
+		}*/
 		for (auto& gameObject : this->_gameObjects)
 		{
 			gameObject.second->Update();
@@ -189,6 +185,7 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 		return;
 	}
 	auto uiClone = ui.Clone();
+	uiClone->InitializeGameEngineObject();
 	uiClone->_gameEngine = this; //sets game object game engine to this
 	uiClone->AttachToGameEngine(*this);
 	this->_quads[uiClone->GetName()] = uiClone; //adds the ui quad to the quad map
@@ -204,6 +201,7 @@ void HMEngine::GameEngine::AddUI(HMEngine::UI::Quad* ui)
 		return;
 	}
 
+	ui->InitializeGameEngineObject();
 	ui->_gameEngine = this; //sets game object game engine to this
 	ui->AttachToGameEngine(*this);
 	this->_quads[ui->GetName()] = ui; //adds the ui quad to the quad map
