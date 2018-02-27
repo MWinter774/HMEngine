@@ -1,4 +1,5 @@
 #include "HardwareInputs.h"
+#include "EventManager.h"
 #include <iostream>
 
 char HMEngine::Core::Hardware::HardwareInputs::keys[HMEngine::Core::Hardware::HardwareInputs::NUM_KEYS] = { KeyStates::KeyNone };
@@ -25,20 +26,26 @@ void HMEngine::Core::Hardware::HardwareInputs::Update()
 		else if (HardwareInputs::e.type == SDL_KEYDOWN)
 		{
 			HardwareInputs::keys[HardwareInputs::e.key.keysym.scancode] |= (KeyStates::KeyDown | KeyStates::KeyTapped); //turn on the KeyDown and KeyTapped bits
+			HMEngine::Core::EventManager::KeyDownEvent(e.key.keysym.scancode);
+			HMEngine::Core::EventManager::KeyTappedEvent(e.key.keysym.scancode);
 		}
 		else if (HardwareInputs::e.type == SDL_KEYUP)
 		{
 			HardwareInputs::keys[HardwareInputs::e.key.keysym.scancode] &= ~KeyStates::KeyDown; //turn off the KeyDown bit
 			HardwareInputs::keys[HardwareInputs::e.key.keysym.scancode] |= KeyStates::KeyUp; //turn on the KeyUp bit
+			HMEngine::Core::EventManager::KeyUpEvent(e.key.keysym.scancode);
 		}
 		else if (HardwareInputs::e.type == SDL_MOUSEBUTTONDOWN)
 		{
 			HardwareInputs::mouseButtons[HardwareInputs::e.button.button] |= (MouseButtonsStates::MouseButtonDown | MouseButtonsStates::MouseButtonTapped); //turn on the KeyDown and KeyTapped bits
+			HMEngine::Core::EventManager::MouseButtonDownEvent(e.button.button);
+			HMEngine::Core::EventManager::MouseButtonTappedEvent(e.button.button);
 		}
 		else if (HardwareInputs::e.type == SDL_MOUSEBUTTONUP)
 		{
 			HardwareInputs::mouseButtons[HardwareInputs::e.button.button] &= ~MouseButtonsStates::MouseButtonDown; //turn off the KeyDown bit
 			HardwareInputs::mouseButtons[HardwareInputs::e.button.button] |= MouseButtonsStates::MouseButtonUp; //turn on the KeyUp bit
+			HMEngine::Core::EventManager::MouseButtonUpEvent(e.button.button);
 		}
 	}
 }

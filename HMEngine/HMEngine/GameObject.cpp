@@ -60,22 +60,6 @@ void HMEngine::Core::GameObject::SetTransform(const HMEngine::Core::Transform& t
 	*this->_transform = transform;
 }
 
-void HMEngine::Core::GameObject::Draw() const
-{
-	for (auto& component : this->_components)
-	{
-		component->RenderEvent(); //invoke the rendering event
-	}
-}
-
-void HMEngine::Core::GameObject::Update() const
-{
-	for (auto& component : this->_components)
-	{
-		component->UpdateEvent(); //invoke the rendering event
-	}
-}
-
 void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& component)
 {
 	HMEngine::Components::Component* newComponent = component.Clone();
@@ -101,6 +85,7 @@ void HMEngine::Core::GameObject::AttachToGameEngine()
 {
 	for (auto& component : this->_components)
 	{
+		component->InitializeEventObject();
 		component->AttachToGameObject();
 	}
 }

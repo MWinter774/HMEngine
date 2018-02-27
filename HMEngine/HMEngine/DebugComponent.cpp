@@ -19,6 +19,7 @@
 float intesity = 15.0f;
 HMEngine::Components::DebugComponent::DebugComponent() : _isAdded(false)
 {
+	this->InitializeEvents<DebugComponent>(this);
 	this->_floor = new HMEngine::Core::GameObject("floor");
 	this->_floor->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 	this->_floor->AddComponent(HMEngine::Components::DirectionalLight(HMEngine::Components::BaseLight({ 1,1,1 }, 0.07f), { 0,1,1 }));
@@ -145,6 +146,8 @@ HMEngine::Components::DebugComponent::~DebugComponent()
 
 HMEngine::Components::DebugComponent::DebugComponent(const HMEngine::Components::DebugComponent& other)
 {
+	this->InitializeEvents<DebugComponent>(this);
+
 	this->_floor = new HMEngine::Core::GameObject(*other._floor);
 	this->_fakeCube = new HMEngine::Core::GameObject(*other._fakeCube);
 	this->_isAdded = other._isAdded;
@@ -178,11 +181,10 @@ void HMEngine::Components::DebugComponent::AttachToGameObjectEvent()
 
 void HMEngine::Components::DebugComponent::UpdateEvent()
 {
-	if (!this->_isAdded && HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_F))
+	if (!this->_isAdded)
 	{
 		this->_isAdded = true;
 		this->AddGameObject(this->_floor);
-		//this->RemoveGameObject("fakeCube_Copy_Copy_Copy");
 		HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0, 2, 10);
 		for (auto& crate : this->_crates)
 		{

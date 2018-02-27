@@ -2,6 +2,7 @@
 #include <SDL2.0.7\SDL.h>
 #undef main
 #include "glm\glm.hpp"
+#include <vector>
 
 namespace HMEngine
 {
@@ -100,7 +101,7 @@ namespace HMEngine
 				*/
 				static inline void SetCursorPos(int xPos, int yPos)
 				{
-					SDL_WarpMouseInWindow(HardwareInputs::window, xPos, yPos); //NEEDS A WINDOW!!!!!!!!!!
+					SDL_WarpMouseInWindow(HardwareInputs::window, xPos, yPos);
 				}
 
 				/*
@@ -147,7 +148,7 @@ namespace HMEngine
 			private:
 				typedef char KeyState;
 				typedef char MouseButtonState;
-				static const unsigned int NUM_KEYS = 236U;
+				static const unsigned int NUM_KEYS = 219U;
 				static const unsigned int NUM_MOUSE_BUTTONS = 5U;
 
 				static void Reset();

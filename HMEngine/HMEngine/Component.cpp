@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "GameEngine.h"
 
-HMEngine::Components::Component::Component() : _parentObject(nullptr), _isAttachedToGameObject(false)
+HMEngine::Components::Component::Component() : HMEngine::Core::EventObject(), _parentObject(nullptr), _isAttachedToGameObject(false)
 {
 }
 

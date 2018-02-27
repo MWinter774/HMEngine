@@ -7,6 +7,7 @@
 
 HMEngine::Components::CameraController::CameraController(float walkingSpeed, float runningSpeed) : _camera(HMEngine::Core::Rendering::Camera::GetInstance()), _horizontalAngle(float(M_PI)), _verticalAngle(0.0f), _right(), _forward(), _up(), _walkingSpeed(walkingSpeed), _runningSpeed(runningSpeed), _movementSpeed(walkingSpeed)
 {
+	this->InitializeEvents<CameraController>(this);
 }
 
 HMEngine::Components::CameraController::~CameraController()

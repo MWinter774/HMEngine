@@ -107,14 +107,8 @@ int main()
 	HMEngine::GameSettings::CalculateFPS(true);
 
 	HMEngine::Core::GameObject gameMaster("master");
-	gameMaster.AddComponent(HMEngine::Components::DebugComponent());
-
-	//g.SetAmbientLight({ 1,1,1 });
-
-	//HMEngine::Player p("Player");
-
-	//g.AddGameObject(p);
-	g.AddGameObject(gameMaster);
+	//gameMaster.AddComponent(HMEngine::Components::DebugComponent());
+	//g.AddGameObject(gameMaster);
 
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 

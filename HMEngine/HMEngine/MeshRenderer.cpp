@@ -8,6 +8,7 @@
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const std::string& meshPath, const std::string& texturePath, float shineDamper, float reflectivity) : _texturePath(texturePath), _meshPath(meshPath), _shineDamper(shineDamper), _reflectivity(reflectivity)
 {
+	this->InitializeEvents<MeshRenderer>(this);
 }
 
 HMEngine::Components::MeshRenderer::~MeshRenderer()
@@ -23,6 +24,7 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 
 HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::MeshRenderer& other)
 {
+	this->InitializeEvents<MeshRenderer>(this);
 	this->_texturePath = other._texturePath;
 	this->_meshPath = other._meshPath;
 	this->_shineDamper = other._shineDamper;
@@ -41,6 +43,7 @@ HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator
 {
 	if (this != &other)
 	{
+		this->InitializeEvents<MeshRenderer>(this);
 		this->_texturePath = other._texturePath;
 		this->_shineDamper = other._shineDamper;
 		this->_reflectivity = other._reflectivity;

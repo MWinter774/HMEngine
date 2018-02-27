@@ -43,9 +43,6 @@ namespace HMEngine
 
 			void SetTransform(const HMEngine::Core::Transform& transform);
 
-			void Draw() const;
-			void Update() const;
-
 			void AddComponent(HMEngine::Components::Component& component);
 
 		protected:

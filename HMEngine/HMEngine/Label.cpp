@@ -27,6 +27,7 @@ HMEngine::UI::Label::~Label()
 HMEngine::UI::Label::Label(const HMEngine::UI::Label& other) : HMEngine::UI::Quad(other), _text(other._text), _font(other._font), _fontSize(other._fontSize),
 _color(other._color)
 {
+	this->InitializeEvents<Label>(this);
 }
 
 HMEngine::UI::Label& HMEngine::UI::Label::operator=(const HMEngine::UI::Label& other)
@@ -38,6 +39,7 @@ HMEngine::UI::Label& HMEngine::UI::Label::operator=(const HMEngine::UI::Label& o
 		this->_font = other._font;
 		this->_fontSize = other._fontSize;
 		this->_color = other._color;
+		this->InitializeEvents<Label>(this);
 	}
 
 	return *this;

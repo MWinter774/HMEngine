@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "EventObject.h"
 
 namespace HMEngine
 {
@@ -15,16 +16,14 @@ namespace HMEngine
 
 	namespace Components
 	{
-		class Component
+		class Component : public HMEngine::Core::EventObject
 		{
 			friend class HMEngine::Core::GameObject;
 		public:
 			Component();
 			virtual ~Component();
 
-			virtual void RenderEvent() {} //this functions will be called when the game object is rendered
-			virtual void UpdateEvent() {} //this functions will be called when the game object is updated
-			virtual void AttachToGameObjectEvent() {} //this functions will be called when this component attached to a gameobject
+			virtual void AttachToGameObjectEvent() {} //this functions will be called when this component attached to a GameObject
 
 			virtual HMEngine::Components::Component* Clone() = 0; //returns pointer to object
 

@@ -21,8 +21,11 @@ namespace HMEngine
 
 			void UpdateEvent() override;
 			void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) override;
+			void KeyDownEvent(const unsigned int& keyCode) override;
+			void MouseButtonDownEvent(const unsigned int& mouseButtonCode) override;
 
 		private:
+			bool _isFocused;
 			HMEngine::UI::Label* _label;
 		};
 	}

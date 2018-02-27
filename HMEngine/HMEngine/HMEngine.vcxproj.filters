@@ -171,10 +171,10 @@
     <ClCompile Include="TextBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineObject.cpp">
+    <ClCompile Include="EventManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
+    <ClCompile Include="EventObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -332,10 +332,10 @@
     <ClInclude Include="TextBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineObject.h">
+    <ClInclude Include="EventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
+    <ClInclude Include="EventObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

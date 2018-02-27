@@ -4,6 +4,7 @@
 
 HMEngine::Components::CircleMovement::CircleMovement(float xCenter, float yCenter, float radius) : _circlePoints(), _i(0)
 {
+	this->InitializeEvents<CircleMovement>(this);
 	for (float i = -180; i < 180; i += 0.03f)
 	{
 		float x = xCenter + cos(i) * radius;
@@ -14,6 +15,23 @@ HMEngine::Components::CircleMovement::CircleMovement(float xCenter, float yCente
 
 HMEngine::Components::CircleMovement::~CircleMovement()
 {
+}
+
+HMEngine::Components::CircleMovement::CircleMovement(const HMEngine::Components::CircleMovement& other) : _circlePoints(other._circlePoints), _i(other._i)
+{
+	this->InitializeEvents<CircleMovement>(this);
+}
+
+HMEngine::Components::CircleMovement& HMEngine::Components::CircleMovement::operator=(const HMEngine::Components::CircleMovement& other)
+{
+	if (this != &other)
+	{
+		this->_circlePoints = other._circlePoints;
+		this->_i = other._i;
+		this->InitializeEvents<CircleMovement>(this);
+	}
+
+	return *this;
 }
 
 void HMEngine::Components::CircleMovement::UpdateEvent()

@@ -20,11 +20,14 @@ namespace HMEngine
 			HMEngine::UI::Button& operator=(const HMEngine::UI::Button& other);
 
 			void UpdateEvent() override;
+			void MouseButtonTappedEvent(const unsigned int& mouseButton) override;
 			void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) override;
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::Button(*this); }
 
 		private:
+			typedef unsigned char ButtonState;
+
 			enum
 			{
 				BUTTON_RELEASED,
@@ -35,6 +38,7 @@ namespace HMEngine
 			std::string _buttonReleasedTexture;
 			std::string _buttonPressedTexture;
 			HMEngine::UI::Label* _label;
+			ButtonState _state;
 		};
 	}
 }

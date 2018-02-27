@@ -3,6 +3,7 @@
 
 HMEngine::Components::PointLight::PointLight(const HMEngine::Components::BaseLight& base, const glm::vec3& attenuation, float range) : _base(new HMEngine::Components::BaseLight(base)), _attenuation(attenuation), _range(range)
 {
+	this->InitializeEvents<PointLight>(this);
 }
 
 HMEngine::Components::PointLight::~PointLight()
@@ -14,6 +15,7 @@ HMEngine::Components::PointLight::~PointLight()
 
 HMEngine::Components::PointLight::PointLight(const HMEngine::Components::PointLight& other) : _base(new HMEngine::Components::BaseLight(*other._base)), _attenuation(other._attenuation), _range(other._range)
 {
+	this->InitializeEvents<PointLight>(this);
 }
 
 HMEngine::Components::PointLight& HMEngine::Components::PointLight::operator=(const HMEngine::Components::PointLight& other)

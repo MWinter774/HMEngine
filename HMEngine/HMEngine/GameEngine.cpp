@@ -86,15 +86,7 @@ void HMEngine::GameEngine::Run()
 		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
 		HMEngine::Core::EventManager::UpdateObjects();
-		/*for (auto& quad : this->_quadsVector)
-		{
-			quad->UpdateEvent();
-		}*/
-		for (auto& gameObject : this->_gameObjects)
-		{
-			gameObject.second->Update();
-			gameObject.second->Draw();
-		}
+
 		if (GameSettings::IsCursorLocked())
 			HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(windowWidth / 2, windowHeight / 2);
 
@@ -185,8 +177,7 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 		return;
 	}
 	auto uiClone = ui.Clone();
-	uiClone->InitializeGameEngineObject();
-	uiClone->_gameEngine = this; //sets game object game engine to this
+	uiClone->InitializeEventObject();
 	uiClone->AttachToGameEngine(*this);
 	this->_quads[uiClone->GetName()] = uiClone; //adds the ui quad to the quad map
 	this->_quadsVector.push_back(uiClone); //adds the quad to the quad vector
@@ -201,8 +192,7 @@ void HMEngine::GameEngine::AddUI(HMEngine::UI::Quad* ui)
 		return;
 	}
 
-	ui->InitializeGameEngineObject();
-	ui->_gameEngine = this; //sets game object game engine to this
+	ui->InitializeEventObject();
 	ui->AttachToGameEngine(*this);
 	this->_quads[ui->GetName()] = ui; //adds the ui quad to the quad map
 	this->_quadsVector.push_back(ui); //adds the quad to the quad vector

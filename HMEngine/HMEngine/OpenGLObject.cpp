@@ -44,9 +44,13 @@ void HMEngine::OpenGL::OpenGLObject::Initialize()
 {
 	if (this->_isInitialized)
 		this->DeleteBuffers();
-	this->InitBuffers();
-	this->InitVBO();
-	this->_isInitialized = true;
+	this->CalculateVBOCount();
+	if (this->_vboCount > 0)
+	{
+		this->InitBuffers();
+		this->InitVBO();
+		this->_isInitialized = true;
+	}
 }
 
 /*
@@ -114,7 +118,6 @@ void HMEngine::OpenGL::OpenGLObject::InitVBO()
 
 void HMEngine::OpenGL::OpenGLObject::InitBuffers()
 {
-	this->CalculateVBOCount();
 	glGenVertexArrays(1, &this->_vao);
 	glBindVertexArray(this->_vao);
 	this->_vbo = std::vector<GLuint>(this->_vboCount);

@@ -10,6 +10,7 @@ HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const 
 	this->_mesh = new HMEngine::Core::Mesh();
 	int count = this->_vertexCount * this->_vertexCount;
 	this->GenerateTerrain();
+	this->InitializeEvents<TerrainRenderer>(this);
 }
 
 HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const std::string& backroundTextureFilePath) : _terrainSize(size), _vertexCount(unsigned int(1.6f*size)), _texture(nullptr), _terrainTexture(nullptr), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(""), _gTexturePath(""), _bTexturePath(""), _blendMapTexturePath("")
@@ -17,18 +18,21 @@ HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, const 
 	this->_mesh = new HMEngine::Core::Mesh();
 	int count = this->_vertexCount * this->_vertexCount;
 	this->GenerateTerrain();
+	this->InitializeEvents<TerrainRenderer>(this);
 }
 
 HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& texturePath) : _terrainSize(size), _texture(nullptr), _terrainTexture(nullptr), _backroundTexturePath(texturePath), _maxHeight(unsigned int(maxHeight))
 {
 	this->_mesh = new HMEngine::Core::Mesh();
 	this->GenerateTerrain(heightMapPath);
+	this->InitializeEvents<TerrainRenderer>(this);
 }
 
 HMEngine::Components::TerrainRenderer::TerrainRenderer(unsigned int size, float maxHeight, const std::string& heightMapPath, const std::string& backroundTextureFilePath, const std::string& rTextureFilePath, const std::string& gTextureFilePath, const std::string& bTextureFilePath, const std::string& blendMapFilePath) : _terrainSize(size), _texture(nullptr), _terrainTexture(nullptr), _maxHeight(unsigned int(maxHeight)), _backroundTexturePath(backroundTextureFilePath), _rTexturePath(rTextureFilePath), _gTexturePath(gTextureFilePath), _bTexturePath(bTextureFilePath), _blendMapTexturePath(blendMapFilePath)
 {
 	this->_mesh = new HMEngine::Core::Mesh();
 	this->GenerateTerrain(heightMapPath);
+	this->InitializeEvents<TerrainRenderer>(this);
 }
 
 HMEngine::Components::TerrainRenderer::~TerrainRenderer()
@@ -63,6 +67,7 @@ HMEngine::Components::TerrainRenderer::TerrainRenderer(const HMEngine::Component
 
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
 	}
+	this->InitializeEvents<TerrainRenderer>(this);
 }
 
 HMEngine::Components::TerrainRenderer& HMEngine::Components::TerrainRenderer::operator=(const HMEngine::Components::TerrainRenderer& other)
@@ -93,6 +98,7 @@ HMEngine::Components::TerrainRenderer& HMEngine::Components::TerrainRenderer::op
 			this->_isAttachedToGameObject = other._isAttachedToGameObject;
 			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
 		}
+		this->InitializeEvents<TerrainRenderer>(this);
 	}
 
 	return *this;
@@ -105,7 +111,6 @@ void HMEngine::Components::TerrainRenderer::AttachToGameObjectEvent()
 	else
 		this->_texture = new HMEngine::OpenGL::Texture(this->_backroundTexturePath, GL_RGB);
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddTerrainRenderer(*this);
-	//this->_mesh->InitBuffers();
 }
 
 void HMEngine::Components::TerrainRenderer::BindTextures() const

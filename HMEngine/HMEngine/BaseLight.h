@@ -21,8 +21,6 @@ namespace HMEngine
 		private:
 			glm::vec3 _color;
 			float _intensity;
-
-
 		};
 	}
 }

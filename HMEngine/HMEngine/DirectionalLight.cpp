@@ -6,6 +6,7 @@
 
 HMEngine::Components::DirectionalLight::DirectionalLight(const HMEngine::Components::BaseLight& base, const glm::vec3& direction) : _direction(glm::normalize(direction)), _base(new HMEngine::Components::BaseLight(base))
 {
+	this->InitializeEvents<DirectionalLight>(this);
 }
 
 HMEngine::Components::DirectionalLight::~DirectionalLight()
@@ -17,6 +18,7 @@ HMEngine::Components::DirectionalLight::~DirectionalLight()
 
 HMEngine::Components::DirectionalLight::DirectionalLight(const HMEngine::Components::DirectionalLight& other) : _direction(other._direction), _base(new HMEngine::Components::BaseLight(*other._base))
 {
+	this->InitializeEvents<DirectionalLight>(this);
 }
 
 void HMEngine::Components::DirectionalLight::AttachToGameObjectEvent()
@@ -31,6 +33,7 @@ HMEngine::Components::DirectionalLight& HMEngine::Components::DirectionalLight::
 		delete this->_base;
 		this->_base = new HMEngine::Components::BaseLight(*other._base);
 		this->_direction = other._direction;
+		this->InitializeEvents<DirectionalLight>(this);
 	}
 	return *this;
 }

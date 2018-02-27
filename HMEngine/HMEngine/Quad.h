@@ -7,7 +7,7 @@
 #include "Transform.h"
 #include <map>
 #include "OpenGLQuad.h"
-#include "GameEngineObject.h"
+#include "EventObject.h"
 
 namespace HMEngine
 {
@@ -19,7 +19,7 @@ namespace HMEngine
 
 	namespace UI
 	{
-		class Quad : public HMEngine::Core::GameEngineObject
+		class Quad : public HMEngine::Core::EventObject
 		{
 			friend class HMEngine::GameEngine;
 			typedef struct QuadDetails
@@ -69,13 +69,15 @@ namespace HMEngine
 			std::string _name;
 			HMEngine::UI::Quad::QuadDetails _quadDetails;
 			HMEngine::OpenGL::OpenGLQuad* _openglQuad;
+			HMEngine::GameEngine* _gameEngine;
 
 		private:
+			bool _isAttachedToGameEngine;
 			HMEngine::OpenGL::UITexture* _currentTexture;
 			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
 
-			virtual void AttachToGameEngine(HMEngine::GameEngine& gameEngine) override;
+			virtual void AttachToGameEngine(HMEngine::GameEngine& gameEngine);
 
 			void UpdateTransform();
 			void UpdateQuadDetails();
