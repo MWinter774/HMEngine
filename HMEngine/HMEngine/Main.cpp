@@ -143,9 +143,9 @@ int main()
 	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 600, 360 }, { 25, 25 });
 	g.AddUI(crosshair);
 
-	//HMEngine::UI::Button button = HMEngine::UI::Button("button", "./resources/UITextures/UIButtonReleased.png",
-	//	"./resources/UITextures/UIButtonHover.png", "./resources/UITextures/UIButtonPressed.png", { 600, 650 }, { 90, 30 }, "Refresh", arial, { 0, 0, 0 }, 0.8f);
-	//g.AddUI(button);
+	HMEngine::UI::Button button = HMEngine::UI::Button("button", "./resources/UITextures/UIButtonReleased.png",
+		"./resources/UITextures/UIButtonHover.png", "./resources/UITextures/UIButtonPressed.png", { 600, 650 }, { 90, 30 }, "Refresh", arial, { 0, 0, 0 }, 0.8f);
+	g.AddUI(button);
 
 	HMEngine::UI::Label label = HMEngine::UI::Label("label", { 600, 360 }, "HI!", arial, { 0,0,0 }, 1.0f);
 	g.AddUI(label);

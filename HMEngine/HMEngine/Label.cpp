@@ -28,7 +28,7 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 	this->_color /= 255;
 
 	std::vector<glm::vec2> vertices, uvs;
-	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1.0f, this->_fontSize);
+	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, this->_fontSize, scale.x);
 	this->SetScale(this->_quadDetails.scale);
 	this->SetPosition(position.x - float(this->_quadDetails.width) / 2, position.y - float(this->_quadDetails.height) / 2);
 
@@ -104,12 +104,14 @@ void HMEngine::UI::Label::AddUVs(std::vector<glm::vec2>& uvs, float x, float y, 
 void HMEngine::UI::Label::CalculateMeshData(std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, glm::vec2& dimensions,
 	const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize)
 {
-	float cursorX = 0;
-	float cursorY = 0;
+	if (fontSize <= 0)
+	{
+		float widthRatio = dimensions.x / float(HMEngine::GameSettings::GetWindowWidth());
+		fontSize = (float(dimensions.x) / text.size()) * widthRatio;
 
+	}
 	std::vector<HMEngine::Core::Font::Line> lines;
 	HMEngine::UI::Label::CreateStructure(lines, text, font, fontSize, maxLineSize);
-
 	HMEngine::UI::Label::GetVerticesAndUVs(text, font, fontSize, maxLineSize, lines, vertices, uvs, dimensions);
 }
 
@@ -138,7 +140,8 @@ void HMEngine::UI::Label::CreateStructure(std::vector<HMEngine::Core::Font::Line
 
 	/* Complete Structure */
 	bool added = currentLine.AttemptToAddWord(currentWord);
-	if (!added) {
+	if (!added)
+	{
 		lines.push_back(currentLine);
 		currentLine = HMEngine::Core::Font::Line(font.GetSpaceWidth(), fontSize, maxLineSize);
 		currentLine.AttemptToAddWord(currentWord);
