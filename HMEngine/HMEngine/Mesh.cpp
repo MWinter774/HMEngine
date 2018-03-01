@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iterator>
 #include "BoundingSphere.h"
+#include "Utilities.h"
 
 HMEngine::Core::Mesh::Mesh()
 {
@@ -127,6 +128,10 @@ void HMEngine::Core::Mesh::Load(const std::string& path)
 			this->_normals.push_back(this->_tempNormals[this->_fIndices[i].normalIndex - 1]);
 		}
 		file.close();
+	}
+	else
+	{
+		HMEngine::Core::Utilities::ThrowException("OBJECT FILE: " + path + " DOESN'T EXIST!!");
 	}
 }
 
