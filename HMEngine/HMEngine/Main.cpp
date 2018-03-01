@@ -160,9 +160,9 @@ int main()
 	g.AddGameObject(terrain);
 
 	HMEngine::Player p("Player", 100.0f, 200.0f);
-	g.AddGameObject(p);
+	//g.AddGameObject(p);
 
-	//g.UnlockCursor();
+	g.UnlockCursor();
 	g.SetMouseVisible(true);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);

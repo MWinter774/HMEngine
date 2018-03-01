@@ -33,25 +33,6 @@ HMEngine::UI::TextBox& HMEngine::UI::TextBox::operator=(const HMEngine::UI::Text
 	return *this;
 }
 
-void HMEngine::UI::TextBox::UpdateEvent()
-{
-	/*if (HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_quadDetails.topLeft, this->_quadDetails.bottomRight))
-	{
-		if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
-		{
-			this->SetTexture(1);
-		}
-	}
-	else if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
-	{
-		this->SetTexture(0);
-	}
-	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_A))
-	{
-		this->_label->SetText(this->_label->GetText() + "A");
-	}*/
-}
-
 void HMEngine::UI::TextBox::AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine)
 {
 	gameEngine.AddUI(this->_label);
@@ -59,8 +40,37 @@ void HMEngine::UI::TextBox::AttachToGameEngineEvent(HMEngine::GameEngine& gameEn
 
 void HMEngine::UI::TextBox::KeyDownEvent(const unsigned int& keyCode)
 {
-	if (this->_isFocused && keyCode == SDL_SCANCODE_A)
-		this->_label->SetText(this->_label->GetText() + "A");
+	bool needToUpdateString = true;
+	std::string newText = this->_label->GetText();
+	if (this->_isFocused)
+	{
+		if (keyCode >= SDL_SCANCODE_A && keyCode <= SDL_SCANCODE_Z)
+		{
+			newText += keyCode + ('a' - SDL_SCANCODE_A);
+		}
+		else if (keyCode == SDL_SCANCODE_SPACE) //keyCode is a space
+		{
+			newText += ' ';
+		}
+		else if (keyCode >= SDL_SCANCODE_1 && keyCode < SDL_SCANCODE_0) //keyCode is a number
+		{
+			newText += keyCode + ('1' - SDL_SCANCODE_1);
+		}
+		else if (keyCode == SDL_SCANCODE_0) //keyCode is the number 0(number 0 code is the last one on the sdl scancode list)
+		{
+			newText += '0';
+		}
+		else if (keyCode == SDL_SCANCODE_BACKSPACE && !newText.empty()) //if user pressed backspace and the label is not empty
+		{
+			newText.pop_back();
+		}
+		else
+		{
+			needToUpdateString = false;
+		}
+		if (needToUpdateString)
+			this->_label->SetText(newText);
+	}
 }
 
 void HMEngine::UI::TextBox::MouseButtonDownEvent(const unsigned int& mouseButtonCode)
