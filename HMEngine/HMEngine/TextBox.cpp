@@ -69,7 +69,10 @@ void HMEngine::UI::TextBox::KeyDownEvent(const unsigned int& keyCode)
 			needToUpdateString = false;
 		}
 		if (needToUpdateString)
+		{
 			this->_label->SetText(newText);
+			this->_label->SetTopLeft(this->_quadDetails.topLeft);
+		}
 	}
 }
 

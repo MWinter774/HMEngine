@@ -35,6 +35,7 @@ HMEngine::UI::Button& HMEngine::UI::Button::operator=(const HMEngine::UI::Button
 	{
 		this->InitializeEvents<Button>(this);
 		HMEngine::UI::Quad::operator=(other);
+
 		this->_label = new HMEngine::UI::Label(*other._label);
 		this->_buttonReleasedTexture = other._buttonReleasedTexture;
 		this->_buttonPressedTexture = other._buttonPressedTexture;

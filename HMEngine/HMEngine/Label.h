@@ -40,13 +40,13 @@ namespace HMEngine
 				float cursorX, float cursorY, float fontSize);
 			static void AddVertices(std::vector<glm::vec2>& vertices, float x, float y, float maxX, float maxY);
 			static void AddUVs(std::vector<glm::vec2>& uvs, float x, float y, float maxX, float maxY);
-			static void CalculateMeshData(std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, const std::string& text, 
-				const HMEngine::UI::Font& font, float fontSize, float maxLineSize);
+			static void CalculateMeshData(std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, glm::vec2& dimensions, 
+				const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize);
 			static void CreateStructure(std::vector<HMEngine::Core::Font::Line>& lines, const std::string& text, const HMEngine::UI::Font& font, float fontSize,
 				float maxLineSize);
 			static void GetVerticesAndUVs(const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize, 
 				const std::vector<HMEngine::Core::Font::Line> lines, std::vector<glm::vec2>& vertices, 
-				std::vector<glm::vec2>& uvs);
+				std::vector<glm::vec2>& uvs, glm::vec2& dimensions);
 
 			void UpdateText();
 

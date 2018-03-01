@@ -12,7 +12,9 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 	this->_color /= 255;
 
 	std::vector<glm::vec2> vertices, uvs;
-	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_text, this->_font, 1.0f, this->_fontSize);
+	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1.0f, this->_fontSize);
+	this->SetScale(this->_quadDetails.scale);
+	this->SetPosition(position.x - float(this->_quadDetails.width) / 2, position.y - float(this->_quadDetails.height) / 2);
 
 	this->SetVertices(vertices);
 	this->SetUVs(uvs);
@@ -26,8 +28,10 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 	this->_color /= 255;
 
 	std::vector<glm::vec2> vertices, uvs;
-	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_text, this->_font, 1.0f, this->_fontSize);
-	
+	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1.0f, this->_fontSize);
+	this->SetScale(this->_quadDetails.scale);
+	this->SetPosition(position.x - float(this->_quadDetails.width) / 2, position.y - float(this->_quadDetails.height) / 2);
+
 	this->SetVertices(vertices);
 	this->SetUVs(uvs);
 }
@@ -97,7 +101,7 @@ void HMEngine::UI::Label::AddUVs(std::vector<glm::vec2>& uvs, float x, float y, 
 	uvs.push_back(glm::vec2(x, y));
 }
 
-void HMEngine::UI::Label::CalculateMeshData(std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, 
+void HMEngine::UI::Label::CalculateMeshData(std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, glm::vec2& dimensions,
 	const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize)
 {
 	float cursorX = 0;
@@ -106,7 +110,7 @@ void HMEngine::UI::Label::CalculateMeshData(std::vector<glm::vec2>& vertices, st
 	std::vector<HMEngine::Core::Font::Line> lines;
 	HMEngine::UI::Label::CreateStructure(lines, text, font, fontSize, maxLineSize);
 
-	HMEngine::UI::Label::GetVerticesAndUVs(text, font, fontSize, maxLineSize, lines, vertices, uvs);
+	HMEngine::UI::Label::GetVerticesAndUVs(text, font, fontSize, maxLineSize, lines, vertices, uvs, dimensions);
 }
 
 void HMEngine::UI::Label::CreateStructure(std::vector<HMEngine::Core::Font::Line>& lines, const std::string& text,
@@ -143,32 +147,41 @@ void HMEngine::UI::Label::CreateStructure(std::vector<HMEngine::Core::Font::Line
 }
 
 void HMEngine::UI::Label::GetVerticesAndUVs(const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize, 
-	const std::vector<HMEngine::Core::Font::Line> lines, std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs)
+	const std::vector<HMEngine::Core::Font::Line> lines, std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, glm::vec2& dimensions)
 {
 	float curserX = 0.0f;
 	float curserY = 0.0f;
+	dimensions.x = 0;
+	dimensions.y = 0;
 
-	for (HMEngine::Core::Font::Line line : lines) {
-		if (/*text.isCentered()*/ false) {
+	for (HMEngine::Core::Font::Line line : lines)
+	{
+		if (/*text.isCentered()*/ false)
+		{
 			curserX = (line.GetMaxLineLength() - line.GetCurrentLineLength()) / 2;
 		}
-		for (HMEngine::Core::Font::Word word : line.GetWords()) {
-			for (HMEngine::Core::FNTFile::BMFontCharacter letter : word.GetCharacters()) {
+		for (HMEngine::Core::Font::Word word : line.GetWords())
+		{
+			for (HMEngine::Core::FNTFile::BMFontCharacter letter : word.GetCharacters())
+			{
 				HMEngine::UI::Label::AddVerticesForCharacter(vertices, letter, curserX, curserY, fontSize);
 				HMEngine::UI::Label::AddUVs(uvs, letter.xTextureCoordiante, letter.yTextureCoordiante, letter.xMaxTextureCoordinate, letter.yMaxTextureCoordinate);
 				curserX += letter.xAdvance * fontSize;
 			}
 			curserX += font.GetSpaceWidth() * fontSize;
 		}
+		dimensions.x += curserX;
 		curserX = 0;
 		curserY += 0.03f * fontSize;
 	}
+	dimensions.y = curserY * float(HMEngine::GameSettings::GetWindowHeight());
+	dimensions.x *= float(HMEngine::GameSettings::GetWindowWidth());
 }
 
 void HMEngine::UI::Label::UpdateText()
 {
 	std::vector<glm::vec2> vertices, uvs;
-	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_text, this->_font, 1.0f, this->_fontSize);
+	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1.0f, 1.0f);
 
 	this->SetVertices(vertices);
 	this->SetUVs(uvs);

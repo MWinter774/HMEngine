@@ -51,11 +51,13 @@ namespace HMEngine
 			inline float GetHeight() const { return this->_quadDetails.height; }
 			inline HMEngine::Core::Transform& GetTransform() { return *this->_transform; }
 
-			inline void SetPosition(const glm::vec2& position) { this->_quadDetails.position = position; this->UpdateQuadDetails(); this->UpdateTransform(); }
-			inline void SetPosition(float x, float y) { this->_quadDetails.position.x = x; this->_quadDetails.position.y = y; this->UpdateQuadDetails(); this->UpdateTransform(); }
-			inline void SetScale(const glm::vec2& scale) { this->_quadDetails.scale = scale; this->UpdateQuadDetails(); this->UpdateTransform(); }
-			inline void SetScale(float scaleX, float scaleY) { this->_quadDetails.scale.x = scaleX; this->_quadDetails.scale.y = scaleY; this->UpdateQuadDetails(); this->UpdateTransform(); }
+			inline void SetPosition(const glm::vec2& position) { this->_quadDetails.position = position; this->UpdateQuadDetails(); }
+			inline void SetPosition(float x, float y) { this->_quadDetails.position.x = x; this->_quadDetails.position.y = y; this->UpdateQuadDetails(); }
+			inline void SetScale(const glm::vec2& scale) { this->_quadDetails.scale = scale; this->UpdateQuadDetails(); }
+			inline void SetScale(float scaleX, float scaleY) { this->_quadDetails.scale.x = scaleX; this->_quadDetails.scale.y = scaleY; this->UpdateQuadDetails(); }
 			void SetTexture(unsigned int i = 0);
+			void SetTopLeft(const glm::vec2& topLeft);
+			void SetCenter(const glm::vec2& center);
 
 			void BindTexture() const;
 			virtual void Draw() const;

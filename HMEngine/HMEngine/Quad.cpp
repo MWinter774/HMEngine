@@ -60,7 +60,7 @@ HMEngine::UI::Quad::~Quad()
 }
 
 HMEngine::UI::Quad::Quad(const HMEngine::UI::Quad& other) : HMEngine::Core::EventObject(other), _name(other._name), _quadDetails(other._quadDetails),
- _transform(new HMEngine::Core::Transform(*other._transform)), _isAttachedToGameEngine(false)
+_transform(new HMEngine::Core::Transform(*other._transform)), _isAttachedToGameEngine(false)
 {
 	for (auto& quadTexture : other._quadTextures)
 	{
@@ -116,6 +116,24 @@ void HMEngine::UI::Quad::SetTexture(unsigned int i)
 	this->_currentTexture = this->_quadTextures[i];
 }
 
+void HMEngine::UI::Quad::SetTopLeft(const glm::vec2& topLeft)
+{
+	float width = this->_quadDetails.scale.x;
+	float height = this->_quadDetails.scale.y;
+	this->_quadDetails.width = width;
+	this->_quadDetails.height = height;
+	this->_quadDetails.topLeft = topLeft;
+	this->_quadDetails.bottomRight = glm::vec2(topLeft.x + width, topLeft.y + height);
+	this->_quadDetails.position = topLeft;
+
+	this->UpdateTransform();
+}
+
+void HMEngine::UI::Quad::SetCenter(const glm::vec2& center)
+{
+	this->SetPosition(center);
+}
+
 void HMEngine::UI::Quad::BindTexture() const
 {
 	if (this->_currentTexture == nullptr)
@@ -160,6 +178,10 @@ void HMEngine::UI::Quad::UpdateQuadDetails()
 	float height = this->_quadDetails.scale.y;
 	this->_quadDetails.width = width;
 	this->_quadDetails.height = height;
-	this->_quadDetails.topLeft = glm::vec2(this->_quadDetails.position.x - width / 2, this->_quadDetails.position.y - height / 2);
-	this->_quadDetails.bottomRight = glm::vec2(this->_quadDetails.position.x + width / 2, this->_quadDetails.position.y + height / 2);
+	this->_quadDetails.topLeft = glm::vec2(this->_quadDetails.position.x - float(width) / 2,
+		this->_quadDetails.position.y - float(height) / 2);
+	this->_quadDetails.bottomRight = glm::vec2(this->_quadDetails.position.x + float(width) / 2,
+		this->_quadDetails.position.y + float(height) / 2);
+
+	this->UpdateTransform();
 }
