@@ -85,6 +85,7 @@ namespace HMEngine
 			~FNTFile();
 
 			inline std::string GetFntFilePath() const { return this->_fntFilePath; }
+			inline float GetSpaceWidth() const { return this->_spaceWidth; }
 
 			HMEngine::Core::FNTFile::BMFontCharacter GetCharacter(int asciiCode);
 
@@ -120,6 +121,7 @@ namespace HMEngine
 			std::vector<BMFontKerning> _kerningsVector; //list of all the kernings
 			float _horizontalPerPixelSize;
 			float _verticalPerPixelSize;
+			float _spaceWidth;
 
 			void ProcessLine(const std::vector<std::string>& line);
 			void InitInfoHeader(const std::string& face, const std::string& size, const std::string& bold, const std::string& italic, const std::string& charset,

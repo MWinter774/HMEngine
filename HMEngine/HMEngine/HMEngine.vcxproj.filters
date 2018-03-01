@@ -177,6 +177,12 @@
     <ClCompile Include="EventObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Word.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HMEngineIncludes.h">
@@ -336,6 +342,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Word.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

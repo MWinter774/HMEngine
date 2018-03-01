@@ -3,6 +3,7 @@
 #include "Quad.h"
 #include "Font.h"
 #include <tuple>
+#include "Line.h"
 
 namespace HMEngine
 {
@@ -35,16 +36,17 @@ namespace HMEngine
 			void Draw() const override;
 
 		private:
-			static std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> GetVerticesAndUVsFromText(const std::string& text,
-				const HMEngine::UI::Font& font, float fontSize);
-			static std::tuple<std::vector<glm::vec2>, std::vector<glm::vec2>, glm::vec2> GetVerticesAndUVsFromText(const std::string& text,
-				const HMEngine::UI::Font& font, const glm::vec2& scale);
 			static void AddVerticesForCharacter(std::vector<glm::vec2>& vertices, const HMEngine::Core::FNTFile::BMFontCharacter& character, 
 				float cursorX, float cursorY, float fontSize);
 			static void AddVertices(std::vector<glm::vec2>& vertices, float x, float y, float maxX, float maxY);
 			static void AddUVs(std::vector<glm::vec2>& uvs, float x, float y, float maxX, float maxY);
-
-			void InitLabel(bool hasScale);
+			static void CalculateMeshData(std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, const std::string& text, 
+				const HMEngine::UI::Font& font, float fontSize, float maxLineSize);
+			static void CreateStructure(std::vector<HMEngine::Core::Font::Line>& lines, const std::string& text, const HMEngine::UI::Font& font, float fontSize,
+				float maxLineSize);
+			static void GetVerticesAndUVs(const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize, 
+				const std::vector<HMEngine::Core::Font::Line> lines, std::vector<glm::vec2>& vertices, 
+				std::vector<glm::vec2>& uvs);
 
 			void UpdateText();
 

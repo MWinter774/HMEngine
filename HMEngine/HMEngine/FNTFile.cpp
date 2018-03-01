@@ -388,6 +388,10 @@ void HMEngine::Core::FNTFile::AddCharacter(const std::string& id, const std::str
 		HMEngine::Core::Utilities::ThrowException("INVALID chnl PARMETER IN char TAG IN .fnt FILE FORMAT\nThe File: " + this->_fntFilePath);
 
 	/* Converts character pixel data to screen-space */
+	if (character.id == ' ')
+	{
+		this->_spaceWidth = (character.xAdvance - this->_info.paddingWidth) * this->_horizontalPerPixelSize;
+	}
 	character.xTextureCoordiante = (character.xTextureCoordiante + this->_info.padding[this->leftPadding] - HMEngine::Core::FNTFile::DESIRED_PADDING)
 		/ this->_common.scaleW;
 	character.yTextureCoordiante = (character.yTextureCoordiante + (this->_info.padding[this->upPadding] - HMEngine::Core::FNTFile::DESIRED_PADDING))

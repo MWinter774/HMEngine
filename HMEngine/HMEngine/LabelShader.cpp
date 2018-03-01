@@ -5,12 +5,9 @@
 
 void HMEngine::Core::Rendering::Shaders::LabelShader::UpdateUniforms(HMEngine::UI::Label& label)
 {
-	auto goodPos = glm::vec2(label.GetPosition());
-	auto ggPos = glm::vec2((goodPos.x - (label.GetWidth() / 2.0f)) / HMEngine::GameSettings::GetWindowWidth(), 
-		(goodPos.y - (label.GetHeight() / 2.0f)) / HMEngine::GameSettings::GetWindowHeight());
-	ggPos = goodPos;
-	ggPos /= glm::vec2(HMEngine::GameSettings::GetWindowWidth(), HMEngine::GameSettings::GetWindowHeight());
-	this->SetUniform("translation", ggPos);
+	auto labelPos = label.GetPosition();
+	auto goodPos = glm::vec2(labelPos.x / float(HMEngine::GameSettings::GetWindowWidth()), labelPos.y / HMEngine::GameSettings::GetWindowHeight());
+	this->SetUniform("translation", goodPos);
 	this->SetUniform("textColor", label.GetColor());
 }
 

@@ -20,6 +20,7 @@ namespace HMEngine
 
 			inline std::string GetFntFilePath() const { return this->_fontFile->GetFntFilePath(); }
 			inline std::string GetFntTexturePath() const { return this->_fntTexturePath; }
+			inline float GetSpaceWidth() const { return this->_fontFile->GetSpaceWidth(); }
 
 		private:
 			std::string _fntTexturePath;
