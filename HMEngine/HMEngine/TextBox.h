@@ -19,7 +19,7 @@ namespace HMEngine
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::TextBox(*this); }
 
-			void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) override;
+			void AttachToGameEngineEvent() override;
 			void KeyDownEvent(const unsigned int& keyCode) override;
 			void MouseButtonDownEvent(const unsigned int& mouseButtonCode) override;
 

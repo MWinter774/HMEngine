@@ -33,9 +33,9 @@ HMEngine::UI::TextBox& HMEngine::UI::TextBox::operator=(const HMEngine::UI::Text
 	return *this;
 }
 
-void HMEngine::UI::TextBox::AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine)
+void HMEngine::UI::TextBox::AttachToGameEngineEvent()
 {
-	gameEngine.AddUI(this->_label);
+	this->_gameEngine->AddUI(this->_label);
 }
 
 void HMEngine::UI::TextBox::KeyDownEvent(const unsigned int& keyCode)

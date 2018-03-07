@@ -5,18 +5,18 @@
 
 namespace HMEngine
 {
-	class GameEngine;
-
 	namespace Core
 	{
 		class EventObject
 		{
 		public:
+			bool _isEnabled;
+
 			EventObject();
 			virtual ~EventObject();
 
 			inline virtual void UpdateEvent() {} //handled by the event manager
-			inline virtual void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) {} //handled by the game object
+			inline virtual void AttachToGameEngineEvent() {} //handled by the game object
 			inline virtual void KeyDownEvent(const unsigned int& keyCode) {} //handled by the event manager
 			inline virtual void KeyTappedEvent(const unsigned int& keyCode) {} //handled by the event manager
 			inline virtual void KeyUpEvent(const unsigned int& keyCode) {} //handled by the event manager

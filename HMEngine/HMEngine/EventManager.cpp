@@ -13,7 +13,8 @@ void HMEngine::Core::EventManager::UpdateObjects()
 {
 	for (auto& object : HMEngine::Core::EventManager::_updateEventOverriders)
 	{
-		object->UpdateEvent();
+		if (object->_isEnabled)
+			object->UpdateEvent();
 	}
 }
 
@@ -21,7 +22,8 @@ void HMEngine::Core::EventManager::KeyDownEvent(const unsigned int& keyCode)
 {
 	for (auto& object : HMEngine::Core::EventManager::_keyDownEventOverriders)
 	{
-		object->KeyDownEvent(keyCode);
+		if (object->_isEnabled)
+			object->KeyDownEvent(keyCode);
 	}
 }
 
@@ -29,7 +31,8 @@ void HMEngine::Core::EventManager::KeyTappedEvent(const unsigned int& keyCode)
 {
 	for (auto& object : HMEngine::Core::EventManager::_keyTappedEventOverriders)
 	{
-		object->KeyTappedEvent(keyCode);
+		if (object->_isEnabled)
+			object->KeyTappedEvent(keyCode);
 	}
 }
 
@@ -37,7 +40,8 @@ void HMEngine::Core::EventManager::KeyUpEvent(const unsigned int& keyCode)
 {
 	for (auto& object : HMEngine::Core::EventManager::_keyUpEventOverriders)
 	{
-		object->KeyUpEvent(keyCode);
+		if (object->_isEnabled)
+			object->KeyUpEvent(keyCode);
 	}
 }
 
@@ -45,7 +49,8 @@ void HMEngine::Core::EventManager::MouseButtonDownEvent(const unsigned int& keyC
 {
 	for (auto& object : HMEngine::Core::EventManager::_mouseButtonDownEventOverriders)
 	{
-		object->MouseButtonDownEvent(keyCode);
+		if (object->_isEnabled)
+			object->MouseButtonDownEvent(keyCode);
 	}
 }
 
@@ -53,7 +58,8 @@ void HMEngine::Core::EventManager::MouseButtonTappedEvent(const unsigned int& ke
 {
 	for (auto& object : HMEngine::Core::EventManager::_mouseButtonTappedEventOverriders)
 	{
-		object->MouseButtonTappedEvent(keyCode);
+		if (object->_isEnabled)
+			object->MouseButtonTappedEvent(keyCode);
 	}
 }
 
@@ -61,7 +67,8 @@ void HMEngine::Core::EventManager::MouseButtonUpEvent(const unsigned int& keyCod
 {
 	for (auto& object : HMEngine::Core::EventManager::_mouseButtonUpEventOverriders)
 	{
-		object->MouseButtonUpEvent(keyCode);
+		if (object->_isEnabled)
+			object->MouseButtonUpEvent(keyCode);
 	}
 }
 

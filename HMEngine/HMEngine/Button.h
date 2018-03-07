@@ -1,5 +1,7 @@
 #pragma once
 #include "Quad.h"
+#include <functional>
+#include <vector>
 
 namespace HMEngine
 {
@@ -18,10 +20,14 @@ namespace HMEngine
 			~Button();
 			Button(const HMEngine::UI::Button& other);
 			HMEngine::UI::Button& operator=(const HMEngine::UI::Button& other);
+			void operator+=(const std::function<void()>& onClickEvent);
 
 			void UpdateEvent() override;
 			void MouseButtonTappedEvent(const unsigned int& mouseButton) override;
-			void AttachToGameEngineEvent(HMEngine::GameEngine& gameEngine) override;
+			void AttachToGameEngineEvent() override;
+			void Show() override;
+			void Hide() override;
+			void SetVisiblity(bool isVisible) override;
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::Button(*this); }
 
@@ -39,6 +45,7 @@ namespace HMEngine
 			std::string _buttonPressedTexture;
 			HMEngine::UI::Label* _label;
 			ButtonState _state;
+			std::vector<std::function<void()>> _onClickEvents;
 		};
 	}
 }

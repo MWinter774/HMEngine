@@ -1,6 +1,6 @@
 #include "EventObject.h"
 
-HMEngine::Core::EventObject::EventObject() : _hasUpdateEvent(false), _hasKeyDownEvent(false)
+HMEngine::Core::EventObject::EventObject() : _isEnabled(true)
 {
 }
 

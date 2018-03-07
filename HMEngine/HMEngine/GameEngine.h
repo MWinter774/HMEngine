@@ -61,6 +61,10 @@ namespace HMEngine
 		void SetFogGradient(float fogGradient) const;
 		void DisableFog() const;
 		void EnableFog() const;
+		void EnableFPSCalculating() const;
+		void DisableFPSCalculating() const;
+
+		void InitializeWorldEditor(unsigned int width, unsigned int height, const std::string& title, bool fullscreen);
 
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;

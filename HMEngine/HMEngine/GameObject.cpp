@@ -67,6 +67,12 @@ void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& c
 	this->_components.push_back(newComponent);
 }
 
+void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component* component)
+{
+	component->_parentObject = this;
+	this->_components.push_back(component);
+}
+
 /*
 Special constructor that keeps the name of the original game object.
 */

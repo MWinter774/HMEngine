@@ -12,6 +12,7 @@
 #include "Quad.h"
 #include "EventManager.h"
 #include "Image.h"
+#include "WorldEditor.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToRemoveBuffer()
 {
@@ -44,6 +45,8 @@ void HMEngine::GameEngine::CreateNewWindow(unsigned int width, unsigned int heig
 	HMEngine::GameSettings::windowHeight = height;
 	HMEngine::GameSettings::UpdateProjectionMatrix();
 
+	if (this->_window != nullptr)
+		delete this->_window;
 	this->_window = new HMEngine::Core::Rendering::Window(width, height, title, fullscreen);
 	this->_renderingEngine = &HMEngine::Core::Rendering::RenderingEngine::GetInstance();
 }
@@ -263,6 +266,40 @@ void HMEngine::GameEngine::DisableFog() const
 void HMEngine::GameEngine::EnableFog() const
 {
 	HMEngine::GameSettings::SetFogDensity(0.0035f);
+}
+
+void HMEngine::GameEngine::EnableFPSCalculating() const
+{
+	HMEngine::GameSettings::CalculateFPS(true);
+}
+
+void HMEngine::GameEngine::DisableFPSCalculating() const
+{
+	HMEngine::GameSettings::CalculateFPS(false);
+}
+
+void HMEngine::GameEngine::InitializeWorldEditor(unsigned int width, unsigned int height, const std::string& title, bool fullscreen)
+{
+	/* Removes all objects from game */
+	for (auto& gameObject : this->_gameObjects)
+	{
+		delete gameObject.second;
+	}
+	for (auto& quad : this->_quads)
+	{
+		delete quad.second;
+	}
+	this->_gameObjects.clear();
+	this->_gameObjectsToRemoveBuffer.clear();
+	this->_gameObjectsVector.clear();
+	this->_quads.clear();
+	this->_quadsToRemoveBuffer.clear();
+	this->_quadsVector.clear();
+
+	this->CreateNewWindow(width, height, title, fullscreen); //Creates the game window
+
+	HMEngine::Core::WorldEditor::WorldEditor worldEditor(*this);
+	worldEditor.Initialize();
 }
 
 /*

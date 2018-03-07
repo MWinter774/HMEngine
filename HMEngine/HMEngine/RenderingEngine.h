@@ -65,7 +65,7 @@ namespace HMEngine
 				std::unordered_map<HMEngine::OpenGL::OpenGLTexture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::OpenGLTexture::TextureHasher, HMEngine::OpenGL::OpenGLTexture::TextureEqualer> _meshTextures;
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
 				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
-				std::unordered_set<HMEngine::UI::Quad*> _quads;
+				std::vector<HMEngine::UI::Quad*> _quads;
 				std::unordered_set<HMEngine::UI::Label*> _labels;
 
 				std::list<HMEngine::Components::MeshRenderer*> _meshesToRender;

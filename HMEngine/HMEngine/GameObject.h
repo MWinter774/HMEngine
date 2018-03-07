@@ -44,6 +44,7 @@ namespace HMEngine
 			void SetTransform(const HMEngine::Core::Transform& transform);
 
 			void AddComponent(HMEngine::Components::Component& component);
+			void AddComponent(HMEngine::Components::Component* component);
 
 		protected:
 			HMEngine::Core::Transform* _transform;

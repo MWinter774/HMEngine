@@ -63,8 +63,11 @@ HMEngine::UI::Label& HMEngine::UI::Label::operator=(const HMEngine::UI::Label& o
 
 void HMEngine::UI::Label::Draw() const
 {
-	this->BindTexture();
-	this->_openglQuad->Draw(GL_TRIANGLES);
+	if (this->_isVisible)
+	{
+		this->BindTexture();
+		this->_openglQuad->Draw(GL_TRIANGLES);
+	}
 }
 
 void HMEngine::UI::Label::AddVerticesForCharacter(std::vector<glm::vec2>& vertices, const HMEngine::Core::FNTFile::BMFontCharacter& character,
@@ -106,9 +109,7 @@ void HMEngine::UI::Label::CalculateMeshData(std::vector<glm::vec2>& vertices, st
 {
 	if (fontSize <= 0)
 	{
-		float widthRatio = dimensions.x / float(HMEngine::GameSettings::GetWindowWidth());
-		fontSize = (float(dimensions.x) / text.size()) * widthRatio;
-
+		fontSize = dimensions.x * 0.005f; //basic ratio, needs fixing
 	}
 	std::vector<HMEngine::Core::Font::Line> lines;
 	HMEngine::UI::Label::CreateStructure(lines, text, font, fontSize, maxLineSize);
@@ -125,7 +126,7 @@ void HMEngine::UI::Label::CreateStructure(std::vector<HMEngine::Core::Font::Line
 		if (character == ' ')
 		{
 			bool added = currentLine.AttemptToAddWord(currentWord);
-			if (!added) 
+			if (!added)
 			{
 				lines.push_back(currentLine);
 				currentLine = HMEngine::Core::Font::Line(font.GetSpaceWidth(), fontSize, maxLineSize);
@@ -149,11 +150,11 @@ void HMEngine::UI::Label::CreateStructure(std::vector<HMEngine::Core::Font::Line
 	lines.push_back(currentLine);
 }
 
-void HMEngine::UI::Label::GetVerticesAndUVs(const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize, 
+void HMEngine::UI::Label::GetVerticesAndUVs(const std::string& text, const HMEngine::UI::Font& font, float fontSize, float maxLineSize,
 	const std::vector<HMEngine::Core::Font::Line> lines, std::vector<glm::vec2>& vertices, std::vector<glm::vec2>& uvs, glm::vec2& dimensions)
 {
-	float curserX = 0.0f;
-	float curserY = 0.0f;
+	float cursorX = 0.0f;
+	float cursorY = 0.0f;
 	dimensions.x = 0;
 	dimensions.y = 0;
 
@@ -161,23 +162,23 @@ void HMEngine::UI::Label::GetVerticesAndUVs(const std::string& text, const HMEng
 	{
 		if (/*text.isCentered()*/ false)
 		{
-			curserX = (line.GetMaxLineLength() - line.GetCurrentLineLength()) / 2;
+			cursorX = (line.GetMaxLineLength() - line.GetCurrentLineLength()) / 2;
 		}
 		for (HMEngine::Core::Font::Word word : line.GetWords())
 		{
 			for (HMEngine::Core::FNTFile::BMFontCharacter letter : word.GetCharacters())
 			{
-				HMEngine::UI::Label::AddVerticesForCharacter(vertices, letter, curserX, curserY, fontSize);
+				HMEngine::UI::Label::AddVerticesForCharacter(vertices, letter, cursorX, cursorY, fontSize);
 				HMEngine::UI::Label::AddUVs(uvs, letter.xTextureCoordiante, letter.yTextureCoordiante, letter.xMaxTextureCoordinate, letter.yMaxTextureCoordinate);
-				curserX += letter.xAdvance * fontSize;
+				cursorX += letter.xAdvance * fontSize;
 			}
-			curserX += font.GetSpaceWidth() * fontSize;
+			cursorX += font.GetSpaceWidth() * fontSize;
 		}
-		dimensions.x += curserX;
-		curserX = 0;
-		curserY += 0.03f * fontSize;
+		dimensions.x += cursorX;
+		cursorX = 0;
+		cursorY += 0.03f * fontSize;
 	}
-	dimensions.y = curserY * float(HMEngine::GameSettings::GetWindowHeight());
+	dimensions.y = cursorY * float(HMEngine::GameSettings::GetWindowHeight());
 	dimensions.x *= float(HMEngine::GameSettings::GetWindowWidth());
 }
 

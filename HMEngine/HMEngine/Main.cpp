@@ -25,7 +25,7 @@ int main()
 	std::string title = "HMEngine";
 
 	HMEngine::GameEngine g;
-	g.CreateNewWindow(1200, 720, title, false);
+	//g.CreateNewWindow(1200, 720, title, false);
 
 	//create cube
 	std::vector<glm::vec3> vertices =
@@ -104,12 +104,6 @@ int main()
 
 	};
 
-	HMEngine::GameSettings::CalculateFPS(true);
-
-	HMEngine::Core::GameObject gameMaster("master");
-	//gameMaster.AddComponent(HMEngine::Components::DebugComponent());
-	//g.AddGameObject(gameMaster);
-
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 
 	int c = 0;
@@ -130,13 +124,19 @@ int main()
 	//g.AddGameObject(go);
 	//g.AddGameObject(go2);
 
-	g.SetAmbientLight({ 1,1,1 });
+	//g.SetAmbientLight({ 1,1,1 });
 	//g.DisableFog();
 
-	HMEngine::Core::GameObject testObject("test");
-	testObject.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/VeryNice.png"));
-	testObject.GetTransform().SetPositionY(10);
-	g.AddGameObject(testObject);
+	//HMEngine::Core::GameObject testObject("test");
+	//testObject.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/VeryNice.png"));
+	//testObject.GetTransform().SetPositionY(0);
+	//g.AddGameObject(testObject);
+
+	/*HMEngine::GameSettings::CalculateFPS(true);
+
+	HMEngine::Core::GameObject gameMaster("master");
+	gameMaster.AddComponent(HMEngine::Components::DebugComponent());
+	g.AddGameObject(gameMaster);
 
 	HMEngine::UI::Font arial = HMEngine::UI::Font("./resources/fonts/Arial.fnt", "./resources/fonts/Arial.png");
 
@@ -153,19 +153,22 @@ int main()
 	HMEngine::UI::TextBox txtBox = HMEngine::UI::TextBox("txtBox", { 600, 500 }, { 100, 30 }, arial);
 	g.AddUI(txtBox);
 
-	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
-	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
-	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png");
 	HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/grassFlowers.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	g.AddGameObject(terrain);
 
 	HMEngine::Player p("Player", 100.0f, 200.0f);
-	//g.AddGameObject(p);
+	g.AddGameObject(p);*/
 
-	g.UnlockCursor();
-	g.SetMouseVisible(true);
+	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
+	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
+	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png");
+	
+	//g.UnlockCursor();
+	//g.SetMouseVisible(true);
 
-	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
+	g.InitializeWorldEditor(1200, 720, title, false);
+
+	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
 
 	return 0;

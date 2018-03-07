@@ -25,12 +25,17 @@ namespace HMEngine
 		public:
 			CameraController(float walkingSpeed = 3.0f, float runningSpeed = 10.0f);
 			~CameraController();
+			CameraController(const HMEngine::Components::CameraController& other);
+			HMEngine::Components::CameraController& operator=(const HMEngine::Components::CameraController& other);
 
 			void UpdateEvent() override;
 			inline HMEngine::Components::Component* Clone() override { return new HMEngine::Components::CameraController(*this); }
 
+			inline void Activate() { this->_isActive = true; }
+			inline void Deactivate() { this->_isActive = false; }
+
 		private:
-			HMEngine::Core::Rendering::Camera& _camera;
+			HMEngine::Core::Rendering::Camera* _camera;
 			float _horizontalAngle;
 			float _verticalAngle;
 			float _movementSpeed;
@@ -39,6 +44,7 @@ namespace HMEngine
 			glm::vec3 _right;
 			glm::vec3 _forward;
 			glm::vec3 _up;
+			bool _isActive;
 
 			void Move(const glm::vec3& direction, float amount) const;
 		};

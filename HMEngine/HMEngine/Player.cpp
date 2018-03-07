@@ -49,13 +49,12 @@ std::vector<glm::vec2> uvs = { //DEBUG
 HMEngine::Player::Player(const std::string& playerName, float walkingSpeed, float runningSpeed) : GameObject(playerName), _meshRenderer(new HMEngine::Components::MeshRenderer("./resources/objects/cube.obj", "./resources/textures/bricks.png")), _cameraController(new HMEngine::Components::CameraController(walkingSpeed, runningSpeed))
 {
 	//this->AddComponent(*this->_meshRenderer);
-	this->AddComponent(*this->_cameraController);
+	this->AddComponent(this->_cameraController);
 }
 
 HMEngine::Player::~Player()
 {
 	delete this->_meshRenderer;
-	delete this->_cameraController;
 }
 
 HMEngine::Player::Player(const HMEngine::Player& other) : GameObject(other), _meshRenderer(new HMEngine::Components::MeshRenderer(*other._meshRenderer)), _cameraController(new HMEngine::Components::CameraController(*other._cameraController))

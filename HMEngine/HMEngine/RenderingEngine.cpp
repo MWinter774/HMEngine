@@ -219,6 +219,11 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
 	{
 		HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad->GetTransform());
 		quad->Draw();
+		for (auto& child : quad->GetChilds())
+		{
+			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(child->GetTransform());
+			child->Draw();
+		}
 	}
 }
 
@@ -399,12 +404,14 @@ void HMEngine::Core::Rendering::RenderingEngine::RemovePointLight(HMEngine::Comp
 void HMEngine::Core::Rendering::RenderingEngine::AddUI(HMEngine::UI::Quad& ui)
 {
 	if (typeid(ui) != typeid(HMEngine::UI::Label))
-		this->_quads.insert(&ui);
+	{
+		this->_quads.push_back(&ui);
+	}
 	else
 		this->_labels.insert(static_cast<HMEngine::UI::Label*>(&ui));
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveUI(HMEngine::UI::Quad& ui)
 {
-	this->_quads.erase(&ui);
+	//this->_quads.erase(&ui);
 }

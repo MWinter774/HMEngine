@@ -49,7 +49,11 @@ namespace HMEngine
 			inline glm::vec2 GetScale() const { return this->_quadDetails.scale; }
 			inline float GetWidth() const { return this->_quadDetails.width; }
 			inline float GetHeight() const { return this->_quadDetails.height; }
+			inline glm::vec2 GetTopLeft() const { return this->_quadDetails.topLeft; }
+			inline glm::vec2 GetBottomRight() const { return this->_quadDetails.bottomRight; }
 			inline HMEngine::Core::Transform& GetTransform() { return *this->_transform; }
+			inline bool IsVisible() const { return this->_isVisible; }
+			inline std::vector<HMEngine::UI::Quad*> GetChilds() const { return this->_childs; }
 
 			inline void SetPosition(const glm::vec2& position) { this->_quadDetails.position = position; this->UpdateQuadDetails(); }
 			inline void SetPosition(float x, float y) { this->_quadDetails.position.x = x; this->_quadDetails.position.y = y; this->UpdateQuadDetails(); }
@@ -58,6 +62,10 @@ namespace HMEngine
 			void SetTexture(unsigned int i = 0);
 			void SetTopLeft(const glm::vec2& topLeft);
 			void SetCenter(const glm::vec2& center);
+			virtual inline void Show();
+			virtual inline void Hide();
+			virtual inline void SetVisiblity(bool isVisible);
+			inline void AddChild(HMEngine::UI::Quad* other) { this->_childs.push_back(other); }
 
 			void BindTexture() const;
 			virtual void Draw() const;
@@ -72,10 +80,12 @@ namespace HMEngine
 			HMEngine::UI::Quad::QuadDetails _quadDetails;
 			HMEngine::OpenGL::OpenGLQuad* _openglQuad;
 			HMEngine::GameEngine* _gameEngine;
+			bool _isVisible;
+			HMEngine::OpenGL::UITexture* _currentTexture;
+			std::vector<HMEngine::UI::Quad*> _childs;
 
 		private:
 			bool _isAttachedToGameEngine;
-			HMEngine::OpenGL::UITexture* _currentTexture;
 			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
 
