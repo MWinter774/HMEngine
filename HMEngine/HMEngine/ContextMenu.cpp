@@ -39,7 +39,7 @@ HMEngine::UI::ContextMenu& HMEngine::UI::ContextMenu::operator=(const HMEngine::
 	return *this;
 }
 
-void HMEngine::UI::ContextMenu::AddButton(const std::string& buttonName, const std::string& buttonText, const std::function<void()>& onClickEvent)
+void HMEngine::UI::ContextMenu::AddButton(const std::string& buttonName, const std::string& buttonText, const std::function<void(HMEngine::UI::Button*)>& onClickEvent)
 {
 	HMEngine::UI::Button* newButton = new HMEngine::UI::Button(buttonName, "./resources/UITextures/ContextMenuButtonReleased.png",
 		"./resources/UITextures/ContextMenuButtonHovered.png", "./resources/UITextures/ContextMenuButtonHovered.png",

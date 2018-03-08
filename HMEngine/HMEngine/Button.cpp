@@ -46,7 +46,7 @@ HMEngine::UI::Button& HMEngine::UI::Button::operator=(const HMEngine::UI::Button
 	return *this;
 }
 
-void HMEngine::UI::Button::operator+=(const std::function<void()>& onClickEvent)
+void HMEngine::UI::Button::operator+=(const std::function<void(HMEngine::UI::Button*)>& onClickEvent)
 {
 	this->_onClickEvents.push_back(onClickEvent);
 }
@@ -70,7 +70,7 @@ void HMEngine::UI::Button::MouseButtonTappedEvent(const unsigned int& mouseButto
 		this->SetTexture(this->_state = this->BUTTON_PRESSED);
 		for (auto& onClickEvent : this->_onClickEvents)
 		{
-			onClickEvent();
+			onClickEvent(this);
 		}
 	}
 }

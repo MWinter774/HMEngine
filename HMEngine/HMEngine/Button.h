@@ -20,7 +20,7 @@ namespace HMEngine
 			~Button();
 			Button(const HMEngine::UI::Button& other);
 			HMEngine::UI::Button& operator=(const HMEngine::UI::Button& other);
-			void operator+=(const std::function<void()>& onClickEvent);
+			void operator+=(const std::function<void(HMEngine::UI::Button*)>& onClickEvent);
 
 			void UpdateEvent() override;
 			void MouseButtonTappedEvent(const unsigned int& mouseButton) override;
@@ -45,7 +45,7 @@ namespace HMEngine
 			std::string _buttonPressedTexture;
 			HMEngine::UI::Label* _label;
 			ButtonState _state;
-			std::vector<std::function<void()>> _onClickEvents;
+			std::vector<std::function<void(HMEngine::UI::Button*)>> _onClickEvents;
 		};
 	}
 }

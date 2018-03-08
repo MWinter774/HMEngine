@@ -21,7 +21,7 @@ namespace HMEngine
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::ContextMenu(*this); }
 
-			void AddButton(const std::string& buttonName, const std::string& buttonText, const std::function<void()>& onClickEvent);
+			void AddButton(const std::string& buttonName, const std::string& buttonText, const std::function<void(HMEngine::UI::Button*)>& onClickEvent);
 			void AddButton(const std::string& buttonName, const std::string& buttonText);
 
 		private:

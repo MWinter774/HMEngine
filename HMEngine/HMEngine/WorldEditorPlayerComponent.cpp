@@ -6,19 +6,29 @@
 #include "HardwareInputs.h"
 #include "Menu.h"
 #include "Fonts.h"
+#include "Button.h"
+
+void OnGameObjectCategoryButtonClick(HMEngine::UI::Button* gameObjectCategoryButton)
+{
+	std::cout << gameObjectCategoryButton->GetName() << std::endl;
+}
 
 HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::WorldEditorPlayerComponent(HMEngine::Components::CameraController& cameraController) :
 	_menu(new HMEngine::UI::ContextMenu("WorldEditorMenu", HMEngine::GameSettings::GetScreenCenter())), _cameraController(&cameraController),
-	_addGameObjectMenu(new HMEngine::UI::Menu("AddGameObjectMenu", HMEngine::GameSettings::GetScreenCenter(), glm::vec2(400, 650), "./resources/UITextures/AddGameObjectMenu.png"))
+	_addGameObjectMenu(new HMEngine::UI::Menu("AddGameObjectMenu", HMEngine::GameSettings::GetScreenCenter(), glm::vec2(400, 650),
+		"./resources/UITextures/AddGameObjectMenu.png"))
 {
 	this->InitializeEvents<WorldEditorPlayerComponent>(this);
 	this->_menu->SetCenter(glm::vec2(600, 360));
-	this->_menu->AddButton("AddGameObjectButton", "Add Game Object", [this]() { this->_addGameObjectMenu->Show(); this->_menu->Hide(); });
+	this->_menu->AddButton("AddGameObjectButton", "Add Game Object", [this](HMEngine::UI::Button* btn) { this->_addGameObjectMenu->Show(); this->_menu->Hide(); });
 	this->_menu->Hide();
 
 	this->_addGameObjectMenu->AddButton("gameObjectCategory", "./resources/UITextures/AddGameObjectReleased.png",
-		"./resources/UITextures/AddGameObjectHovered.png", "./resources/UITextures/AddGameObjectPressed.png", glm::vec2(0, 0), glm::vec2(40,40), "", 
-		HMEngine::Fonts::ARIAL, glm::vec3(), 0.5f);
+		"./resources/UITextures/AddGameObjectHovered.png", "./resources/UITextures/AddGameObjectPressed.png", glm::vec2(31, 31), glm::vec2(50, 50), "",
+		HMEngine::Fonts::ARIAL, glm::vec3(), 0.5f, [this](HMEngine::UI::Button* btn)
+	{
+		
+	});
 	this->_addGameObjectMenu->Hide();
 }
 
@@ -54,7 +64,7 @@ void HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::MouseButtonDownEve
 {
 	bool cursorOnAddGameObjectMenu = HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_addGameObjectMenu->GetTopLeft(), this->_addGameObjectMenu->GetBottomRight());
 	bool cursorOnMenu = HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_menu->GetTopLeft(), this->_menu->GetBottomRight());
-	
+
 	if (cursorOnMenu && !this->_addGameObjectMenu->IsVisible()) //if the context menu is on focus
 	{
 		if (mouseButton == 3) //right click
@@ -65,7 +75,7 @@ void HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::MouseButtonDownEve
 			this->_menu->Show();
 		}
 	}
-	else if(!cursorOnAddGameObjectMenu || !this->_addGameObjectMenu->IsVisible())
+	else if (!cursorOnAddGameObjectMenu || !this->_addGameObjectMenu->IsVisible())
 	{
 		this->_parentObject->GetGameEngine().LockCursor();
 		this->_parentObject->GetGameEngine().SetMouseVisible(false);
