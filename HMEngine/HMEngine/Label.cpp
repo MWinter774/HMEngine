@@ -12,7 +12,7 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 	this->_color /= 255;
 
 	std::vector<glm::vec2> vertices, uvs;
-	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1.0f, this->_fontSize);
+	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, this->_fontSize, 1.0f);
 	this->SetScale(this->_quadDetails.scale);
 	this->SetPosition(position.x - float(this->_quadDetails.width) / 2, position.y - float(this->_quadDetails.height) / 2);
 

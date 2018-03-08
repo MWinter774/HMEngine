@@ -20,13 +20,11 @@ HMEngine::UI::Menu::Menu(const HMEngine::UI::Menu& other) : HMEngine::UI::Quad(o
 	{
 		HMEngine::UI::Button* newButton = new HMEngine::UI::Button(*button);
 		this->_buttons.push_back(newButton);
-		this->AddChild(newButton);
 	}
 	for (auto& textBox : other._textBoxes)
 	{
 		HMEngine::UI::TextBox* newTextBox = new HMEngine::UI::TextBox(*textBox);
 		this->_textBoxes.push_back(new HMEngine::UI::TextBox(*textBox));
-		this->AddChild(newTextBox);
 	}
 }
 
@@ -40,13 +38,11 @@ HMEngine::UI::Menu& HMEngine::UI::Menu::operator=(const HMEngine::UI::Menu& othe
 		{
 			HMEngine::UI::Button* newButton = new HMEngine::UI::Button(*button);
 			this->_buttons.push_back(newButton);
-			this->AddChild(newButton);
 		}
 		for (auto& textBox : other._textBoxes)
 		{
 			HMEngine::UI::TextBox* newTextBox = new HMEngine::UI::TextBox(*textBox);
 			this->_textBoxes.push_back(new HMEngine::UI::TextBox(*textBox));
-			this->AddChild(newTextBox);
 		}
 	}
 

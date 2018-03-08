@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "QuadCollection.h"
 #include "Label.h"
+#include "TextBox.h"
 
 void OnGameObjectCategoryButtonClick(HMEngine::UI::Button* gameObjectCategoryButton)
 {
@@ -26,7 +27,6 @@ HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::WorldEditorPlayerCompon
 	this->_menu->AddButton("AddGameObjectButton", "Add Game Object", [this](HMEngine::UI::Button* btn) { this->_addGameObjectMenu->Show(); this->_menu->Hide(); });
 	this->_menu->Hide();
 
-	this->_normalGameObjectScreen->AddQuad(new HMEngine::UI::Label("lblGameObjectName", this->_addGameObjectMenu->GetTopLeft()+=glm::vec2(50, 50), "Game Object Name:", HMEngine::Fonts::ARIAL, glm::vec3(), 2.0f));
 
 	this->_addGameObjectMenu->AddButton("gameObjectCategory", "./resources/UITextures/AddGameObjectReleased.png",
 		"./resources/UITextures/AddGameObjectHovered.png", "./resources/UITextures/AddGameObjectPressed.png", glm::vec2(31, 31), glm::vec2(50, 50), "",
@@ -35,6 +35,11 @@ HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::WorldEditorPlayerCompon
 		this->_normalGameObjectScreen->Show();
 	});
 	this->_addGameObjectMenu->Hide();
+
+	this->_normalGameObjectScreen->AddQuad(new HMEngine::UI::Label("lblGameObjectName", glm::vec2(500, 200), "Game Object Name:", HMEngine::Fonts::ARIAL,
+		glm::vec3(), 0.8f));
+	this->_normalGameObjectScreen->AddQuad(new HMEngine::UI::TextBox("txtboxGameObjectName", glm::vec2(650, 200), glm::vec2(120, 25), HMEngine::Fonts::ARIAL));
+	this->_normalGameObjectScreen->Hide();
 }
 
 HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::~WorldEditorPlayerComponent()
@@ -87,6 +92,7 @@ void HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::MouseButtonDownEve
 		this->_cameraController->Activate();
 		this->_menu->Hide();
 		this->_addGameObjectMenu->Hide();
+		this->_normalGameObjectScreen->Hide();
 	}
 }
 
@@ -94,4 +100,5 @@ void HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::AttachToGameObject
 {
 	this->AddUI(this->_menu);
 	this->AddUI(this->_addGameObjectMenu);
+	this->AddUI(this->_normalGameObjectScreen);
 }

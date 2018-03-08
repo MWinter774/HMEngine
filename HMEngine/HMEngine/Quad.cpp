@@ -55,10 +55,6 @@ HMEngine::UI::Quad::~Quad()
 	{
 		delete quadTexture;
 	}
-	for (auto& child : this->_childs)
-	{
-		delete child;
-	}
 
 	delete this->_openglQuad;
 	delete this->_transform;
@@ -159,7 +155,6 @@ inline void HMEngine::UI::Quad::Show()
 	}
 	this->_isVisible = true;
 	this->_isEnabled = true;
-
 }
 
 inline void HMEngine::UI::Quad::Hide()
@@ -211,7 +206,7 @@ void HMEngine::UI::Quad::AttachToGameEngine(HMEngine::GameEngine& gameEngine)
 	this->InitializeEventObject();
 	for (auto& child : this->_childs)
 	{
-		child->AttachToGameEngine(gameEngine);
+		this->_gameEngine->AddUI(child);
 	}
 
 	this->AttachToGameEngineEvent();

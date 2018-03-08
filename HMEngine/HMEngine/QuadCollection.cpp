@@ -29,12 +29,14 @@ HMEngine::UI::QuadCollection& HMEngine::UI::QuadCollection::operator=(const HMEn
 void HMEngine::UI::QuadCollection::AddQuad(const HMEngine::UI::Quad& quadToAdd)
 {
 	HMEngine::UI::Quad* quadClone = quadToAdd.Clone();
+	quadClone->SetVisiblity(this->_isVisible);
 	this->AddChild(quadClone);
 	this->_quads.push_back(quadClone);
 }
 
 void HMEngine::UI::QuadCollection::AddQuad(HMEngine::UI::Quad* quadToAdd)
 {
+	quadToAdd->SetVisiblity(this->_isVisible);
 	this->AddChild(quadToAdd);
 	this->_quads.push_back(quadToAdd);
 }
