@@ -7,6 +7,8 @@
 #include "Menu.h"
 #include "Fonts.h"
 #include "Button.h"
+#include "QuadCollection.h"
+#include "Label.h"
 
 void OnGameObjectCategoryButtonClick(HMEngine::UI::Button* gameObjectCategoryButton)
 {
@@ -14,20 +16,23 @@ void OnGameObjectCategoryButtonClick(HMEngine::UI::Button* gameObjectCategoryBut
 }
 
 HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::WorldEditorPlayerComponent(HMEngine::Components::CameraController& cameraController) :
-	_menu(new HMEngine::UI::ContextMenu("WorldEditorMenu", HMEngine::GameSettings::GetScreenCenter())), _cameraController(&cameraController),
-	_addGameObjectMenu(new HMEngine::UI::Menu("AddGameObjectMenu", HMEngine::GameSettings::GetScreenCenter(), glm::vec2(400, 650),
-		"./resources/UITextures/AddGameObjectMenu.png"))
+	_menu(new HMEngine::UI::ContextMenu("cntxtmnuWorldEditor", HMEngine::GameSettings::GetScreenCenter())), _cameraController(&cameraController),
+	_addGameObjectMenu(new HMEngine::UI::Menu("mnuAddGameObject", HMEngine::GameSettings::GetScreenCenter(), glm::vec2(400, 650),
+		"./resources/UITextures/AddGameObjectMenu.png")), 
+	_normalGameObjectScreen(new HMEngine::UI::QuadCollection("scrnNormalGameObject", HMEngine::GameSettings::GetScreenCenter(), glm::vec2()))
 {
 	this->InitializeEvents<WorldEditorPlayerComponent>(this);
 	this->_menu->SetCenter(glm::vec2(600, 360));
 	this->_menu->AddButton("AddGameObjectButton", "Add Game Object", [this](HMEngine::UI::Button* btn) { this->_addGameObjectMenu->Show(); this->_menu->Hide(); });
 	this->_menu->Hide();
 
+	this->_normalGameObjectScreen->AddQuad(new HMEngine::UI::Label("lblGameObjectName", this->_addGameObjectMenu->GetTopLeft()+=glm::vec2(50, 50), "Game Object Name:", HMEngine::Fonts::ARIAL, glm::vec3(), 2.0f));
+
 	this->_addGameObjectMenu->AddButton("gameObjectCategory", "./resources/UITextures/AddGameObjectReleased.png",
 		"./resources/UITextures/AddGameObjectHovered.png", "./resources/UITextures/AddGameObjectPressed.png", glm::vec2(31, 31), glm::vec2(50, 50), "",
 		HMEngine::Fonts::ARIAL, glm::vec3(), 0.5f, [this](HMEngine::UI::Button* btn)
 	{
-		
+		this->_normalGameObjectScreen->Show();
 	});
 	this->_addGameObjectMenu->Hide();
 }

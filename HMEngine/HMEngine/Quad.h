@@ -66,6 +66,7 @@ namespace HMEngine
 			virtual inline void Hide();
 			virtual inline void SetVisiblity(bool isVisible);
 			inline void AddChild(HMEngine::UI::Quad* other) { this->_childs.push_back(other); }
+			inline void AddChild(const HMEngine::UI::Quad& other) { this->_childs.push_back(other.Clone()); }
 
 			void BindTexture() const;
 			virtual void Draw() const;

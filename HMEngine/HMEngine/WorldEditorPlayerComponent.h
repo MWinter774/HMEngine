@@ -7,6 +7,7 @@ namespace HMEngine
 	{
 		class ContextMenu;
 		class Menu;
+		class QuadCollection;
 	}
 	namespace Components
 	{
@@ -34,6 +35,7 @@ namespace HMEngine
 				HMEngine::UI::ContextMenu* _menu;
 				HMEngine::Components::CameraController* _cameraController;
 				HMEngine::UI::Menu* _addGameObjectMenu;
+				HMEngine::UI::QuadCollection* _normalGameObjectScreen;
 			};
 		}
 	}
