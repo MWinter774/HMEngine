@@ -34,10 +34,9 @@ namespace HMEngine
 				void AttachToGameObjectEvent() override;
 
 			private:
-				HMEngine::UI::ContextMenu* _menu;
 				HMEngine::Components::CameraController* _cameraController;
-				HMEngine::UI::Menu* _addGameObjectMenu;
-				HMEngine::Core::WorldEditor::AddNormalGameObjectScreen* _addNormalGameObjectScreen;
+				HMEngine::UI::ContextMenu* _contextMenu;
+				HMEngine::Core::WorldEditor::AddNormalGameObjectScreen* _addGameObjectScreen;
 			};
 		}
 	}

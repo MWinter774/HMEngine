@@ -9,6 +9,9 @@
 
 HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScreen(const glm::vec2& centerPos) :
 	HMEngine::UI::Screen("scrnAddNormalGameObject", centerPos, glm::vec2(400, 650)),
+	_btnGameObjectCategory(new HMEngine::UI::Button("btnGameObjectCategory", "./resources/UITextures/AddGameObjectReleased.png",
+		"./resources/UITextures/AddGameObjectHovered.png", "./resources/UITextures/AddGameObjectPressed.png", glm::vec2(centerPos.x - 169, centerPos.y - 294),
+		glm::vec2(50, 50), "", HMEngine::Fonts::ARIAL, glm::vec3(), 0.5f)),
 	_lblGameObjectName(new HMEngine::UI::Label("lblGameObjectName", glm::vec2(centerPos.x - 100, centerPos.y - 170),
 		"Game object name:", HMEngine::Fonts::ARIAL, glm::vec3(), 0.8f)),
 	_txtGameObjectName(new HMEngine::UI::TextBox("txtGameObjectName", glm::vec2(centerPos.x + 50, centerPos.y - 170), glm::vec2(120, 25),
@@ -63,6 +66,9 @@ HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScree
 
 	/* Sets the onClick event of the add components button */
 	*this->_btnAddComponents += [this](HMEngine::UI::Button* btn) { this->_addComponentsScreen->Show(); };
+	*this->_btnGameObjectCategory += [this](HMEngine::UI::Button* btn) { this->ShowNormalGameObjectSettings(); };
+
+	this->AddQuad(this->_btnGameObjectCategory);
 
 	this->AddQuad(this->_lblGameObjectName);
 	this->AddQuad(this->_txtGameObjectName);
@@ -94,17 +100,72 @@ HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScree
 	this->AddQuad(this->_btnAddComponents);
 
 	this->AddQuad(this->_addComponentsScreen);
+
+	this->HideNormalGameObjectSettings();
 }
 
 HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::~AddNormalGameObjectScreen()
 {
 }
 
-void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::HideEvent()
-{
-}
-
 void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::ShowEvent()
 {
 	this->_addComponentsScreen->Hide();
+	this->HideNormalGameObjectSettings();
+}
+
+void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::ShowNormalGameObjectSettings()
+{
+	this->_lblGameObjectName->Show();
+	this->_txtGameObjectName->Show();
+	this->_lblGameObjectPositionTitle->Show();
+	this->_lblGameObjectXPosition->Show();
+	this->_txtGameObjectXPosition->Show();
+	this->_lblGameObjectYPosition->Show();
+	this->_txtGameObjectYPosition->Show();
+	this->_lblGameObjectZPosition->Show();
+	this->_txtGameObjectZPosition->Show();
+	this->_lblGameObjectRotationTitle->Show();
+	this->_lblGameObjectXRotation->Show();
+	this->_txtGameObjectXRotation->Show();
+	this->_lblGameObjectYRotation->Show();
+	this->_txtGameObjectYRotation->Show();
+	this->_lblGameObjectZRotation->Show();
+	this->_txtGameObjectZRotation->Show();
+	this->_lblGameObjectScaleTitle->Show();
+	this->_lblGameObjectXScale->Show();
+	this->_txtGameObjectXScale->Show();
+	this->_lblGameObjectYScale->Show();
+	this->_txtGameObjectYScale->Show();
+	this->_lblGameObjectZScale->Show();
+	this->_txtGameObjectZScale->Show();
+	this->_btnAddComponents->Show();
+}
+
+void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::HideNormalGameObjectSettings()
+{
+	this->_lblGameObjectName->Hide();
+	this->_txtGameObjectName->Hide();
+	this->_lblGameObjectPositionTitle->Hide();
+	this->_lblGameObjectXPosition->Hide();
+	this->_txtGameObjectXPosition->Hide();
+	this->_lblGameObjectYPosition->Hide();
+	this->_txtGameObjectYPosition->Hide();
+	this->_lblGameObjectZPosition->Hide();
+	this->_txtGameObjectZPosition->Hide();
+	this->_lblGameObjectRotationTitle->Hide();
+	this->_lblGameObjectXRotation->Hide();
+	this->_txtGameObjectXRotation->Hide();
+	this->_lblGameObjectYRotation->Hide();
+	this->_txtGameObjectYRotation->Hide();
+	this->_lblGameObjectZRotation->Hide();
+	this->_txtGameObjectZRotation->Hide();
+	this->_lblGameObjectScaleTitle->Hide();
+	this->_lblGameObjectXScale->Hide();
+	this->_txtGameObjectXScale->Hide();
+	this->_lblGameObjectYScale->Hide();
+	this->_txtGameObjectYScale->Hide();
+	this->_lblGameObjectZScale->Hide();
+	this->_txtGameObjectZScale->Hide();
+	this->_btnAddComponents->Hide();
 }

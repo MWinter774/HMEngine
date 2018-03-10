@@ -217,6 +217,11 @@ void HMEngine::UI::Quad::Draw() const
 	}
 }
 
+void HMEngine::UI::Quad::AddChild(unsigned int index, HMEngine::UI::Quad* other)
+{
+	this->_childs.insert(this->_childs.begin() + index, other);
+}
+
 void HMEngine::UI::Quad::AttachToGameEngine(HMEngine::GameEngine& gameEngine)
 {
 	this->_isAttachedToGameEngine = true;

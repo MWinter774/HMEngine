@@ -18,8 +18,7 @@ namespace HMEngine
 
 			inline HMEngine::UI::Quad* Clone() const { return new HMEngine::UI::Screen(*this); }
 
-			//virtual void Show();
-			//virtual void Hide();
+			void SetBackground(const std::string& backgroundTextureFilePath);
 
 			void AddQuad(HMEngine::UI::Quad* quad);
 

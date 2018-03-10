@@ -27,10 +27,11 @@ namespace HMEngine
 				AddNormalGameObjectScreen(const HMEngine::Core::WorldEditor::AddNormalGameObjectScreen& other) = delete;
 				HMEngine::Core::WorldEditor::AddNormalGameObjectScreen& operator=(const HMEngine::Core::WorldEditor::AddNormalGameObjectScreen& other) = delete;
 
-				void HideEvent() override;
 				void ShowEvent() override;
 
 			private:
+				HMEngine::UI::Button* _btnGameObjectCategory;
+
 				HMEngine::UI::Label* _lblGameObjectName;
 				HMEngine::UI::TextBox* _txtGameObjectName;
 
@@ -61,6 +62,9 @@ namespace HMEngine
 				HMEngine::UI::Button* _btnAddComponents;
 
 				HMEngine::Core::WorldEditor::AddComponentsScreen* _addComponentsScreen;
+
+				void ShowNormalGameObjectSettings();
+				void HideNormalGameObjectSettings();
 			};
 		}
 	}

@@ -80,6 +80,7 @@ namespace HMEngine
 
 			inline void SetVertices(const std::vector<glm::vec2>& vertices) { this->_openglQuad->SetVertices(vertices); }
 			inline void SetUVs(const std::vector<glm::vec2>& uvs) { this->_openglQuad->SetUVs(uvs); }
+			void AddChild(unsigned int index, HMEngine::UI::Quad* other);
 
 			std::string _name;
 			HMEngine::UI::Quad::QuadDetails _quadDetails;

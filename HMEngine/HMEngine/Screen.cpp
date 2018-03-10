@@ -2,6 +2,7 @@
 #include "QuadCollection.h"
 #include "SDL2.0.7\SDL.h"
 #include "HardwareInputs.h"
+#include "Image.h"
 
 HMEngine::UI::Screen::Screen(const std::string& screenName, const glm::vec2& centerPos, const glm::vec2& scale) : 
 	HMEngine::UI::Quad(screenName, centerPos, scale), _screen(new HMEngine::UI::QuadCollection(screenName + "_quadCollection", centerPos, glm::vec2()))
@@ -32,15 +33,11 @@ HMEngine::UI::Screen& HMEngine::UI::Screen::operator=(const HMEngine::UI::Screen
 	return *this;
 }
 
-//void HMEngine::UI::Screen::Show()
-//{
-//	this->Show();
-//}
-//
-//void HMEngine::UI::Screen::Hide()
-//{
-//	this->Hide();
-//}
+void HMEngine::UI::Screen::SetBackground(const std::string& backgroundTextureFilePath)
+{
+	HMEngine::UI::Image* img = new HMEngine::UI::Image(this->_name + "_background", backgroundTextureFilePath, this->_quadDetails.position, this->_quadDetails.scale);
+	this->AddChild(0, img);
+}
 
 void HMEngine::UI::Screen::AddQuad(HMEngine::UI::Quad* quad)
 {
