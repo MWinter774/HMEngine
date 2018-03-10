@@ -10,36 +10,28 @@
 #include "QuadCollection.h"
 #include "Label.h"
 #include "TextBox.h"
-
-void OnGameObjectCategoryButtonClick(HMEngine::UI::Button* gameObjectCategoryButton)
-{
-	std::cout << gameObjectCategoryButton->GetName() << std::endl;
-}
+#include "AddNormalGameObjectScreen.h"
 
 HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::WorldEditorPlayerComponent(HMEngine::Components::CameraController& cameraController) :
 	_menu(new HMEngine::UI::ContextMenu("cntxtmnuWorldEditor", HMEngine::GameSettings::GetScreenCenter())), _cameraController(&cameraController),
 	_addGameObjectMenu(new HMEngine::UI::Menu("mnuAddGameObject", HMEngine::GameSettings::GetScreenCenter(), glm::vec2(400, 650),
-		"./resources/UITextures/AddGameObjectMenu.png")), 
-	_normalGameObjectScreen(new HMEngine::UI::QuadCollection("scrnNormalGameObject", HMEngine::GameSettings::GetScreenCenter(), glm::vec2()))
+		"./resources/UITextures/AddGameObjectMenu.png")),
+	_addNormalGameObjectScreen(new HMEngine::Core::WorldEditor::AddNormalGameObjectScreen(HMEngine::GameSettings::GetScreenCenter()))
 {
 	this->InitializeEvents<WorldEditorPlayerComponent>(this);
-	this->_menu->SetCenter(glm::vec2(600, 360));
+	this->_menu->SetCenter(HMEngine::GameSettings::GetScreenCenter());
 	this->_menu->AddButton("AddGameObjectButton", "Add Game Object", [this](HMEngine::UI::Button* btn) { this->_addGameObjectMenu->Show(); this->_menu->Hide(); });
 	this->_menu->Hide();
-
 
 	this->_addGameObjectMenu->AddButton("gameObjectCategory", "./resources/UITextures/AddGameObjectReleased.png",
 		"./resources/UITextures/AddGameObjectHovered.png", "./resources/UITextures/AddGameObjectPressed.png", glm::vec2(31, 31), glm::vec2(50, 50), "",
 		HMEngine::Fonts::ARIAL, glm::vec3(), 0.5f, [this](HMEngine::UI::Button* btn)
 	{
-		this->_normalGameObjectScreen->Show();
+		this->_addNormalGameObjectScreen->Show();
 	});
 	this->_addGameObjectMenu->Hide();
 
-	this->_normalGameObjectScreen->AddQuad(new HMEngine::UI::Label("lblGameObjectName", glm::vec2(500, 200), "Game Object Name:", HMEngine::Fonts::ARIAL,
-		glm::vec3(), 0.8f));
-	this->_normalGameObjectScreen->AddQuad(new HMEngine::UI::TextBox("txtboxGameObjectName", glm::vec2(650, 200), glm::vec2(120, 25), HMEngine::Fonts::ARIAL));
-	this->_normalGameObjectScreen->Hide();
+	this->_addNormalGameObjectScreen->Hide();
 }
 
 HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::~WorldEditorPlayerComponent()
@@ -90,9 +82,9 @@ void HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::MouseButtonDownEve
 		this->_parentObject->GetGameEngine().LockCursor();
 		this->_parentObject->GetGameEngine().SetMouseVisible(false);
 		this->_cameraController->Activate();
-		this->_menu->Hide();
-		this->_addGameObjectMenu->Hide();
-		this->_normalGameObjectScreen->Hide();
+		//this->_menu->Hide();
+		//this->_addGameObjectMenu->Hide();
+		//this->_addNormalGameObjectScreen->Hide();
 	}
 }
 
@@ -100,5 +92,6 @@ void HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::AttachToGameObject
 {
 	this->AddUI(this->_menu);
 	this->AddUI(this->_addGameObjectMenu);
-	this->AddUI(this->_normalGameObjectScreen);
+	//this->_addNormalGameObjectScreen->AddToGameEngine(this->_parentObject->GetGameEngine());
+	this->AddUI(this->_addNormalGameObjectScreen);
 }

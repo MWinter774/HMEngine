@@ -15,6 +15,7 @@ HMEngine::UI::Button::Button(const std::string& name, const std::string& buttonR
 
 	this->AddTexture(buttonHoverTexture);
 	this->AddTexture(buttonPressedTexture);
+	this->AddChild(this->_label);
 }
 
 HMEngine::UI::Button::~Button()
@@ -77,7 +78,7 @@ void HMEngine::UI::Button::MouseButtonTappedEvent(const unsigned int& mouseButto
 
 void HMEngine::UI::Button::AttachToGameEngineEvent()
 {
-	this->_gameEngine->AddUI(this->_label);
+	//this->_gameEngine->AddUI(this->_label);
 }
 
 void HMEngine::UI::Button::Show()

@@ -2,6 +2,8 @@
 #include "Button.h"
 #include "GameEngine.h"
 #include "TextBox.h"
+#include "HardwareInputs.h"
+#include "SDL2.0.7\SDL.h"
 
 HMEngine::UI::Menu::Menu(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& backgroundTexturePath) :
 	HMEngine::UI::Quad(name, backgroundTexturePath, position, scale)
@@ -78,4 +80,27 @@ void HMEngine::UI::Menu::AddButton(HMEngine::UI::Button* button)
 {
 	this->_buttons.push_back(button);
 	this->AddChild(button);
+}
+
+void HMEngine::UI::Menu::AddTextBox(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const HMEngine::UI::Font& font, bool acceptLetters)
+{
+	glm::vec2 newPos = this->_quadDetails.topLeft + position;
+	HMEngine::UI::TextBox* newTextbox = new HMEngine::UI::TextBox(name + "_" + this->_name, newPos, scale, font, acceptLetters);
+
+	this->_textBoxes.push_back(newTextbox);
+	this->AddChild(newTextbox);
+}
+
+void HMEngine::UI::Menu::AddTextBox(HMEngine::UI::TextBox* textBox)
+{
+	this->_textBoxes.push_back(textBox);
+	this->AddChild(textBox);
+}
+
+void HMEngine::UI::Menu::MouseButtonDownEvent(const unsigned int& mouseButton)
+{
+	if (mouseButton == SDL_BUTTON_LEFT && !HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_quadDetails.topLeft, this->_quadDetails.bottomRight))
+	{
+		this->Hide();
+	}
 }

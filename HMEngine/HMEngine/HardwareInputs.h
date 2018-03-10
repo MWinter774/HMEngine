@@ -53,6 +53,7 @@ namespace HMEngine
 				*/
 				static inline bool IsKeyDown(unsigned int keyCode)
 				{
+					int i = SDL_SCANCODE_RSHIFT;
 					return HardwareInputs::keys[keyCode] & KeyStates::KeyDown;
 				}
 
@@ -148,7 +149,7 @@ namespace HMEngine
 			private:
 				typedef char KeyState;
 				typedef char MouseButtonState;
-				static const unsigned int NUM_KEYS = 219U;
+				static const unsigned int NUM_KEYS = 226U;
 				static const unsigned int NUM_MOUSE_BUTTONS = 5U;
 
 				static void Reset();

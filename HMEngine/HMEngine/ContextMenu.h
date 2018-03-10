@@ -24,6 +24,8 @@ namespace HMEngine
 			void AddButton(const std::string& buttonName, const std::string& buttonText, const std::function<void(HMEngine::UI::Button*)>& onClickEvent);
 			void AddButton(const std::string& buttonName, const std::string& buttonText);
 
+			void MouseButtonDownEvent(const unsigned int& mouseButton) override;
+
 		private:
 			static const float BUTTON_HEIGHT;
 

@@ -50,8 +50,16 @@ namespace HMEngine
 				void AddUI(HMEngine::UI::Quad& ui);
 				void RemoveUI(HMEngine::UI::Quad& ui);
 
+				void BringToFront(HMEngine::UI::Quad* ui);
+
 
 			private:
+				typedef struct
+				{
+					HMEngine::UI::Label* label;
+					HMEngine::UI::Quad* quad;
+				} Quad;
+
 				enum term { A = 0, B, C, D };
 
 				bool _doCleanupForMeshes;
@@ -65,8 +73,9 @@ namespace HMEngine
 				std::unordered_map<HMEngine::OpenGL::OpenGLTexture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::OpenGLTexture::TextureHasher, HMEngine::OpenGL::OpenGLTexture::TextureEqualer> _meshTextures;
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
 				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
-				std::vector<HMEngine::UI::Quad*> _quads;
+				//std::vector<HMEngine::UI::Quad*> _quads;
 				std::unordered_set<HMEngine::UI::Label*> _labels;
+				std::vector<RenderingEngine::Quad> _quads;
 
 				std::list<HMEngine::Components::MeshRenderer*> _meshesToRender;
 				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;

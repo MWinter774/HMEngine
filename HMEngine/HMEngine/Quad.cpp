@@ -55,6 +55,13 @@ HMEngine::UI::Quad::~Quad()
 	{
 		delete quadTexture;
 	}
+	if (!this->_isAttachedToGameEngine)
+	{
+		for (auto& child : this->_childs)
+		{
+			delete child;
+		}
+	}
 
 	delete this->_openglQuad;
 	delete this->_transform;
@@ -153,6 +160,7 @@ inline void HMEngine::UI::Quad::Show()
 	{
 		child->Show();
 	}
+	this->ShowEvent();
 	this->_isVisible = true;
 	this->_isEnabled = true;
 }
@@ -163,9 +171,9 @@ inline void HMEngine::UI::Quad::Hide()
 	{
 		child->Hide();
 	}
+	this->HideEvent();
 	this->_isVisible = false;
 	this->_isEnabled = false;
-
 }
 
 inline void HMEngine::UI::Quad::SetVisiblity(bool isVisible)
@@ -174,9 +182,21 @@ inline void HMEngine::UI::Quad::SetVisiblity(bool isVisible)
 	{
 		child->SetVisiblity(isVisible);
 	}
+	if(isVisible)
+		this->ShowEvent();
+	else
+		this->HideEvent();
 	this->_isVisible = isVisible;
 	this->_isEnabled = isVisible;
+}
 
+void HMEngine::UI::Quad::BringToFront()
+{
+	HMEngine::Core::Rendering::RenderingEngine::GetInstance().BringToFront(this);
+	for (auto& child : this->_childs)
+	{
+		HMEngine::Core::Rendering::RenderingEngine::GetInstance().BringToFront(child);
+	}
 }
 
 void HMEngine::UI::Quad::BindTexture() const

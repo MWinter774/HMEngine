@@ -1,0 +1,56 @@
+#include "Screen.h"
+#include "QuadCollection.h"
+#include "SDL2.0.7\SDL.h"
+#include "HardwareInputs.h"
+
+HMEngine::UI::Screen::Screen(const std::string& screenName, const glm::vec2& centerPos, const glm::vec2& scale) : 
+	HMEngine::UI::Quad(screenName, centerPos, scale), _screen(new HMEngine::UI::QuadCollection(screenName + "_quadCollection", centerPos, glm::vec2()))
+{
+	this->InitializeEvents<Screen>(this);
+}
+
+HMEngine::UI::Screen::~Screen()
+{
+}
+
+HMEngine::UI::Screen::Screen(const HMEngine::UI::Screen& other) : HMEngine::UI::Quad(other)
+{
+	this->InitializeEvents<Screen>(this);
+	this->_screen = new HMEngine::UI::QuadCollection(*other._screen);
+}
+
+HMEngine::UI::Screen& HMEngine::UI::Screen::operator=(const HMEngine::UI::Screen& other)
+{
+	if (this != &other)
+	{
+		delete this->_screen;
+
+		HMEngine::UI::Quad::operator=(other);
+		this->_screen = new HMEngine::UI::QuadCollection(*other._screen);
+	}
+
+	return *this;
+}
+
+//void HMEngine::UI::Screen::Show()
+//{
+//	this->Show();
+//}
+//
+//void HMEngine::UI::Screen::Hide()
+//{
+//	this->Hide();
+//}
+
+void HMEngine::UI::Screen::AddQuad(HMEngine::UI::Quad* quad)
+{
+	this->AddChild(quad);
+}
+
+void HMEngine::UI::Screen::MouseButtonDownEvent(const unsigned int& mouseButton)
+{
+	if (mouseButton == SDL_BUTTON_LEFT && !HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_quadDetails.topLeft, this->_quadDetails.bottomRight))
+	{
+		this->Hide();
+	}
+}

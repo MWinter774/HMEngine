@@ -185,7 +185,7 @@ void HMEngine::UI::Label::GetVerticesAndUVs(const std::string& text, const HMEng
 void HMEngine::UI::Label::UpdateText()
 {
 	std::vector<glm::vec2> vertices, uvs;
-	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1.0f, 1.0f);
+	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1, 1.0f);
 
 	this->SetVertices(vertices);
 	this->SetUVs(uvs);

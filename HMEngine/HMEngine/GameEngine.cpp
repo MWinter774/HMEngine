@@ -180,11 +180,11 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 		return;
 	}
 	auto uiClone = ui.Clone();
-	uiClone->InitializeEventObject();
-	uiClone->AttachToGameEngine(*this);
 	this->_quads[uiClone->GetName()] = uiClone; //adds the ui quad to the quad map
 	this->_quadsVector.push_back(uiClone); //adds the quad to the quad vector
 	this->_renderingEngine->AddUI(*uiClone);
+	uiClone->InitializeEventObject();
+	uiClone->AttachToGameEngine(*this);
 }
 
 void HMEngine::GameEngine::AddUI(HMEngine::UI::Quad* ui)
@@ -195,11 +195,11 @@ void HMEngine::GameEngine::AddUI(HMEngine::UI::Quad* ui)
 		return;
 	}
 
-	ui->InitializeEventObject();
-	ui->AttachToGameEngine(*this);
 	this->_quads[ui->GetName()] = ui; //adds the ui quad to the quad map
 	this->_quadsVector.push_back(ui); //adds the quad to the quad vector
 	this->_renderingEngine->AddUI(*ui); //adds the quad to the rendering engine
+	ui->InitializeEventObject();
+	ui->AttachToGameEngine(*this);
 }
 
 HMEngine::UI::Quad* HMEngine::GameEngine::GetUI(const std::string& name)

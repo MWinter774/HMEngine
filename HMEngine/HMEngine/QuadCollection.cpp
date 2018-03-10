@@ -1,4 +1,6 @@
 #include "QuadCollection.h"
+#include "SDL2.0.7\SDL.h"
+#include "HardwareInputs.h"
 
 HMEngine::UI::QuadCollection::QuadCollection(const std::string& name, const glm::vec2& position, const glm::vec2& scale) :
 	HMEngine::UI::Quad(name, position, scale)

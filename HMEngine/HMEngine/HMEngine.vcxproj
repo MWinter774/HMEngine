@@ -124,6 +124,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddComponentsScreen.cpp" />
+    <ClCompile Include="AddNormalGameObjectScreen.cpp" />
     <ClCompile Include="AmbientLightShader.cpp" />
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
@@ -152,6 +154,7 @@
     <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="OpenGLQuad.cpp" />
     <ClCompile Include="QuadCollection.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="UIShader.cpp" />
     <ClCompile Include="UITexture.cpp" />
@@ -189,6 +192,8 @@
     <ClCompile Include="WorldEditorPlayerComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddComponentsScreen.h" />
+    <ClInclude Include="AddNormalGameObjectScreen.h" />
     <ClInclude Include="AmbientLightShader.h" />
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
@@ -217,6 +222,7 @@
     <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="OpenGLQuad.h" />
     <ClInclude Include="QuadCollection.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="TextBox.h" />
     <ClInclude Include="UIShader.h" />
     <ClInclude Include="UITexture.h" />

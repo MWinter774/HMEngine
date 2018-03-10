@@ -2,6 +2,7 @@
 #include "Button.h"
 #include "Fonts.h"
 #include "GameEngine.h"
+#include "HardwareInputs.h"
 
 const float HMEngine::UI::ContextMenu::BUTTON_HEIGHT = 20.0f;
 
@@ -69,4 +70,12 @@ void HMEngine::UI::ContextMenu::AddButton(const std::string& buttonName, const s
 
 	this->_buttons.push_back(newButton);
 	this->AddChild(newButton);
+}
+
+void HMEngine::UI::ContextMenu::MouseButtonDownEvent(const unsigned int & mouseButton)
+{
+	if (mouseButton == SDL_BUTTON_LEFT && !HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_quadDetails.topLeft, this->_quadDetails.bottomRight))
+	{
+		this->Hide();
+	}
 }

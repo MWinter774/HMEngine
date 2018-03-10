@@ -17,7 +17,7 @@ namespace HMEngine
 		{
 		public:
 			Menu(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& backgroundTexturePath);
-			~Menu();
+			virtual ~Menu();
 			Menu(const HMEngine::UI::Menu& other);
 			HMEngine::UI::Menu& operator=(const HMEngine::UI::Menu& other);
 
@@ -30,6 +30,11 @@ namespace HMEngine
 				const glm::vec2& position, const glm::vec2& scale, const std::string& labelText, const HMEngine::UI::Font& font, const glm::vec3& labelTextColor,
 				float labelFontSize, const std::function<void(HMEngine::UI::Button*)>& onClick);
 			void AddButton(HMEngine::UI::Button* button);
+
+			void AddTextBox(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const HMEngine::UI::Font& font, bool acceptLetters = true);
+			void AddTextBox(HMEngine::UI::TextBox* textBox);
+
+			void MouseButtonDownEvent(const unsigned int& mouseButton) override;
 
 		private:
 			std::vector<HMEngine::UI::Button*> _buttons;

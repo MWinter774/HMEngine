@@ -18,6 +18,8 @@ namespace HMEngine
 	{
 		namespace WorldEditor
 		{
+			class AddNormalGameObjectScreen;
+
 			class WorldEditorPlayerComponent : public HMEngine::Components::Component
 			{
 			public:
@@ -35,7 +37,7 @@ namespace HMEngine
 				HMEngine::UI::ContextMenu* _menu;
 				HMEngine::Components::CameraController* _cameraController;
 				HMEngine::UI::Menu* _addGameObjectMenu;
-				HMEngine::UI::QuadCollection* _normalGameObjectScreen;
+				HMEngine::Core::WorldEditor::AddNormalGameObjectScreen* _addNormalGameObjectScreen;
 			};
 		}
 	}

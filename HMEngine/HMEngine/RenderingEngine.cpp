@@ -214,7 +214,7 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
 {
-	HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
+	/*HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
 	for (auto& quad : this->_quads)
 	{
 		HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad->GetTransform());
@@ -224,17 +224,37 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
 			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(child->GetTransform());
 			child->Draw();
 		}
+	}*/
+	for (auto& quad : this->_quads)
+	{
+		if (quad.quad != nullptr) //if the quad is a regular quad(button, textbox...)
+		{
+			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
+			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad.quad->GetTransform());
+			quad.quad->Draw();
+			for (auto& child : quad.quad->GetChilds())
+			{
+				HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(child->GetTransform());
+				child->Draw();
+			}
+		}
+		else //if the quad is a label
+		{
+			HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
+			HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*quad.label);
+			quad.label->Draw();
+		}
 	}
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderLabels() const
 {
-	HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
+	/*HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
 	for (auto& label : this->_labels)
 	{
 		HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*label);
 		label->Draw();
-	}
+	}*/
 }
 
 /*
@@ -403,15 +423,33 @@ void HMEngine::Core::Rendering::RenderingEngine::RemovePointLight(HMEngine::Comp
 
 void HMEngine::Core::Rendering::RenderingEngine::AddUI(HMEngine::UI::Quad& ui)
 {
+	RenderingEngine::Quad quad;
+	quad.label = nullptr;
+	quad.quad = nullptr;
 	if (typeid(ui) != typeid(HMEngine::UI::Label))
-	{
-		this->_quads.push_back(&ui);
-	}
+		quad.quad = &ui;
 	else
-		this->_labels.insert(static_cast<HMEngine::UI::Label*>(&ui));
+		quad.label = static_cast<HMEngine::UI::Label*>(&ui);
+	this->_quads.push_back(quad);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveUI(HMEngine::UI::Quad& ui)
 {
-	//this->_quads.erase(&ui);
+	//this->_quads.erase(std::remove(this->_quads.begin(), this->_quads.end(), &ui), this->_quads.end());
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::BringToFront(HMEngine::UI::Quad* ui)
+{
+	auto& it = this->_quads.begin();
+	for (auto& quad : this->_quads)
+	{
+		if (quad.quad == ui || quad.label == ui)
+		{
+			auto backup = *it;
+			this->_quads.erase(it);
+			this->_quads.push_back(backup);
+			break;
+		}
+		it++;
+	}
 }

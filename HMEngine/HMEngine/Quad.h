@@ -63,10 +63,14 @@ namespace HMEngine
 			void SetTopLeft(const glm::vec2& topLeft);
 			void SetCenter(const glm::vec2& center);
 			virtual inline void Show();
+			virtual inline void ShowEvent() {}
 			virtual inline void Hide();
+			virtual inline void HideEvent() {}
 			virtual inline void SetVisiblity(bool isVisible);
 			inline void AddChild(HMEngine::UI::Quad* other) { this->_childs.push_back(other); }
 			inline void AddChild(const HMEngine::UI::Quad& other) { this->_childs.push_back(other.Clone()); }
+
+			void BringToFront();
 
 			void BindTexture() const;
 			virtual void Draw() const;
