@@ -1,28 +1,27 @@
 #pragma once
 #include "glm\glm.hpp"
-#include "Menu.h"
+#include "Screen.h"
 
 namespace HMEngine
 {
 	class GameEngine;
+	namespace UI
+	{
+		class Label;
+	}
 
 	namespace Core
 	{
 		namespace WorldEditor
 		{
-			class AddComponentsScreen : public HMEngine::UI::Menu
+			class AddComponentsScreen : public HMEngine::UI::Screen
 			{
 			public:
 				AddComponentsScreen(const glm::vec2& centerPos);
 				~AddComponentsScreen();
 
-				//void Show();
-				//void Hide();
-
-				void AddToGameEngine(HMEngine::GameEngine& gameEngine);
-				//void BringToFront();
-
 			private:
+				HMEngine::UI::Label* _lblAddComponentsTitle;
 			};
 		}
 	}
