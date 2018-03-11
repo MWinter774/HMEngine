@@ -10,7 +10,7 @@ HMEngine::UI::TextBox::TextBox(const std::string& name, const glm::vec2& positio
 	this->InitializeEvents<TextBox>(this);
 	this->AddTexture("./resources/UITextures/TextBoxFocused.png");
 	this->AddChild(this->_label);
-	this->_label->SetTopLeft(glm::vec2(this->_quadDetails.topLeft) += glm::vec2(0, -4.5f));
+	this->_label->SetTopLeft(glm::vec2(this->_quadDetails.topLeft) += glm::vec2(0, -scale.x / 20.0f)); //basic ratio, needs fixing
 }
 
 HMEngine::UI::TextBox::~TextBox()
@@ -21,6 +21,7 @@ HMEngine::UI::TextBox::TextBox(const HMEngine::UI::TextBox& other) : HMEngine::U
 _acceptLetters(other._acceptLetters)
 {
 	this->InitializeEvents<TextBox>(this);
+	this->_label->SetTopLeft(glm::vec2(this->_quadDetails.topLeft) += glm::vec2(0, -4.5f));
 }
 
 HMEngine::UI::TextBox& HMEngine::UI::TextBox::operator=(const HMEngine::UI::TextBox& other)
@@ -32,6 +33,7 @@ HMEngine::UI::TextBox& HMEngine::UI::TextBox::operator=(const HMEngine::UI::Text
 		this->InitializeEvents<TextBox>(this);
 		this->_isFocused = false;
 		this->_acceptLetters = other._acceptLetters;
+		this->_label->SetTopLeft(glm::vec2(this->_quadDetails.topLeft) += glm::vec2(0, -4.5f));
 	}
 
 	return *this;
@@ -103,3 +105,11 @@ void HMEngine::UI::TextBox::SetText(const std::string& text)
 {
 	this->_label->SetText(text);
 }
+//
+//int i = 0;
+//void HMEngine::UI::TextBox::UpdateEvent()
+//{
+//	this->SetScale(cos(i / 200.0f) * 100.0f, this->_quadDetails.scale.y);
+//	this->_label->SetTopLeft(glm::vec2(this->_quadDetails.topLeft));
+//	i++;
+//}

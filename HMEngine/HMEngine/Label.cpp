@@ -27,6 +27,7 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 	this->InitializeEvents<Label>(this);
 	this->_color /= 255;
 
+
 	std::vector<glm::vec2> vertices, uvs;
 	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, this->_fontSize, scale.x);
 	this->SetScale(this->_quadDetails.scale);

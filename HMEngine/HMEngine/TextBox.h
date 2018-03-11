@@ -24,6 +24,8 @@ namespace HMEngine
 
 			void SetText(const std::string& text);
 
+			//void UpdateEvent() override;
+
 		private:
 			bool _isFocused;
 			HMEngine::UI::Label* _label;
