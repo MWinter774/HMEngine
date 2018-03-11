@@ -15,7 +15,7 @@ HMEngine::Core::WorldEditor::AddComponentsScreen::AddComponentsScreen(const glm:
 	_lstComponentsList(new HMEngine::UI::List("lstComponentsList", glm::vec2(centerPos.x, centerPos.y + 30), glm::vec2(400, 200), 
 		"./resources/UITextures/listBackground.png"))
 {
-	this->_lstComponentsList->AddButton("MeshRenderer", [this](HMEngine::UI::Button* btn) { this->_meshRendererScreen->Show(); this->_meshRendererScreen->BringToFront(); });
+	this->_lstComponentsList->AddButton("MeshRenderer", [this](HMEngine::UI::Button* btn) { this->_meshRendererScreen->Show(); });
 	this->_lstComponentsList->AddButton("CircleMovement", [](HMEngine::UI::Button* btn) {});
 
 	this->SetBackground("./resources/UITextures/AddGameObjectMenu.png");

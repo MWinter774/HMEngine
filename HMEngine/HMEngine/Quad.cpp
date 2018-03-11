@@ -174,11 +174,6 @@ inline void HMEngine::UI::Quad::Hide()
 {
 	if (this->_isEnabled)
 	{
-		if (this->_name.find("scrnMeshRenderer") != std::string::npos)
-		{
-			int i = 0;
-		}
-
 		for (auto& child : this->_childs)
 		{
 			child->Hide();
@@ -221,10 +216,6 @@ void HMEngine::UI::Quad::Draw() const
 {
 	if (this->_isVisible && this->_currentTexture != nullptr)
 	{
-		if (this->_name == "AddGameObjectMenu")
-		{
-			int i = 0;
-		}
 		this->BindTexture();
 		this->_openglQuad->Draw(GL_TRIANGLE_STRIP);
 	}

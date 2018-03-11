@@ -18,7 +18,7 @@ HMEngine::UI::TextBox::~TextBox()
 }
 
 HMEngine::UI::TextBox::TextBox(const HMEngine::UI::TextBox& other) : HMEngine::UI::Quad(other), _label(new HMEngine::UI::Label(*other._label)), _isFocused(false),
-_acceptLetters(other._acceptLetters)
+	_acceptLetters(other._acceptLetters)
 {
 	this->InitializeEvents<TextBox>(this);
 	this->_label->SetTopLeft(glm::vec2(this->_quadDetails.topLeft) += glm::vec2(0, -4.5f));
