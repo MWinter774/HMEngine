@@ -4,8 +4,6 @@
 #include "HardwareInputs.h"
 #include "Image.h"
 
-HMEngine::UI::Screen* HMEngine::UI::Screen::activeScreen = nullptr;
-
 HMEngine::UI::Screen::Screen(const std::string& screenName, const glm::vec2& centerPos, const glm::vec2& scale) :
 	HMEngine::UI::Quad(screenName, centerPos, scale), _screen(new HMEngine::UI::QuadCollection(screenName + "_quadCollection", centerPos, glm::vec2()))
 {
