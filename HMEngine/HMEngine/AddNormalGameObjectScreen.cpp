@@ -114,6 +114,11 @@ void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::ShowEvent()
 	this->HideNormalGameObjectSettings();
 }
 
+bool HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::IsChildFocus() const
+{
+	return this->_addComponentsScreen->IsVisible() || this->IsVisible();
+}
+
 void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::ShowNormalGameObjectSettings()
 {
 	this->_lblGameObjectName->Show();

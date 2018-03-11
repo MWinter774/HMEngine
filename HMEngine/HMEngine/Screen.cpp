@@ -4,7 +4,9 @@
 #include "HardwareInputs.h"
 #include "Image.h"
 
-HMEngine::UI::Screen::Screen(const std::string& screenName, const glm::vec2& centerPos, const glm::vec2& scale) : 
+HMEngine::UI::Screen* HMEngine::UI::Screen::activeScreen = nullptr;
+
+HMEngine::UI::Screen::Screen(const std::string& screenName, const glm::vec2& centerPos, const glm::vec2& scale) :
 	HMEngine::UI::Quad(screenName, centerPos, scale), _screen(new HMEngine::UI::QuadCollection(screenName + "_quadCollection", centerPos, glm::vec2()))
 {
 	this->InitializeEvents<Screen>(this);
@@ -41,12 +43,24 @@ void HMEngine::UI::Screen::SetBackground(const std::string& backgroundTextureFil
 
 void HMEngine::UI::Screen::AddQuad(HMEngine::UI::Quad* quad)
 {
+	if (dynamic_cast<HMEngine::UI::Screen*>(quad))
+		this->_subScreens.push_back(static_cast<HMEngine::UI::Screen*>(quad));
 	this->AddChild(quad);
+}
+
+bool HMEngine::UI::Screen::IsFocused() const
+{
+	for (auto& subScreen : this->_subScreens)
+	{
+		if (subScreen->IsVisible())
+			return true;
+	}
+	return false;
 }
 
 void HMEngine::UI::Screen::MouseButtonDownEvent(const unsigned int& mouseButton)
 {
-	if (mouseButton == SDL_BUTTON_LEFT && !HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_quadDetails.topLeft, this->_quadDetails.bottomRight))
+	if (mouseButton == SDL_BUTTON_LEFT && !this->IsFocused() && !HMEngine::Core::Hardware::HardwareInputs::IsCursorWithinBoundaries(this->_quadDetails.topLeft, this->_quadDetails.bottomRight))
 	{
 		this->Hide();
 	}

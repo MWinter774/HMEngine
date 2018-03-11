@@ -73,7 +73,6 @@ namespace HMEngine
 				std::unordered_map<HMEngine::OpenGL::OpenGLTexture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::OpenGLTexture::TextureHasher, HMEngine::OpenGL::OpenGLTexture::TextureEqualer> _meshTextures;
 				std::unordered_set<HMEngine::Components::DirectionalLight*> _directionalLights;
 				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
-				//std::vector<HMEngine::UI::Quad*> _quads;
 				std::unordered_set<HMEngine::UI::Label*> _labels;
 				std::vector<RenderingEngine::Quad> _quads;
 
@@ -87,7 +86,6 @@ namespace HMEngine
 				void RenderMeshes() const;
 				void RenderTerrains() const;
 				void RenderQuads() const;
-				void RenderLabels() const;
 
 				void CullFrustrum();
 

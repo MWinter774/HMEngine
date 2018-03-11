@@ -158,24 +158,35 @@ void HMEngine::UI::Quad::SetCenter(const glm::vec2& center)
 
 inline void HMEngine::UI::Quad::Show()
 {
-	for (auto& child : this->_childs)
+	if (!this->_isEnabled)
 	{
-		child->Show();
+		for (auto& child : this->_childs)
+		{
+			child->Show();
+		}
+		this->ShowEvent();
+		this->_isVisible = true;
+		this->_isEnabled = true;
 	}
-	this->ShowEvent();
-	this->_isVisible = true;
-	this->_isEnabled = true;
 }
 
 inline void HMEngine::UI::Quad::Hide()
 {
-	for (auto& child : this->_childs)
+	if (this->_isEnabled)
 	{
-		child->Hide();
+		if (this->_name.find("scrnMeshRenderer") != std::string::npos)
+		{
+			int i = 0;
+		}
+
+		for (auto& child : this->_childs)
+		{
+			child->Hide();
+		}
+		this->HideEvent();
+		this->_isVisible = false;
+		this->_isEnabled = false;
 	}
-	this->HideEvent();
-	this->_isVisible = false;
-	this->_isEnabled = false;
 }
 
 inline void HMEngine::UI::Quad::SetVisiblity(bool isVisible)

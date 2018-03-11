@@ -66,7 +66,7 @@ void HMEngine::Core::WorldEditor::WorldEditorPlayerComponent::MouseButtonDownEve
 			this->_contextMenu->Show();
 		}
 	}
-	else if(!cursorOnAddGameObjectMenu || !this->_addGameObjectScreen->IsVisible())
+	else if(!this->_addGameObjectScreen->IsChildFocus())
 	{
 		this->_parentObject->GetGameEngine().LockCursor();
 		this->_parentObject->GetGameEngine().SetMouseVisible(false);

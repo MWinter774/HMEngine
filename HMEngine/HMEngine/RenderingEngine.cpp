@@ -117,10 +117,6 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	{
 		this->RenderQuads();
 	}
-	if (this->_labels.size() > 0)
-	{
-		this->RenderLabels();
-	}
 	if (this->_doCleanupForQuads)
 	{
 		glEnable(GL_DEPTH_TEST);
@@ -214,17 +210,6 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
 {
-	/*HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
-	for (auto& quad : this->_quads)
-	{
-		HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad->GetTransform());
-		quad->Draw();
-		for (auto& child : quad->GetChilds())
-		{
-			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(child->GetTransform());
-			child->Draw();
-		}
-	}*/
 	for (auto& quad : this->_quads)
 	{
 		if (quad.quad != nullptr) //if the quad is a regular quad(button, textbox...)
@@ -245,16 +230,6 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
 			quad.label->Draw();
 		}
 	}
-}
-
-void HMEngine::Core::Rendering::RenderingEngine::RenderLabels() const
-{
-	/*HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
-	for (auto& label : this->_labels)
-	{
-		HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*label);
-		label->Draw();
-	}*/
 }
 
 /*

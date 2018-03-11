@@ -28,6 +28,8 @@ namespace HMEngine
 				HMEngine::Core::WorldEditor::AddNormalGameObjectScreen& operator=(const HMEngine::Core::WorldEditor::AddNormalGameObjectScreen& other) = delete;
 
 				void ShowEvent() override;
+				
+				bool IsChildFocus() const;
 
 			private:
 				HMEngine::UI::Button* _btnGameObjectCategory;
