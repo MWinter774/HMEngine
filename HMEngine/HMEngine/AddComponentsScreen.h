@@ -9,6 +9,7 @@ namespace HMEngine
 	{
 		class Label;
 		class TextBox;
+		class List;
 	}
 
 	namespace Core
@@ -24,6 +25,7 @@ namespace HMEngine
 			private:
 				HMEngine::UI::Label* _lblAddComponentsTitle;
 				HMEngine::UI::TextBox* _txtComponentSearch;
+				HMEngine::UI::List* _lstComponentsList;
 			};
 		}
 	}

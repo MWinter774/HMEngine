@@ -7,9 +7,22 @@
 
 HMEngine::UI::Button::Button(const std::string& name, const std::string& buttonReleasedTexture, const std::string& buttonHoverTexture,
 	const std::string& buttonPressedTexture, const glm::vec2& position, const glm::vec2& scale, const std::string& labelText, const HMEngine::UI::Font& font,
+	const glm::vec3& labelTextColor) : HMEngine::UI::Quad(name, buttonReleasedTexture, position, scale),
+	_buttonReleasedTexture(buttonReleasedTexture), _buttonPressedTexture(buttonPressedTexture), _state(this->BUTTON_RELEASED),
+	_label(new HMEngine::UI::Label(name + "_button_label", position, scale, labelText, font, labelTextColor)), _onClickEvents() 
+{
+	this->InitializeEvents<Button>(this);
+
+	this->AddTexture(buttonHoverTexture);
+	this->AddTexture(buttonPressedTexture);
+	this->AddChild(this->_label);
+}
+
+HMEngine::UI::Button::Button(const std::string& name, const std::string& buttonReleasedTexture, const std::string& buttonHoverTexture,
+	const std::string& buttonPressedTexture, const glm::vec2& position, const glm::vec2& scale, const std::string& labelText, const HMEngine::UI::Font& font,
 	const glm::vec3& labelTextColor, float labelFontSize) : HMEngine::UI::Quad(name, buttonReleasedTexture, position, scale),
 	_buttonReleasedTexture(buttonReleasedTexture), _buttonPressedTexture(buttonPressedTexture), _state(this->BUTTON_RELEASED),
-	_label(new HMEngine::UI::Label(name + "_button_label", position, scale, labelText, font, labelTextColor)), _onClickEvents()
+	_label(new HMEngine::UI::Label(name + "_button_label", position, labelText, font, labelTextColor, labelFontSize)), _onClickEvents()
 {
 	this->InitializeEvents<Button>(this);
 
@@ -100,4 +113,9 @@ void HMEngine::UI::Button::SetVisiblity(bool isVisible)
 	this->_isVisible = isVisible;
 	this->_isEnabled = isVisible;
 	this->_label->SetVisiblity(isVisible);
+}
+
+void HMEngine::UI::Button::SetTextToTopLeft()
+{
+	this->_label->SetTopLeft(this->GetTopLeft());
 }

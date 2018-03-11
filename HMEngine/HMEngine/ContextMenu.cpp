@@ -45,7 +45,7 @@ void HMEngine::UI::ContextMenu::AddButton(const std::string& buttonName, const s
 	HMEngine::UI::Button* newButton = new HMEngine::UI::Button(buttonName, "./resources/UITextures/ContextMenuButtonReleased.png",
 		"./resources/UITextures/ContextMenuButtonHovered.png", "./resources/UITextures/ContextMenuButtonHovered.png",
 		glm::vec2(this->_quadDetails.position.x, this->_quadDetails.position.y + HMEngine::UI::ContextMenu::BUTTON_HEIGHT * this->_buttons.size()),
-		glm::vec2(this->_quadDetails.width, HMEngine::UI::ContextMenu::BUTTON_HEIGHT), buttonText, HMEngine::Fonts::ARIAL, glm::vec3(0), 0.1f);
+		glm::vec2(this->_quadDetails.width, HMEngine::UI::ContextMenu::BUTTON_HEIGHT), buttonText, HMEngine::Fonts::ARIAL, glm::vec3(0));
 
 	this->SetScale(this->_quadDetails.width, this->_quadDetails.height + HMEngine::UI::ContextMenu::BUTTON_HEIGHT * 2.0f);
 

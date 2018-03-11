@@ -15,6 +15,8 @@ namespace HMEngine
 		{
 		public:
 			Button(const std::string& name, const std::string& buttonReleasedTexture, const std::string& buttonHoverTexture, const std::string& buttonPressedTexture,
+				const glm::vec2& position, const glm::vec2& scale, const std::string& labelText, const HMEngine::UI::Font& font, const glm::vec3& labelTextColor);
+			Button(const std::string& name, const std::string& buttonReleasedTexture, const std::string& buttonHoverTexture, const std::string& buttonPressedTexture,
 				const glm::vec2& position, const glm::vec2& scale, const std::string& labelText, const HMEngine::UI::Font& font, const glm::vec3& labelTextColor,
 				float labelFontSize);
 			~Button();
@@ -28,6 +30,8 @@ namespace HMEngine
 			void Show() override;
 			void Hide() override;
 			void SetVisiblity(bool isVisible) override;
+
+			void SetTextToTopLeft();
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::Button(*this); }
 

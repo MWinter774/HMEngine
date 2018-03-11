@@ -138,6 +138,8 @@ void HMEngine::UI::Quad::SetTexture(unsigned int i)
 
 void HMEngine::UI::Quad::SetTopLeft(const glm::vec2& topLeft)
 {
+	for (auto& child : this->_childs)
+		child->SetTopLeft(topLeft);
 	float width = this->_quadDetails.scale.x;
 	float height = this->_quadDetails.scale.y;
 	this->_quadDetails.width = width;

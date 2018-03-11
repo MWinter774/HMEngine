@@ -150,6 +150,7 @@
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LabelShader.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="List.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="OpenGLQuad.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Label.h" />
     <ClInclude Include="LabelShader.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="OpenGLQuad.h" />

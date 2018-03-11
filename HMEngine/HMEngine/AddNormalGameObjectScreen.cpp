@@ -11,7 +11,7 @@ HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScree
 	HMEngine::UI::Screen("scrnAddNormalGameObject", centerPos, glm::vec2(400, 650)),
 	_btnGameObjectCategory(new HMEngine::UI::Button("btnGameObjectCategory", "./resources/UITextures/AddGameObjectReleased.png",
 		"./resources/UITextures/AddGameObjectHovered.png", "./resources/UITextures/AddGameObjectPressed.png", glm::vec2(centerPos.x - 169, centerPos.y - 294),
-		glm::vec2(50, 50), "", HMEngine::Fonts::ARIAL, glm::vec3(), 0.5f)),
+		glm::vec2(50, 50), "", HMEngine::Fonts::ARIAL, glm::vec3())),
 	_lblGameObjectName(new HMEngine::UI::Label("lblGameObjectName", glm::vec2(centerPos.x - 100, centerPos.y - 170),
 		"Game object name:", HMEngine::Fonts::ARIAL, glm::vec3(), 0.8f)),
 	_txtGameObjectName(new HMEngine::UI::TextBox("txtGameObjectName", glm::vec2(centerPos.x + 50, centerPos.y - 170), glm::vec2(120, 25),
@@ -53,7 +53,7 @@ HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScree
 	_txtGameObjectZScale(new HMEngine::UI::TextBox("txtGameObjectZScale", glm::vec2(centerPos.x + 95, centerPos.y - 5), glm::vec2(65, 25), HMEngine::Fonts::ARIAL, false)),
 
 	_btnAddComponents(new HMEngine::UI::Button("btnAddComponents", "./resources/UITextures/NiceButtonReleased.png", "./resources/UITextures/NiceButtonHover.png",
-		"./resources/UITextures/NiceButtonPressed.png", glm::vec2(centerPos.x, centerPos.y + 50), glm::vec2(120, 30), "Add Components", HMEngine::Fonts::ARIAL, glm::vec3(), 0.8f)),
+		"./resources/UITextures/NiceButtonPressed.png", glm::vec2(centerPos.x, centerPos.y + 50), glm::vec2(120, 30), "Add Components", HMEngine::Fonts::ARIAL, glm::vec3())),
 	_addComponentsScreen(new HMEngine::Core::WorldEditor::AddComponentsScreen(centerPos))
 {
 	/* Sets the default values for the game object's transform details */
