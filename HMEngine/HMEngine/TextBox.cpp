@@ -105,11 +105,13 @@ void HMEngine::UI::TextBox::SetText(const std::string& text)
 {
 	this->_label->SetText(text);
 }
-//
-//int i = 0;
-//void HMEngine::UI::TextBox::UpdateEvent()
-//{
-//	this->SetScale(cos(i / 200.0f) * 100.0f, this->_quadDetails.scale.y);
-//	this->_label->SetTopLeft(glm::vec2(this->_quadDetails.topLeft));
-//	i++;
-//}
+
+std::string HMEngine::UI::TextBox::GetText() const
+{
+	return this->_label->GetText();
+}
+
+bool HMEngine::UI::TextBox::IsEmpty() const
+{
+	return this->_label->GetText().size() <= 0;
+}

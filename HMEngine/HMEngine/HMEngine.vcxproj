@@ -129,6 +129,7 @@
     <ClCompile Include="AmbientLightShader.cpp" />
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
+    <ClCompile Include="CircleMovementComponentScreen.cpp" />
     <ClCompile Include="ContextMenu.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FNTFile.cpp" />
@@ -147,6 +148,8 @@
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSettings.cpp" />
+    <ClCompile Include="InvalidMeshFileException.cpp" />
+    <ClCompile Include="InvalidTextureFileException.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LabelShader.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -199,6 +202,7 @@
     <ClInclude Include="AmbientLightShader.h" />
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
+    <ClInclude Include="CircleMovementComponentScreen.h" />
     <ClInclude Include="ContextMenu.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FNTFile.h" />
@@ -217,6 +221,8 @@
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="InvalidMeshFileException.h" />
+    <ClInclude Include="InvalidTextureFileException.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="LabelShader.h" />
     <ClInclude Include="Line.h" />

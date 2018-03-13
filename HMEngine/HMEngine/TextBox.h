@@ -24,7 +24,8 @@ namespace HMEngine
 
 			void SetText(const std::string& text);
 
-			//void UpdateEvent() override;
+			std::string GetText() const;
+			bool IsEmpty() const;
 
 		private:
 			bool _isFocused;

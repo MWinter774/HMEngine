@@ -6,6 +6,10 @@
 #include "Fonts.h"
 #include "GameEngine.h"
 #include "AddComponentsScreen.h"
+#include "Component.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "GameEngine.h"
 
 HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScreen(const glm::vec2& centerPos) :
 	HMEngine::UI::Screen("scrnAddNormalGameObject", centerPos, glm::vec2(400, 650)),
@@ -54,9 +58,19 @@ HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScree
 
 	_btnAddComponents(new HMEngine::UI::Button("btnAddComponents", "./resources/UITextures/NiceButtonReleased.png", "./resources/UITextures/NiceButtonHover.png",
 		"./resources/UITextures/NiceButtonPressed.png", glm::vec2(centerPos.x, centerPos.y + 50), glm::vec2(120, 30), "Add Components", HMEngine::Fonts::ARIAL, glm::vec3())),
-	_addComponentsScreen(new HMEngine::Core::WorldEditor::AddComponentsScreen(centerPos))
+	_addComponentsScreen(new HMEngine::Core::WorldEditor::AddComponentsScreen(centerPos, std::bind(&AddNormalGameObjectScreen::AddComponent, this, std::placeholders::_1))),
+	_btnAddGameObject(new HMEngine::UI::Button("btnAddGameObject", "./resources/UITextures/NiceButtonReleased.png", "./resources/UITextures/NiceButtonHover.png",
+		"./resources/UITextures/NiceButtonPressed.png", glm::vec2(centerPos.x, centerPos.y + 100), glm::vec2(120, 30), "Add Game Object",
+		HMEngine::Fonts::ARIAL, glm::vec3())),
+	_lblErrorMsg(new HMEngine::UI::Label("lblErrorMsg", glm::vec2(centerPos.x, centerPos.y + 150), "SOME FIELDS ARE EMPTY!!",
+		HMEngine::Fonts::ARIAL, glm::vec3(255, 0, 0), 1.0f)),
+	_lblGameObjectNameErrorMsg(new HMEngine::UI::Label("lblGameObjectNameErrorMsg", glm::vec2(centerPos.x, centerPos.y + 160), "THIS NAME ALREADY EXISTS!",
+		HMEngine::Fonts::ARIAL, glm::vec3(255, 0, 0), 1.0f))
 {
 	/* Sets the default values for the game object's transform details */
+	this->_txtGameObjectXPosition->SetText("0");
+	this->_txtGameObjectYPosition->SetText("0");
+	this->_txtGameObjectZPosition->SetText("0");
 	this->_txtGameObjectXRotation->SetText("0");
 	this->_txtGameObjectYRotation->SetText("0");
 	this->_txtGameObjectZRotation->SetText("0");
@@ -65,11 +79,46 @@ HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScree
 	this->_txtGameObjectZScale->SetText("1");
 
 	/* Sets the onClick event of the add components button */
-	*this->_btnAddComponents += [this](HMEngine::UI::Button* btn) { this->_addComponentsScreen->Show(); };
+	*this->_btnAddComponents += [this](HMEngine::UI::Button* btn) { this->_addComponentsScreen->Show(); this->_lblErrorMsg->Hide(); };
 	*this->_btnGameObjectCategory += [this](HMEngine::UI::Button* btn) { this->ShowNormalGameObjectSettings(); };
-
+	*this->_btnAddGameObject += [this](HMEngine::UI::Button* btn)
+	{
+		if (this->_txtGameObjectXPosition->IsEmpty() || this->_txtGameObjectYPosition->IsEmpty() || this->_txtGameObjectZPosition->IsEmpty() ||
+			this->_txtGameObjectXRotation->IsEmpty() || this->_txtGameObjectYRotation->IsEmpty() || this->_txtGameObjectZRotation->IsEmpty() ||
+			this->_txtGameObjectXScale->IsEmpty() || this->_txtGameObjectYScale->IsEmpty() || this->_txtGameObjectZScale->IsEmpty() ||
+			this->_txtGameObjectName->IsEmpty())
+			this->_lblErrorMsg->Show();
+		else
+		{
+			std::string gameObjectName = this->_txtGameObjectName->GetText();
+			if (!this->_gameEngine->IsNameAvailable(gameObjectName))
+			{
+				this->_lblGameObjectNameErrorMsg->Show();
+			}
+			else
+			{
+				this->_lblGameObjectNameErrorMsg->Hide();
+				float positionX = std::stof(this->_txtGameObjectXPosition->GetText());
+				float positionY = std::stof(this->_txtGameObjectYPosition->GetText());
+				float positionZ = std::stof(this->_txtGameObjectZPosition->GetText());
+				float rotationX = std::stof(this->_txtGameObjectXRotation->GetText());
+				float rotationY = std::stof(this->_txtGameObjectYRotation->GetText());
+				float rotationZ = std::stof(this->_txtGameObjectZRotation->GetText());
+				float scaleX = std::stof(this->_txtGameObjectXScale->GetText());
+				float scaleY = std::stof(this->_txtGameObjectYScale->GetText());
+				float scaleZ = std::stof(this->_txtGameObjectZScale->GetText());
+				HMEngine::Core::GameObject* gameObject = new HMEngine::Core::GameObject(gameObjectName);
+				gameObject->GetTransform().SetPosition(positionX, positionY, positionZ);
+				gameObject->GetTransform().SetRotation(rotationX, rotationY, rotationZ);
+				gameObject->GetTransform().SetScale(scaleX, scaleY, scaleZ);
+				for (auto& component : this->_gameObjectComponents)
+					gameObject->AddComponent(component);
+				this->_gameEngine->AddGameObject(gameObject);
+				this->_gameObjectComponents.clear();
+			}
+		}
+	};
 	this->AddQuad(this->_btnGameObjectCategory);
-
 	this->AddQuad(this->_lblGameObjectName);
 	this->AddQuad(this->_txtGameObjectName);
 
@@ -97,9 +146,13 @@ HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddNormalGameObjectScree
 	this->AddQuad(this->_lblGameObjectZScale);
 	this->AddQuad(this->_txtGameObjectZScale);
 
+	this->AddQuad(this->_btnAddGameObject);
 	this->AddQuad(this->_btnAddComponents);
 
 	this->AddQuad(this->_addComponentsScreen);
+
+	this->AddQuad(this->_lblErrorMsg);
+	this->AddQuad(this->_lblGameObjectNameErrorMsg);
 
 	this->HideNormalGameObjectSettings();
 }
@@ -145,6 +198,7 @@ void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::ShowNormalGameObjec
 	this->_lblGameObjectZScale->Show();
 	this->_txtGameObjectZScale->Show();
 	this->_btnAddComponents->Show();
+	this->_btnAddGameObject->Show();
 }
 
 void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::HideNormalGameObjectSettings()
@@ -173,4 +227,13 @@ void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::HideNormalGameObjec
 	this->_lblGameObjectZScale->Hide();
 	this->_txtGameObjectZScale->Hide();
 	this->_btnAddComponents->Hide();
+	this->_btnAddGameObject->Hide();
+	this->_lblErrorMsg->Hide();
+	this->_lblGameObjectNameErrorMsg->Hide();
+}
+
+void HMEngine::Core::WorldEditor::AddNormalGameObjectScreen::AddComponent(HMEngine::Components::Component* component)
+{
+	this->_gameObjectComponents.push_back(component);
+	this->_addComponentsScreen->Hide();
 }

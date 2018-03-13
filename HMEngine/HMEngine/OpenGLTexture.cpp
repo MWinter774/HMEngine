@@ -1,6 +1,7 @@
 #include "OpenGLTexture.h"
 #include <lodepng\lodepng.h>
 #include "Utilities.h"
+#include "InvalidTextureFileException.h"
 
 HMEngine::OpenGL::OpenGLTexture::OpenGLTexture(const std::string& texturePath, const unsigned int& internalFormat) : _hasTransparency(false)
 {
@@ -8,7 +9,8 @@ HMEngine::OpenGL::OpenGLTexture::OpenGLTexture(const std::string& texturePath, c
 	int image = lodepng::decode(this->_textureImage.image, this->_textureImage.width, this->_textureImage.height, texturePath);
 	if (image) //if the texture wasn't loaded successfully
 	{
-		HMEngine::Core::Utilities::ThrowException("ERROR WHILE LOADING TEXTURE: " + texturePath, "Texture Loading Error");
+		//HMEngine::Core::Utilities::ThrowException("ERROR WHILE LOADING TEXTURE: " + texturePath, "Texture Loading Error");
+		throw HMEngine::Exceptions::InvalidTextureFileException("ERROR WHILE LOADING TEXTURE: " + texturePath);
 	}
 	this->_textureImage.imagePath = texturePath;
 

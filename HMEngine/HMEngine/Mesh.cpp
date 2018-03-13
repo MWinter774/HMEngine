@@ -6,6 +6,7 @@
 #include <iterator>
 #include "BoundingSphere.h"
 #include "Utilities.h"
+#include "InvalidMeshFileException.h"
 
 HMEngine::Core::Mesh::Mesh()
 {
@@ -131,7 +132,8 @@ void HMEngine::Core::Mesh::Load(const std::string& path)
 	}
 	else
 	{
-		HMEngine::Core::Utilities::ThrowException("OBJECT FILE: " + path + " DOESN'T EXIST!!");
+		//HMEngine::Core::Utilities::ThrowException("OBJECT FILE: " + path + " DOESN'T EXIST!!");
+		throw HMEngine::Exceptions::InvalidMeshFileException("OBJECT FILE: " + path + " DOESN'T EXIST!!");
 	}
 }
 

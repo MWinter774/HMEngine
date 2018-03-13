@@ -174,7 +174,7 @@ void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
 
 void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 {
-	if (this->_quads.find(ui.GetName()) != this->_quads.end()) //checkes if a game object with the same name exists
+	if (this->_quads.find(ui.GetName()) != this->_quads.end()) //checkes if a quad with the same name exists
 	{
 		HMEngine::Core::Utilities::PrintDebugMessage("\"" + ui.GetName() + "\" Wasn't added because a ui with this name already exist!", "WARNING", 6);
 		return;
@@ -221,6 +221,11 @@ void HMEngine::GameEngine::RemoveUI(const std::string& name)
 		HMEngine::Core::Utilities::ThrowException("\"" + name + "\" GAME OBJECT NOT FOUND!");
 	}
 	this->_quadsToRemoveBuffer.push_back(name);
+}
+
+bool HMEngine::GameEngine::IsNameAvailable(const std::string& name)
+{
+	return this->_gameObjects.find(name) == this->_gameObjects.end();
 }
 
 glm::vec3 HMEngine::GameEngine::GetSkyColor() const
@@ -297,6 +302,7 @@ void HMEngine::GameEngine::InitializeWorldEditor(unsigned int width, unsigned in
 	this->_quadsVector.clear();
 
 	this->CreateNewWindow(width, height, title, fullscreen); //Creates the game window
+	this->SetAmbientLight(0.8f, 0.8f, 0.8f);
 
 	HMEngine::Core::WorldEditor::WorldEditor worldEditor(*this);
 	worldEditor.Initialize();

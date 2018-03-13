@@ -51,6 +51,8 @@ namespace HMEngine
 		HMEngine::UI::Quad* GetUI(const std::string& name);
 		void RemoveUI(const std::string& name);
 
+		bool IsNameAvailable(const std::string& name);
+
 		glm::vec3 GetSkyColor() const;
 
 		void SetAmbientLight(const glm::vec3& ambientLight) const;

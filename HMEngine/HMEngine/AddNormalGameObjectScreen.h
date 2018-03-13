@@ -12,6 +12,10 @@ namespace HMEngine
 		class Button;
 		class Label;
 	}
+	namespace Components
+	{
+		class Component;
+	}
 
 	namespace Core
 	{
@@ -63,10 +67,19 @@ namespace HMEngine
 
 				HMEngine::UI::Button* _btnAddComponents;
 
+				HMEngine::UI::Button* _btnAddGameObject;
+
+				HMEngine::UI::Label* _lblErrorMsg;
+				HMEngine::UI::Label* _lblGameObjectNameErrorMsg;
+
 				HMEngine::Core::WorldEditor::AddComponentsScreen* _addComponentsScreen;
+
+				std::vector<HMEngine::Components::Component*> _gameObjectComponents;
 
 				void ShowNormalGameObjectSettings();
 				void HideNormalGameObjectSettings();
+
+				void AddComponent(HMEngine::Components::Component* component);
 			};
 		}
 	}
