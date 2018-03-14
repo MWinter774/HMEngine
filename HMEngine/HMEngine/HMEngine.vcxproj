@@ -131,6 +131,7 @@
     <ClCompile Include="BasicShader.cpp" />
     <ClCompile Include="CircleMovementComponentScreen.cpp" />
     <ClCompile Include="ContextMenu.cpp" />
+    <ClCompile Include="DirectionalLightComponentScreen.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FNTFile.cpp" />
     <ClCompile Include="BoundingSphere.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="MeshRendererComponentScreen.cpp" />
     <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="OpenGLQuad.cpp" />
+    <ClCompile Include="PointLightComponentScreen.cpp" />
     <ClCompile Include="QuadCollection.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="TextBox.cpp" />
@@ -204,6 +206,7 @@
     <ClInclude Include="BasicShader.h" />
     <ClInclude Include="CircleMovementComponentScreen.h" />
     <ClInclude Include="ContextMenu.h" />
+    <ClInclude Include="DirectionalLightComponentScreen.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FNTFile.h" />
     <ClInclude Include="BoundingSphere.h" />
@@ -231,6 +234,7 @@
     <ClInclude Include="MeshRendererComponentScreen.h" />
     <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="OpenGLQuad.h" />
+    <ClInclude Include="PointLightComponentScreen.h" />
     <ClInclude Include="QuadCollection.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TextBox.h" />

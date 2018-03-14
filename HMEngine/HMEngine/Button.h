@@ -26,7 +26,6 @@ namespace HMEngine
 
 			void UpdateEvent() override;
 			void MouseButtonTappedEvent(const unsigned int& mouseButton) override;
-			void AttachToGameEngineEvent() override;
 			void Show() override;
 			void Hide() override;
 			void SetVisiblity(bool isVisible) override;

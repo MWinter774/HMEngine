@@ -11,6 +11,8 @@ namespace HMEngine
 		class Label;
 		class TextBox;
 		class List;
+		class Screen;
+		class Button;
 	}
 	namespace Components
 	{
@@ -25,6 +27,8 @@ namespace HMEngine
 			{
 				class MeshRendererComponentScreen;
 				class CircleMovementComponentScreen;
+				class DirectionalLightComponentScreen;
+				class PointLightComponentScreen;
 			}
 
 			class AddComponentsScreen : public HMEngine::UI::Screen
@@ -42,9 +46,18 @@ namespace HMEngine
 				HMEngine::UI::TextBox* _txtComponentSearch;
 				HMEngine::UI::List* _lstComponentsList;
 				std::function<void(HMEngine::Components::Component*)> _addComponentEvent;
+				HMEngine::UI::Button* _btnMeshRenderer;
+				HMEngine::UI::Button* _btnCircleMovement;
+				HMEngine::UI::Button* _btnDirectionalLight;
+				HMEngine::UI::Button* _btnPointLight;
 
 				HMEngine::Core::WorldEditor::ComponentScreens::MeshRendererComponentScreen* _scrnMeshRenderer;
 				HMEngine::Core::WorldEditor::ComponentScreens::CircleMovementComponentScreen* _scrnCircleMovement;
+				HMEngine::Core::WorldEditor::ComponentScreens::DirectionalLightComponentScreen* _scrnDirectionalLight;
+				HMEngine::Core::WorldEditor::ComponentScreens::PointLightComponentScreen* _scrnPointLight;
+
+				void DisableScreens(HMEngine::UI::Screen* except);
+				void EnableScreens();
 			};
 		}
 	}

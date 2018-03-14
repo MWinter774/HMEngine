@@ -106,6 +106,7 @@ namespace HMEngine
 					std::string file;
 					std::string line;
 					std::ifstream shaderFile = std::ifstream();
+					const char* kaki = filePath.c_str();
 					shaderFile.open(filePath.c_str());
 					if (!shaderFile.is_open())
 					{

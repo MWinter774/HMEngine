@@ -13,6 +13,7 @@
 #include "EventManager.h"
 #include "Image.h"
 #include "WorldEditor.h"
+#include "Screen.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToRemoveBuffer()
 {
@@ -174,11 +175,12 @@ void HMEngine::GameEngine::RemoveGameObject(const std::string& name)
 
 void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 {
-	if (this->_quads.find(ui.GetName()) != this->_quads.end()) //checkes if a quad with the same name exists
+	if (this->_quads.find(ui.GetName()) != this->_quads.end()) //checks if a quad with the same name exists
 	{
 		HMEngine::Core::Utilities::PrintDebugMessage("\"" + ui.GetName() + "\" Wasn't added because a ui with this name already exist!", "WARNING", 6);
 		return;
 	}
+
 	auto uiClone = ui.Clone();
 	this->_quads[uiClone->GetName()] = uiClone; //adds the ui quad to the quad map
 	this->_quadsVector.push_back(uiClone); //adds the quad to the quad vector
@@ -189,7 +191,7 @@ void HMEngine::GameEngine::AddUI(const HMEngine::UI::Quad& ui)
 
 void HMEngine::GameEngine::AddUI(HMEngine::UI::Quad* ui)
 {
-	if (this->_quads.find(ui->GetName()) != this->_quads.end()) //checkes if a game object with the same name exists
+	if (this->_quads.find(ui->GetName()) != this->_quads.end()) //checks if a game object with the same name exists
 	{
 		HMEngine::Core::Utilities::PrintDebugMessage("\"" + ui->GetName() + "\" Wasn't added because a ui with this name already exist!", "WARNING", 6);
 		return;
@@ -302,7 +304,7 @@ void HMEngine::GameEngine::InitializeWorldEditor(unsigned int width, unsigned in
 	this->_quadsVector.clear();
 
 	this->CreateNewWindow(width, height, title, fullscreen); //Creates the game window
-	this->SetAmbientLight(0.8f, 0.8f, 0.8f);
+	this->SetAmbientLight(0.4f, 0.4f, 0.4f);
 
 	HMEngine::Core::WorldEditor::WorldEditor worldEditor(*this);
 	worldEditor.Initialize();

@@ -14,6 +14,7 @@ namespace HMEngine
 	{
 		class Quad;
 		class Label;
+		class Screen;
 	}
 	namespace Components
 	{
@@ -75,6 +76,9 @@ namespace HMEngine
 				std::unordered_set<HMEngine::Components::PointLight*> _pointLights;
 				std::unordered_set<HMEngine::UI::Label*> _labels;
 				std::vector<RenderingEngine::Quad> _quads;
+				HMEngine::UI::Screen* _mainScreen;
+				HMEngine::UI::Screen* _activeScreen; //reference to the last element of the screens stack
+				std::vector<HMEngine::UI::Screen*> _screens;
 
 				std::list<HMEngine::Components::MeshRenderer*> _meshesToRender;
 				std::vector<HMEngine::Components::TerrainRenderer*> _terrainRenderers;

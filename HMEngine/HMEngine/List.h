@@ -22,7 +22,7 @@ namespace HMEngine
 
 			inline HMEngine::UI::Quad* Clone() const override { return new HMEngine::UI::List(*this); }
 
-			void AddButton(const std::string& text, std::function<void(HMEngine::UI::Button*)> onClickEvent);
+			HMEngine::UI::Button* AddButton(const std::string& text, std::function<void(HMEngine::UI::Button*)> onClickEvent);
 
 		private:
 			HMEngine::UI::Image* _background;

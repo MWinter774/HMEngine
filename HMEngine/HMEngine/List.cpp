@@ -30,7 +30,7 @@ HMEngine::UI::List& HMEngine::UI::List::operator=(const HMEngine::UI::List& othe
 	return *this;
 }
 
-void HMEngine::UI::List::AddButton(const std::string& text, std::function<void(HMEngine::UI::Button*)> onClickEvent)
+HMEngine::UI::Button* HMEngine::UI::List::AddButton(const std::string& text, std::function<void(HMEngine::UI::Button*)> onClickEvent)
 {
 	float btnWidth = this->_quadDetails.width;
 	float btnHeight = 25.0f;
@@ -43,4 +43,6 @@ void HMEngine::UI::List::AddButton(const std::string& text, std::function<void(H
 
 	this->_buttons.push_back(btn);
 	this->AddChild(btn);
+
+	return btn;
 }

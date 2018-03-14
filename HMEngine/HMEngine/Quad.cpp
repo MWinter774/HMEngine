@@ -178,6 +178,8 @@ inline void HMEngine::UI::Quad::Hide()
 		{
 			child->Hide();
 		}
+		if (this->_hideEvent)
+			this->_hideEvent();
 		this->HideEvent();
 		this->_isVisible = false;
 		this->_isEnabled = false;
@@ -219,6 +221,20 @@ void HMEngine::UI::Quad::Draw() const
 		this->BindTexture();
 		this->_openglQuad->Draw(GL_TRIANGLE_STRIP);
 	}
+}
+
+void HMEngine::UI::Quad::DisableEvents()
+{
+	for (auto& child : this->_childs)
+		child->_isEnabled = false;
+	this->_isEnabled = false;
+}
+
+void HMEngine::UI::Quad::EnableEvents()
+{
+	for (auto& child : this->_childs)
+		child->_isEnabled = true;
+	this->_isEnabled = true;
 }
 
 void HMEngine::UI::Quad::AddChild(unsigned int index, HMEngine::UI::Quad* other)

@@ -8,6 +8,7 @@
 #include <map>
 #include "OpenGLQuad.h"
 #include "EventObject.h"
+#include <functional>
 
 namespace HMEngine
 {
@@ -16,12 +17,20 @@ namespace HMEngine
 	{
 		class UITexture;
 	}
+	namespace Core
+	{
+		namespace Rendering
+		{
+			class RenderingEngine;
+		}
+	}
 
 	namespace UI
 	{
 		class Quad : public HMEngine::Core::EventObject
 		{
 			friend class HMEngine::GameEngine;
+			friend class HMEngine::Core::Rendering::RenderingEngine;
 			typedef struct QuadDetails
 			{
 				glm::vec2 position;
@@ -32,6 +41,8 @@ namespace HMEngine
 				float height;
 			} QuadDetails;
 		public:
+			std::function<void()> _hideEvent;
+
 			Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale);
 			Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale, bool useVertices = true);
 			Quad(const std::string& name, const glm::vec2& position, const glm::vec2& scale);
@@ -74,6 +85,9 @@ namespace HMEngine
 
 			void BindTexture() const;
 			virtual void Draw() const;
+
+			void DisableEvents();
+			void EnableEvents();
 
 		protected:
 			static const std::vector<glm::vec2> rectangle;

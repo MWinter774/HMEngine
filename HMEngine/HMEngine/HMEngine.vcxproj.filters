@@ -228,6 +228,12 @@
     <ClCompile Include="CircleMovementComponentScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DirectionalLightComponentScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightComponentScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HMEngineIncludes.h">
@@ -438,6 +444,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CircleMovementComponentScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightComponentScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightComponentScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,6 +17,7 @@
 #include "UIShader.h"
 #include "Label.h"
 #include "LabelShader.h"
+#include "Screen.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -154,16 +155,20 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine:
 	this->_terrainRenderers.erase(std::remove(this->_terrainRenderers.begin(), this->_terrainRenderers.end(), &terrainRenderer), this->_terrainRenderers.end());
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false)
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false),
+_mainScreen(new HMEngine::UI::Screen("scrnMainScreen", HMEngine::GameSettings::GetScreenCenter(), HMEngine::GameSettings::GetScreenScale())), 
+_screens{ _mainScreen }
 {
 	//glCullFace(GL_BACK); //Causes the back of things not to be drawn
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
+	this->_activeScreen = this->_screens.back();
 }
 
 HMEngine::Core::Rendering::RenderingEngine::~RenderingEngine()
 {
+	delete this->_mainScreen;
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderMeshes() const
@@ -410,7 +415,8 @@ void HMEngine::Core::Rendering::RenderingEngine::AddUI(HMEngine::UI::Quad& ui)
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveUI(HMEngine::UI::Quad& ui)
 {
-	//this->_quads.erase(std::remove(this->_quads.begin(), this->_quads.end(), &ui), this->_quads.end());
+	//if(ui.GetName() != "scrnMainScreen")
+		//this->_quads.erase(std::remove(this->_quads.begin(), this->_quads.end(), &ui), this->_quads.end());
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::BringToFront(HMEngine::UI::Quad* ui)

@@ -89,11 +89,6 @@ void HMEngine::UI::Button::MouseButtonTappedEvent(const unsigned int& mouseButto
 	}
 }
 
-void HMEngine::UI::Button::AttachToGameEngineEvent()
-{
-	//this->_gameEngine->AddUI(this->_label);
-}
-
 void HMEngine::UI::Button::Show()
 {
 	this->_isVisible = true;

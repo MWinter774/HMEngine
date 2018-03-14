@@ -41,6 +41,7 @@ namespace HMEngine
 		static inline float GetFogGradient() { return HMEngine::GameSettings::fogGradient; }
 		static inline glm::vec3& GetSkyColor() { return HMEngine::GameSettings::skyColor; }
 		static inline glm::vec2 GetScreenCenter() { return glm::vec2(HMEngine::GameSettings::windowWidth / 2.0f, HMEngine::GameSettings::windowHeight / 2.0f); }
+		static inline glm::vec2 GetScreenScale() { return glm::vec2(HMEngine::GameSettings::windowWidth, HMEngine::GameSettings::windowHeight); }
 
 		static inline void SetFov(float fovInDegrees);
 		static inline void SetZNear(float zNear);
