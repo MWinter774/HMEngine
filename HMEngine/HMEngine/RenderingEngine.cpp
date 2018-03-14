@@ -155,20 +155,16 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine:
 	this->_terrainRenderers.erase(std::remove(this->_terrainRenderers.begin(), this->_terrainRenderers.end(), &terrainRenderer), this->_terrainRenderers.end());
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false),
-_mainScreen(new HMEngine::UI::Screen("scrnMainScreen", HMEngine::GameSettings::GetScreenCenter(), HMEngine::GameSettings::GetScreenScale())), 
-_screens{ _mainScreen }
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false)
 {
 	//glCullFace(GL_BACK); //Causes the back of things not to be drawn
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
-	this->_activeScreen = this->_screens.back();
 }
 
 HMEngine::Core::Rendering::RenderingEngine::~RenderingEngine()
 {
-	delete this->_mainScreen;
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderMeshes() const
