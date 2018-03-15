@@ -30,6 +30,16 @@ namespace HMEngine
 
 		namespace Rendering
 		{
+			namespace Shaders
+			{
+				class AmbientLightShader;
+				class DirectionalLightShader;
+				class LabelShader;
+				class PointLightShader;
+				class TerrainShader;
+				class UIShader;
+			}
+
 			class RenderingEngine
 			{
 			public:
@@ -65,6 +75,12 @@ namespace HMEngine
 
 				bool _doCleanupForMeshes;
 				bool _doCleanupForQuads;
+				HMEngine::Core::Rendering::Shaders::AmbientLightShader* _ambientShader;
+				HMEngine::Core::Rendering::Shaders::DirectionalLightShader* _directionalLightShader;
+				HMEngine::Core::Rendering::Shaders::LabelShader* _labelShader;
+				HMEngine::Core::Rendering::Shaders::PointLightShader* _pointLightShader;
+				HMEngine::Core::Rendering::Shaders::TerrainShader* _terrainShader;
+				HMEngine::Core::Rendering::Shaders::UIShader* _UIShader;
 
 				RenderingEngine();
 				~RenderingEngine();
@@ -82,7 +98,6 @@ namespace HMEngine
 				glm::vec3& _skyColor;
 
 				std::unordered_map<HMEngine::OpenGL::OpenGLTexture*, std::vector<HMEngine::Components::MeshRenderer*>, HMEngine::OpenGL::OpenGLTexture::TextureHasher, HMEngine::OpenGL::OpenGLTexture::TextureEqualer> _unseenObjects;
-
 
 				void RenderMeshes() const;
 				void RenderTerrains() const;

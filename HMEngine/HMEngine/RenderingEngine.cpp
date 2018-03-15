@@ -52,7 +52,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 
 	if (this->_directionalLights.size() > 0) //if there are any directional lights then render all the meshed with the directional lights effect on them
 	{
-		HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().Bind();
+		this->_directionalLightShader->Bind();
 		for (auto& item : this->_meshTextures)
 		{
 			item.first->Bind();
@@ -60,9 +60,9 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			{
 				for (auto& directionalLight : _directionalLights)
 				{
-					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(*directionalLight);
-					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
-					HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(mesh->GetShineDamper(), mesh->GetReflectivity());
+					this->_directionalLightShader->UpdateUniforms(*directionalLight);
+					this->_directionalLightShader->UpdateUniforms(mesh->GetParent().GetTransform());
+					this->_directionalLightShader->UpdateUniforms(mesh->GetShineDamper(), mesh->GetReflectivity());
 					mesh->DrawMesh();
 				}
 			}
@@ -71,9 +71,9 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		{
 			for (auto& directionalLight : _directionalLights)
 			{
-				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(*directionalLight);
-				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
-				HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance().UpdateUniforms(0.05f, 1.0f);
+				this->_directionalLightShader->UpdateUniforms(*directionalLight);
+				this->_directionalLightShader->UpdateUniforms(terrain->GetParent().GetTransform());
+				this->_directionalLightShader->UpdateUniforms(0.05f, 1.0f);
 				terrain->BindTextures(); //Binds terrain textures
 				terrain->DrawTerrain();
 			}
@@ -81,7 +81,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	}
 	if (this->_pointLights.size() > 0) //if there are any point lights then render all the meshed with the point light effect on them
 	{
-		HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().Bind();
+		this->_pointLightShader->Bind();
 		for (auto& item : this->_meshTextures)
 		{
 			item.first->Bind();
@@ -89,9 +89,9 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			{
 				for (auto& pointLight : this->_pointLights)
 				{
-					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(*pointLight);
-					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
-					HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(mesh->GetShineDamper(), mesh->GetReflectivity());
+					this->_pointLightShader->UpdateUniforms(*pointLight);
+					this->_pointLightShader->UpdateUniforms(mesh->GetParent().GetTransform());
+					this->_pointLightShader->UpdateUniforms(mesh->GetShineDamper(), mesh->GetReflectivity());
 					mesh->DrawMesh();
 				}
 			}
@@ -100,9 +100,9 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		{
 			for (auto& pointLight : this->_pointLights)
 			{
-				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(*pointLight);
-				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
-				HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance().UpdateUniforms(0.05f, 1.0f);
+				this->_pointLightShader->UpdateUniforms(*pointLight);
+				this->_pointLightShader->UpdateUniforms(terrain->GetParent().GetTransform());
+				this->_pointLightShader->UpdateUniforms(0.05f, 1.0f);
 				terrain->BindTextures(); //Binds terrain textures
 				terrain->DrawTerrain();
 			}
@@ -155,7 +155,12 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine:
 	this->_terrainRenderers.erase(std::remove(this->_terrainRenderers.begin(), this->_terrainRenderers.end(), &terrainRenderer), this->_terrainRenderers.end());
 }
 
-HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false)
+HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false),
+_ambientShader(&HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance()), 
+_directionalLightShader(&HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance()),
+_labelShader(&HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance()),
+_pointLightShader(&HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance()),
+_terrainShader(&HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance()), _UIShader(&HMEngine::Core::Rendering::Shaders::UIShader::GetInstance())
 {
 	//glCullFace(GL_BACK); //Causes the back of things not to be drawn
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
@@ -184,7 +189,7 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderMeshes() const
 
 		for (auto& mesh : item.second)
 		{
-			HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance().UpdateUniforms(mesh->GetParent().GetTransform());
+			this->_ambientShader->UpdateUniforms(mesh->GetParent().GetTransform());
 			mesh->DrawMesh();
 		}
 
@@ -201,10 +206,10 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderMeshes() const
 void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 {
 	/* Renders terrains */
-	HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().Bind();
+	this->_terrainShader->Bind();
 	for (auto& terrain : this->_terrainRenderers)
 	{
-		HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance().UpdateUniforms(terrain->GetParent().GetTransform());
+		this->_terrainShader->UpdateUniforms(terrain->GetParent().GetTransform());
 		terrain->DrawTerrain();
 	}
 }
@@ -387,8 +392,8 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderQuad(HMEngine::UI::Quad* q)
 {
-	HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
-	HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(q->GetTransform());
+	this->_UIShader->Bind();
+	this->_UIShader->UpdateUniforms(q->GetTransform());
 	q->Draw();
 	for (auto& child : q->_childsRenderingEngineFormat)
 	{
@@ -405,8 +410,8 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderQuad(HMEngine::UI::Quad* 
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderLabel(HMEngine::UI::Quad* q)
 {
-	HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
-	HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*static_cast<HMEngine::UI::Label*>(q));
+	this->_labelShader->Bind();
+	this->_labelShader->UpdateUniforms(*static_cast<HMEngine::UI::Label*>(q));
 	q->Draw();
 }
 

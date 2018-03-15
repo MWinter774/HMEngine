@@ -3,6 +3,7 @@
 #include "GameSettings.h"
 #include "PointLight.h"
 #include "MeshRenderer.h"
+#include <string>
 
 void HMEngine::Core::Rendering::Shaders::PointLightShader::UpdateUniforms(const HMEngine::Core::Transform& transform)
 {

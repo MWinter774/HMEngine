@@ -10,6 +10,7 @@ namespace HMEngine
 	namespace UI
 	{
 		class Quad;
+		class Screen;
 	}
 	namespace Core
 	{
@@ -80,6 +81,7 @@ namespace HMEngine
 		std::map<std::string, HMEngine::UI::Quad*> _quads;
 		std::vector<std::string> _quadsToRemoveBuffer;
 		std::vector<HMEngine::UI::Quad*> _quadsVector;
+		std::vector<HMEngine::UI::Screen*> _screens;
 
 		void UpdateGameObjectsBuffers();
 	};

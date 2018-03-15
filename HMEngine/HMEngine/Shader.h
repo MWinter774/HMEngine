@@ -105,9 +105,7 @@ namespace HMEngine
 				{
 					std::string file;
 					std::string line;
-					std::ifstream shaderFile = std::ifstream();
-					const char* kaki = filePath.c_str();
-					shaderFile.open(filePath.c_str());
+					std::ifstream shaderFile = std::ifstream(filePath, std::ios::in);
 					if (!shaderFile.is_open())
 					{
 						HMEngine::Core::Utilities::ThrowException("COULDN'T OPEN " + filePath + "!!!!", "Shader Error");

@@ -21,8 +21,6 @@ namespace HMEngine
 				private:
 					PointLightShader();
 					~PointLightShader();
-					PointLightShader(const HMEngine::Core::Rendering::Shaders::PointLightShader& other) = delete;
-					HMEngine::Core::Rendering::Shaders::PointLightShader& operator=(const HMEngine::Core::Rendering::Shaders::PointLightShader& other) = delete;
 
 					void UpdateTextureUnits();
 				};
