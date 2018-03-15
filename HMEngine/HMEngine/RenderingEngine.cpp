@@ -209,26 +209,34 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 	}
 }
 
-void HMEngine::Core::Rendering::RenderingEngine::RenderQuads() const
+int i = 0;
+void HMEngine::Core::Rendering::RenderingEngine::RenderQuads()
 {
+	if (i == 0)
+	{
+		//std::reverse(std::begin(this->_quads[1].quad->_childsRenderingEngineFormat), std::end(this->_quads[1].quad->_childsRenderingEngineFormat));
+		//i++;
+	}
 	for (auto& quad : this->_quads)
 	{
 		if (quad.quad != nullptr) //if the quad is a regular quad(button, textbox...)
 		{
-			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
+			/*HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
 			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad.quad->GetTransform());
-			quad.quad->Draw();
-			for (auto& child : quad.quad->GetChilds())
+			quad.quad->Draw();*/
+			this->RenderQuad(quad.quad);
+			/*for (auto& child : quad.quad->_childs)
 			{
 				HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(child->GetTransform());
 				child->Draw();
-			}
+			}*/
 		}
 		else //if the quad is a label
 		{
-			HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
+			/*HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
 			HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*quad.label);
-			quad.label->Draw();
+			quad.label->Draw();*/
+			this->RenderLabel(quad.label);
 		}
 	}
 }
@@ -375,6 +383,31 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 
 	/* The bounding sphere is within at least all six sides of the view frustum, so it's visible */
 	return true;
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RenderQuad(HMEngine::UI::Quad* q)
+{
+	HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(q->GetTransform());
+	q->Draw();
+	for (auto& child : q->_childsRenderingEngineFormat)
+	{
+		if (child.quad != nullptr)
+		{
+			this->RenderQuad(child.quad);
+		}
+		else
+		{
+			this->RenderLabel(child.label);
+		}
+	}
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RenderLabel(HMEngine::UI::Quad* q)
+{
+	HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
+	HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*static_cast<HMEngine::UI::Label*>(q));
+	q->Draw();
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::AddDirectionalLight(HMEngine::Components::DirectionalLight& directionalLight)

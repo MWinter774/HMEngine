@@ -7,6 +7,7 @@
 #include "GameSettings.h"
 #include "RenderingEngine.h"
 #include "GameEngine.h"
+#include "Label.h"
 
 const std::vector<glm::vec2> HMEngine::UI::Quad::rectangle = { glm::vec2(-1,1), glm::vec2(-1,-1), glm::vec2(1,1), glm::vec2(1,-1) };
 
@@ -200,6 +201,33 @@ inline void HMEngine::UI::Quad::SetVisiblity(bool isVisible)
 	this->_isEnabled = isVisible;
 }
 
+void HMEngine::UI::Quad::AddChild(HMEngine::UI::Quad* other)
+{
+	Quad::QuadType quad;
+	quad.label = nullptr;
+	quad.quad = nullptr;
+	if (auto label = dynamic_cast<HMEngine::UI::Label*>(other))
+		quad.label = label;
+	else
+		quad.quad = other;
+	this->_childsRenderingEngineFormat.push_back(quad);
+	this->_childs.push_back(other);
+}
+
+void HMEngine::UI::Quad::AddChild(const HMEngine::UI::Quad& other)
+{
+	HMEngine::UI::Quad* uiClone = other.Clone();
+	Quad::QuadType quad;
+	quad.label = nullptr;
+	quad.quad = nullptr;
+	if (auto label = dynamic_cast<HMEngine::UI::Label*>(uiClone))
+		quad.label = label;
+	else
+		quad.quad = uiClone;
+	this->_childsRenderingEngineFormat.push_back(quad);
+	this->_childs.push_back(uiClone);
+}
+
 void HMEngine::UI::Quad::BringToFront()
 {
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().BringToFront(this);
@@ -239,6 +267,14 @@ void HMEngine::UI::Quad::EnableEvents()
 
 void HMEngine::UI::Quad::AddChild(unsigned int index, HMEngine::UI::Quad* other)
 {
+	Quad::QuadType quad;
+	quad.label = nullptr;
+	quad.quad = nullptr;
+	if (auto label = dynamic_cast<HMEngine::UI::Label*>(other))
+		quad.label = label;
+	else
+		quad.quad = other;
+	this->_childsRenderingEngineFormat.insert(this->_childsRenderingEngineFormat.begin() + index, quad);
 	this->_childs.insert(this->_childs.begin() + index, other);
 }
 
@@ -251,7 +287,7 @@ void HMEngine::UI::Quad::AttachToGameEngine(HMEngine::GameEngine& gameEngine)
 	this->InitializeEventObject();
 	for (auto& child : this->_childs)
 	{
-		this->_gameEngine->AddUI(child);
+		child->AttachToGameEngine(gameEngine);
 	}
 
 	this->AttachToGameEngineEvent();

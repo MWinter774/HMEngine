@@ -26,9 +26,6 @@ namespace HMEngine
 
 			void UpdateEvent() override;
 			void MouseButtonTappedEvent(const unsigned int& mouseButton) override;
-			void Show() override;
-			void Hide() override;
-			void SetVisiblity(bool isVisible) override;
 
 			void SetTextToTopLeft();
 

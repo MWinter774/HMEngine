@@ -27,6 +27,8 @@ namespace HMEngine
 
 	namespace UI
 	{
+		class Label;
+
 		class Quad : public HMEngine::Core::EventObject
 		{
 			friend class HMEngine::GameEngine;
@@ -40,6 +42,11 @@ namespace HMEngine
 				float width;
 				float height;
 			} QuadDetails;
+			typedef struct
+			{
+				HMEngine::UI::Label* label;
+				HMEngine::UI::Quad* quad;
+			} QuadType;
 		public:
 			std::function<void()> _hideEvent;
 
@@ -78,8 +85,8 @@ namespace HMEngine
 			virtual inline void Hide();
 			virtual inline void HideEvent() {}
 			virtual inline void SetVisiblity(bool isVisible);
-			inline void AddChild(HMEngine::UI::Quad* other) { this->_childs.push_back(other); }
-			inline void AddChild(const HMEngine::UI::Quad& other) { this->_childs.push_back(other.Clone()); }
+			void AddChild(HMEngine::UI::Quad* other);
+			void AddChild(const HMEngine::UI::Quad& other);
 
 			void BringToFront();
 
@@ -102,12 +109,13 @@ namespace HMEngine
 			HMEngine::GameEngine* _gameEngine;
 			bool _isVisible;
 			HMEngine::OpenGL::UITexture* _currentTexture;
-			std::vector<HMEngine::UI::Quad*> _childs;
 
 		private:
 			bool _isAttachedToGameEngine;
 			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
+			std::vector<HMEngine::UI::Quad::QuadType> _childsRenderingEngineFormat;
+			std::vector<HMEngine::UI::Quad*> _childs;
 
 			virtual void AttachToGameEngine(HMEngine::GameEngine& gameEngine);
 

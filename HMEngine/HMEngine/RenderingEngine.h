@@ -86,11 +86,14 @@ namespace HMEngine
 
 				void RenderMeshes() const;
 				void RenderTerrains() const;
-				void RenderQuads() const;
+				void RenderQuads();
 
 				void CullFrustrum();
 
 				bool IsObjectVisible(const glm::mat4& objectMVPMatrix, const glm::vec3& objectPos, float radius);
+
+				void RenderQuad(HMEngine::UI::Quad* q);
+				void RenderLabel(HMEngine::UI::Quad* q);
 			};
 		}
 	}

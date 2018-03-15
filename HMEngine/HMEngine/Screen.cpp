@@ -41,8 +41,8 @@ void HMEngine::UI::Screen::SetBackground(const std::string& backgroundTextureFil
 
 void HMEngine::UI::Screen::AddQuad(HMEngine::UI::Quad* quad)
 {
-	if (dynamic_cast<HMEngine::UI::Screen*>(quad))
-		this->_subScreens.push_back(static_cast<HMEngine::UI::Screen*>(quad));
+	if (auto subScreen = dynamic_cast<HMEngine::UI::Screen*>(quad))
+		this->_subScreens.push_back(subScreen);
 	this->AddChild(quad);
 }
 

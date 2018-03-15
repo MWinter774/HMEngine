@@ -89,27 +89,6 @@ void HMEngine::UI::Button::MouseButtonTappedEvent(const unsigned int& mouseButto
 	}
 }
 
-void HMEngine::UI::Button::Show()
-{
-	this->_isVisible = true;
-	this->_isEnabled = true;
-	this->_label->Show();
-}
-
-void HMEngine::UI::Button::Hide()
-{
-	this->_isVisible = false;
-	this->_isEnabled = false;
-	this->_label->Hide();
-}
-
-void HMEngine::UI::Button::SetVisiblity(bool isVisible)
-{
-	this->_isVisible = isVisible;
-	this->_isEnabled = isVisible;
-	this->_label->SetVisiblity(isVisible);
-}
-
 void HMEngine::UI::Button::SetTextToTopLeft()
 {
 	this->_label->SetTopLeft(this->GetTopLeft());
