@@ -25,7 +25,7 @@ int main()
 	std::string title = "HMEngine";
 
 	HMEngine::GameEngine g;
-	//g.CreateNewWindow(1200, 720, title, false);
+	g.CreateNewWindow(1200, 720, title, false);
 
 	//create cube
 	std::vector<glm::vec3> vertices =
@@ -106,7 +106,7 @@ int main()
 
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 
-	int c = 0;
+	//int c = 0;
 	/*for (int i = -1; i <= 1; i++)
 	{
 		for (int j = -1; j <= 1; j++)
@@ -162,12 +162,25 @@ int main()
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png", "./resources/textures/mud.png", "./resources/textures/veryNice.png", "./resources/textures/path.png", "./resources/textures/blendMap.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, "./resources/textures/grass.png");
 	//HMEngine::Terrain terrain("Terrain", glm::vec3(-100, 0, -100), 800, 40, "./resources/heightMaps/heightMap1.png", "./resources/textures/grass.png");
-	
+
 	//g.UnlockCursor();
 	//g.SetMouseVisible(true);
 
-	g.InitializeWorldEditor(1200, 720, title, false);
+	//g.InitializeWorldEditor(1200, 720, title, false);
 
+	HMEngine::Core::GameObject floor("floor");
+	HMEngine::Core::GameObject bot("bot");
+	bot.GetTransform().AddPositionY(0.8f);
+
+	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
+	bot.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/monkey.obj", "./resources/textures/mud.png"));
+
+	g.AddGameObject(floor);
+	g.AddGameObject(bot);
+
+	g.SetAmbientLight(1, 1, 1);
+	HMEngine::Player p("player", 15, 20);
+	g.AddGameObject(p);
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
 
