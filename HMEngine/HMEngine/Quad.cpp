@@ -157,9 +157,9 @@ void HMEngine::UI::Quad::SetCenter(const glm::vec2& center)
 	this->SetPosition(center);
 }
 
-inline void HMEngine::UI::Quad::Show()
+void HMEngine::UI::Quad::Show()
 {
-	if (!this->_isEnabled)
+	if (!this->_isVisible)
 	{
 		for (auto& child : this->_childs)
 		{
@@ -171,9 +171,9 @@ inline void HMEngine::UI::Quad::Show()
 	}
 }
 
-inline void HMEngine::UI::Quad::Hide()
+void HMEngine::UI::Quad::Hide()
 {
-	if (this->_isEnabled)
+	if (this->_isVisible)
 	{
 		for (auto& child : this->_childs)
 		{
@@ -187,7 +187,7 @@ inline void HMEngine::UI::Quad::Hide()
 	}
 }
 
-inline void HMEngine::UI::Quad::SetVisiblity(bool isVisible)
+void HMEngine::UI::Quad::SetVisiblity(bool isVisible)
 {
 	for (auto& child : this->_childs)
 	{

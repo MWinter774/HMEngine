@@ -4,6 +4,7 @@
 
 namespace HMEngine
 {
+	class GameEngine;
 	namespace UI
 	{
 		class QuadCollection;
@@ -25,6 +26,12 @@ namespace HMEngine
 			bool IsFocused() const;
 
 			void MouseButtonDownEvent(const unsigned int& mouseButton) override;
+
+			void AttachToGameEngine(HMEngine::GameEngine& gameEngine) override;
+
+			void Show() override;
+			void Hide() override;
+			void SetVisiblity(bool isVisible) override;
 
 		private:
 			HMEngine::UI::QuadCollection* _screen;

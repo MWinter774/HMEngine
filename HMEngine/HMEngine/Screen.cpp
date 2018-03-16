@@ -3,11 +3,14 @@
 #include "SDL2.0.7\SDL.h"
 #include "HardwareInputs.h"
 #include "Image.h"
+#include "GameEngine.h"
+#include <algorithm>
 
 HMEngine::UI::Screen::Screen(const std::string& screenName, const glm::vec2& centerPos, const glm::vec2& scale) :
 	HMEngine::UI::Quad(screenName, centerPos, scale), _screen(new HMEngine::UI::QuadCollection(screenName + "_quadCollection", centerPos, glm::vec2()))
 {
 	this->InitializeEvents<Screen>(this);
+	this->Show();
 }
 
 HMEngine::UI::Screen::~Screen()
@@ -62,4 +65,71 @@ void HMEngine::UI::Screen::MouseButtonDownEvent(const unsigned int& mouseButton)
 	{
 		this->Hide();
 	}
+}
+
+void HMEngine::UI::Screen::AttachToGameEngine(HMEngine::GameEngine& gameEngine)
+{
+	this->_isAttachedToGameEngine = true;
+	this->_gameEngine = &gameEngine;
+	if (this->_openglQuad != nullptr)
+		this->_openglQuad->Initialize();
+	this->InitializeEventObject();
+	for (auto& child : this->_childs)
+	{
+		child->AttachToGameEngine(gameEngine);
+	}
+	gameEngine.AddScreen(this);
+
+	this->AttachToGameEngineEvent();
+}
+
+void HMEngine::UI::Screen::Show()
+{
+	if (!this->_isVisible)
+	{
+		this->_gameEngine->AddActiveScreen(this);
+		for (auto& child : this->_childs)
+		{
+			child->Show();
+		}
+		this->ShowEvent();
+		this->_isVisible = true;
+		this->_isEnabled = true;
+	}
+}
+
+void HMEngine::UI::Screen::Hide()
+{
+	if (this->_isVisible)
+	{
+		for (auto& child : this->_childs)
+		{
+			child->Hide();
+		}
+		if (this->_hideEvent)
+			this->_hideEvent();
+		this->HideEvent();
+		this->_isVisible = false;
+		this->_isEnabled = false;
+		if (this->_gameEngine != nullptr)
+			this->_gameEngine->RemoveActiveScreen(this);
+	}
+}
+
+void HMEngine::UI::Screen::SetVisiblity(bool isVisible)
+{
+	/*for (auto& child : this->_childs)
+	{
+		child->SetVisiblity(isVisible);
+	}
+	if (isVisible)
+		this->ShowEvent();
+	else
+		this->HideEvent();
+	this->_isVisible = isVisible;
+	this->_isEnabled = isVisible;*/
+	if (isVisible)
+		this->Show();
+	else
+		this->Hide();
 }

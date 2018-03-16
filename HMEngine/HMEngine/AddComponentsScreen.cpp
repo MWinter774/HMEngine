@@ -45,8 +45,8 @@ HMEngine::Core::WorldEditor::AddComponentsScreen::AddComponentsScreen(const glm:
 	this->AddQuad(this->_lstComponentsList);
 	this->AddQuad(this->_scrnMeshRenderer);
 	this->AddQuad(this->_scrnCircleMovement);
-	this->AddQuad(this->_scrnPointLight);
 	this->AddQuad(this->_scrnDirectionalLight);
+	this->AddQuad(this->_scrnPointLight);
 	this->Hide();
 }
 

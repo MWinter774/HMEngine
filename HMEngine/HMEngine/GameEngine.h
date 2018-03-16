@@ -67,7 +67,12 @@ namespace HMEngine
 		void EnableFPSCalculating() const;
 		void DisableFPSCalculating() const;
 
+		inline void AddScreen(HMEngine::UI::Screen* screen) { this->_screens.push_back(screen); }
+
 		void InitializeWorldEditor(unsigned int width, unsigned int height, const std::string& title, bool fullscreen);
+
+		void AddActiveScreen(HMEngine::UI::Screen* screen);
+		void RemoveActiveScreen(HMEngine::UI::Screen* screen);
 
 	private:
 		HMEngine::Core::Rendering::RenderingEngine* _renderingEngine;
@@ -81,6 +86,9 @@ namespace HMEngine
 		std::map<std::string, HMEngine::UI::Quad*> _quads;
 		std::vector<std::string> _quadsToRemoveBuffer;
 		std::vector<HMEngine::UI::Quad*> _quadsVector;
+
+		std::vector<HMEngine::UI::Screen*> _screens;
+		std::vector<HMEngine::UI::Screen*> _activeScreens;
 
 		void UpdateGameObjectsBuffers();
 	};

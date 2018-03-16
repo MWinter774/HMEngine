@@ -28,11 +28,13 @@ namespace HMEngine
 	namespace UI
 	{
 		class Label;
+		class Screen;
 
 		class Quad : public HMEngine::Core::EventObject
 		{
 			friend class HMEngine::GameEngine;
 			friend class HMEngine::Core::Rendering::RenderingEngine;
+			friend class HMEngine::UI::Screen;
 			typedef struct QuadDetails
 			{
 				glm::vec2 position;
@@ -80,11 +82,11 @@ namespace HMEngine
 			void SetTexture(unsigned int i = 0);
 			void SetTopLeft(const glm::vec2& topLeft);
 			void SetCenter(const glm::vec2& center);
-			virtual inline void Show();
+			virtual void Show();
 			virtual inline void ShowEvent() {}
-			virtual inline void Hide();
+			virtual void Hide();
 			virtual inline void HideEvent() {}
-			virtual inline void SetVisiblity(bool isVisible);
+			virtual void SetVisiblity(bool isVisible);
 			void AddChild(HMEngine::UI::Quad* other);
 			void AddChild(const HMEngine::UI::Quad& other);
 
@@ -111,11 +113,11 @@ namespace HMEngine
 			HMEngine::OpenGL::UITexture* _currentTexture;
 
 		private:
-			bool _isAttachedToGameEngine;
 			std::vector<HMEngine::OpenGL::UITexture*> _quadTextures;
 			HMEngine::Core::Transform* _transform;
 			std::vector<HMEngine::UI::Quad::QuadType> _childsRenderingEngineFormat;
 			std::vector<HMEngine::UI::Quad*> _childs;
+			bool _isAttachedToGameEngine;
 
 			virtual void AttachToGameEngine(HMEngine::GameEngine& gameEngine);
 

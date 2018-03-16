@@ -310,6 +310,21 @@ void HMEngine::GameEngine::InitializeWorldEditor(unsigned int width, unsigned in
 	worldEditor.Initialize();
 }
 
+void HMEngine::GameEngine::AddActiveScreen(HMEngine::UI::Screen* screen)
+{
+	for (auto& screen : this->_activeScreens)
+		screen->DisableEvents();
+	this->_activeScreens.push_back(screen);
+}
+
+void HMEngine::GameEngine::RemoveActiveScreen(HMEngine::UI::Screen* screen)
+{
+	if(this->_activeScreens.size() > 0)
+		this->_activeScreens.erase(std::remove(this->_activeScreens.begin(), this->_activeScreens.end(), screen), this->_activeScreens.end());
+	if (this->_activeScreens.size() > 0)
+		this->_activeScreens.back()->EnableEvents();
+}
+
 /*
 Updates the buffers of game objects(handles adding/removing of game objects).
 */
