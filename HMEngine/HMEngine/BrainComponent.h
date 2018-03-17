@@ -25,6 +25,40 @@ namespace HMEngine
 			HMEngine::Core::MachineLearning::NeuralNetwork _neuralNetwork;
 			const HMEngine::Player* _player;
 			const HMEngine::Components::MovementData* _playerMovement;
+			std::vector<float> _currentPlayerMovement;
+			std::vector<float> _futurePlayerMovement;
+
+			inline void ResetCurrentPlayerMovement()
+			{
+				_currentPlayerMovement[0] = 0.0;
+				_currentPlayerMovement[1] = 0.0;
+				_currentPlayerMovement[2] = 0.0;
+				_currentPlayerMovement[3] = 0.0;
+			}
+			inline void ConstructCurrentPlayerMovement()
+			{
+				this->ResetCurrentPlayerMovement();
+				if (this->_playerMovement->forward)
+				{
+					//std::cout << "Player is going forward" << std::endl;
+					_currentPlayerMovement[0] = 1.0;
+				}
+				if (this->_playerMovement->backward)
+				{
+					//std::cout << "Player is going backward" << std::endl;
+					_currentPlayerMovement[1] = 1.0;
+				}
+				if (this->_playerMovement->right)
+				{
+					//std::cout << "Player is going right" << std::endl;
+					_currentPlayerMovement[2] = 1.0;
+				}
+				if (this->_playerMovement->left)
+				{
+					//std::cout << "Player is going left" << std::endl;
+					_currentPlayerMovement[3] = 1.0;
+				}
+			}
 		};
 	}
 }

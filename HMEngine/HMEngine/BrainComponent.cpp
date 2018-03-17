@@ -1,8 +1,9 @@
 #include "BrainComponent.h"
 #include "Player.h"
+#include "Transform.h"
 
-HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Player& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 1 }),
-_player(&player), _playerMovement(&player.GetCameraController()->GetMovement())
+HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Player& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 4 }),
+_player(&player), _playerMovement(&player.GetCameraController()->GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4)
 {
 	this->InitializeEvents<BrainComponent>(this);
 }
@@ -12,7 +13,8 @@ HMEngine::Components::BrainComponent::~BrainComponent()
 }
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Components::BrainComponent& other) : HMEngine::Components::Component(other), 
-_neuralNetwork(other._neuralNetwork), _player(other._player), _playerMovement(&other._player->GetCameraController()->GetMovement())
+_neuralNetwork(other._neuralNetwork), _player(other._player), _playerMovement(&other._player->GetCameraController()->GetMovement()), 
+_currentPlayerMovement(4), _futurePlayerMovement(4)
 {
 	this->InitializeEvents<BrainComponent>(this);
 }
@@ -25,6 +27,8 @@ HMEngine::Components::BrainComponent& HMEngine::Components::BrainComponent::oper
 		this->_neuralNetwork = other._neuralNetwork;
 		this->_player = other._player;
 		this->_playerMovement = &this->_player->GetCameraController()->GetMovement();
+		this->_currentPlayerMovement = std::vector<float>(4);
+		this->_futurePlayerMovement = std::vector<float>(4);
 	}
 
 	return *this;
@@ -32,20 +36,35 @@ HMEngine::Components::BrainComponent& HMEngine::Components::BrainComponent::oper
 
 void HMEngine::Components::BrainComponent::UpdateEvent()
 {
-	if (this->_playerMovement->forward)
+	this->ConstructCurrentPlayerMovement();
+
+	if (this->_currentPlayerMovement != this->_futurePlayerMovement)
 	{
-		std::cout << "Player is going forward" << std::endl;
+		this->_neuralNetwork.BackProp(this->_currentPlayerMovement);
 	}
-	if (this->_playerMovement->backward)
+
+	this->_neuralNetwork.FeedForward(this->_currentPlayerMovement);
+
+	this->_futurePlayerMovement = this->_neuralNetwork.GetResults();
+
+	if (this->_futurePlayerMovement[0] > 0.9f)
 	{
-		std::cout << "Player is going backward" << std::endl;
+		this->_parentObject->GetTransform().AddPositionZ(0.1f);
+		std::cout << "forward" << std::endl;
 	}
-	if (this->_playerMovement->right)
+	if (this->_futurePlayerMovement[1] > 0.9f)
 	{
-		std::cout << "Player is going right" << std::endl;
+		this->_parentObject->GetTransform().AddPositionZ(-0.1f);
+		std::cout << "backwards" << std::endl;
 	}
-	if (this->_playerMovement->left)
+	if (this->_futurePlayerMovement[2] > 0.9f)
 	{
-		std::cout << "Player is going left" << std::endl;
+		this->_parentObject->GetTransform().AddPositionX(-0.1f);
+		std::cout << "right" << std::endl;
+	}
+	if (this->_futurePlayerMovement[3] > 0.9f)
+	{
+		this->_parentObject->GetTransform().AddPositionX(0.1f);
+		std::cout << "left" << std::endl;
 	}
 }
