@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "EventObject.h"
+#include <functional>
 
 namespace HMEngine
 {
@@ -24,7 +25,7 @@ namespace HMEngine
 			virtual ~Component();
 
 			virtual void AttachToGameObjectEvent() {} //this functions will be called when this component attached to a GameObject
-
+			
 			virtual HMEngine::Components::Component* Clone() = 0; //returns pointer to object
 
 			inline HMEngine::Core::GameObject& GetParent() { return *this->_parentObject; }

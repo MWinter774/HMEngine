@@ -7,18 +7,20 @@
 
 HMEngine::Components::CameraController::CameraController(float walkingSpeed, float runningSpeed) : _camera(&HMEngine::Core::Rendering::Camera::GetInstance()),
 _horizontalAngle(float(M_PI)), _verticalAngle(0.0f), _right(), _forward(), _up(), _walkingSpeed(walkingSpeed), _runningSpeed(runningSpeed),
-_movementSpeed(walkingSpeed), _isActive(true)
+_movementSpeed(walkingSpeed), _isActive(true), _movement(new MovementData())
 {
 	this->InitializeEvents<CameraController>(this);
 }
 
 HMEngine::Components::CameraController::~CameraController()
 {
+	delete this->_movement;
 }
 
 HMEngine::Components::CameraController::CameraController(const HMEngine::Components::CameraController& other) : _camera(other._camera),
 _horizontalAngle(other._horizontalAngle), _verticalAngle(other._verticalAngle), _right(other._right), _forward(other._forward), _up(other._up),
-_walkingSpeed(other._walkingSpeed), _runningSpeed(other._runningSpeed), _movementSpeed(other._walkingSpeed), _isActive(true)
+_walkingSpeed(other._walkingSpeed), _runningSpeed(other._runningSpeed), _movementSpeed(other._walkingSpeed), _isActive(true), 
+_movement(new MovementData(*other._movement))
 {
 	this->InitializeEvents<CameraController>(this);
 }
@@ -27,6 +29,8 @@ HMEngine::Components::CameraController& HMEngine::Components::CameraController::
 {
 	if (this != &other)
 	{
+		delete this->_movement;
+
 		this->InitializeEvents<CameraController>(this);
 		this->_camera = other._camera;
 		this->_horizontalAngle = other._horizontalAngle;
@@ -38,6 +42,7 @@ HMEngine::Components::CameraController& HMEngine::Components::CameraController::
 		this->_runningSpeed = other._runningSpeed;
 		this->_movementSpeed = other._walkingSpeed;
 		this->_isActive = true;
+		this->_movement = new MovementData(*other._movement);
 	}
 
 	return *this;
@@ -72,19 +77,43 @@ void HMEngine::Components::CameraController::UpdateEvent()
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_W))
 		{
 			this->Move(this->_forward, float(delta) * this->_movementSpeed);
+			this->_movement->forward = true;
 		}
+		else
+		{
+			this->_movement->forward = false;
+		}
+
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_S))
 		{
 			this->Move(this->_forward, float(delta) * -this->_movementSpeed);
+			this->_movement->backward = true;
 		}
+		else
+		{
+			this->_movement->backward = false;
+		}
+
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_A))
 		{
 			this->Move(this->_right, float(delta) * -this->_movementSpeed);
+			this->_movement->left = true;
 		}
+		else
+		{
+			this->_movement->left = false;
+		}
+
 		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_D))
 		{
 			this->Move(this->_right, float(delta) * this->_movementSpeed);
+			this->_movement->right = true;
 		}
+		else
+		{
+			this->_movement->right = false;
+		}
+
 		this->_movementSpeed = this->_walkingSpeed;
 	}
 }

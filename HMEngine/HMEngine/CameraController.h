@@ -20,6 +20,14 @@ namespace HMEngine
 	}
 	namespace Components
 	{
+		typedef struct
+		{
+			bool forward;
+			bool backward;
+			bool right;
+			bool left;
+		} MovementData;
+
 		class CameraController : public HMEngine::Components::Component
 		{
 		public:
@@ -34,6 +42,8 @@ namespace HMEngine
 			inline void Activate() { this->_isActive = true; }
 			inline void Deactivate() { this->_isActive = false; }
 
+			inline const MovementData& GetMovement() { return *this->_movement; }
+
 		private:
 			HMEngine::Core::Rendering::Camera* _camera;
 			float _horizontalAngle;
@@ -45,6 +55,7 @@ namespace HMEngine
 			glm::vec3 _forward;
 			glm::vec3 _up;
 			bool _isActive;
+			MovementData* _movement;
 
 			void Move(const glm::vec3& direction, float amount) const;
 		};

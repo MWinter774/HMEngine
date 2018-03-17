@@ -19,6 +19,7 @@
 #include "OpenGLObject.h"
 #include "OpenGLQuad.h"
 #include "TextBox.h"
+#include "BrainComponent.h"
 
 int main()
 {
@@ -168,20 +169,25 @@ int main()
 
 	//g.InitializeWorldEditor(1200, 720, title, false);
 
+	HMEngine::Player* p = new HMEngine::Player("player", 15, 20);
+	g.AddGameObject(p);
+
+	//ML
 	HMEngine::Core::GameObject floor("floor");
 	HMEngine::Core::GameObject bot("bot");
 	bot.GetTransform().AddPositionY(0.8f);
 
 	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
+
 	bot.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/monkey.obj", "./resources/textures/mud.png"));
+	bot.AddComponent(HMEngine::Components::BrainComponent(*p));
 
 	g.AddGameObject(floor);
 	g.AddGameObject(bot);
 
 	g.SetAmbientLight(1, 1, 1);
-	HMEngine::Player p("player", 15, 20);
-	g.AddGameObject(p);
-	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
+
+	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
 
 	return 0;
