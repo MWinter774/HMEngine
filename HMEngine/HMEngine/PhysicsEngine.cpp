@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "RaycastInfo.h"
+#include "bullet\btBulletCollisionCommon.h"
 
 std::unordered_map<HMEngine::Core::Physics::BoundingSphere*, HMEngine::Core::GameObject*> HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders;
 
@@ -18,7 +19,8 @@ True if ray hitting some object, false otherwise.
 */
 HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Raycast(const glm::vec3& origin, const glm::vec3& direction, float maxDistance)
 {
-	return HMEngine::Core::Physics::RaycastInfo();
+	HMEngine::Core::Physics::Ray ray = HMEngine::Core::Physics::Ray(origin, direction);
+	return HMEngine::Core::Physics::PhysicsEngine::Raycast(ray);
 }
 
 /*

@@ -289,7 +289,7 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 	leftPlane[C] = MVPMatrix[11] + MVPMatrix[8];
 	leftPlane[D] = MVPMatrix[15] + MVPMatrix[12];
 
-	/* Normalise the plane */
+	/* Normalize the plane */
 	length = sqrtf(leftPlane[A] * leftPlane[A] + leftPlane[B] * leftPlane[B] + leftPlane[C] * leftPlane[C]);
 	leftPlane[A] /= length;
 	leftPlane[B] /= length;
@@ -307,7 +307,7 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 	rightPlane[C] = MVPMatrix[11] - MVPMatrix[8];
 	rightPlane[D] = MVPMatrix[15] - MVPMatrix[12];
 
-	/* Normalise the plane */
+	/* Normalize the plane */
 	length = sqrtf(rightPlane[A] * rightPlane[A] + rightPlane[B] * rightPlane[B] + rightPlane[C] * rightPlane[C]);
 	rightPlane[A] /= length;
 	rightPlane[B] /= length;
@@ -324,7 +324,7 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 	bottomPlane[C] = MVPMatrix[11] + MVPMatrix[9];
 	bottomPlane[D] = MVPMatrix[15] + MVPMatrix[13];
 
-	/* Normalise the plane */
+	/* Normalize the plane */
 	length = sqrtf(bottomPlane[A] * bottomPlane[A] + bottomPlane[B] * bottomPlane[B] + bottomPlane[C] * bottomPlane[C]);
 	bottomPlane[A] /= length;
 	bottomPlane[B] /= length;
@@ -341,7 +341,7 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 	topPlane[C] = MVPMatrix[11] - MVPMatrix[9];
 	topPlane[D] = MVPMatrix[15] - MVPMatrix[13];
 
-	/* Normalise the plane */
+	/* Normalize the plane */
 	length = sqrtf(topPlane[A] * topPlane[A] + topPlane[B] * topPlane[B] + topPlane[C] * topPlane[C]);
 	topPlane[A] /= length;
 	topPlane[B] /= length;
@@ -358,7 +358,7 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 	nearPlane[C] = MVPMatrix[11] + MVPMatrix[10];
 	nearPlane[D] = MVPMatrix[15] + MVPMatrix[14];
 
-	/* Normalise the plane */
+	/* Normalize the plane */
 	length = sqrtf(nearPlane[A] * nearPlane[A] + nearPlane[B] * nearPlane[B] + nearPlane[C] * nearPlane[C]);
 	nearPlane[A] /= length;
 	nearPlane[B] /= length;
@@ -375,7 +375,7 @@ bool HMEngine::Core::Rendering::RenderingEngine::IsObjectVisible(const glm::mat4
 	farPlane[C] = MVPMatrix[11] - MVPMatrix[10];
 	farPlane[D] = MVPMatrix[15] - MVPMatrix[14];
 
-	/* Normalise the plane */
+	/* Normalize the plane */
 	length = sqrtf(farPlane[A] * farPlane[A] + farPlane[B] * farPlane[B] + farPlane[C] * farPlane[C]);
 	farPlane[A] /= length;
 	farPlane[B] /= length;

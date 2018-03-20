@@ -121,4 +121,5 @@ void HMEngine::Components::CameraController::UpdateEvent()
 void HMEngine::Components::CameraController::Move(const glm::vec3& direction, float amount) const
 {
 	this->_camera->AddPosition(direction * amount);
+	this->_parentObject->GetTransform().AddPosition(direction * amount);
 }

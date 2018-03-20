@@ -1,6 +1,12 @@
 #include "BrainComponent.h"
 #include "Player.h"
 #include "Transform.h"
+#include "Camera.h"
+#include "glm\gtc\quaternion.hpp"
+#include <math.h>
+#include "PhysicsEngine.h"
+#include "RaycastInfo.h"
+#include "HardwareInputs.h"
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Player& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 4 }),
 _player(&player), _playerMovement(&player.GetCameraController()->GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4)
@@ -12,8 +18,8 @@ HMEngine::Components::BrainComponent::~BrainComponent()
 {
 }
 
-HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Components::BrainComponent& other) : HMEngine::Components::Component(other), 
-_neuralNetwork(other._neuralNetwork), _player(other._player), _playerMovement(&other._player->GetCameraController()->GetMovement()), 
+HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Components::BrainComponent& other) : HMEngine::Components::Component(other),
+_neuralNetwork(other._neuralNetwork), _player(other._player), _playerMovement(&other._player->GetCameraController()->GetMovement()),
 _currentPlayerMovement(4), _futurePlayerMovement(4)
 {
 	this->InitializeEvents<BrainComponent>(this);
@@ -36,7 +42,7 @@ HMEngine::Components::BrainComponent& HMEngine::Components::BrainComponent::oper
 
 void HMEngine::Components::BrainComponent::UpdateEvent()
 {
-	this->ConstructCurrentPlayerMovement();
+	/*this->ConstructCurrentPlayerMovement();
 
 	if (this->_currentPlayerMovement != this->_futurePlayerMovement)
 	{
@@ -66,5 +72,22 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 	{
 		this->_parentObject->GetTransform().AddPositionX(0.1f);
 		std::cout << "left" << std::endl;
+	}*/
+
+	//auto ray2 = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
+	//HMEngine::Core::Physics::RaycastInfo f = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray2);
+
+	auto f = HMEngine::Core::Physics::PhysicsEngine::Raycast(this->_parentObject->GetTransform().GetPosition(),
+		 this->_player->GetTransform().GetPosition() - this->_parentObject->GetTransform().GetPosition(), 5);
+
+	if (f.HasObject(*this))
+	
+		auto ray = HMEngine::Core::Physics::PhysicsEngine::Raycast(this->_parentObject->GetTransform().GetPosition(), this->_player->GetTransform().GetPosition(), 50);
+	
+	{
+		std::cout << "1";
 	}
+
+	//this->_parentObject->GetTransform().LookAt(HMEngine::Core::Rendering::Camera::GetInstance().GetPosition());
+	//this->_parentObject->GetTransform().AddPositionX(0.01f);
 }

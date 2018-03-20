@@ -1,6 +1,7 @@
 #include "RaycastInfo.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Component.h"
 
 HMEngine::Core::Physics::RaycastInfo::RaycastInfo() : isHit(false), hits(), ray(glm::vec3(-1), glm::vec3(-1))
 {
@@ -26,4 +27,18 @@ glm::vec3 HMEngine::Core::Physics::RaycastInfo::GetEndPoint(float distance) cons
 	glm::vec3 endPoint = rayOrigin + distance * deltaVector;
 
 	return endPoint;
+}
+
+bool HMEngine::Core::Physics::RaycastInfo::HasObject(HMEngine::Components::Component& component)
+{
+	const HMEngine::Core::GameObject* parentObject = &component.GetParent();
+	for (auto& pair : this->hits)
+	{
+		if (pair.second == parentObject)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -49,6 +49,7 @@ namespace HMEngine
 				inline glm::vec3 GetForawrd() const { return this->_forward; }
 				inline glm::vec3 GetUp() const { return this->_up; }
 				inline glm::vec3 GetRight() const { return this->_right; }
+				glm::vec3 GetRotation() const;
 
 				HMEngine::Core::Physics::Ray GetRayFromScreenPoint(const glm::vec2& screenPos);
 
