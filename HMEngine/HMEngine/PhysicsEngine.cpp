@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "RaycastInfo.h"
-#include "bullet\btBulletCollisionCommon.h"
+#include "bullet\btBulletDynamicsCommon.h"
 
 std::unordered_map<HMEngine::Core::Physics::BoundingSphere*, HMEngine::Core::GameObject*> HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders;
 
@@ -71,4 +71,24 @@ void HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(HMEngine::Cor
 void HMEngine::Core::Physics::PhysicsEngine::RemoveGameObjectCollider(HMEngine::Core::Physics::BoundingSphere* boundingSphere)
 {
 	HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders.erase(boundingSphere);
+}
+
+void HMEngine::Core::Physics::PhysicsEngine::Initialize()
+{
+	btBroadphaseInterface* broadphase = new btDbvtBroadphase();
+
+	// Set up the collision configuration and dispatcher
+	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+	// The actual physics solver
+	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+
+	// The world.
+	btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+	dynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
+}
+
+void HMEngine::Core::Physics::PhysicsEngine::Destroy()
+{
 }

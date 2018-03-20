@@ -278,6 +278,17 @@
     <ClInclude Include="WorldEditorPlayer.h" />
     <ClInclude Include="WorldEditorPlayerComponent.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BulletCollision\BulletCollision.vcxproj">
+      <Project>{b3b7105b-3b0e-3629-9eff-6a03fbd907a2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BulletDynamics\BulletDynamics.vcxproj">
+      <Project>{ef1e8f11-c4d5-3331-be3b-8076f346718c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LinearMath\LinearMath.vcxproj">
+      <Project>{69254105-9caf-3aa4-8219-f6a7c76dae46}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

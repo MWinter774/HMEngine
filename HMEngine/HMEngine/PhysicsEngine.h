@@ -23,6 +23,9 @@ namespace HMEngine
 				static void AddGameObjectCollider(HMEngine::Core::Physics::BoundingSphere* boundingSphere, HMEngine::Core::GameObject* gameObject);
 				static void RemoveGameObjectCollider(HMEngine::Core::Physics::BoundingSphere* boundingSphere);
 
+				static void Initialize();
+				static void Destroy();
+
 			private:
 				PhysicsEngine() = delete;
 				~PhysicsEngine() = delete;

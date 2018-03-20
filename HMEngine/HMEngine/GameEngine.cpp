@@ -14,6 +14,7 @@
 #include "Image.h"
 #include "WorldEditor.h"
 #include "Screen.h"
+#include "PhysicsEngine.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToRemoveBuffer()
 {
@@ -22,6 +23,8 @@ HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr)
 		HMEngine::Core::Utilities::ThrowException("SDL INITIALIZATION FAILED!");
 	}
 	HMEngine::Core::Utilities::PrintDebugMessage("Succeeded initializing SDL...");
+
+	HMEngine::Core::Physics::PhysicsEngine::Initialize();
 }
 
 HMEngine::GameEngine::~GameEngine()
@@ -36,6 +39,9 @@ HMEngine::GameEngine::~GameEngine()
 	}
 	if (this->_window != nullptr)
 		delete this->_window;
+
+	HMEngine::Core::Physics::PhysicsEngine::Destroy();
+
 	SDL_Quit();
 }
 
