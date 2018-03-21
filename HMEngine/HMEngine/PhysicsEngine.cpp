@@ -4,9 +4,9 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "RaycastInfo.h"
-#include "bullet\btBulletDynamicsCommon.h"
 
 std::unordered_map<HMEngine::Core::Physics::BoundingSphere*, HMEngine::Core::GameObject*> HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders;
+HMEngine::Core::Physics::PhysicsEngine::BulletData HMEngine::Core::Physics::PhysicsEngine::_bulletData;
 
 /*
 Returns whether the ray is colling with some object.
@@ -75,20 +75,28 @@ void HMEngine::Core::Physics::PhysicsEngine::RemoveGameObjectCollider(HMEngine::
 
 void HMEngine::Core::Physics::PhysicsEngine::Initialize()
 {
-	btBroadphaseInterface* broadphase = new btDbvtBroadphase();
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.broadphase = new btDbvtBroadphase();
 
 	// Set up the collision configuration and dispatcher
-	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.collisionConfiguration = new btDefaultCollisionConfiguration();
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dispatcher = new btCollisionDispatcher(
+		HMEngine::Core::Physics::PhysicsEngine::_bulletData.collisionConfiguration);
 
 	// The actual physics solver
-	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.solver = new btSequentialImpulseConstraintSolver;
 
 	// The world.
-	btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld = new btDiscreteDynamicsWorld(HMEngine::Core::Physics::PhysicsEngine::_bulletData.dispatcher, 
+		HMEngine::Core::Physics::PhysicsEngine::_bulletData.broadphase, HMEngine::Core::Physics::PhysicsEngine::_bulletData.solver, 
+		HMEngine::Core::Physics::PhysicsEngine::_bulletData.collisionConfiguration);
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
 }
 
 void HMEngine::Core::Physics::PhysicsEngine::Destroy()
 {
+	delete HMEngine::Core::Physics::PhysicsEngine::_bulletData.broadphase;
+	delete HMEngine::Core::Physics::PhysicsEngine::_bulletData.collisionConfiguration;
+	delete HMEngine::Core::Physics::PhysicsEngine::_bulletData.dispatcher;
+	delete HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld;
+	delete HMEngine::Core::Physics::PhysicsEngine::_bulletData.solver;
 }

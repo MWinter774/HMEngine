@@ -1,6 +1,7 @@
 #pragma once
 #include "glm\glm.hpp"
 #include <unordered_map>
+#include "bullet\btBulletDynamicsCommon.h"
 
 namespace HMEngine
 {
@@ -27,12 +28,23 @@ namespace HMEngine
 				static void Destroy();
 
 			private:
+				typedef struct
+				{
+					btBroadphaseInterface* broadphase;
+					btDefaultCollisionConfiguration* collisionConfiguration;
+					btCollisionDispatcher* dispatcher;
+					btSequentialImpulseConstraintSolver* solver;
+					btDiscreteDynamicsWorld* dynamicsWorld;
+				} BulletData;
+
 				PhysicsEngine() = delete;
 				~PhysicsEngine() = delete;
 				PhysicsEngine(const HMEngine::Core::Physics::PhysicsEngine& other) = delete;
 				HMEngine::Core::Physics::PhysicsEngine& operator=(const HMEngine::Core::Physics::PhysicsEngine& other) = delete;
 
 				static std::unordered_map<HMEngine::Core::Physics::BoundingSphere*, HMEngine::Core::GameObject*> _gameObjectColliders;
+
+				static BulletData _bulletData;
 			};
 		}
 	}
