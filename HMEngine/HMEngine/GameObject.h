@@ -7,6 +7,11 @@
 namespace HMEngine
 {
 	class GameEngine;
+
+	namespace Components
+	{
+		class MeshRenderer;
+	}
 	namespace Core
 	{
 		class Transform;
@@ -46,6 +51,8 @@ namespace HMEngine
 			void AddComponent(HMEngine::Components::Component& component);
 			void AddComponent(HMEngine::Components::Component* component);
 
+			inline const HMEngine::Components::MeshRenderer* GetMeshRenderer() const { return this->_meshRenderer; }
+
 		protected:
 			HMEngine::Core::Transform* _transform;
 			HMEngine::GameEngine* _gameEngine;
@@ -55,6 +62,7 @@ namespace HMEngine
 		private:
 			std::vector<HMEngine::Components::Component*> _components;
 			std::string _name;
+			HMEngine::Components::MeshRenderer* _meshRenderer;
 
 			GameObject(const HMEngine::Core::GameObject& other, bool _1);
 		};

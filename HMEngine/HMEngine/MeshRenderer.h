@@ -15,7 +15,6 @@ namespace HMEngine
 
 	namespace Components
 	{
-
 		class MeshRenderer : public Component
 		{
 		public:

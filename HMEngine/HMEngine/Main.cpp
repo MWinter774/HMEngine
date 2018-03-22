@@ -20,6 +20,7 @@
 #include "OpenGLQuad.h"
 #include "TextBox.h"
 #include "BrainComponent.h"
+#include "BoundingSphere.h"
 
 int main()
 {
@@ -176,6 +177,7 @@ int main()
 	HMEngine::Core::GameObject floor("floor");
 	HMEngine::Core::GameObject bot("bot");
 	bot.GetTransform().AddPositionY(0.8f);
+	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere());
 
 	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 

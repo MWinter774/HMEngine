@@ -179,6 +179,7 @@ void HMEngine::Components::DebugComponent::AttachToGameObjectEvent()
 	this->AddGameObject(*this->_fakeCube);
 }
 
+int kk = 0;
 void HMEngine::Components::DebugComponent::UpdateEvent()
 {
 	if (!this->_isAdded)

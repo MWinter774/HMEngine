@@ -94,6 +94,7 @@ glm::vec3 HMEngine::Core::Rendering::Camera::GetRotation() const
 {
 	return this->_transform->GetRotation();
 }
+
 HMEngine::Core::Physics::Ray HMEngine::Core::Rendering::Camera::GetRayFromScreenPoint(const glm::vec2& screenPos)
 {
 	glm::vec2 normalizedPoints = this->GetNormalizedCoords(screenPos);

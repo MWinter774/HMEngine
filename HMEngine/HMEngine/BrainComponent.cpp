@@ -7,6 +7,7 @@
 #include "PhysicsEngine.h"
 #include "RaycastInfo.h"
 #include "HardwareInputs.h"
+#include "Camera.h"
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Player& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 4 }),
 _player(&player), _playerMovement(&player.GetCameraController()->GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4)
@@ -77,7 +78,7 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 	//auto ray2 = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
 	//HMEngine::Core::Physics::RaycastInfo f = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray2);
 
-	auto f = HMEngine::Core::Physics::PhysicsEngine::Raycast(this->_parentObject->GetTransform().GetPosition(),
+	/*auto f = HMEngine::Core::Physics::PhysicsEngine::Raycast(this->_parentObject->GetTransform().GetPosition(),
 		 this->_player->GetTransform().GetPosition() - this->_parentObject->GetTransform().GetPosition(), 5);
 
 	if (f.HasObject(*this))
@@ -86,8 +87,13 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 	
 	{
 		std::cout << "1";
-	}
+	}*/
 
+	if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
+	{
+		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
+		auto k = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray);
+	}
 	//this->_parentObject->GetTransform().LookAt(HMEngine::Core::Rendering::Camera::GetInstance().GetPosition());
 	//this->_parentObject->GetTransform().AddPositionX(0.01f);
 }

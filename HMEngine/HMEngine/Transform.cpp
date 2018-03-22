@@ -101,11 +101,9 @@ void HMEngine::Core::Transform::UpdateTranslationMatrix()
 
 void HMEngine::Core::Transform::UpdateRotationMatrix()
 {
-	glm::mat4 rotX = glm::rotate(this->_rotation.x, HMEngine::GameSettings::X_AXIS);
-	glm::mat4 rotY = glm::rotate(this->_rotation.y, HMEngine::GameSettings::Y_AXIS);
-	glm::mat4 rotZ = glm::rotate(this->_rotation.z, HMEngine::GameSettings::Z_AXIS);
+	this->_rotationQuat = glm::quat(this->_rotation);
 
-	this->_rotationMatrix = rotX * rotY * rotZ;
+	this->_rotationMatrix = glm::mat4(this->_rotationQuat);
 
 	this->_transformationMatrix = this->_translationMatrix * this->_rotationMatrix * this->_scaleMatrix;
 }

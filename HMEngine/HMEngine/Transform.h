@@ -31,12 +31,12 @@ namespace HMEngine
 			inline void SetPositionZ(float z) { this->_position.z = z; this->UpdateTranslationMatrix(); }
 			inline void SetPosition(const glm::vec3& other) { this->_position = other; this->UpdateTranslationMatrix(); }
 			inline void SetPosition(float x, float y, float z) { this->_position = { x,y,z }; this->UpdateTranslationMatrix(); }
-			inline void AddPositionX(float x) { this->_position.x += x; this->UpdateTranslationMatrix(); };
-			inline void AddPositionY(float y) { this->_position.y += y; this->UpdateTranslationMatrix(); };
-			inline void AddPositionZ(float z) { this->_position.z += z; this->UpdateTranslationMatrix(); };
-			inline void AddPosition(const glm::vec3& other) { this->_position += other; this->UpdateTranslationMatrix(); };
-			inline void AddPosition(float x, float y, float z) { this->_position += glm::vec3(x, y, z); this->UpdateTranslationMatrix(); };
-			inline void AddPosition(float count) { this->_position += glm::vec3(count, count, count); this->UpdateTranslationMatrix(); };
+			inline void AddPositionX(float x) { this->_position.x += x; this->UpdateTranslationMatrix(); }
+			inline void AddPositionY(float y) { this->_position.y += y; this->UpdateTranslationMatrix(); }
+			inline void AddPositionZ(float z) { this->_position.z += z; this->UpdateTranslationMatrix(); }
+			inline void AddPosition(const glm::vec3& other) { this->_position += other; this->UpdateTranslationMatrix(); }
+			inline void AddPosition(float x, float y, float z) { this->_position += glm::vec3(x, y, z); this->UpdateTranslationMatrix(); }
+			inline void AddPosition(float count) { this->_position += glm::vec3(count, count, count); this->UpdateTranslationMatrix(); }
 
 			/* Rotation getters/setters/adders */
 			inline float GetRotationX() const { return this->_rotation.x; }
@@ -48,11 +48,11 @@ namespace HMEngine
 			inline void SetRotationZ(float z) { this->_rotation.z = z; this->UpdateRotationMatrix(); }
 			inline void SetRotation(const glm::vec3& other) { this->_rotation = other; this->UpdateRotationMatrix(); }
 			inline void SetRotation(float x, float y, float z) { this->_rotation = { x,y,z }; this->UpdateRotationMatrix(); }
-			inline void AddRotationX(float x) { this->_rotation.x += x; this->UpdateRotationMatrix(); };
-			inline void AddRotationY(float y) { this->_rotation.y += y; this->UpdateRotationMatrix(); };
-			inline void AddRotationZ(float z) { this->_rotation.z += z; this->UpdateRotationMatrix(); };
-			inline void AddRotation(const glm::vec3& other) { this->_rotation += other; this->UpdateRotationMatrix(); };
-			inline void AddRotation(float x, float y, float z) { this->_rotation += glm::vec3(x, y, z); this->UpdateRotationMatrix(); };
+			inline void AddRotationX(float x) { this->_rotation.x += x; this->UpdateRotationMatrix(); }
+			inline void AddRotationY(float y) { this->_rotation.y += y; this->UpdateRotationMatrix(); }
+			inline void AddRotationZ(float z) { this->_rotation.z += z; this->UpdateRotationMatrix(); }
+			inline void AddRotation(const glm::vec3& other) { this->_rotation += other; this->UpdateRotationMatrix(); }
+			inline void AddRotation(float x, float y, float z) { this->_rotation += glm::vec3(x, y, z); this->UpdateRotationMatrix(); }
 
 			/* Scale getters/setters/adders */
 			inline float GetScaleX() const { return this->_scale.x; }
@@ -64,11 +64,13 @@ namespace HMEngine
 			inline void SetScaleZ(float z) { this->_scale.z = z; this->UpdateScaleMatrix(); }
 			inline void SetScale(const glm::vec3& other) { this->_scale = other; this->UpdateScaleMatrix(); }
 			inline void SetScale(float x, float y, float z) { this->_scale = { x,y,z }; this->UpdateScaleMatrix(); }
-			inline void AddScaleX(float x) { this->_scale.x += x; this->UpdateScaleMatrix(); };
-			inline void AddScaleY(float y) { this->_scale.y += y; this->UpdateScaleMatrix(); };
-			inline void AddScaleZ(float z) { this->_scale.z += z; this->UpdateScaleMatrix(); };
-			inline void AddScale(const glm::vec3& other) { this->_scale += other; this->UpdateScaleMatrix(); };
-			inline void AddScale(float x, float y, float z) { this->_scale += glm::vec3(x, y, z); this->UpdateScaleMatrix(); };
+			inline void AddScaleX(float x) { this->_scale.x += x; this->UpdateScaleMatrix(); }
+			inline void AddScaleY(float y) { this->_scale.y += y; this->UpdateScaleMatrix(); }
+			inline void AddScaleZ(float z) { this->_scale.z += z; this->UpdateScaleMatrix(); }
+			inline void AddScale(const glm::vec3& other) { this->_scale += other; this->UpdateScaleMatrix(); }
+			inline void AddScale(float x, float y, float z) { this->_scale += glm::vec3(x, y, z); this->UpdateScaleMatrix(); }
+
+			inline glm::quat GetRotationQuat() const { return this->_rotationQuat; }
 
 			void LookAt(const glm::vec3& dst);
 
@@ -80,6 +82,7 @@ namespace HMEngine
 		private:
 			glm::vec3 _position;
 			glm::vec3 _rotation;
+			glm::quat _rotationQuat;
 			glm::vec3 _scale;
 
 			glm::mat4 _translationMatrix;

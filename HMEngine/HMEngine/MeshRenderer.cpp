@@ -18,7 +18,7 @@ HMEngine::Components::MeshRenderer::~MeshRenderer()
 	if (this->_isAttachedToGameObject)
 	{
 		HMEngine::Core::Rendering::RenderingEngine::GetInstance().RemoveMeshRenderer(*this);
-		HMEngine::Core::Physics::PhysicsEngine::RemoveGameObjectCollider(&this->_mesh->GetBoundingSphere());
+		//HMEngine::Core::Physics::PhysicsEngine::RemoveGameObjectCollider(&this->_mesh->GetBoundingSphere());
 	}
 	delete this->_mesh;
 	delete this->_texture;
@@ -36,7 +36,7 @@ HMEngine::Components::MeshRenderer::MeshRenderer(const HMEngine::Components::Mes
 	if (other._isAttachedToGameObject)
 	{
 		this->_isAttachedToGameObject = other._isAttachedToGameObject;
-		HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
+		//HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 	}
 }
 
@@ -56,7 +56,7 @@ HMEngine::Components::MeshRenderer& HMEngine::Components::MeshRenderer::operator
 		if (other._isAttachedToGameObject)
 		{
 			this->_isAttachedToGameObject = other._isAttachedToGameObject;
-			HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
+			//HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
 		}
 	}
 
@@ -71,7 +71,7 @@ void HMEngine::Components::MeshRenderer::DrawMesh()
 void HMEngine::Components::MeshRenderer::AttachToGameObjectEvent()
 {
 	HMEngine::Core::Rendering::RenderingEngine::GetInstance().AddMeshRenderer(*this);
-	HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(&this->_mesh->GetBoundingSphere(), this->_parentObject);
+	//HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(&this->_mesh->GetBoundingSphere(), this->_parentObject);
 }
 
 void HMEngine::Components::MeshRenderer::SetTexture(const std::string& texturePath)

@@ -4,8 +4,10 @@
 #include "Utilities.h"
 #include <iostream>
 #include <memory>
+#include "MeshRenderer.h"
 
-HMEngine::Core::GameObject::GameObject(const std::string& name) : _transform(new HMEngine::Core::Transform()), _components(), _gameEngine(nullptr), _name(name)
+HMEngine::Core::GameObject::GameObject(const std::string& name) : _transform(new HMEngine::Core::Transform()), _components(), _gameEngine(nullptr), _name(name),
+_meshRenderer(nullptr)
 {
 }
 
@@ -24,6 +26,8 @@ HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) 
 	for (auto& component : other._components)
 	{
 		newComponent = component->Clone();
+		if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(newComponent))
+			this->_meshRenderer = meshRenderer;
 		newComponent->_parentObject = this;
 		this->_components.push_back(newComponent);
 	}
@@ -45,6 +49,8 @@ HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine
 		for (auto& component : other._components)
 		{
 			newComponent = component->Clone();
+			if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(newComponent))
+				this->_meshRenderer = meshRenderer;
 			newComponent->_parentObject = this;
 			this->_components.push_back(newComponent);
 		}
@@ -63,12 +69,16 @@ void HMEngine::Core::GameObject::SetTransform(const HMEngine::Core::Transform& t
 void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& component)
 {
 	HMEngine::Components::Component* newComponent = component.Clone();
+	if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(newComponent))
+		this->_meshRenderer = meshRenderer;
 	newComponent->_parentObject = this;
 	this->_components.push_back(newComponent);
 }
 
 void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component* component)
 {
+	if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(component))
+		this->_meshRenderer = meshRenderer;
 	component->_parentObject = this;
 	this->_components.push_back(component);
 }
@@ -82,6 +92,8 @@ HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other, 
 	for (auto& component : other._components)
 	{
 		newComponent = component->Clone();
+		if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(newComponent))
+			this->_meshRenderer = meshRenderer;
 		newComponent->_parentObject = this;
 		this->_components.push_back(newComponent);
 	}

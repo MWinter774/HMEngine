@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "RaycastInfo.h"
 
-std::unordered_map<HMEngine::Core::Physics::BoundingSphere*, HMEngine::Core::GameObject*> HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders;
+std::unordered_set<HMEngine::Core::Physics::Colliders::Collider*> HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders;
 HMEngine::Core::Physics::PhysicsEngine::BulletData HMEngine::Core::Physics::PhysicsEngine::_bulletData;
 
 /*
@@ -38,39 +38,62 @@ HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Ray
 
 	glm::vec3 rayDirection = ray.GetDirection();
 	glm::vec3 rayOrigin = ray.GetOrigin();
+	glm::vec3 rayEnd = rayOrigin + rayDirection * 100.0f;
 
-	float b = 0.0f;
-	float c = 0.0f;
-	glm::vec3 center;
-	float radius = 0.0f;
-	glm::vec3 distance;
-	HMEngine::Core::Physics::BoundingSphere* boundingSphere = nullptr;
-	for (auto item : HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders)
+	btCollisionWorld::ClosestRayResultCallback RayCallback(
+		btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
+		btVector3(rayEnd.x, rayEnd.y, rayEnd.z)
+	);
+
+	HMEngine::Core::Physics::PhysicsEngine::GetBulletData().dynamicsWorld->rayTest(
+		btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
+		btVector3(rayEnd.x, rayEnd.y, rayEnd.z),
+		RayCallback
+	);
+
+	if (RayCallback.hasHit())
 	{
-		boundingSphere = item.first;
-		radius = boundingSphere->GetRadius();
-		center = boundingSphere->GetCenter() + item.second->GetTransform().GetPosition();
-		distance = rayOrigin - center;
-
-		b = glm::dot(rayDirection, distance);
-		c = glm::dot(distance, distance) - radius * radius;
-		if (b * b - c >= 0)
-		{
-			info.isHit = true;
-			info.hits.emplace(glm::distance(rayOrigin, center), item.second);
-		}
+		std::cout << "Hit!" << std::endl;
 	}
+	else 
+	{
+		std::cout << "Not Hit!" << std::endl;
+	}
+
+	//float b = 0.0f;
+	//float c = 0.0f;
+	//glm::vec3 center;
+	//float radius = 0.0f;
+	//glm::vec3 distance;
+	//HMEngine::Core::Physics::Colliders::Collider* boundingSphere = nullptr;
+	//for (auto item : HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders)
+	//{
+	//	/*boundingSphere = item.first;
+	//	radius = boundingSphere->GetRadius();
+	//	center = boundingSphere->GetCenter() + item.second->GetTransform().GetPosition();
+	//	distance = rayOrigin - center;
+
+	//	b = glm::dot(rayDirection, distance);
+	//	c = glm::dot(distance, distance) - radius * radius;
+	//	if (b * b - c >= 0)
+	//	{
+	//		info.isHit = true;
+	//		info.hits.emplace(glm::distance(rayOrigin, center), item.second);
+	//	}*/
+	//}
+
+
 	return info;
 }
 
-void HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(HMEngine::Core::Physics::BoundingSphere* boundingSphere, HMEngine::Core::GameObject* gameObject)
+void HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(HMEngine::Core::Physics::Colliders::Collider* collider)
 {
-	HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders[boundingSphere] = gameObject;
+	HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders.insert(collider);
 }
 
-void HMEngine::Core::Physics::PhysicsEngine::RemoveGameObjectCollider(HMEngine::Core::Physics::BoundingSphere* boundingSphere)
+void HMEngine::Core::Physics::PhysicsEngine::RemoveGameObjectCollider(HMEngine::Core::Physics::Colliders::Collider* collider)
 {
-	HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders.erase(boundingSphere);
+	HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders.erase(collider);
 }
 
 void HMEngine::Core::Physics::PhysicsEngine::Initialize()

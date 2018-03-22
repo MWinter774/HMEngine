@@ -1,7 +1,8 @@
 #pragma once
 #include <glm\glm.hpp>
 #include <vector>
-#include "Seb\Seb.h"
+#include "bullet\btBulletDynamicsCommon.h"
+#include "Collider.h"
 
 namespace HMEngine
 {
@@ -11,26 +12,33 @@ namespace HMEngine
 		{
 			class IntersectionData;
 
-			class BoundingSphere
+			namespace Colliders
 			{
-			public:
-				BoundingSphere(const std::vector<glm::vec3>& vertices);
-				BoundingSphere(const glm::vec3& center, float radius);
-				~BoundingSphere();
-				BoundingSphere(const HMEngine::Core::Physics::BoundingSphere& other);
-				HMEngine::Core::Physics::BoundingSphere& operator=(const HMEngine::Core::Physics::BoundingSphere& other);
+				class BoundingSphere : public HMEngine::Core::Physics::Colliders::Collider
+				{
+				public:
+					BoundingSphere();
+					BoundingSphere(const glm::vec3& center, float radius);
+					~BoundingSphere();
+					BoundingSphere(const HMEngine::Core::Physics::Colliders::BoundingSphere& other);
+					HMEngine::Core::Physics::Colliders::BoundingSphere& operator=(const HMEngine::Core::Physics::Colliders::BoundingSphere& other);
 
-				HMEngine::Core::Physics::IntersectionData IsIntersect(const HMEngine::Core::Physics::BoundingSphere& other);
+					inline HMEngine::Components::Component* Clone() override { return new HMEngine::Core::Physics::Colliders::BoundingSphere(*this); }
 
-				inline glm::vec3 GetCenter() const { return this->_center; }
-				inline float GetRadius() const { return this->_radius; }
+					HMEngine::Core::Physics::IntersectionData IsIntersect(const HMEngine::Core::Physics::Colliders::BoundingSphere& other);
 
-			private:
-				Seb::Smallest_enclosing_ball<float>* _miniball;
-				std::vector<Seb::Point<float>> _points;
-				glm::vec3 _center;
-				float _radius;
-			};
+					inline glm::vec3 GetCenter() const { return this->_center; }
+					inline float GetRadius() const { return this->_radius; }
+
+					void Initialize() override;
+
+				private:
+					glm::vec3 _center;
+					float _radius;
+					btSphereShape* _collider;
+					btRigidBody* _rigidBody;
+				};
+			}
 		}
 	}
 }

@@ -4,16 +4,12 @@
 #include <glm\glm.hpp>
 #include <iostream>
 #include <vector>
+#include "Seb\Seb.h"
 
 namespace HMEngine
 {
 	namespace Core
 	{
-		namespace Physics
-		{
-			class BoundingSphere;
-		}
-
 		class Mesh
 		{
 		public:
@@ -40,9 +36,8 @@ namespace HMEngine
 			inline std::vector<glm::vec2>& GetUVs() { return this->_uvs; };
 			inline std::vector<fIndices> GetFaceIndices() { return this->_fIndices; };
 			inline int GetNumIndices() { return this->_numIndices; };
-			float GetRadius() const;
-			glm::vec3 GetCenter() const;
-			HMEngine::Core::Physics::BoundingSphere& GetBoundingSphere();
+			inline float GetRadius() const { return this->_meshPhysicalData.radius; }
+			inline glm::vec3 GetCenter() const { return this->_meshPhysicalData.center; }
 
 			inline void AddVertex(const glm::vec3& vertex) { this->_vertices.push_back(vertex); }
 			inline void AddUV(const glm::vec2& uv) { this->_uvs.push_back(uv); }
@@ -54,6 +49,14 @@ namespace HMEngine
 			void Draw();
 
 		private:
+			static std::pair<glm::vec3, float> GetRadiusAndCenterFromMesh(const std::vector<glm::vec3>& vertices);
+
+			typedef struct
+			{
+				glm::vec3 center;
+				float radius;
+			} MeshPhysicalData;
+
 			enum vboIndexes
 			{
 				VBO_VERTICES,
@@ -80,7 +83,7 @@ namespace HMEngine
 			GLuint _vao;
 			GLuint _vbo[NUM_BUFFERS];
 
-			HMEngine::Core::Physics::BoundingSphere* _boundingSphere;
+			MeshPhysicalData _meshPhysicalData;
 		};
 
 	}

@@ -10,36 +10,45 @@
 
 HMEngine::Core::Mesh::Mesh()
 {
+	this->_meshPhysicalData.center = glm::vec3(-999,-999,-999);
+	this->_meshPhysicalData.radius = -1.0f;
 }
 
 HMEngine::Core::Mesh::Mesh(const std::string& path) : _numIndices(0)
 {
 	this->Load(path);
-	this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(this->_vertices);
 	this->InitBuffers();
+
+	auto[center, radius] = HMEngine::Core::Mesh::GetRadiusAndCenterFromMesh(this->_vertices);
+	this->_meshPhysicalData.center = center;
+	this->_meshPhysicalData.radius = radius;
 }
 
 HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<GLuint>& indices) : _numIndices(0), _vertices(vertices), _uvs(uvs), _normals(normals), _indices(indices)
 {
-	this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(this->_vertices);
 	this->InitBuffers();
+
+	auto[center, radius] = HMEngine::Core::Mesh::GetRadiusAndCenterFromMesh(this->_vertices);
+	this->_meshPhysicalData.center = center;
+	this->_meshPhysicalData.radius = radius;
 }
 
 HMEngine::Core::Mesh::Mesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals) : _numIndices(0), _vertices(vertices), _uvs(uvs), _normals(normals)
 {
-	this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(this->_vertices);
 	this->InitBuffers();
+
+	auto[center, radius] = HMEngine::Core::Mesh::GetRadiusAndCenterFromMesh(this->_vertices);
+	this->_meshPhysicalData.center = center;
+	this->_meshPhysicalData.radius = radius;
 }
 
-HMEngine::Core::Mesh::Mesh(const HMEngine::Core::Mesh& other)
+HMEngine::Core::Mesh::Mesh(const HMEngine::Core::Mesh& other) : _meshPhysicalData(other._meshPhysicalData)
 {
 	this->_vertices = other._vertices;
 	this->_normals = other._normals;
 	this->_uvs = other._uvs;
 	this->_fIndices = other._fIndices;
 	this->_indices = other._indices;
-	if (other._boundingSphere != nullptr)
-		this->_boundingSphere = new HMEngine::Core::Physics::BoundingSphere(*other._boundingSphere);
 
 	this->InitBuffers();
 }
@@ -53,8 +62,6 @@ HMEngine::Core::Mesh::~Mesh()
 	glDeleteBuffers(NUM_BUFFERS, this->_vbo);
 	glDeleteBuffers(1, &this->_vao);
 	glBindVertexArray(0);
-	if (this->_boundingSphere != nullptr)
-		delete this->_boundingSphere;
 }
 
 void HMEngine::Core::Mesh::Load(const std::string& path)
@@ -157,6 +164,8 @@ HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& othe
 		this->_fIndices = other._fIndices;
 		this->_indices = other._indices;
 
+		this->_meshPhysicalData = other._meshPhysicalData;
+
 		/* Gets rid of old buffers */
 		glBindVertexArray(this->_vao);
 		glDisableVertexAttribArray(0);
@@ -164,9 +173,6 @@ HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& othe
 		glDisableVertexAttribArray(2);
 		glDeleteBuffers(2, this->_vbo);
 		glDeleteBuffers(1, &this->_vao);
-
-		if (other._boundingSphere != nullptr)
-			*this->_boundingSphere = *other._boundingSphere;
 
 		/* Generate new ones with the new values */
 		this->InitBuffers();
@@ -191,23 +197,38 @@ void HMEngine::Core::Mesh::Draw()
 	}
 }
 
-float HMEngine::Core::Mesh::GetRadius() const
+std::pair<glm::vec3, float> HMEngine::Core::Mesh::GetRadiusAndCenterFromMesh(const std::vector<glm::vec3>& vertices)
 {
-	if (this->_boundingSphere != nullptr)
-		return this->_boundingSphere->GetRadius();
-	return 0.0f;
-}
+	std::vector<float> coords;
+	std::vector<Seb::Point<float>> points;
+	glm::vec3 center;
+	float radius;
+	Seb::Smallest_enclosing_ball<float>* miniball;
 
-glm::vec3 HMEngine::Core::Mesh::GetCenter() const
-{
-	if (this->_boundingSphere != nullptr)
-		return this->_boundingSphere->GetCenter();
-	return glm::vec3();
-}
+	for (auto& vertex : vertices)
+	{
+		coords.push_back(vertex.x);
+		coords.push_back(vertex.y);
+		coords.push_back(vertex.z);
 
-HMEngine::Core::Physics::BoundingSphere& HMEngine::Core::Mesh::GetBoundingSphere()
-{
-	return *this->_boundingSphere;
+		points.push_back(Seb::Point<float>(3, coords.begin()));
+
+		coords.clear();
+	}
+	miniball = new Seb::Smallest_enclosing_ball<float>(3, points);
+	radius = miniball->radius();
+
+	/* Initializes the center */
+	float tempCenter[3] = { 0.0f };
+	float* centerBegin = miniball->center_begin();
+	float* centerEnd = miniball->center_end();
+	for (unsigned int i = 0; i < 3 && centerBegin != centerEnd; i++)
+	{
+		tempCenter[i] = *centerBegin++;
+	}
+	center = glm::vec3(tempCenter[0], tempCenter[1], tempCenter[2]);
+
+	return std::pair<glm::vec3, float>(center, radius);
 }
 
 void HMEngine::Core::Mesh::InitBuffers()
