@@ -4,7 +4,7 @@
 #include "MeshRenderer.h"
 #include "PhysicsEngine.h"
 
-HMEngine::Core::Physics::Colliders::BoundingPlane::BoundingPlane::BoundingPlane()
+HMEngine::Core::Physics::Colliders::BoundingPlane::BoundingPlane::BoundingPlane(float mass) : HMEngine::Core::Physics::Colliders::Collider(mass)
 {
 }
 
@@ -42,7 +42,7 @@ void HMEngine::Core::Physics::Colliders::BoundingPlane::Initialize()
 	));
 
 	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
-		0,                  // mass, in kg. 0 -> Static object, will never move.
+		this->_mass,                  // mass, in kg. 0 -> Static object, will never move.
 		motionState,
 		this->_collider,  // collision shape of body
 		btVector3(0, 0, 0)    // local inertia

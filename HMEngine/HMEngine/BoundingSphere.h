@@ -8,17 +8,13 @@ namespace HMEngine
 	{
 		namespace Physics
 		{
-			class IntersectionData;
-
 			namespace Colliders
 			{
 				class BoundingSphere : public HMEngine::Core::Physics::Colliders::Collider
 				{
 				public:
-					BoundingSphere();
+					BoundingSphere(float mass);
 					~BoundingSphere();
-					BoundingSphere(const HMEngine::Core::Physics::Colliders::BoundingSphere& other);
-					HMEngine::Core::Physics::Colliders::BoundingSphere& operator=(const HMEngine::Core::Physics::Colliders::BoundingSphere& other);
 
 					inline HMEngine::Components::Component* Clone() override { return new HMEngine::Core::Physics::Colliders::BoundingSphere(*this); }
 

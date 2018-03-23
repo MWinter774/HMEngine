@@ -1,24 +1,32 @@
-#include "BoundingSphere.h"
-#include "bullet\btBulletDynamicsCommon.h"
+#include "BoundingCapsule.h"
 #include "GameObject.h"
-#include "MeshRenderer.h"
-#include "PhysicsEngine.h"
-#include "glm\gtc\quaternion.hpp"
 #include "Transform.h"
+#include "PhysicsEngine.h"
+#include "MeshRenderer.h"
 
-HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(float mass) : HMEngine::Core::Physics::Colliders::Collider(mass)
+HMEngine::Core::Physics::Colliders::BoundingCapsule::BoundingCapsule(float mass) : HMEngine::Core::Physics::Colliders::Collider(mass)
 {
 }
 
-HMEngine::Core::Physics::Colliders::BoundingSphere::~BoundingSphere()
+HMEngine::Core::Physics::Colliders::BoundingCapsule::~BoundingCapsule()
 {
 }
 
-void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
+void HMEngine::Core::Physics::Colliders::BoundingCapsule::Initialize()
 {
-	this->_center = this->_parentObject->GetMeshRenderer()->GetCenter();
-	this->_radius = this->_parentObject->GetMeshRenderer()->GetRadius();
-	this->_collider = new btSphereShape(this->_radius);
+	float radius = this->_parentObject->GetMeshRenderer()->GetRadius();
+	float height = 0.0f;
+	float minY = 999.0f, maxY = -999.0f;
+
+	for (auto& vertex : this->_parentObject->GetMeshRenderer()->GetVertices())
+	{
+		if (vertex.y > maxY) maxY = vertex.y;
+		if (vertex.y < minY) minY = vertex.y;
+	}
+
+	height = abs(maxY - minY);
+	radius = abs(radius - height) / 2.0f;
+	this->_collider = new btCapsuleShape(radius, height);
 
 	glm::quat rotationQuat = this->_parentObject->GetTransform().GetRotationQuat();
 	glm::vec3 position = this->_parentObject->GetTransform().GetPosition();
@@ -32,7 +40,7 @@ void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
 		this->_mass,                  // mass, in kg. 0 -> Static object, will never move.
 		motionState,
 		this->_collider,  // collision shape of body
-		btVector3(this->_center.x, this->_center.y, this->_center.z)    // local inertia
+		btVector3(0, 0, 0)    // local inertia
 	);
 
 	this->_rigidBody = new btRigidBody(rigidBodyCI);

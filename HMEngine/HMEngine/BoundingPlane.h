@@ -13,7 +13,7 @@ namespace HMEngine
 				class BoundingPlane : public HMEngine::Core::Physics::Colliders::Collider
 				{
 				public:
-					BoundingPlane();
+					BoundingPlane(float mass);
 					~BoundingPlane();
 
 					inline HMEngine::Components::Component* Clone() override { return new HMEngine::Core::Physics::Colliders::BoundingPlane(*this); }

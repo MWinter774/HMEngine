@@ -22,6 +22,7 @@
 #include "BrainComponent.h"
 #include "BoundingSphere.h"
 #include "BoundingPlane.h"
+#include "BoundingCapsule.h"
 
 int main()
 {
@@ -171,15 +172,15 @@ int main()
 
 	//g.InitializeWorldEditor(1200, 720, title, false);
 
-	HMEngine::Player* p = new HMEngine::Player("player", 15, 20);
+	HMEngine::Player* p = new HMEngine::Player("player", 15, 30.0f);
 	g.AddGameObject(p);
 
 	//ML
 	HMEngine::Core::GameObject floor("floor");
-	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane());
+	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0));
 	HMEngine::Core::GameObject bot("bot");
 	bot.GetTransform().AddPositionY(100.0f);
-	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere());
+	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(900.0f));
 
 	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 

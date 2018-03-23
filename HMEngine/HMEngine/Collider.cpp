@@ -2,7 +2,7 @@
 #include "PhysicsEngine.h"
 #include "GameObject.h"
 
-HMEngine::Core::Physics::Colliders::Collider::Collider() : _collider(nullptr), _rigidBody(nullptr)
+HMEngine::Core::Physics::Colliders::Collider::Collider(float mass) : _collider(nullptr), _rigidBody(nullptr), _mass(abs(mass))
 {
 }
 

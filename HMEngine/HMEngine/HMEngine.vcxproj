@@ -129,6 +129,7 @@
     <ClCompile Include="AmbientLightShader.cpp" />
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
+    <ClCompile Include="BoundingCapsule.cpp" />
     <ClCompile Include="BoundingPlane.cpp" />
     <ClCompile Include="BrainComponent.cpp" />
     <ClCompile Include="CircleMovementComponentScreen.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="AmbientLightShader.h" />
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
+    <ClInclude Include="BoundingCapsule.h" />
     <ClInclude Include="BoundingPlane.h" />
     <ClInclude Include="BrainComponent.h" />
     <ClInclude Include="CircleMovementComponentScreen.h" />

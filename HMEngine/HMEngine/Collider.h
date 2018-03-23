@@ -16,7 +16,7 @@ namespace HMEngine
 				{
 					friend class PhysicsEngine;
 				public:
-					Collider();
+					Collider(float mass);
 					virtual ~Collider();
 
 					void AttachToGameObjectEvent() override;
@@ -26,6 +26,7 @@ namespace HMEngine
 				protected:
 					btCollisionShape* _collider;
 					btRigidBody* _rigidBody;
+					float _mass;
 				};
 			}
 		}
