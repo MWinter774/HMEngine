@@ -51,7 +51,7 @@ namespace HMEngine
 			void AddComponent(HMEngine::Components::Component& component);
 			void AddComponent(HMEngine::Components::Component* component);
 
-			inline const HMEngine::Components::MeshRenderer* GetMeshRenderer() const { return this->_meshRenderer; }
+			inline HMEngine::Components::MeshRenderer* GetMeshRenderer() const { return this->_meshRenderer; }
 
 		protected:
 			HMEngine::Core::Transform* _transform;

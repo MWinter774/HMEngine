@@ -115,11 +115,11 @@ void HMEngine::Core::Physics::PhysicsEngine::Destroy()
 void HMEngine::Core::Physics::PhysicsEngine::Update()
 {
 	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->stepSimulation(1 / 60.0f);
+	btTransform trans;
 
 	for (auto& pair : HMEngine::Core::Physics::PhysicsEngine::_rigidBodies)
 	{
-		btTransform trans;
 		pair.first->getMotionState()->getWorldTransform(trans);
-		pair.second->GetTransform().SetPosition(trans.getOrigin().x(), trans.getOrigin().y(), trans.getOrigin().z());
+		pair.second->GetTransform().SetPositionAndRotationMatrices(trans);
 	}
 }

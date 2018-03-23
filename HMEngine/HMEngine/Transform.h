@@ -8,6 +8,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/transform.hpp>
+#include "bullet\LinearMath\btTransform.h"
 
 namespace HMEngine
 {
@@ -18,8 +19,6 @@ namespace HMEngine
 		public:
 			Transform(const glm::vec3& position = { 0,0,0 }, const glm::vec3& rotation = { 0,0,0 }, const glm::vec3& scale = { 1,1,1 });
 			~Transform();
-
-			//Transform operator=(const Transform& transform); 
 
 			/* Position getters/setters/adders */
 			inline float GetPositionX() const { return this->_position.x; }
@@ -73,6 +72,8 @@ namespace HMEngine
 			inline glm::quat GetRotationQuat() const { return this->_rotationQuat; }
 
 			void LookAt(const glm::vec3& dst);
+
+			void SetPositionAndRotationMatrices(const btTransform& transform);
 
 			glm::mat4 GetTranslationMatrix() const;
 			glm::mat4 GetModelMatrix() const;

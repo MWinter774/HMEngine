@@ -62,6 +62,14 @@ void HMEngine::Core::Transform::LookAt(const glm::vec3& dst)
 	this->_transformationMatrix = this->_translationMatrix * this->_rotationMatrix * this->_scaleMatrix;
 }
 
+void HMEngine::Core::Transform::SetPositionAndRotationMatrices(const btTransform& transform)
+{
+	glm::mat4 tmp;
+	transform.getOpenGLMatrix(glm::value_ptr(tmp));
+
+	this->_transformationMatrix = tmp * this->_scaleMatrix;
+}
+
 glm::mat4 HMEngine::Core::Transform::GetTranslationMatrix() const
 {
 	return glm::translate(this->_position);

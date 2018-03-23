@@ -1,5 +1,4 @@
 #include "BoundingSphere.h"
-#include "IntersectionData.h"
 #include "bullet\btBulletDynamicsCommon.h"
 #include "GameObject.h"
 #include "MeshRenderer.h"
@@ -8,10 +7,6 @@
 #include "Transform.h"
 
 HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere()
-{
-}
-
-HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(const glm::vec3& center, float radius) : _center(center), _radius(radius)
 {
 }
 
@@ -53,13 +48,11 @@ void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
 	));
 
 	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
-		0,                  // mass, in kg. 0 -> Static object, will never move.
+		0.01f,                  // mass, in kg. 0 -> Static object, will never move.
 		motionState,
 		this->_collider,  // collision shape of body
-		btVector3(0, 0, 0)    // local inertia
+		btVector3(this->_center.x, this->_center.y, this->_center.z)    // local inertia
 	);
-	if (this->_parentObject->GetName() == "bot")
-		rigidBodyCI.m_mass = 1.0f;
 
 	this->_rigidBody = new btRigidBody(rigidBodyCI);
 	this->_rigidBody->setUserPointer(this);

@@ -1,7 +1,5 @@
 #pragma once
 #include "glm\glm.hpp"
-#include <vector>
-#include "bullet\btBulletDynamicsCommon.h"
 #include "Collider.h"
 
 namespace HMEngine
@@ -18,7 +16,6 @@ namespace HMEngine
 				{
 				public:
 					BoundingSphere();
-					BoundingSphere(const glm::vec3& center, float radius);
 					~BoundingSphere();
 					BoundingSphere(const HMEngine::Core::Physics::Colliders::BoundingSphere& other);
 					HMEngine::Core::Physics::Colliders::BoundingSphere& operator=(const HMEngine::Core::Physics::Colliders::BoundingSphere& other);
