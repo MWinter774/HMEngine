@@ -27,9 +27,9 @@ void HMEngine::Core::Physics::Colliders::BoundingPlane::Initialize()
 		if (vertex.z < minVertex.z)	minVertex.z = vertex.z;
 	}
 
-	float width = abs(maxVertex.x - minVertex.x);
-	float height = abs(maxVertex.y - minVertex.y);
-	float depth = abs(maxVertex.z - minVertex.z);
+	float width = abs(maxVertex.x - minVertex.x) * this->_parentObject->GetTransform().GetScaleX();
+	float height = abs(maxVertex.y - minVertex.y) * this->_parentObject->GetTransform().GetScaleY();
+	float depth = abs(maxVertex.z - minVertex.z) * this->_parentObject->GetTransform().GetScaleZ();
 
 	this->_collider = new btBoxShape(btVector3(width / 2.0f, height / 2.0f, depth / 2.0f));
 

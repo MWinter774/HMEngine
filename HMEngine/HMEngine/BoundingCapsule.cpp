@@ -24,8 +24,8 @@ void HMEngine::Core::Physics::Colliders::BoundingCapsule::Initialize()
 		if (vertex.y < minY) minY = vertex.y;
 	}
 
-	height = abs(maxY - minY);
-	radius = abs(radius - height) / 2.0f;
+	height = abs(maxY - minY) * this->_parentObject->GetTransform().GetScaleY();
+	radius = (abs(radius - height) / 2.0f) * this->_parentObject->GetTransform().GetScaleX();
 	this->_collider = new btCapsuleShape(radius, height);
 
 	glm::quat rotationQuat = this->_parentObject->GetTransform().GetRotationQuat();

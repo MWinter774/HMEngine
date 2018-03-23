@@ -18,7 +18,7 @@ void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
 {
 	this->_center = this->_parentObject->GetMeshRenderer()->GetCenter();
 	this->_radius = this->_parentObject->GetMeshRenderer()->GetRadius();
-	this->_collider = new btSphereShape(this->_radius);
+	this->_collider = new btSphereShape(this->_radius * this->_parentObject->GetTransform().GetScaleX());
 
 	glm::quat rotationQuat = this->_parentObject->GetTransform().GetRotationQuat();
 	glm::vec3 position = this->_parentObject->GetTransform().GetPosition();

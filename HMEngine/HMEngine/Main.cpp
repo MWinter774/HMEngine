@@ -177,10 +177,12 @@ int main()
 
 	//ML
 	HMEngine::Core::GameObject floor("floor");
+	floor.GetTransform().SetScaleX(10.0f);
+	floor.GetTransform().SetScaleZ(10.0f);
 	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0));
 	HMEngine::Core::GameObject bot("bot");
 	bot.GetTransform().AddPositionY(100.0f);
-	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(900.0f));
+	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(10.0f));
 
 	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 
