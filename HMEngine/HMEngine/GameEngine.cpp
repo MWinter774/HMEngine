@@ -97,6 +97,8 @@ void HMEngine::GameEngine::Run()
 
 		HMEngine::Core::EventManager::UpdateObjects();
 
+		HMEngine::Core::Physics::PhysicsEngine::Update();
+
 		if (GameSettings::IsCursorLocked())
 			HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(windowWidth / 2, windowHeight / 2);
 

@@ -5,7 +5,6 @@
 #include "Component.h"
 #include "Mesh.h"
 
-
 namespace HMEngine
 {
 	namespace OpenGL
@@ -31,8 +30,9 @@ namespace HMEngine
 			inline HMEngine::OpenGL::Texture& GetTexture() const { return *this->_texture; }
 			inline float GetShineDamper() const { return this->_shineDamper; }
 			inline float GetReflectivity() const { return this->_reflectivity; }
-			inline float GetRadius() const { return this->_mesh->GetRadius(); }
+			inline std::vector<glm::vec3>& GetVertices() { return this->_mesh->GetVertices(); }
 			inline glm::vec3 GetCenter() const { return this->_mesh->GetCenter(); }
+			inline float GetRadius() const { return this->_mesh->GetRadius(); }
 
 			void SetTexture(const std::string& texturePath);
 			inline void SetShineDamper(float shineDamper) { this->_shineDamper = shineDamper; }

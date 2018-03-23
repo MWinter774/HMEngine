@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <sstream>
 #include <iterator>
-#include "BoundingSphere.h"
 #include "Utilities.h"
 #include "InvalidMeshFileException.h"
 

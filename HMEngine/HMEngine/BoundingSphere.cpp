@@ -7,30 +7,21 @@
 #include "glm\gtc\quaternion.hpp"
 #include "Transform.h"
 
-HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere() : _collider(nullptr)
+HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere()
 {
 }
 
-HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(const glm::vec3& center, float radius) : _center(center), _radius(radius), _collider(nullptr)
+HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(const glm::vec3& center, float radius) : _center(center), _radius(radius)
 {
 }
 
 HMEngine::Core::Physics::Colliders::BoundingSphere::~BoundingSphere()
 {
-	if (this->_collider != nullptr)
-	{
-		delete this->_collider;
-		HMEngine::Core::Physics::PhysicsEngine::GetBulletData().dynamicsWorld->removeRigidBody(this->_rigidBody);
-		delete this->_rigidBody->getMotionState();
-		delete this->_rigidBody;
-	}
 }
 
 HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(const HMEngine::Core::Physics::Colliders::BoundingSphere& other) :
-	_radius(other._radius), _center(other._center)
+	HMEngine::Core::Physics::Colliders::Collider(other), _radius(other._radius), _center(other._center)
 {
-	if (other._collider != nullptr)
-		this->_collider = new btSphereShape(*other._collider);
 }
 
 HMEngine::Core::Physics::Colliders::BoundingSphere& HMEngine::Core::Physics::Colliders::BoundingSphere::operator=(
@@ -38,25 +29,13 @@ HMEngine::Core::Physics::Colliders::BoundingSphere& HMEngine::Core::Physics::Col
 {
 	if (this != &other)
 	{
-		if (this->_collider != nullptr)
-			delete this->_collider;
+		HMEngine::Core::Physics::Colliders::Collider::operator=(other);
 
 		this->_radius = other._radius;
 		this->_center = other._center;
-
-		if (other._collider != nullptr)
-			this->_collider = new btSphereShape(*other._collider);
 	}
 
 	return *this;
-}
-
-HMEngine::Core::Physics::IntersectionData HMEngine::Core::Physics::Colliders::BoundingSphere::IsIntersect(const HMEngine::Core::Physics::Colliders::BoundingSphere& other)
-{
-	float radiusDistance = this->_radius + other._radius; //distance between centers if the spheres are touching
-	float centerDistance = float((other._center - this->_center).length()); //distance between sphere's centers
-
-	return HMEngine::Core::Physics::IntersectionData(centerDistance < radiusDistance, centerDistance - radiusDistance);
 }
 
 void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
@@ -79,6 +58,9 @@ void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
 		this->_collider,  // collision shape of body
 		btVector3(0, 0, 0)    // local inertia
 	);
+	if (this->_parentObject->GetName() == "bot")
+		rigidBodyCI.m_mass = 1.0f;
+
 	this->_rigidBody = new btRigidBody(rigidBodyCI);
 	this->_rigidBody->setUserPointer(this);
 

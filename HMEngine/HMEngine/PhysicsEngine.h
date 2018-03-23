@@ -1,6 +1,7 @@
 #pragma once
 #include "glm\glm.hpp"
-#include <unordered_set>
+#include <vector>
+#include <unordered_map>
 #include "bullet\btBulletDynamicsCommon.h"
 
 namespace HMEngine
@@ -38,7 +39,11 @@ namespace HMEngine
 				static void Initialize();
 				static void Destroy();
 
+				static void Update();
+
 				inline static BulletData& GetBulletData() { return PhysicsEngine::_bulletData; }
+
+				inline static void AddCollisionShape(btCollisionShape* collisionShape) { HMEngine::Core::Physics::PhysicsEngine::_collisionShapes.push_back(collisionShape); }
 
 			private:
 				PhysicsEngine() = delete;
@@ -46,9 +51,12 @@ namespace HMEngine
 				PhysicsEngine(const HMEngine::Core::Physics::PhysicsEngine& other) = delete;
 				HMEngine::Core::Physics::PhysicsEngine& operator=(const HMEngine::Core::Physics::PhysicsEngine& other) = delete;
 
-				static std::unordered_set<HMEngine::Core::Physics::Colliders::Collider*> _gameObjectColliders;
+				static std::unordered_map<HMEngine::Core::Physics::Colliders::Collider*, HMEngine::Core::GameObject*> _gameObjectColliders;
+				static std::unordered_map<btRigidBody*, HMEngine::Core::GameObject*> _rigidBodies;
 
 				static BulletData _bulletData;
+
+				static std::vector<btCollisionShape*> _collisionShapes;
 			};
 		}
 	}

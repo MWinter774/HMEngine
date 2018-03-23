@@ -175,6 +175,7 @@ int main()
 
 	//ML
 	HMEngine::Core::GameObject floor("floor");
+	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere());
 	HMEngine::Core::GameObject bot("bot");
 	bot.GetTransform().AddPositionY(0.8f);
 	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere());

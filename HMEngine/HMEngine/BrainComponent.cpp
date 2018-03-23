@@ -7,7 +7,7 @@
 #include "PhysicsEngine.h"
 #include "RaycastInfo.h"
 #include "HardwareInputs.h"
-#include "Camera.h"
+#include "GameObject.h"
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Player& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 4 }),
 _player(&player), _playerMovement(&player.GetCameraController()->GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4)
@@ -82,9 +82,9 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 		 this->_player->GetTransform().GetPosition() - this->_parentObject->GetTransform().GetPosition(), 5);
 
 	if (f.HasObject(*this))
-	
+
 		auto ray = HMEngine::Core::Physics::PhysicsEngine::Raycast(this->_parentObject->GetTransform().GetPosition(), this->_player->GetTransform().GetPosition(), 50);
-	
+
 	{
 		std::cout << "1";
 	}*/
@@ -93,6 +93,8 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 	{
 		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
 		auto k = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray);
+		if (k)
+			std::cout << k.hits.begin().operator*().second->GetName() << std::endl;
 	}
 	//this->_parentObject->GetTransform().LookAt(HMEngine::Core::Rendering::Camera::GetInstance().GetPosition());
 	//this->_parentObject->GetTransform().AddPositionX(0.01f);
