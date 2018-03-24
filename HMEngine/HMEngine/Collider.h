@@ -24,6 +24,8 @@ namespace HMEngine
 
 					void ApplyForce(const glm::vec3& force);
 
+					inline btRigidBody* GetRigidBody() const { return this->_rigidBody; }
+
 					virtual void Initialize() = 0;
 
 				protected:

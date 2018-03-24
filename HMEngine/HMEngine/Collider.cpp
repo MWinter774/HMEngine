@@ -29,6 +29,14 @@ void HMEngine::Core::Physics::Colliders::Collider::AttachToGameObjectEvent()
 void HMEngine::Core::Physics::Colliders::Collider::ApplyForce(const glm::vec3& force)
 {
 	this->_rigidBody->applyCentralForce(btVector3(force.x, force.y, force.z));
-	this->_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
-	this->_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
+	if (force.y == 0)
+	{
+		this->_rigidBody->setLinearVelocity(btVector3(0, -9.81f, 0));
+		this->_rigidBody->setAngularVelocity(btVector3(0, -9.81f, 0));
+	}
+	else
+	{
+		this->_rigidBody->setLinearVelocity(btVector3(0, force.y, 0));
+		this->_rigidBody->setAngularVelocity(btVector3(0, force.y, 0));
+	}
 }

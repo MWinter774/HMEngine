@@ -10,7 +10,7 @@
 #include "GameObject.h"
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::PhysicalPlayer& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 4 }),
-_player(&player), _playerMovement(&player.GetCameraController()->GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4)
+_player(&player), _playerMovement(&player.GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4)
 {
 	this->InitializeEvents<BrainComponent>(this);
 }
@@ -20,7 +20,7 @@ HMEngine::Components::BrainComponent::~BrainComponent()
 }
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Components::BrainComponent& other) : HMEngine::Components::Component(other),
-_neuralNetwork(other._neuralNetwork), _player(other._player), _playerMovement(&other._player->GetCameraController()->GetMovement()),
+_neuralNetwork(other._neuralNetwork), _player(other._player), _playerMovement(&other._player->GetMovement()),
 _currentPlayerMovement(4), _futurePlayerMovement(4)
 {
 	this->InitializeEvents<BrainComponent>(this);
@@ -33,7 +33,7 @@ HMEngine::Components::BrainComponent& HMEngine::Components::BrainComponent::oper
 		this->InitializeEvents<BrainComponent>(this);
 		this->_neuralNetwork = other._neuralNetwork;
 		this->_player = other._player;
-		this->_playerMovement = &this->_player->GetCameraController()->GetMovement();
+		this->_playerMovement = &this->_player->GetMovement();
 		this->_currentPlayerMovement = std::vector<float>(4);
 		this->_futurePlayerMovement = std::vector<float>(4);
 	}

@@ -6,22 +6,18 @@
 #include "GameObject.h"
 #include "Transform.h"
 
-HMEngine::Components::PhysicalCameraController::PhysicalCameraController(float walkingSpeed, float runningSpeed) : _camera(&HMEngine::Core::Rendering::Camera::GetInstance()),
-_movementSpeed(walkingSpeed), _walkingSpeed(walkingSpeed), _runningSpeed(runningSpeed), _isActive(true), _movement(new MovementData()),
-_right(), _forward(), _up(), _horizontalAngle(float(M_PI)), _verticalAngle(0.0f)
+HMEngine::Components::PhysicalCameraController::PhysicalCameraController() : _camera(&HMEngine::Core::Rendering::Camera::GetInstance()),
+_isActive(true), _right(), _forward(), _up(), _horizontalAngle(float(M_PI)), _verticalAngle(0.0f)
 {
 	this->InitializeEvents<PhysicalCameraController>(this);
 }
 
 HMEngine::Components::PhysicalCameraController::~PhysicalCameraController()
 {
-	delete this->_movement;
 }
 
 HMEngine::Components::PhysicalCameraController::PhysicalCameraController(const HMEngine::Components::PhysicalCameraController& other) : _camera(other._camera),
-_movementSpeed(other._walkingSpeed), _walkingSpeed(other._walkingSpeed), _runningSpeed(other._runningSpeed), _isActive(true),
-_right(other._right), _forward(other._forward), _up(other._up), _movement(new MovementData(*other._movement)),
-_horizontalAngle(other._horizontalAngle), _verticalAngle(other._verticalAngle)
+_isActive(true), _right(other._right), _forward(other._forward), _up(other._up), _horizontalAngle(other._horizontalAngle), _verticalAngle(other._verticalAngle)
 {
 	this->InitializeEvents<PhysicalCameraController>(this);
 }
@@ -32,13 +28,7 @@ HMEngine::Components::PhysicalCameraController& HMEngine::Components::PhysicalCa
 	{
 		this->InitializeEvents<PhysicalCameraController>(this);
 
-		delete this->_movement;
-
-		this->_movement = new MovementData(*other._movement);
 		this->_camera = other._camera;
-		this->_movementSpeed = other._walkingSpeed;
-		this->_walkingSpeed = other._walkingSpeed;
-		this->_runningSpeed = other._runningSpeed;
 		this->_isActive = true;
 		this->_right = other._right;
 		this->_forward = other._forward;
@@ -69,57 +59,5 @@ void HMEngine::Components::PhysicalCameraController::UpdateEvent()
 		this->_camera->SetRight(this->_right);
 
 		this->_camera->SetUp(this->_up);
-
-		/*if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_LSHIFT))
-		{
-			this->_movementSpeed = this->_runningSpeed;
-		}
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_W))
-		{
-			this->Move(this->_forward, float(delta) * this->_movementSpeed);
-			this->_movement->forward = true;
-		}
-		else
-		{
-			this->_movement->forward = false;
-		}
-
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_S))
-		{
-			this->Move(this->_forward, float(delta) * -this->_movementSpeed);
-			this->_movement->backward = true;
-		}
-		else
-		{
-			this->_movement->backward = false;
-		}
-
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_A))
-		{
-			this->Move(this->_right, float(delta) * -this->_movementSpeed);
-			this->_movement->left = true;
-		}
-		else
-		{
-			this->_movement->left = false;
-		}
-
-		if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_D))
-		{
-			this->Move(this->_right, float(delta) * this->_movementSpeed);
-			this->_movement->right = true;
-		}
-		else
-		{
-			this->_movement->right = false;
-		}
-
-		this->_movementSpeed = this->_walkingSpeed;*/
 	}
-}
-
-void HMEngine::Components::PhysicalCameraController::Move(const glm::vec3& direction, float amount) const
-{
-	//this->_camera->AddPosition(direction * amount);
-	//this->_parentObject->GetTransform().AddPosition(direction * amount);
 }

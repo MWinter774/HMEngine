@@ -6,10 +6,11 @@
 #include "Camera.h"
 #include "HardwareInputs.h"
 
-HMEngine::PhysicalPlayer::PhysicalPlayer(const std::string& name, float walkingSpeed, float runningSpeed) : GameObject(name),
-_controller(new HMEngine::Components::PhysicalCameraController(walkingSpeed, runningSpeed)),
-_boundingSphere(new HMEngine::Core::Physics::Colliders::BoundingSphere(1.0f, glm::vec3(0,0,0), 1.5f)),
-_camera(&HMEngine::Core::Rendering::Camera::GetInstance())
+HMEngine::PhysicalPlayer::PhysicalPlayer(const std::string& name, float walkingSpeed, float runningSpeed, float maxJumpHeight) : GameObject(name),
+_controller(new HMEngine::Components::PhysicalCameraController()),
+_boundingSphere(new HMEngine::Core::Physics::Colliders::BoundingSphere(10.0f, glm::vec3(0, 0, 0), 1.5f)),
+_camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _movement(new HMEngine::PhysicalPlayer::MovementData()),
+_movementSpeed(walkingSpeed * 1000.0f), _walkingSpeed(walkingSpeed * 1000.0f), _runningSpeed(runningSpeed * 1000.0f), _maxJumpHeight(maxJumpHeight * 100.0f)
 {
 	this->InitializeEvents<PhysicalPlayer>(this);
 	this->AddComponent(this->_controller);
@@ -20,10 +21,12 @@ _camera(&HMEngine::Core::Rendering::Camera::GetInstance())
 
 HMEngine::PhysicalPlayer::~PhysicalPlayer()
 {
+	delete this->_movement;
 }
 
-HMEngine::PhysicalPlayer::PhysicalPlayer(const HMEngine::PhysicalPlayer& other) : GameObject(other), _controller(other._controller), 
-_boundingSphere(other._boundingSphere)
+HMEngine::PhysicalPlayer::PhysicalPlayer(const HMEngine::PhysicalPlayer& other) : GameObject(other), _controller(other._controller),
+_boundingSphere(other._boundingSphere), _camera(other._camera), _movement(new HMEngine::PhysicalPlayer::MovementData(*other._movement)),
+_movementSpeed(other._movementSpeed), _walkingSpeed(other._walkingSpeed), _runningSpeed(other._runningSpeed), _maxJumpHeight(other._maxJumpHeight)
 {
 	this->InitializeEvents<PhysicalPlayer>(this);
 }
@@ -32,10 +35,17 @@ HMEngine::PhysicalPlayer& HMEngine::PhysicalPlayer::operator=(const HMEngine::Ph
 {
 	if (this != &other)
 	{
+		delete this->_movement;
+
 		this->InitializeEvents<PhysicalPlayer>(this);
 		HMEngine::Core::GameObject::operator=(other);
 		this->_controller = other._controller;
 		this->_boundingSphere = other._boundingSphere;
+		this->_movement = new HMEngine::PhysicalPlayer::MovementData(*other._movement);
+		this->_movementSpeed = other._movementSpeed;
+		this->_walkingSpeed = other._walkingSpeed;
+		this->_runningSpeed = other._runningSpeed;
+		this->_maxJumpHeight = other._maxJumpHeight;
 	}
 
 	return *this;
@@ -48,22 +58,68 @@ void HMEngine::PhysicalPlayer::AttachToGameEngineEvent()
 
 void HMEngine::PhysicalPlayer::UpdateEvent()
 {
+	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_LSHIFT))
+	{
+		this->_movementSpeed = this->_runningSpeed;
+	}
+	glm::vec3 force;
 	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_W))
 	{
-		this->_boundingSphere->ApplyForce(this->_controller->GetForward() *= 200);
+		force += this->_controller->GetForward() *= this->_movementSpeed;
+		this->_movement->forward = true;
 	}
-	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_A))
+	else
 	{
-		this->_boundingSphere->ApplyForce(this->_controller->GetRight() *= -200);
-	}
-	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_S))
-	{
-		this->_boundingSphere->ApplyForce(this->_controller->GetForward() *= -200);
-	}
-	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_D))
-	{
-		this->_boundingSphere->ApplyForce(this->_controller->GetRight() *= 200);
+		this->_movement->forward = false;
 	}
 
-	this->_camera->SetPosition(this->GetTransform().GetPosition() += glm::vec3(1, 2, 0));
+	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_A))
+	{
+		force += this->_controller->GetRight() *= -this->_movementSpeed;
+		this->_movement->left = true;
+	}
+	else
+	{
+		this->_movement->left = false;
+	}
+
+	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_S))
+	{
+		force += this->_controller->GetForward() *= -this->_movementSpeed;
+		this->_movement->backward = true;
+	}
+	else
+	{
+		this->_movement->backward = false;
+	}
+
+	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_D))
+	{
+		force += this->_controller->GetRight() *= this->_movementSpeed;
+		this->_movement->right = true;
+	}
+	else
+	{
+		this->_movement->right = false;
+	}
+	this->_movementSpeed = this->_walkingSpeed;
+	force.y = 0;
+
+	if (this->_boundingSphere->GetRigidBody()->getLinearVelocity().y() > 5.0f || this->_boundingSphere->GetRigidBody()->getLinearVelocity().y() < 0.0f || this->_transform->GetPositionY() > this->_prevLocation.y)
+	{
+		this->_canJump = false;
+	}
+	else
+	{
+		this->_canJump = true;
+	}
+	if (this->_canJump && HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_SPACE))
+	{
+		force.y = this->_maxJumpHeight;
+	}
+ 	this->_boundingSphere->ApplyForce(force);
+
+	this->_camera->SetPosition(this->GetTransform().GetPosition() += glm::vec3(0, 2, 0));
+
+	this->_prevLocation = this->GetTransform().GetPosition();
 }
