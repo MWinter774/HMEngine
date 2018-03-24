@@ -50,8 +50,6 @@ HMEngine::Components::CameraController& HMEngine::Components::CameraController::
 
 void HMEngine::Components::CameraController::UpdateEvent()
 {
-	//this->_parentObject->GetTransform().SetPosition(this->_camera.GetPosition());
-
 	if (this->_isActive)
 	{
 		int cursorXPos = HMEngine::Core::Hardware::HardwareInputs::GetCursorXPos(), cursorYPos = HMEngine::Core::Hardware::HardwareInputs::GetCursorYPos();

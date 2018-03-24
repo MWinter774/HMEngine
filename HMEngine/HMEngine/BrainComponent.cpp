@@ -1,5 +1,5 @@
 #include "BrainComponent.h"
-#include "Player.h"
+#include "PhysicalPlayer.h"
 #include "Transform.h"
 #include "Camera.h"
 #include "glm\gtc\quaternion.hpp"
@@ -9,7 +9,7 @@
 #include "HardwareInputs.h"
 #include "GameObject.h"
 
-HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::Player& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 4 }),
+HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::PhysicalPlayer& player) : HMEngine::Components::Component(), _neuralNetwork({ 4, 20, 20, 4 }),
 _player(&player), _playerMovement(&player.GetCameraController()->GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4)
 {
 	this->InitializeEvents<BrainComponent>(this);

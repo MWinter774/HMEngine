@@ -51,6 +51,8 @@ namespace HMEngine
 			void AddComponent(HMEngine::Components::Component& component);
 			void AddComponent(HMEngine::Components::Component* component);
 
+			inline virtual void AttachToGameEngineEvent() {}
+
 			inline HMEngine::Components::MeshRenderer* GetMeshRenderer() const { return this->_meshRenderer; }
 
 		protected:

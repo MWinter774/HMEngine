@@ -22,7 +22,6 @@ namespace HMEngine
 		inline HMEngine::Components::CameraController* GetCameraController() const { return this->_cameraController; }
 
 	private:
-		HMEngine::Components::MeshRenderer* _meshRenderer;
 		HMEngine::Components::CameraController* _cameraController;
 	};
 }

@@ -1,18 +1,18 @@
 #pragma once
 #include "Component.h"
 #include "NeuralNetwork.h"
-#include "CameraController.h"
+#include "PhysicalCameraController.h"
 
 namespace HMEngine
 {
-	class Player;
+	class PhysicalPlayer;
 
 	namespace Components
 	{
 		class BrainComponent : public HMEngine::Components::Component
 		{
 		public:
-			BrainComponent(const HMEngine::Player& player);
+			BrainComponent(const HMEngine::PhysicalPlayer& player);
 			~BrainComponent();
 			BrainComponent(const HMEngine::Components::BrainComponent& other);
 			HMEngine::Components::BrainComponent& operator=(const HMEngine::Components::BrainComponent& other);
@@ -23,7 +23,7 @@ namespace HMEngine
 
 		private:
 			HMEngine::Core::MachineLearning::NeuralNetwork _neuralNetwork;
-			const HMEngine::Player* _player;
+			const HMEngine::PhysicalPlayer* _player;
 			const HMEngine::Components::MovementData* _playerMovement;
 			std::vector<float> _currentPlayerMovement;
 			std::vector<float> _futurePlayerMovement;

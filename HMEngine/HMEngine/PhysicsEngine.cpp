@@ -42,7 +42,7 @@ HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Ray
 
 	glm::vec3 rayDirection = ray.GetDirection();
 	glm::vec3 rayOrigin = ray.GetOrigin();
-	glm::vec3 rayEnd = rayOrigin + rayDirection * 100.0f;
+	glm::vec3 rayEnd = rayOrigin + rayDirection * 1000.0f;
 
 	btCollisionWorld::ClosestRayResultCallback RayCallback(
 		btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
@@ -120,6 +120,7 @@ void HMEngine::Core::Physics::PhysicsEngine::Update()
 	for (auto& pair : HMEngine::Core::Physics::PhysicsEngine::_rigidBodies)
 	{
 		pair.first->getMotionState()->getWorldTransform(trans);
+		pair.second->GetTransform().SetPosition(trans.getOrigin().x(), trans.getOrigin().y(), trans.getOrigin().z());
 		pair.second->GetTransform().SetPositionAndRotationMatrices(trans);
 	}
 }

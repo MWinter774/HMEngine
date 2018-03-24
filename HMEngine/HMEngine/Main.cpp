@@ -22,7 +22,7 @@
 #include "BrainComponent.h"
 #include "BoundingSphere.h"
 #include "BoundingPlane.h"
-#include "BoundingCapsule.h"
+#include "PhysicalPlayer.h"
 
 int main()
 {
@@ -30,83 +30,6 @@ int main()
 
 	HMEngine::GameEngine g;
 	g.CreateNewWindow(1200, 720, title, false);
-
-	//create cube
-	std::vector<glm::vec3> vertices =
-	{
-		glm::vec3(1,  1,  1),
-		glm::vec3(-1,  1,  1),
-		glm::vec3(-1, -1,  1),
-		glm::vec3(1, -1,  1),
-		glm::vec3(1, -1, -1),
-		glm::vec3(-1, -1, -1),
-		glm::vec3(-1,  1, -1),
-		glm::vec3(1,  1, -1),
-	};
-	std::vector<GLuint> indices =
-	{
-		0, 1, 2, 2, 3, 0,           // Front face
-		7, 4, 5, 5, 6, 7,           // Back face
-		6, 5, 2, 2, 1, 6,           // Left face
-		7, 0, 3, 3, 4, 7,           // Right face
-		7, 6, 1, 1, 0, 7,           // Top face
-		3, 2, 5, 5, 4, 3            // Bottom face
-	};
-
-	std::vector<glm::vec2> uvs = {
-		glm::vec2(0.000059f, 1.0f - 0.000004f),
-		glm::vec2(0.000103f, 1.0f - 0.336048f),
-		glm::vec2(0.335973f, 1.0f - 0.335903f),
-		glm::vec2(1.000023f, 1.0f - 0.000013f),
-		glm::vec2(0.667979f, 1.0f - 0.335851f),
-		glm::vec2(0.999958f, 1.0f - 0.336064f),
-		glm::vec2(0.667979f, 1.0f - 0.335851f),
-		glm::vec2(0.336024f, 1.0f - 0.671877f),
-		glm::vec2(0.667969f, 1.0f - 0.671889f),
-		glm::vec2(1.000023f, 1.0f - 0.000013f),
-		glm::vec2(0.668104f, 1.0f - 0.000013f),
-		glm::vec2(0.667979f, 1.0f - 0.335851f),
-		glm::vec2(0.000059f, 1.0f - 0.000004f),
-		glm::vec2(0.335973f, 1.0f - 0.335903f),
-		glm::vec2(0.336098f, 1.0f - 0.000071f),
-		glm::vec2(0.667979f, 1.0f - 0.335851f),
-		glm::vec2(0.335973f, 1.0f - 0.335903f),
-		glm::vec2(0.336024f, 1.0f - 0.671877f),
-		glm::vec2(1.000004f, 1.0f - 0.671847f),
-		glm::vec2(0.999958f, 1.0f - 0.336064f),
-		glm::vec2(0.667979f, 1.0f - 0.335851f),
-		glm::vec2(0.668104f, 1.0f - 0.000013f),
-		glm::vec2(0.335973f, 1.0f - 0.335903f),
-		glm::vec2(0.667979f, 1.0f - 0.335851f),
-		glm::vec2(0.335973f, 1.0f - 0.335903f),
-		glm::vec2(0.668104f, 1.0f - 0.000013f),
-		glm::vec2(0.336098f, 1.0f - 0.000071f),
-		glm::vec2(0.000103f, 1.0f - 0.336048f),
-		glm::vec2(0.000004f, 1.0f - 0.671870f),
-		glm::vec2(0.336024f, 1.0f - 0.671877f),
-		glm::vec2(0.000103f, 1.0f - 0.336048f),
-		glm::vec2(0.336024f, 1.0f - 0.671877f),
-		glm::vec2(0.335973f, 1.0f - 0.335903f),
-		glm::vec2(0.667969f, 1.0f - 0.671889f),
-		glm::vec2(1.000004f, 1.0f - 0.671847f),
-		glm::vec2(0.667979f, 1.0f - 0.335851f)
-	};
-
-	std::vector<glm::vec3> normals = {
-		glm::vec3(-1.0f, 0.0f, 0.0f), // Left Side
-		glm::vec3(0.0f, 0.0f, -1.0f), // Back Side
-		glm::vec3(0.0f,-1.0f, 0.0f), // Bottom Side
-		glm::vec3(0.0f, 0.0f, -1.0f), // Back Side
-		glm::vec3(-1.0f, 0.0f, 0.0f), // Left Side
-		glm::vec3(0.0f, -1.0f, 0.0f), // Bottom Side
-		glm::vec3(0.0f, 0.0f, 1.0f), // front Side
-		glm::vec3(1.0f, 0.0f, 0.0f), // right Side
-		glm::vec3(1.0f, 0.0f, 0.0f), // right Side
-		glm::vec3(0.0f, 1.0f, 0.0f),// top Side
-		glm::vec3(0.0f, 1.0f, 0.0f), // top Side
-		glm::vec3(0.0f, 0.0f, 1.0f) // front Side
-
-	};
 
 	//HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 2.0f, 0.0f);
 
@@ -172,7 +95,7 @@ int main()
 
 	//g.InitializeWorldEditor(1200, 720, title, false);
 
-	HMEngine::Player* p = new HMEngine::Player("player", 15, 30.0f);
+	HMEngine::PhysicalPlayer* p = new HMEngine::PhysicalPlayer("player", 15, 30.0f);
 	g.AddGameObject(p);
 
 	//ML
@@ -182,12 +105,17 @@ int main()
 	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0));
 	HMEngine::Core::GameObject bot("bot");
 	bot.GetTransform().AddPositionY(100.0f);
+	bot.GetTransform().SetScaleZ(1.5f);
+	bot.GetTransform().SetRotationX(1.57f);
 	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(10.0f));
 
 	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 
-	bot.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/monkey.obj", "./resources/textures/mud.png"));
+	bot.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/capsule.obj", "./resources/textures/mud.png"));
 	bot.AddComponent(HMEngine::Components::BrainComponent(*p));
+
+	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 600, 360 }, { 25, 25 });
+	g.AddUI(crosshair);
 
 	g.AddGameObject(floor);
 	g.AddGameObject(bot);

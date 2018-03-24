@@ -1,13 +1,6 @@
 #pragma once
 #include "Component.h"
 #include <glm\glm.hpp>
-#include <glm\gtx\rotate_vector.hpp>
-#include <glm\gtc\quaternion.hpp>
-#include <glm\gtx\quaternion.hpp>
-#include <glm\gtx\matrix_transform_2d.hpp>
-#include <glm\gtc\type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
-#include <glm/gtx/transform.hpp>
 
 namespace HMEngine
 {

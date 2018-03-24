@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "bullet\btBulletDynamicsCommon.h"
+#include "glm\glm.hpp"
 
 namespace HMEngine
 {
@@ -20,6 +21,8 @@ namespace HMEngine
 					virtual ~Collider();
 
 					void AttachToGameObjectEvent() override;
+
+					void ApplyForce(const glm::vec3& force);
 
 					virtual void Initialize() = 0;
 

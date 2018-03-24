@@ -4,6 +4,7 @@
 #include "PhysicsEngine.h"
 #include "MeshRenderer.h"
 
+/* Not working properly! */
 HMEngine::Core::Physics::Colliders::BoundingCapsule::BoundingCapsule(float mass) : HMEngine::Core::Physics::Colliders::Collider(mass)
 {
 }

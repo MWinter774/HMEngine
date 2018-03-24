@@ -20,11 +20,15 @@ HMEngine::Core::Physics::Colliders::Collider::~Collider()
 
 void HMEngine::Core::Physics::Colliders::Collider::AttachToGameObjectEvent()
 {
-	if (this->_parentObject->GetMeshRenderer() != nullptr)
-	{
-		this->Initialize();
-		HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(this);
-		if (this->_collider != nullptr)
-			HMEngine::Core::Physics::PhysicsEngine::AddCollisionShape(this->_collider);
-	}
+	this->Initialize();
+	HMEngine::Core::Physics::PhysicsEngine::AddGameObjectCollider(this);
+	if (this->_collider != nullptr)
+		HMEngine::Core::Physics::PhysicsEngine::AddCollisionShape(this->_collider);
+}
+
+void HMEngine::Core::Physics::Colliders::Collider::ApplyForce(const glm::vec3& force)
+{
+	this->_rigidBody->applyCentralForce(btVector3(force.x, force.y, force.z));
+	this->_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
+	this->_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
 }

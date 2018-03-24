@@ -6,7 +6,11 @@
 #include "glm\gtc\quaternion.hpp"
 #include "Transform.h"
 
-HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(float mass) : HMEngine::Core::Physics::Colliders::Collider(mass)
+HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(float mass) : HMEngine::Core::Physics::Colliders::Collider(mass), _center(-999, -999, -999), _radius(-1)
+{
+}
+
+HMEngine::Core::Physics::Colliders::BoundingSphere::BoundingSphere(float mass, const glm::vec3& center, float radius) : HMEngine::Core::Physics::Colliders::Collider(mass), _center(center), _radius(radius)
 {
 }
 
@@ -16,8 +20,11 @@ HMEngine::Core::Physics::Colliders::BoundingSphere::~BoundingSphere()
 
 void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
 {
-	this->_center = this->_parentObject->GetMeshRenderer()->GetCenter();
-	this->_radius = this->_parentObject->GetMeshRenderer()->GetRadius();
+	if (this->_center == glm::vec3(-999, -999, -999) || this->_radius == -1)
+	{
+		this->_center = this->_parentObject->GetMeshRenderer()->GetCenter();
+		this->_radius = this->_parentObject->GetMeshRenderer()->GetRadius();
+	}
 	this->_collider = new btSphereShape(this->_radius * this->_parentObject->GetTransform().GetScaleX());
 
 	glm::quat rotationQuat = this->_parentObject->GetTransform().GetRotationQuat();

@@ -165,6 +165,8 @@
     <ClCompile Include="Neuron.cpp" />
     <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="OpenGLQuad.cpp" />
+    <ClCompile Include="PhysicalCameraController.cpp" />
+    <ClCompile Include="PhysicalPlayer.cpp" />
     <ClCompile Include="PointLightComponentScreen.cpp" />
     <ClCompile Include="QuadCollection.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -246,6 +248,8 @@
     <ClInclude Include="Neuron.h" />
     <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="OpenGLQuad.h" />
+    <ClInclude Include="PhysicalCameraController.h" />
+    <ClInclude Include="PhysicalPlayer.h" />
     <ClInclude Include="PointLightComponentScreen.h" />
     <ClInclude Include="QuadCollection.h" />
     <ClInclude Include="Screen.h" />

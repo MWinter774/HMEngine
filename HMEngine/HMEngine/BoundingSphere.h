@@ -14,6 +14,7 @@ namespace HMEngine
 				{
 				public:
 					BoundingSphere(float mass);
+					BoundingSphere(float mass, const glm::vec3& center, float radius);
 					~BoundingSphere();
 
 					inline HMEngine::Components::Component* Clone() override { return new HMEngine::Core::Physics::Colliders::BoundingSphere(*this); }
