@@ -36,7 +36,10 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 
 	if (this->_billboards.size() > 0)
 	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		this->RenderBillboards();
+		glDisable(GL_BLEND);
 	}
 
 	if (this->_meshTextures.size() > 0)
