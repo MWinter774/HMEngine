@@ -10,6 +10,7 @@
 #include "PointLight.h"
 #include "PointLightShader.h"
 #include "AmbientLightShader.h"
+#include "BillboardQuadShader.h"
 #include "GameSettings.h"
 #include "TerrainRenderer.h"
 #include <algorithm>
@@ -18,6 +19,7 @@
 #include "Label.h"
 #include "LabelShader.h"
 #include "Screen.h"
+#include "Billboard.h"
 
 HMEngine::Core::Rendering::RenderingEngine& HMEngine::Core::Rendering::RenderingEngine::GetInstance()
 {
@@ -32,6 +34,11 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(this->_skyColor.r, this->_skyColor.g, this->_skyColor.b, 1.0f);
 
+	if (this->_billboards.size() > 0)
+	{
+		this->RenderBillboards();
+	}
+
 	if (this->_meshTextures.size() > 0)
 	{
 		this->RenderMeshes();
@@ -41,7 +48,6 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		this->RenderTerrains();
 	}
 
-
 	glEnable(GL_BLEND);
 	if (this->_doCleanupForMeshes = (this->_directionalLights.size() > 0 || this->_pointLights.size() > 0))
 	{
@@ -49,8 +55,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
 	}
-
-	if (this->_directionalLights.size() > 0) //if there are any directional lights then render all the meshed with the directional lights effect on them
+	if (this->_directionalLights.size() > 0) //if there are any directional lights then render all the meshes with the directional lights effect on them
 	{
 		this->_directionalLightShader->Bind();
 		for (auto& item : this->_meshTextures)
@@ -79,7 +84,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 			}
 		}
 	}
-	if (this->_pointLights.size() > 0) //if there are any point lights then render all the meshed with the point light effect on them
+	if (this->_pointLights.size() > 0) //if there are any point lights then render all the meshes with the point light effect on them
 	{
 		this->_pointLightShader->Bind();
 		for (auto& item : this->_meshTextures)
@@ -109,7 +114,7 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		}
 	}
 
-	if (this->_doCleanupForQuads = this->_quads.size() > 0 || this->_labels.size() > 0)
+	if (this->_doCleanupForQuads = (this->_quads.size() > 0 || this->_labels.size() > 0 || this->_billboards.size() > 0))
 	{
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
@@ -129,8 +134,6 @@ void HMEngine::Core::Rendering::RenderingEngine::Render()
 		glDepthMask(GL_TRUE);
 	}
 	glDisable(GL_BLEND);
-
-
 
 	this->_meshTextures.clear(); //resets the objects that are visible
 }
@@ -156,11 +159,12 @@ void HMEngine::Core::Rendering::RenderingEngine::RemoveTerrainRenderer(HMEngine:
 }
 
 HMEngine::Core::Rendering::RenderingEngine::RenderingEngine() : _meshTextures(), _skyColor(HMEngine::GameSettings::GetSkyColor()), _terrainRenderers(), _directionalLights(), _pointLights(), _doCleanupForMeshes(false), _doCleanupForQuads(false),
-_ambientShader(&HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance()), 
+_ambientShader(&HMEngine::Core::Rendering::Shaders::AmbientLightShader::GetInstance()),
 _directionalLightShader(&HMEngine::Core::Rendering::Shaders::DirectionalLightShader::GetInstance()),
 _labelShader(&HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance()),
 _pointLightShader(&HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance()),
-_terrainShader(&HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance()), _UIShader(&HMEngine::Core::Rendering::Shaders::UIShader::GetInstance())
+_terrainShader(&HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance()), _UIShader(&HMEngine::Core::Rendering::Shaders::UIShader::GetInstance()),
+_billboardQuadShader(&HMEngine::Core::Rendering::Shaders::BillboardQuadShader::GetInstance())
 {
 	//glCullFace(GL_BACK); //Causes the back of things not to be drawn
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
@@ -214,34 +218,35 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderTerrains() const
 	}
 }
 
-int i = 0;
 void HMEngine::Core::Rendering::RenderingEngine::RenderQuads()
 {
-	if (i == 0)
-	{
-		//std::reverse(std::begin(this->_quads[1].quad->_childsRenderingEngineFormat), std::end(this->_quads[1].quad->_childsRenderingEngineFormat));
-		//i++;
-	}
 	for (auto& quad : this->_quads)
 	{
 		if (quad.quad != nullptr) //if the quad is a regular quad(button, textbox...)
 		{
-			/*HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().Bind();
-			HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(quad.quad->GetTransform());
-			quad.quad->Draw();*/
 			this->RenderQuad(quad.quad);
-			/*for (auto& child : quad.quad->_childs)
-			{
-				HMEngine::Core::Rendering::Shaders::UIShader::GetInstance().UpdateUniforms(child->GetTransform());
-				child->Draw();
-			}*/
 		}
 		else //if the quad is a label
 		{
-			/*HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().Bind();
-			HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance().UpdateUniforms(*quad.label);
-			quad.label->Draw();*/
 			this->RenderLabel(quad.label);
+		}
+	}
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RenderBillboards()
+{
+	this->_billboardQuadShader->Bind();
+	for (auto& billboard : this->_billboards)
+	{
+		auto& quad = billboard->GetQuad();
+		if (quad.quad != nullptr)
+		{
+			this->_billboardQuadShader->UpdateUniforms(billboard->GetTransform());
+			quad.quad->Draw();
+		}
+		else if (quad.label != nullptr)
+		{
+
 		}
 	}
 }
@@ -449,8 +454,17 @@ void HMEngine::Core::Rendering::RenderingEngine::AddUI(HMEngine::UI::Quad& ui)
 
 void HMEngine::Core::Rendering::RenderingEngine::RemoveUI(HMEngine::UI::Quad& ui)
 {
-	//if(ui.GetName() != "scrnMainScreen")
-		//this->_quads.erase(std::remove(this->_quads.begin(), this->_quads.end(), &ui), this->_quads.end());
+	//this->_quads.erase(std::remove(this->_quads.begin(), this->_quads.end(), &ui), this->_quads.end());
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::AddBillboard(HMEngine::UI::Billboard& billboard)
+{
+	this->_billboards.insert(&billboard);
+}
+
+void HMEngine::Core::Rendering::RenderingEngine::RemoveBillboard(HMEngine::UI::Billboard& billboard)
+{
+	this->_billboards.erase(&billboard);
 }
 
 void HMEngine::Core::Rendering::RenderingEngine::BringToFront(HMEngine::UI::Quad* ui)

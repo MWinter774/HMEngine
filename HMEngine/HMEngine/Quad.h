@@ -55,6 +55,7 @@ namespace HMEngine
 			Quad(const std::string& name, const std::string& texturePath, const std::vector<glm::vec2>& vertices, const glm::vec2& position, const glm::vec2& scale);
 			Quad(const std::string& name, const std::string& texturePath, const glm::vec2& position, const glm::vec2& scale, bool useVertices = true);
 			Quad(const std::string& name, const glm::vec2& position, const glm::vec2& scale);
+			Quad(const std::string& name, const glm::vec3& position, const glm::vec2& scale);
 
 			virtual ~Quad();
 			Quad(const HMEngine::UI::Quad& other);

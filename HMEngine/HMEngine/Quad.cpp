@@ -50,6 +50,11 @@ _transform(new HMEngine::Core::Transform()), _isAttachedToGameEngine(false), _is
 	this->UpdateTransform();
 }
 
+HMEngine::UI::Quad::Quad(const std::string& name, const glm::vec3& position, const glm::vec2& scale) : HMEngine::Core::EventObject(), _name(name),
+_transform(new HMEngine::Core::Transform(position, glm::vec3(), glm::vec3(scale, 0))), _isAttachedToGameEngine(false), _isVisible(true)
+{
+}
+
 HMEngine::UI::Quad::~Quad()
 {
 	for (auto& quadTexture : this->_quadTextures)
@@ -193,7 +198,7 @@ void HMEngine::UI::Quad::SetVisiblity(bool isVisible)
 	{
 		child->SetVisiblity(isVisible);
 	}
-	if(isVisible)
+	if (isVisible)
 		this->ShowEvent();
 	else
 		this->HideEvent();

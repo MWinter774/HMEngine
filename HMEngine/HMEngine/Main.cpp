@@ -23,6 +23,8 @@
 #include "BoundingSphere.h"
 #include "BoundingPlane.h"
 #include "PhysicalPlayer.h"
+#include "Billboard.h"
+#include "Fonts.h"
 
 int main()
 {
@@ -121,6 +123,11 @@ int main()
 	g.AddGameObject(bot);
 
 	g.SetAmbientLight(1, 1, 1);
+
+	HMEngine::UI::Image* ej = new HMEngine::UI::Image("imgEj", "./resources/UITextures/ej.png", { 600, 360 }, { 25 ,25});
+	//HMEngine::UI::Label* lbl = new HMEngine::UI::Label("lblD", HMEngine::GameSettings::GetScreenCenter(), "DDD!", HMEngine::Fonts::ARIAL, glm::vec3(), 0.8f);
+	HMEngine::UI::Billboard a("bKaki", { -20.0f,0,0 }, { 5,5 }, ej);
+	g.AddUI(a);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();
