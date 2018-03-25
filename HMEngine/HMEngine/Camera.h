@@ -64,7 +64,8 @@ namespace HMEngine
 				HMEngine::Core::Transform* _transform;
 				glm::vec3 _forward, _right, _up;
 				glm::mat4 _viewMatrix = glm::mat4(1);
-				const unsigned int& _windowWidth, _windowHeight;
+				const unsigned int& _windowWidth;
+				const unsigned int& _windowHeight;
 				glm::mat4& _projectionMatrix;
 
 				inline glm::vec2 GetNormalizedCoords(float x, float y) const { return glm::vec2((2.0f * x) / this->_windowWidth - 1.0f, -((2.0f * y) / this->_windowHeight - 1.0f)); }
