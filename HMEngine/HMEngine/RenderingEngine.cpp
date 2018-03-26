@@ -11,6 +11,7 @@
 #include "PointLightShader.h"
 #include "AmbientLightShader.h"
 #include "BillboardQuadShader.h"
+#include "BillboardLabelShader.h"
 #include "GameSettings.h"
 #include "TerrainRenderer.h"
 #include <algorithm>
@@ -167,7 +168,8 @@ _directionalLightShader(&HMEngine::Core::Rendering::Shaders::DirectionalLightSha
 _labelShader(&HMEngine::Core::Rendering::Shaders::LabelShader::GetInstance()),
 _pointLightShader(&HMEngine::Core::Rendering::Shaders::PointLightShader::GetInstance()),
 _terrainShader(&HMEngine::Core::Rendering::Shaders::TerrainShader::GetInstance()), _UIShader(&HMEngine::Core::Rendering::Shaders::UIShader::GetInstance()),
-_billboardQuadShader(&HMEngine::Core::Rendering::Shaders::BillboardQuadShader::GetInstance())
+_billboardQuadShader(&HMEngine::Core::Rendering::Shaders::BillboardQuadShader::GetInstance()),
+_billboardLabelShader(&HMEngine::Core::Rendering::Shaders::BillboardLabelShader::GetInstance())
 {
 	//glCullFace(GL_BACK); //Causes the back of things not to be drawn
 	//glEnable(GL_CULL_FACE); //Causes the back of things not to be drawn
@@ -238,18 +240,20 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderQuads()
 
 void HMEngine::Core::Rendering::RenderingEngine::RenderBillboards()
 {
-	this->_billboardQuadShader->Bind();
 	for (auto& billboard : this->_billboards)
 	{
 		auto& quad = billboard->GetQuad();
 		if (quad.quad != nullptr)
 		{
+			this->_billboardQuadShader->Bind();
 			this->_billboardQuadShader->UpdateUniforms(billboard->GetTransform());
 			quad.quad->Draw();
 		}
 		else if (quad.label != nullptr)
 		{
-
+			this->_billboardLabelShader->Bind();
+			this->_billboardLabelShader->UpdateUniforms(billboard->GetTransform());
+			quad.label->Draw();
 		}
 	}
 }

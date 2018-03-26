@@ -1,6 +1,7 @@
 #version 330
 
 layout(location = 0) in vec3 inPosition;
+layout (location = 1) in vec2 inUV;
 
 out vec2 textureCoordinates;
 
@@ -23,5 +24,5 @@ void main()
 
 	gl_Position = VP * vec4(vertexPosition_worldspace, 1.0f);
 
-	textureCoordinates = vec2((inPosition.x + 1.0) / 2.0, 1 - (inPosition.y + 1.0) / 2.0);
+	textureCoordinates = inUV;
 }

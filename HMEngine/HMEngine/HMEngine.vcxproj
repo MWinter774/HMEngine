@@ -130,6 +130,7 @@
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="BasicShader.cpp" />
     <ClCompile Include="Billboard.cpp" />
+    <ClCompile Include="BillboardLabelShader.cpp" />
     <ClCompile Include="BillboardQuadShader.cpp" />
     <ClCompile Include="BoundingCapsule.cpp" />
     <ClCompile Include="BoundingPlane.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="BasicShader.h" />
     <ClInclude Include="Billboard.h" />
+    <ClInclude Include="BillboardLabelShader.h" />
     <ClInclude Include="BillboardQuadShader.h" />
     <ClInclude Include="BoundingCapsule.h" />
     <ClInclude Include="BoundingPlane.h" />

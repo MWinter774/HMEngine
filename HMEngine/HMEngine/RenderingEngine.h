@@ -39,6 +39,7 @@ namespace HMEngine
 				class TerrainShader;
 				class UIShader;
 				class BillboardQuadShader;
+				class BillboardLabelShader;
 			}
 
 			class RenderingEngine
@@ -87,6 +88,7 @@ namespace HMEngine
 				HMEngine::Core::Rendering::Shaders::TerrainShader* _terrainShader;
 				HMEngine::Core::Rendering::Shaders::UIShader* _UIShader;
 				HMEngine::Core::Rendering::Shaders::BillboardQuadShader* _billboardQuadShader;
+				HMEngine::Core::Rendering::Shaders::BillboardLabelShader* _billboardLabelShader;
 
 				RenderingEngine();
 				~RenderingEngine();
