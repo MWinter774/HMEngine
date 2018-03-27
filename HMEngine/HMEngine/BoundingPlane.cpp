@@ -32,6 +32,7 @@ void HMEngine::Core::Physics::Colliders::BoundingPlane::Initialize()
 	float depth = abs(maxVertex.z - minVertex.z) * this->_parentObject->GetTransform().GetScaleZ();
 
 	this->_collider = new btBoxShape(btVector3(width / 2.0f, height / 2.0f, depth / 2.0f));
+	this->_collider->setMargin(0.5f);
 
 	glm::quat rotationQuat = this->_parentObject->GetTransform().GetRotationQuat();
 	glm::vec3 position = this->_parentObject->GetTransform().GetPosition();

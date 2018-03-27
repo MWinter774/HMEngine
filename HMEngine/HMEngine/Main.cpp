@@ -97,14 +97,15 @@ int main()
 
 	//g.InitializeWorldEditor(1200, 720, title, false);
 
-	HMEngine::PhysicalPlayer* p = new HMEngine::PhysicalPlayer("player", 15, 30.0f);
+	HMEngine::PhysicalPlayer* p = new HMEngine::PhysicalPlayer("player", 1.0f, 2.0f);
+	p->GetTransform().AddPositionY(0.1f);
 	g.AddGameObject(p);
 
 	//ML
 	HMEngine::Core::GameObject floor("floor");
 	floor.GetTransform().SetScaleX(10.0f);
 	floor.GetTransform().SetScaleZ(10.0f);
-	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0));
+	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0.0f));
 	HMEngine::Core::GameObject bot("bot");
 	bot.GetTransform().AddPositionY(100.0f);
 	bot.GetTransform().SetScaleZ(1.5f);
@@ -125,9 +126,9 @@ int main()
 	g.SetAmbientLight(1, 1, 1);
 
 	//HMEngine::UI::Image* ej = new HMEngine::UI::Image("imgEj", "./resources/UITextures/AddGameObjectPressed.png", { 600, 360 }, { 25 ,25});
-	HMEngine::UI::Label* ej = new HMEngine::UI::Label("lblD", HMEngine::GameSettings::GetScreenCenter(), "DDD!", HMEngine::Fonts::ARIAL, glm::vec3(), 2.0f);
-	HMEngine::UI::Billboard a("bKaki", { -20.0f,0,0 }, { 5,5 }, ej);
-	g.AddUI(a);
+	//HMEngine::UI::Label* ej = new HMEngine::UI::Label("lblD", HMEngine::GameSettings::GetScreenCenter(), "DDD!", HMEngine::Fonts::ARIAL, glm::vec3(), 2.0f);
+	//HMEngine::UI::Billboard a("bKaki", { -20.0f,0,0 }, { 5,5 }, ej);
+	//g.AddUI(a);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();

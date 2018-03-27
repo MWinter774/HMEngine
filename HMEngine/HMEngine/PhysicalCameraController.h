@@ -33,6 +33,9 @@ namespace HMEngine
 			inline glm::vec3 GetForward() const { return this->_forward; }
 			inline glm::vec3 GetUp() const { return this->_up; }
 
+			inline float GetVerticalAngle() const { return this->_verticalAngle; }
+			inline float GetHorizontalAngle() const { return this->_horizontalAngle; }
+
 		private:
 			HMEngine::Core::Rendering::Camera* _camera;
 			bool _isActive;

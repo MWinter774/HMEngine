@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include "Component.h"
+#include "glm\glm.hpp"
 
 namespace HMEngine
 {
@@ -20,6 +21,13 @@ namespace HMEngine
 			namespace Shaders
 			{
 				class BasicShader;
+			}
+		}
+		namespace Physics
+		{
+			namespace Colliders
+			{
+				class Collider;
 			}
 		}
 
@@ -55,6 +63,14 @@ namespace HMEngine
 
 			inline HMEngine::Components::MeshRenderer* GetMeshRenderer() const { return this->_meshRenderer; }
 
+			void Move(const glm::vec3& direction, float amount);
+			inline void AddPositionX(float x) { this->Move(glm::vec3(1, 0, 0), x); }
+			inline void AddPositionY(float y) { this->Move(glm::vec3(0, 1, 0), y); }
+			inline void AddPositionZ(float z) { this->Move(glm::vec3(0, 0, 1), z); }
+			inline void AddPosition(const glm::vec3& other) { this->Move(other, 1); }
+			inline void AddPosition(float x, float y, float z) { this->Move(glm::vec3(x, y, z), 1); }
+			inline void AddPosition(float count) { this->Move(glm::vec3(1, 1, 1), count); }
+
 		protected:
 			HMEngine::Core::Transform* _transform;
 			HMEngine::GameEngine* _gameEngine;
@@ -65,6 +81,7 @@ namespace HMEngine
 			std::vector<HMEngine::Components::Component*> _components;
 			std::string _name;
 			HMEngine::Components::MeshRenderer* _meshRenderer;
+			HMEngine::Core::Physics::Colliders::Collider* _collider;
 
 			GameObject(const HMEngine::Core::GameObject& other, bool _1);
 		};

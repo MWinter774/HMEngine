@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include "MeshRenderer.h"
+#include "Collider.h"
 
 HMEngine::Core::GameObject::GameObject(const std::string& name) : _transform(new HMEngine::Core::Transform()), _components(), _gameEngine(nullptr), _name(name),
 _meshRenderer(nullptr)
@@ -28,6 +29,8 @@ HMEngine::Core::GameObject::GameObject(const HMEngine::Core::GameObject& other) 
 		newComponent = component->Clone();
 		if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(newComponent))
 			this->_meshRenderer = meshRenderer;
+		if (auto collider = dynamic_cast<HMEngine::Core::Physics::Colliders::Collider*>(newComponent))
+			this->_collider = collider;
 		newComponent->_parentObject = this;
 		this->_components.push_back(newComponent);
 	}
@@ -51,6 +54,8 @@ HMEngine::Core::GameObject& HMEngine::Core::GameObject::operator=(const HMEngine
 			newComponent = component->Clone();
 			if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(newComponent))
 				this->_meshRenderer = meshRenderer;
+			if (auto collider = dynamic_cast<HMEngine::Core::Physics::Colliders::Collider*>(newComponent))
+				this->_collider = collider;
 			newComponent->_parentObject = this;
 			this->_components.push_back(newComponent);
 		}
@@ -71,6 +76,8 @@ void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component& c
 	HMEngine::Components::Component* newComponent = component.Clone();
 	if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(newComponent))
 		this->_meshRenderer = meshRenderer;
+	if (auto collider = dynamic_cast<HMEngine::Core::Physics::Colliders::Collider*>(newComponent))
+		this->_collider = collider;
 	newComponent->_parentObject = this;
 	this->_components.push_back(newComponent);
 }
@@ -79,8 +86,22 @@ void HMEngine::Core::GameObject::AddComponent(HMEngine::Components::Component* c
 {
 	if (auto meshRenderer = dynamic_cast<HMEngine::Components::MeshRenderer*>(component))
 		this->_meshRenderer = meshRenderer;
+	if (auto collider = dynamic_cast<HMEngine::Core::Physics::Colliders::Collider*>(component))
+		this->_collider = collider;
 	component->_parentObject = this;
 	this->_components.push_back(component);
+}
+
+void HMEngine::Core::GameObject::Move(const glm::vec3& direction, float amount)
+{
+	if (this->_collider != nullptr)
+	{
+		this->_collider->AddPosition(direction * amount);
+	}
+	else
+	{
+		this->_transform->AddPosition(direction * amount);
+	}
 }
 
 /*

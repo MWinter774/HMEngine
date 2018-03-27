@@ -43,7 +43,7 @@ HMEngine::Components::BrainComponent& HMEngine::Components::BrainComponent::oper
 
 void HMEngine::Components::BrainComponent::UpdateEvent()
 {
-	/*this->ConstructCurrentPlayerMovement();
+	this->ConstructCurrentPlayerMovement();
 
 	if (this->_currentPlayerMovement != this->_futurePlayerMovement)
 	{
@@ -56,46 +56,39 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 
 	if (this->_futurePlayerMovement[0] > 0.9f)
 	{
-		this->_parentObject->GetTransform().AddPositionZ(0.1f);
-		std::cout << "forward" << std::endl;
+		//this->_parentObject->GetTransform().AddPositionZ(0.1f);
+		this->_parentObject->AddPositionZ(1.0f);
+		//std::cout << "forward" << std::endl;
 	}
 	if (this->_futurePlayerMovement[1] > 0.9f)
 	{
-		this->_parentObject->GetTransform().AddPositionZ(-0.1f);
-		std::cout << "backwards" << std::endl;
+		//this->_parentObject->GetTransform().AddPositionZ(-0.1f);
+		this->_parentObject->AddPositionZ(-1.0f);
+		//std::cout << "backwards" << std::endl;
 	}
 	if (this->_futurePlayerMovement[2] > 0.9f)
 	{
-		this->_parentObject->GetTransform().AddPositionX(-0.1f);
-		std::cout << "right" << std::endl;
+		//this->_parentObject->GetTransform().AddPositionX(-0.1f);
+		this->_parentObject->AddPositionX(-1.0f);
+		//std::cout << "right" << std::endl;
 	}
 	if (this->_futurePlayerMovement[3] > 0.9f)
 	{
-		this->_parentObject->GetTransform().AddPositionX(0.1f);
-		std::cout << "left" << std::endl;
-	}*/
+		//this->_parentObject->GetTransform().AddPositionX(0.1f);
+		this->_parentObject->AddPositionX(1.0f);
+		//std::cout << "left" << std::endl;
+	}
 
 	//auto ray2 = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
 	//HMEngine::Core::Physics::RaycastInfo f = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray2);
 
-	/*auto f = HMEngine::Core::Physics::PhysicsEngine::Raycast(this->_parentObject->GetTransform().GetPosition(),
-		 this->_player->GetTransform().GetPosition() - this->_parentObject->GetTransform().GetPosition(), 5);
-
-	if (f.HasObject(*this))
-
-		auto ray = HMEngine::Core::Physics::PhysicsEngine::Raycast(this->_parentObject->GetTransform().GetPosition(), this->_player->GetTransform().GetPosition(), 50);
-
-	{
-		std::cout << "1";
-	}*/
-
-	if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
+	/*if (HMEngine::Core::Hardware::HardwareInputs::IsMouseButtonDown(SDL_BUTTON_LEFT))
 	{
 		auto ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::Core::Hardware::HardwareInputs::GetCursorPos());
 		auto k = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray);
 		if (k)
 			std::cout << k.hits.begin().operator*().second->GetName() << std::endl;
-	}
+	}*/
 	//this->_parentObject->GetTransform().LookAt(HMEngine::Core::Rendering::Camera::GetInstance().GetPosition());
 	//this->_parentObject->GetTransform().AddPositionX(0.01f);
 }

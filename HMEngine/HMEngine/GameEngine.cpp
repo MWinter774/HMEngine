@@ -15,6 +15,7 @@
 #include "WorldEditor.h"
 #include "Screen.h"
 #include "PhysicsEngine.h"
+#include "Timer.h"
 
 HMEngine::GameEngine::GameEngine() : _window(nullptr), _renderingEngine(nullptr), _gameObjects(), _gameObjectsVector(), _gameObjectsToRemoveBuffer(), _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _quads(), _quadsToRemoveBuffer()
 {
@@ -70,40 +71,48 @@ void HMEngine::GameEngine::Run()
 	HMEngine::GameSettings::SetCursorVisible(HMEngine::GameSettings::IsCursorVisible());
 	HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetWindowWidth() / 2, HMEngine::GameSettings::GetWindowHeight() / 2); //locks the mouse to the center of the screen
 
-	Uint32 lastTime = SDL_GetTicks();
+	double lastTime = HMEngine::Timer::GetTime();
 	Uint32 currTime = 0;
-	int frames = 0;
+	unsigned int frames = 0;
+	double framesCount = 0;
 	bool& calculateFPS = HMEngine::GameSettings::GetCalculateFPS();
 	unsigned int windowWidth = HMEngine::GameSettings::GetWindowWidth();
 	unsigned int windowHeight = HMEngine::GameSettings::GetWindowHeight();
 
+	double unprocessedTime = 0, passedTime = 0, startTime = 0;
+
 	while (!HMEngine::Core::Hardware::HardwareInputs::IsKeyTapped(SDL_SCANCODE_ESCAPE)) //temp
 	{
-		if (calculateFPS)
+		this->UpdateTimers(startTime, lastTime, unprocessedTime, framesCount);
+
+		if (calculateFPS && framesCount >= 1.0f)
 		{
-			currTime = SDL_GetTicks();
-			frames++;
-			if (currTime - lastTime >= 1000)
-			{
-				std::cout << 1000.0f / frames << std::endl;
-				frames = 0;
-				lastTime = currTime;
-			}
+			std::cout << frames << std::endl;
+			frames = 0;
+			framesCount = 0;
 		}
-		this->UpdateGameObjectsBuffers();
-		this->_camera->Update();
 
-		HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
+		while (unprocessedTime > 1 / 60.0f)
+		{
+			unprocessedTime -= (1 / 60.0f);
+			HMEngine::Timer::SetDelta(1 / 60.0f);
 
-		HMEngine::Core::EventManager::UpdateObjects();
+			this->UpdateGameObjectsBuffers();
+			this->_camera->Update();
 
-		HMEngine::Core::Physics::PhysicsEngine::Update();
+			HMEngine::Core::Hardware::HardwareInputs::Update(); //Updates inputs
 
-		if (GameSettings::IsCursorLocked())
-			HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(windowWidth / 2, windowHeight / 2);
+			HMEngine::Core::EventManager::UpdateObjects();
 
+			HMEngine::Core::Physics::PhysicsEngine::Update();
+
+			if (GameSettings::IsCursorLocked())
+				HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(windowWidth / 2, windowHeight / 2);
+
+		}
 		this->_renderingEngine->Render(); //Render objects(on the second window buffer)
 		this->_window->Update(); //Updates the window(swaps between the second window buffer and the first window buffer)
+		frames++;
 	}
 }
 
@@ -327,7 +336,7 @@ void HMEngine::GameEngine::AddActiveScreen(HMEngine::UI::Screen* screen)
 
 void HMEngine::GameEngine::RemoveActiveScreen(HMEngine::UI::Screen* screen)
 {
-	if(this->_activeScreens.size() > 0)
+	if (this->_activeScreens.size() > 0)
 		this->_activeScreens.erase(std::remove(this->_activeScreens.begin(), this->_activeScreens.end(), screen), this->_activeScreens.end());
 	if (this->_activeScreens.size() > 0)
 		this->_activeScreens.back()->EnableEvents();
@@ -363,4 +372,13 @@ void HMEngine::GameEngine::UpdateGameObjectsBuffers()
 		}
 		this->_quadsToRemoveBuffer.clear(); //clears the buffer
 	}
+}
+
+void HMEngine::GameEngine::UpdateTimers(double& startTime, double& lastTime, double& unprocessedTime, double& framesCount) const
+{
+	startTime = HMEngine::Timer::GetTime();
+	double passedTime = startTime - lastTime;
+	lastTime = startTime;
+	unprocessedTime += passedTime;
+	framesCount += passedTime;
 }

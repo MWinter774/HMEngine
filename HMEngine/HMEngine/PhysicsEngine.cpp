@@ -114,13 +114,14 @@ void HMEngine::Core::Physics::PhysicsEngine::Destroy()
 
 void HMEngine::Core::Physics::PhysicsEngine::Update()
 {
-	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->stepSimulation(1 / 60.0f);
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->stepSimulation(1 / 60.0f, 7);
 	btTransform trans;
 
 	for (auto& pair : HMEngine::Core::Physics::PhysicsEngine::_rigidBodies)
 	{
-		pair.first->getMotionState()->getWorldTransform(trans);
-		pair.second->GetTransform().SetPosition(trans.getOrigin().x(), trans.getOrigin().y(), trans.getOrigin().z());
+		trans = pair.first->getWorldTransform();
+		btVector3& origin = trans.getOrigin();
+		pair.second->GetTransform().SetPosition(origin.x(), origin.y(), origin.z());
 		pair.second->GetTransform().SetPositionAndRotationMatrices(trans);
 	}
 }

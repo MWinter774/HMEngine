@@ -91,5 +91,6 @@ namespace HMEngine
 		std::vector<HMEngine::UI::Screen*> _activeScreens;
 
 		void UpdateGameObjectsBuffers();
+		void UpdateTimers(double& startTime, double& lastTime, double& unprocessedTime, double& framesCount) const;
 	};
 }

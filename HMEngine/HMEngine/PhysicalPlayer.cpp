@@ -5,18 +5,22 @@
 #include "SDL2.0.7\SDL.h"
 #include "Camera.h"
 #include "HardwareInputs.h"
+#include "GameSettings.h"
+#include "PhysicsEngine.h"
 
 HMEngine::PhysicalPlayer::PhysicalPlayer(const std::string& name, float walkingSpeed, float runningSpeed, float maxJumpHeight) : GameObject(name),
 _controller(new HMEngine::Components::PhysicalCameraController()),
-_boundingSphere(new HMEngine::Core::Physics::Colliders::BoundingSphere(10.0f, glm::vec3(0, 0, 0), 1.5f)),
+_boundingSphere(new HMEngine::Core::Physics::Colliders::BoundingSphere(2.0f, glm::vec3(0, 0, 0), 1.5f)),
 _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _movement(new HMEngine::PhysicalPlayer::MovementData()),
-_movementSpeed(walkingSpeed * 1000.0f), _walkingSpeed(walkingSpeed * 1000.0f), _runningSpeed(runningSpeed * 1000.0f), _maxJumpHeight(maxJumpHeight * 100.0f)
+_movementSpeed(walkingSpeed), _walkingSpeed(walkingSpeed), _runningSpeed(runningSpeed), _maxJumpHeight(maxJumpHeight)
 {
 	this->InitializeEvents<PhysicalPlayer>(this);
 	this->AddComponent(this->_controller);
 	this->AddComponent(this->_boundingSphere);
 	this->GetTransform().SetScaleZ(1.5f);
-	this->GetTransform().SetRotationX(1.57f);
+	this->GetTransform().SetScaleX(1.5f);
+	this->GetTransform().SetScaleY(1.5f);
+
 }
 
 HMEngine::PhysicalPlayer::~PhysicalPlayer()
@@ -58,6 +62,9 @@ void HMEngine::PhysicalPlayer::AttachToGameEngineEvent()
 
 void HMEngine::PhysicalPlayer::UpdateEvent()
 {
+	this->_boundingSphere->GetRigidBody()->setActivationState(1);
+
+	HMEngine::GameSettings::SetIsCursorLocked(!HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_E));
 	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_LSHIFT))
 	{
 		this->_movementSpeed = this->_runningSpeed;
@@ -105,21 +112,19 @@ void HMEngine::PhysicalPlayer::UpdateEvent()
 	this->_movementSpeed = this->_walkingSpeed;
 	force.y = 0;
 
-	if (this->_boundingSphere->GetRigidBody()->getLinearVelocity().y() > 5.0f || this->_boundingSphere->GetRigidBody()->getLinearVelocity().y() < 0.0f || this->_transform->GetPositionY() > this->_prevLocation.y)
+	this->_boundingSphere->GetRigidBody()->setLinearVelocity(btVector3(force.x * 20.0f, this->_boundingSphere->GetRigidBody()->getLinearVelocity().y(),
+		force.z * 20.0f));
+
+	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_SPACE))
 	{
-		this->_canJump = false;
+		auto camPos = this->GetTransform().GetPosition();
+		btVector3 btFrom(camPos.x, camPos.y, camPos.z);
+		btVector3 btTo(camPos.x, -5000.0f, camPos.z);
+		btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+		HMEngine::Core::Physics::PhysicsEngine::GetBulletData().dynamicsWorld->rayTest(btFrom, btTo, res);
+		if (res.hasHit() && res.m_closestHitFraction <= 0.0008f)
+			this->_boundingSphere->GetRigidBody()->applyCentralImpulse(btVector3(0, this->_maxJumpHeight / 4.0f, 0));
 	}
-	else
-	{
-		this->_canJump = true;
-	}
-	if (this->_canJump && HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_SPACE))
-	{
-		force.y = this->_maxJumpHeight;
-	}
- 	this->_boundingSphere->ApplyForce(force);
 
 	this->_camera->SetPosition(this->GetTransform().GetPosition() += glm::vec3(0, 2, 0));
-
-	this->_prevLocation = this->GetTransform().GetPosition();
 }

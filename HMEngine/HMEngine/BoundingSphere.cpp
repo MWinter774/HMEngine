@@ -35,11 +35,14 @@ void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
 		btVector3(position.x, position.y, position.z)
 	));
 
+	btVector3 fallInteria;
+	this->_collider->calculateLocalInertia(this->_mass, fallInteria);
+
 	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
 		this->_mass,                  // mass, in kg. 0 -> Static object, will never move.
 		motionState,
 		this->_collider,  // collision shape of body
-		btVector3(this->_center.x, this->_center.y, this->_center.z)    // local inertia
+		fallInteria
 	);
 
 	this->_rigidBody = new btRigidBody(rigidBodyCI);

@@ -58,7 +58,6 @@ namespace HMEngine
 		float _runningSpeed;
 		float _walkingSpeed;
 		float _maxJumpHeight;
-		glm::vec3 _prevLocation;
 		float _minY;
 		bool _canJump;
 	};

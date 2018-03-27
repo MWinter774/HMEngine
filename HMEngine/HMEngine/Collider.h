@@ -23,6 +23,7 @@ namespace HMEngine
 					void AttachToGameObjectEvent() override;
 
 					void ApplyForce(const glm::vec3& force);
+					void AddPosition(const glm::vec3& translation);
 
 					inline btRigidBody* GetRigidBody() const { return this->_rigidBody; }
 
