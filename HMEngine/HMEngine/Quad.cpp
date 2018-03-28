@@ -133,6 +133,11 @@ void HMEngine::UI::Quad::AddTexture(const std::string& texturePath)
 	this->_quadTextures.push_back(new HMEngine::OpenGL::UITexture(texturePath));
 }
 
+glm::vec3 HMEngine::UI::Quad::GetTopLeft3DSpace() const
+{
+	return glm::vec3(this->_transform->GetPositionX() - this->_transform->GetScaleX() / 2.0f, this->_transform->GetPositionY() - this->_transform->GetScaleY() / 2.0f, this->_transform->GetPositionZ() - this->_transform->GetScaleZ() / 2.0f);
+}
+
 void HMEngine::UI::Quad::SetTexture(unsigned int i)
 {
 	if (i >= this->_quadTextures.size())
@@ -155,6 +160,13 @@ void HMEngine::UI::Quad::SetTopLeft(const glm::vec2& topLeft)
 	this->_quadDetails.position = glm::vec2(topLeft.x + width / 2, topLeft.y + height / 2);
 
 	this->UpdateTransform();
+}
+
+void HMEngine::UI::Quad::SetTopLeft(const glm::vec3& topLeft)
+{
+	for (auto& child : this->_childs)
+		child->SetTopLeft(topLeft);
+	this->SetPosition(glm::vec3(topLeft.x + this->_transform->GetScaleX() / 2.0f, topLeft.y + this->_transform->GetScaleY() / 2.0f, this->_transform->GetPositionZ()));
 }
 
 void HMEngine::UI::Quad::SetCenter(const glm::vec2& center)

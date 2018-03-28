@@ -248,6 +248,11 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderBillboards()
 			this->_billboardQuadShader->Bind();
 			this->_billboardQuadShader->UpdateUniforms(billboard->GetTransform());
 			quad.quad->Draw();
+			for (auto& child : quad.quad->GetChilds())
+			{
+				this->_billboardQuadShader->UpdateUniforms(child->GetTransform());
+				child->Draw();
+			}
 		}
 		else if (quad.label != nullptr)
 		{

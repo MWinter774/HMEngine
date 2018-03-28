@@ -46,6 +46,7 @@ void HMEngine::Core::Physics::Colliders::BoundingSphere::Initialize()
 	);
 
 	this->_rigidBody = new btRigidBody(rigidBodyCI);
+	this->_rigidBody->setAngularFactor(0);
 	this->_rigidBody->setUserPointer(this);
 
 	HMEngine::Core::Physics::PhysicsEngine::GetBulletData().dynamicsWorld->addRigidBody(this->_rigidBody);

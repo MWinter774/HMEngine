@@ -25,6 +25,7 @@
 #include "PhysicalPlayer.h"
 #include "Billboard.h"
 #include "Fonts.h"
+#include "EnemyBot.h"
 
 int main()
 {
@@ -106,19 +107,12 @@ int main()
 	floor.GetTransform().SetScaleX(10.0f);
 	floor.GetTransform().SetScaleZ(10.0f);
 	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0.0f));
-	HMEngine::Core::GameObject bot("bot");
-	bot.GetTransform().AddPositionY(100.0f);
-	bot.GetTransform().SetScaleZ(1.5f);
-	bot.GetTransform().SetRotationX(1.57f);
-	bot.AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(10.0f));
+	EnemyBot* bot = new EnemyBot("bot1", glm::vec3(5, 3, 0), p);
 
 	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 
-	bot.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/capsule.obj", "./resources/textures/mud.png"));
-	bot.AddComponent(HMEngine::Components::BrainComponent(*p));
-
 	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 600, 360 }, { 25, 25 });
-	g.AddUI(crosshair);
+	//g.AddUI(crosshair);
 
 	g.AddGameObject(floor);
 	g.AddGameObject(bot);

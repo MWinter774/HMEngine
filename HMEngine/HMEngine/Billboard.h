@@ -11,7 +11,7 @@ namespace HMEngine
 		class Billboard : public HMEngine::UI::Quad
 		{
 		public:
-			Billboard(const std::string& name, const glm::vec3& positionInWorld, const glm::vec2& scale, HMEngine::UI::Quad* quad);
+			Billboard(const std::string& name, const glm::vec3& positionInWorld, HMEngine::UI::Quad* quad);
 			~Billboard();
 			Billboard(const HMEngine::UI::Billboard& other);
 			HMEngine::UI::Billboard& operator=(const HMEngine::UI::Billboard& other);

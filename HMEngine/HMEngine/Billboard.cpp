@@ -1,14 +1,23 @@
 #include "Billboard.h"
 #include "Label.h"
 
-HMEngine::UI::Billboard::Billboard::Billboard(const std::string& name, const glm::vec3& positionInWorld, const glm::vec2& scale, HMEngine::UI::Quad* quad) : 
-	HMEngine::UI::Quad(name, positionInWorld, scale), _quad{ nullptr, nullptr }
+HMEngine::UI::Billboard::Billboard::Billboard(const std::string& name, const glm::vec3& positionInWorld, HMEngine::UI::Quad* quad) : 
+	HMEngine::UI::Quad(name, positionInWorld, quad->GetScale()), _quad{ nullptr, nullptr }
 {
 	this->InitializeEvents<Billboard>(this);
 	if (auto label = dynamic_cast<HMEngine::UI::Label*>(quad))
+	{
 		this->_quad.label = label;
+	}
 	else
+	{
 		this->_quad.quad = quad;
+		this->_quad.quad->SetPosition(positionInWorld);
+		for (auto& child : this->_quad.quad->GetChilds())
+		{
+			child->SetPosition(positionInWorld);
+		}
+	}
 }
 
 HMEngine::UI::Billboard::Billboard::~Billboard()
