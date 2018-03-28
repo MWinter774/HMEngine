@@ -60,6 +60,13 @@ void HMEngine::PhysicalPlayer::AttachToGameEngineEvent()
 	this->InitializeEventObject();
 }
 
+void HMEngine::PhysicalPlayer::SetPosition(const glm::vec3& newPosition)
+{
+	this->_camera->SetPosition(newPosition);
+	this->_boundingSphere->SetPosition(newPosition);
+	this->GetTransform().SetPosition(newPosition);
+}
+
 void HMEngine::PhysicalPlayer::UpdateEvent()
 {
 	this->_boundingSphere->GetRigidBody()->setActivationState(1);

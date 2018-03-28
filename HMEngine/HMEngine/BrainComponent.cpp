@@ -44,6 +44,7 @@ HMEngine::Components::BrainComponent& HMEngine::Components::BrainComponent::oper
 void HMEngine::Components::BrainComponent::UpdateEvent()
 {
 	this->ConstructCurrentPlayerMovement();
+	float speed = 0.5f;
 
 	if (this->_currentPlayerMovement != this->_futurePlayerMovement)
 	{
@@ -57,25 +58,25 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 	if (this->_futurePlayerMovement[0] > 0.9f)
 	{
 		//this->_parentObject->GetTransform().AddPositionZ(0.1f);
-		this->_parentObject->AddPositionZ(1.0f);
+		this->_parentObject->AddPositionZ(speed);
 		//std::cout << "forward" << std::endl;
 	}
 	if (this->_futurePlayerMovement[1] > 0.9f)
 	{
 		//this->_parentObject->GetTransform().AddPositionZ(-0.1f);
-		this->_parentObject->AddPositionZ(-1.0f);
+		this->_parentObject->AddPositionZ(-speed);
 		//std::cout << "backwards" << std::endl;
 	}
 	if (this->_futurePlayerMovement[2] > 0.9f)
 	{
 		//this->_parentObject->GetTransform().AddPositionX(-0.1f);
-		this->_parentObject->AddPositionX(-1.0f);
+		this->_parentObject->AddPositionX(-speed);
 		//std::cout << "right" << std::endl;
 	}
 	if (this->_futurePlayerMovement[3] > 0.9f)
 	{
 		//this->_parentObject->GetTransform().AddPositionX(0.1f);
-		this->_parentObject->AddPositionX(1.0f);
+		this->_parentObject->AddPositionX(speed);
 		//std::cout << "left" << std::endl;
 	}
 

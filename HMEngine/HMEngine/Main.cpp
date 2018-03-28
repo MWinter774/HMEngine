@@ -26,6 +26,7 @@
 #include "Billboard.h"
 #include "Fonts.h"
 #include "EnemyBot.h"
+#include "BotVSPlayerScene.h"
 
 int main()
 {
@@ -98,31 +99,8 @@ int main()
 
 	//g.InitializeWorldEditor(1200, 720, title, false);
 
-	HMEngine::PhysicalPlayer* p = new HMEngine::PhysicalPlayer("player", 1.0f, 2.0f);
-	p->GetTransform().AddPositionY(0.1f);
-	g.AddGameObject(p);
-
-	//ML
-	HMEngine::Core::GameObject floor("floor");
-	floor.GetTransform().SetScaleX(10.0f);
-	floor.GetTransform().SetScaleZ(10.0f);
-	floor.AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0.0f));
-	EnemyBot* bot = new EnemyBot("bot1", glm::vec3(5, 3, 0), p);
-
-	floor.AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
-
-	HMEngine::UI::Image crosshair = HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", { 600, 360 }, { 25, 25 });
-	//g.AddUI(crosshair);
-
-	g.AddGameObject(floor);
-	g.AddGameObject(bot);
-
-	g.SetAmbientLight(1, 1, 1);
-
-	//HMEngine::UI::Image* ej = new HMEngine::UI::Image("imgEj", "./resources/UITextures/AddGameObjectPressed.png", { 600, 360 }, { 25 ,25});
-	//HMEngine::UI::Label* ej = new HMEngine::UI::Label("lblD", HMEngine::GameSettings::GetScreenCenter(), "DDD!", HMEngine::Fonts::ARIAL, glm::vec3(), 2.0f);
-	//HMEngine::UI::Billboard a("bKaki", { -20.0f,0,0 }, { 5,5 }, ej);
-	//g.AddUI(a);
+	BotVSPlayerScene scene;
+	scene.AddToGameEngine(g);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
 	g.Run();

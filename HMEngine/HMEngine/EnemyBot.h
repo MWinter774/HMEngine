@@ -41,6 +41,11 @@ public:
 
 	void AttachToGameEngineEvent() override;
 
+	bool GotHit(float damageInPercentage);
+
+	void SetPosition(const glm::vec3& position);
+	void SetHealth(float health);
+
 private:
 	HMEngine::Components::MeshRenderer* _mesh;
 	HMEngine::Components::BrainComponent* _brain;

@@ -47,6 +47,8 @@ namespace HMEngine
 
 		inline const MovementData& GetMovement() const { return *this->_movement; }
 
+		void SetPosition(const glm::vec3& newPosition);
+
 		void UpdateEvent() override;
 
 	private:

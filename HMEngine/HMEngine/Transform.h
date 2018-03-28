@@ -81,6 +81,8 @@ namespace HMEngine
 			glm::mat4 GetMVPMatrix() const;
 
 		private:
+			static glm::quat RotationBetweenVectors(const glm::vec3& start_, const glm::vec3& dest_);
+
 			glm::vec3 _position;
 			glm::vec3 _rotation;
 			glm::quat _rotationQuat;

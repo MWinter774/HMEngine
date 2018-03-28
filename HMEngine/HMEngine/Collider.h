@@ -24,6 +24,8 @@ namespace HMEngine
 
 					void ApplyForce(const glm::vec3& force);
 					void AddPosition(const glm::vec3& translation);
+					void SetPosition(const glm::vec3& newPosition);
+					void SetRotation(const glm::quat& rotation);
 
 					inline btRigidBody* GetRigidBody() const { return this->_rigidBody; }
 

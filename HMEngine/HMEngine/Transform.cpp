@@ -3,6 +3,9 @@
 #include "GameSettings.h"
 #include "GL\glew.h"
 #include <iostream>
+#include "glm\gtx\norm.hpp"
+#include "glm\gtx\quaternion.hpp"
+#include "glm\gtx\normal.hpp"
 
 HMEngine::Core::Transform::Transform(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale) : _position(position), _rotation(rotation), _scale(scale)
 {
@@ -15,50 +18,22 @@ HMEngine::Core::Transform::~Transform()
 {
 }
 
-int j = 0;
 void HMEngine::Core::Transform::LookAt(const glm::vec3& dst)
 {
-	//glm::mat4 transformation = glm::inverse(glm::lookAt(this->_position, glm::vec3(dst), glm::vec3(0, 1, 0)));
-	//const GLfloat* transformationMatrix = glm::value_ptr(transformation);
+	glm::vec3 direction = dst - this->_position;
 
-	//float a = transformationMatrix[0];
-	//float b = transformationMatrix[1];
-	//float c = transformationMatrix[2];
-	////float d = transformationMatrix[3];
+	glm::quat rot1 = HMEngine::Core::Transform::RotationBetweenVectors(glm::vec3(0.0f, 0.0f, 1.0f), direction);
 
-	//float e = transformationMatrix[4];
-	//float f = transformationMatrix[5];
-	//float g = transformationMatrix[6];
-	////float h = transformationMatrix[7];
+	glm::vec3 desiredUp = glm::vec3(0, 1, 0);
 
-	//float i = transformationMatrix[8];
-	//float j = transformationMatrix[9];
-	//float k = transformationMatrix[10];
-	////float l = transformationMatrix[11];
+	glm::vec3 newUp = rot1 * glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::quat rot2 = HMEngine::Core::Transform::RotationBetweenVectors(newUp, desiredUp);
 
-	///*float sx = float(glm::vec3(a, e, i).length());
-	//float sy = float(glm::vec3(b, f, j).length());
-	//float sz = float(glm::vec3(c, g, k).length());*/
+	glm::quat targetOrientation = rot2 * rot1;
 
-	//float sx = this->_scale.x;
-	//float sy = this->_scale.y;
-	//float sz = this->_scale.z;
+	this->_rotationQuat = targetOrientation;
 
-	//glm::mat4 rotationMatrix = { a / sx, b / sy, c / sz, 0.0f,
-	//							e / sx, f / sy, g / sz, 0.0f,
-	//							i / sx, j / sy, k / sz, 0.0f,
-	//							0, 0, 0, 1 };
-
-	//this->_rotationMatrix = rotationMatrix;
-
-	//this->_transformationMatrix = transformation;
-	if (j % 60 == 0)
-		std::cout << this->_position.x << ", " << this->_position.y << ", " << this->_position.z << std::endl;
-	j++;
-	glm::vec3 forward = dst - this->_position;
-
-	this->_rotationMatrix = glm::inverse(glm::lookAt(glm::vec3(this->_position), (glm::vec3(dst)), glm::vec3(0, 1, 0)));
-
+	this->_rotationMatrix = glm::toMat4(this->_rotationQuat);
 	this->_transformationMatrix = this->_translationMatrix * this->_rotationMatrix * this->_scaleMatrix;
 }
 
@@ -98,6 +73,40 @@ Calculates and returns the MVP matrix.
 glm::mat4 HMEngine::Core::Transform::GetMVPMatrix() const
 {
 	return HMEngine::GameSettings::GetProjectionMatrix() * this->GetViewMatrix() * this->GetModelMatrix();
+}
+
+glm::quat HMEngine::Core::Transform::RotationBetweenVectors(const glm::vec3& start_, const glm::vec3& dest_)
+{
+	glm::vec3 start = glm::normalize(start_);
+	glm::vec3 dest = glm::normalize(dest_ + glm::vec3(0.01f, 0, 0.01f));
+
+	float cosTheta = glm::dot(start, dest);
+	glm::vec3 rotationAxis;
+	if (cosTheta < -1 + 0.001f)
+	{
+		// special case when vectors in opposite directions:
+		// there is no "ideal" rotation axis
+		// So guess one; any will do as long as it's perpendicular to start
+		rotationAxis = glm::cross(glm::vec3(0.0f, 0.0f, 1.0f), start);
+		if (glm::length2(rotationAxis) < 0.01) // bad luck, they were parallel, try again!
+			rotationAxis = glm::cross(glm::vec3(1.0f, 0.0f, 0.0f), start);
+
+		rotationAxis = normalize(rotationAxis);
+		return glm::angleAxis(glm::radians(180.0f), rotationAxis);
+	}
+
+	rotationAxis = cross(start, dest);
+
+	float s = sqrt((1 + cosTheta) * 2);
+	float invs = 1 / s;
+
+	return glm::quat(
+		s * 0.5f,
+		rotationAxis.x * invs,
+		rotationAxis.y * invs,
+		rotationAxis.z * invs
+	);
+
 }
 
 void HMEngine::Core::Transform::UpdateTranslationMatrix()
