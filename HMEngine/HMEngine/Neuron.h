@@ -10,6 +10,7 @@ namespace HMEngine
 	{
 		namespace MachineLearning
 		{
+			class NeuralNetwork;
 			class Neuron
 			{
 				typedef std::vector<Neuron> Layer;
@@ -18,6 +19,7 @@ namespace HMEngine
 					float weight;
 					float deltaWeight;
 				} Connection;
+				friend class NeuralNetwork;
 			public:
 				Neuron(unsigned int numOutputs, unsigned int index);
 				~Neuron();
@@ -36,15 +38,31 @@ namespace HMEngine
 				{
 					return rand() / float(RAND_MAX);
 				}
-				inline static float TransferFunction(float x)
+				inline static float SigmoidFunction(float x)
 				{
 					return 1 / (1 + exp(-x));
-					//return tanh(x);
 				}
-				inline static float TransferFunctionDerivative(float x)
+				inline static float SigmoidFunctionDerivative(float x)
 				{
 					return exp(x) / ((1 + exp(x)) * (1 + exp(x)));
-					//return 1 - x * x;
+				}
+				inline static float TanhFunction(float x)
+				{
+					return tanh(x);
+				}
+				inline static float TanhFunctionDerivative(float x)
+				{
+					return 1 - x * x;
+				}
+				inline static float ReLuFunction(float x)
+				{
+					return std::fmax(0.0f, x);
+				}
+				inline static float ReLuFunctionDerivative(float x)
+				{
+					if (x > 0)
+						return 1;
+					return 0;
 				}
 				static float ETA;
 				static float ALPHA;

@@ -1,9 +1,11 @@
 #pragma once
 #include "Component.h"
 #include "NeuralNetwork.h"
+#include "GeneticNeuralNetwork.h"
 #include "PhysicalCameraController.h"
 #include "PhysicalPlayer.h"
 
+class EnemyBot;
 namespace HMEngine
 {
 	namespace Components
@@ -12,6 +14,7 @@ namespace HMEngine
 		{
 		public:
 			BrainComponent(const HMEngine::PhysicalPlayer& player);
+			BrainComponent(const HMEngine::PhysicalPlayer& player, const std::string& gnnFilePath);
 			~BrainComponent();
 			BrainComponent(const HMEngine::Components::BrainComponent& other);
 			HMEngine::Components::BrainComponent& operator=(const HMEngine::Components::BrainComponent& other);
@@ -20,12 +23,24 @@ namespace HMEngine
 
 			void UpdateEvent() override;
 
+			void AttachToGameObjectEvent() override;
+
+			void Lost();
+
 		private:
-			HMEngine::Core::MachineLearning::NeuralNetwork _neuralNetwork;
+			HMEngine::Core::MachineLearning::GeneticNeuralNetwork _gnn;
 			const HMEngine::PhysicalPlayer* _player;
 			const HMEngine::PhysicalPlayer::MovementData* _playerMovement;
 			std::vector<float> _currentPlayerMovement;
 			std::vector<float> _futurePlayerMovement;
+			EnemyBot* _parent;
+			std::string _gnnFilePath;
+			float _timer;
+			float _rightAVG; //temp
+			float _leftAVG; //temp
+			float _forwardAVG; //temp
+			float _backwardAVG; //temp
+			int _count; //temp
 
 			inline void ResetCurrentPlayerMovement()
 			{
@@ -54,6 +69,8 @@ namespace HMEngine
 					_currentPlayerMovement[3] = 1.0;
 				}
 			}
+
+			void FeedForward();
 		};
 	}
 }

@@ -26,19 +26,19 @@ void HMEngine::Core::MachineLearning::Neuron::FeedForward(const Layer& prevLayer
 		sum += prevLayer[n].GetOutputValue() * prevLayer[n]._outputWeights[this->_myIndex].weight;
 	}
 
-	this->_outputVal = Neuron::TransferFunction(sum);
+	this->_outputVal = Neuron::SigmoidFunction(sum);
 }
 
 void HMEngine::Core::MachineLearning::Neuron::CalcOutputGradients(float targetVal)
 {
 	float delta = targetVal - this->_outputVal;
-	this->_gradient = delta * Neuron::TransferFunctionDerivative(this->_outputVal);
+	this->_gradient = delta * Neuron::SigmoidFunctionDerivative(this->_outputVal);
 }
 
 void HMEngine::Core::MachineLearning::Neuron::CalcHiddenGradients(const Layer& nextLayer)
 {
 	float dow = this->SumDOW(nextLayer);
-	this->_gradient = dow * Neuron::TransferFunctionDerivative(this->_outputVal);
+	this->_gradient = dow * Neuron::SigmoidFunctionDerivative(this->_outputVal);
 }
 
 void HMEngine::Core::MachineLearning::Neuron::UpdateInputWeights(Layer& prevLayer)

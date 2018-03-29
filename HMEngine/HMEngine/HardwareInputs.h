@@ -106,6 +106,14 @@ namespace HMEngine
 				}
 
 				/*
+				Sets the cursor position.
+				*/
+				static inline void SetCursorPos(const glm::vec2& position)
+				{
+					SDL_WarpMouseInWindow(HardwareInputs::window, int(position.x), int(position.y));
+				}
+
+				/*
 				Returns if the mouse button is tapped.
 				Input:
 				mouseButtonCode - the code of the mouse button(for example SDL_BUTTON_LEFT, SDL_BUTTON_MIDDLE, SDL_BUTTON_RIGHT...)

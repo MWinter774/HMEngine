@@ -21,13 +21,13 @@ BotVSPlayerScene::BotVSPlayerScene()
 	this->_floor->AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0.0f));
 	this->_floor->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/plane.obj", "./resources/textures/VeryNice.png"));
 
-	this->_bot = new EnemyBot("bot1", glm::vec3(5, 3, 0), this->_player);
+	this->_bot = new EnemyBot("bot1", glm::vec3(5, 3, 0), this->_player, "./resources/neuralNetworks/enemyBot.gnn");
+	//this->_bot = new EnemyBot("bot1", glm::vec3(5, 3, 0), this->_player);
 
 	this->_crosshair = new HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", HMEngine::GameSettings::GetScreenCenter(), { 25, 25 });
 
 	this->InitializeEvents<BotVSPlayerScene>(this);
 }
-
 
 BotVSPlayerScene::~BotVSPlayerScene()
 {
@@ -41,6 +41,8 @@ void BotVSPlayerScene::AddToGameEngine(HMEngine::GameEngine& gameEngine)
 	gameEngine.AddUI(this->_crosshair);
 
 	gameEngine.SetAmbientLight(1, 1, 1);
+	//gameEngine.UnlockCursor();
+	//gameEngine.SetMouseVisible(true);
 
 	this->InitializeEventObject();
 }
@@ -57,10 +59,20 @@ void BotVSPlayerScene::MouseButtonDownEvent(const unsigned int& mouseButton)
 			{
 				if (this->_bot->GotHit(10.0f))
 				{
+					this->_bot->Lost();
 					this->Restart();
 				}
 			}
 		}
+	}
+}
+
+void BotVSPlayerScene::UpdateEvent()
+{
+	if (this->_bot->GetTransform().GetPositionY() < -5.0f)
+	{
+		this->_bot->Lost();
+		this->Restart();
 	}
 }
 

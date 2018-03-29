@@ -15,7 +15,7 @@ _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _movement(new HMEngi
 _movementSpeed(walkingSpeed), _walkingSpeed(walkingSpeed), _runningSpeed(runningSpeed), _maxJumpHeight(maxJumpHeight)
 {
 	this->InitializeEvents<PhysicalPlayer>(this);
-	this->AddComponent(this->_controller);
+	this->AddComponent(this->_controller); //temp
 	this->AddComponent(this->_boundingSphere);
 	this->GetTransform().SetScaleZ(1.5f);
 	this->GetTransform().SetScaleX(1.5f);
@@ -71,7 +71,6 @@ void HMEngine::PhysicalPlayer::UpdateEvent()
 {
 	this->_boundingSphere->GetRigidBody()->setActivationState(1);
 
-	HMEngine::GameSettings::SetIsCursorLocked(!HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_E));
 	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_LSHIFT))
 	{
 		this->_movementSpeed = this->_runningSpeed;

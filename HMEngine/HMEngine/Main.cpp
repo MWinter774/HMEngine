@@ -103,6 +103,7 @@ int main()
 	scene.AddToGameEngine(g);
 
 	HMEngine::Core::Rendering::Camera::GetInstance().SetPosition(0.0f, 5.0f, -5.0f);
+	HMEngine::Core::Rendering::Camera::GetInstance().SetForawrd(glm::vec3(1.0f, 0.0f, 1.0f));
 	g.Run();
 
 	return 0;

@@ -107,7 +107,7 @@ void HMEngine::GameEngine::Run()
 			HMEngine::Core::Physics::PhysicsEngine::Update();
 
 			if (GameSettings::IsCursorLocked())
-				HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(windowWidth / 2, windowHeight / 2);
+				HMEngine::Core::Hardware::HardwareInputs::SetCursorPos(HMEngine::GameSettings::GetScreenCenter());
 
 		}
 		this->_renderingEngine->Render(); //Render objects(on the second window buffer)

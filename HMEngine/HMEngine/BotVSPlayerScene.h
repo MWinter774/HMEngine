@@ -17,6 +17,7 @@ public:
 	void AddToGameEngine(HMEngine::GameEngine& gameEngine);
 
 	void MouseButtonDownEvent(const unsigned int& mouseButton) override;
+	void UpdateEvent() override;
 
 private:
 	HMEngine::PhysicalPlayer* _player;
