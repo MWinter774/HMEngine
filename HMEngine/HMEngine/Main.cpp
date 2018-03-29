@@ -106,5 +106,8 @@ int main()
 	HMEngine::Core::Rendering::Camera::GetInstance().SetForawrd(glm::vec3(1.0f, 0.0f, 1.0f));
 	g.Run();
 
+	/*HMEngine::Core::MachineLearning::GeneticNeuralNetwork gnn(6, { 8, 20, 20, 5 });
+	gnn.Save("./resources/neuralNetworks/enemyBot.gnn");*/
+
 	return 0;
 }

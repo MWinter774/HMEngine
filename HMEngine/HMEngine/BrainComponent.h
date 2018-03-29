@@ -40,6 +40,7 @@ namespace HMEngine
 			float _leftAVG; //temp
 			float _forwardAVG; //temp
 			float _backwardAVG; //temp
+			float _jumpAVG; //temp
 			int _count; //temp
 
 			inline void ResetCurrentPlayerMovement()

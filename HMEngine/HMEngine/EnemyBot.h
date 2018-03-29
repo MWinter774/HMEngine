@@ -46,6 +46,7 @@ public:
 	void SetPosition(const glm::vec3& position);
 	void AddPosition(const glm::vec3& translation);
 	void SetHealth(float health);
+	void Jump();
 
 	bool Shoot();
 

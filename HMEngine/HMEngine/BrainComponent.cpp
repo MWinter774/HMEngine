@@ -12,14 +12,14 @@
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::PhysicalPlayer& player) : HMEngine::Components::Component(), _gnn(6, { 8, 20, 20, 5 }),
 _player(&player), _playerMovement(&player.GetMovement()), _currentPlayerMovement(4), _futurePlayerMovement(4), _timer(0), _rightAVG(0), _forwardAVG(0),
-_count(0), _gnnFilePath()
+_count(0), _gnnFilePath(), _jumpAVG(0)
 {
 	this->InitializeEvents<BrainComponent>(this);
 }
 
 HMEngine::Components::BrainComponent::BrainComponent(const HMEngine::PhysicalPlayer & player, const std::string & gnnFilePath) :
 	HMEngine::Components::Component(), _gnn(gnnFilePath), _player(&player), _playerMovement(&player.GetMovement()), _currentPlayerMovement(4),
-	_futurePlayerMovement(4), _timer(0), _rightAVG(0), _forwardAVG(0), _count(0), _gnnFilePath(gnnFilePath)
+	_futurePlayerMovement(4), _timer(0), _rightAVG(0), _forwardAVG(0), _count(0), _gnnFilePath(gnnFilePath), _jumpAVG(0)
 {
 	this->InitializeEvents<BrainComponent>(this);
 }
@@ -71,7 +71,7 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 	this->_leftAVG += left; //temp
 	this->_forwardAVG += forward; //temp
 	this->_backwardAVG += backward; //temp
-
+	this->_jumpAVG += jump;
 
 	glm::vec3 translate;
 	if (right > 0.9f)
@@ -82,6 +82,8 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 		translate.z += speed;
 	else if (backward > 0.9f)
 		translate.z -= speed;
+	if (jump > 0.9f)
+		this->_parent->Jump();
 
 	this->_parent->AddPosition(translate);
 }
@@ -97,16 +99,19 @@ void HMEngine::Components::BrainComponent::Lost()
 	float leftAVG = this->_leftAVG / this->_count;
 	float forwardAVG = this->_forwardAVG / this->_count;
 	float backwardAVG = this->_backwardAVG / this->_count;
+	float jumpAVG = this->_jumpAVG / this->_count;
 	this->_count = 0;
 	this->_rightAVG = 0;
 	this->_leftAVG = 0;
 	this->_forwardAVG = 0;
 	this->_backwardAVG = 0;
+	this->_jumpAVG = 0;
 	std::cout << "**************" << std::endl;
 	std::cout << "Right Average: " << rightAVG << std::endl;
 	std::cout << "Left Average: " << leftAVG << std::endl;
 	std::cout << "Forward Average: " << forwardAVG << std::endl;
 	std::cout << "Backward Average: " << backwardAVG << std::endl;
+	std::cout << "Jump Average: " << jumpAVG << std::endl;
 	std::cout << "**************" << std::endl;
 
 	this->_gnn.SetFitness(this->_timer);

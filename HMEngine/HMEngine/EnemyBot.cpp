@@ -6,6 +6,7 @@
 #include "Billboard.h"
 #include "ProgressBar.h"
 #include "GameEngine.h"
+#include "PhysicsEngine.h"
 
 EnemyBot::EnemyBot(const std::string& name, const glm::vec3& position, HMEngine::PhysicalPlayer* player, const std::string& gnnFilePath) :
 	HMEngine::Core::GameObject(name), _player(player), _forward(0, 0, 1), _gnnFilePath(gnnFilePath)
@@ -84,6 +85,20 @@ void EnemyBot::AddPosition(const glm::vec3& translation)
 void EnemyBot::SetHealth(float health)
 {
 	this->_health->SetPercentage(health);
+}
+
+void EnemyBot::Jump()
+{
+	/*auto myPosition = this->GetTransform().GetPosition();
+	if (myPosition.y <= 4.0f && myPosition.y > 3.0f)
+		this->SetPosition(myPosition + glm::vec3(0.0f, 0.75f, 0.0f));*/
+	auto camPos = this->GetTransform().GetPosition();
+	btVector3 btFrom(camPos.x, camPos.y, camPos.z);
+	btVector3 btTo(camPos.x, -5000.0f, camPos.z);
+	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+	HMEngine::Core::Physics::PhysicsEngine::GetBulletData().dynamicsWorld->rayTest(btFrom, btTo, res);
+	if (res.hasHit() && res.m_closestHitFraction <= 0.0008f)
+		this->_collider->GetRigidBody()->applyCentralImpulse(btVector3(0, 10.0f, 0));
 }
 
 bool EnemyBot::Shoot()
