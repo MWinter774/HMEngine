@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\ec678146a107f1d5972d1e568eb11f0e\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{31088B88-B177-33CC-9A3A-6A278A177306}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

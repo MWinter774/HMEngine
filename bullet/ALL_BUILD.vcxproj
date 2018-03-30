@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0BD8A433-4732-3DC3-996A-8A7C22E089A1}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" "-HD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87" "-BD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet" --check-stamp-file "D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInitialize.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCCompiler.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\FindPythonLibs.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\SelectLibraryConfigurations.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\BulletConfig.cmake.in;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" "-HD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87" "-BD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet" --check-stamp-file "D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInitialize.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCCompiler.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\FindPythonLibs.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\SelectLibraryConfigurations.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\BulletConfig.cmake.in;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" "-HD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87" "-BD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet" --check-stamp-file "D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInitialize.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCCompiler.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\FindPythonLibs.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\SelectLibraryConfigurations.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\BulletConfig.cmake.in;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" "-HD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87" "-BD:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet" --check-stamp-file "D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/Users/HOME/Documents/Visual Studio 2017/Projects/HMengine/bullet3-2.87/CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInitialize.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCCompiler.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\3.9.0-rc5\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\FindPythonLibs.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\build3\cmake\SelectLibraryConfigurations.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\BulletConfig.cmake.in;D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet3-2.87\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\ZERO_CHECK.vcxproj">
+      <Project>{B8551947-826D-3FC0-9CC8-7A6C1919112C}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\BasicDemo\AppBasicExampleGui.vcxproj">
+      <Project>{3A612CEE-3049-398B-87DD-60552006A92D}</Project>
+      <Name>AppBasicExampleGui</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\BasicDemo\App_BasicExample.vcxproj">
+      <Project>{61D0CB12-2A86-3D72-9F01-4B4FAC1C900F}</Project>
+      <Name>App_BasicExample</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\ExampleBrowser\App_ExampleBrowser.vcxproj">
+      <Project>{48EBE60A-2C76-3D5F-A06B-54F4F53F12A5}</Project>
+      <Name>App_ExampleBrowser</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\HelloWorld\App_HelloWorld.vcxproj">
+      <Project>{D7E74BEE-3D11-33CA-A4C2-284CB73040D6}</Project>
+      <Name>App_HelloWorld</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\SharedMemory\App_PhysicsServer_SharedMemory.vcxproj">
+      <Project>{8742866D-BAE7-358D-95C2-298F673E8796}</Project>
+      <Name>App_PhysicsServer_SharedMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\SharedMemory\App_PhysicsServer_SharedMemory_GUI.vcxproj">
+      <Project>{163F48E9-2827-3CF1-974A-74D2960D309A}</Project>
+      <Name>App_PhysicsServer_SharedMemory_GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\SharedMemory\App_PhysicsServer_SharedMemory_VR.vcxproj">
+      <Project>{E5053336-955E-3E93-B3F0-17DD808EB299}</Project>
+      <Name>App_PhysicsServer_SharedMemory_VR</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\RobotSimulator\App_RobotSimulator.vcxproj">
+      <Project>{A74A9F34-F1AA-3B40-9ED6-B5A2E1D806B2}</Project>
+      <Name>App_RobotSimulator</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\obj2sdf\App_obj2sdf.vcxproj">
+      <Project>{F2BD7E2A-6263-3733-9A2D-FF45EAA4CA06}</Project>
+      <Name>App_obj2sdf</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\Bullet3Serialize\Bullet2FileLoader\Bullet2FileLoader.vcxproj">
+      <Project>{91F6F288-73A5-3542-B13A-447ED4F72A0F}</Project>
+      <Name>Bullet2FileLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\Bullet3Collision\Bullet3Collision.vcxproj">
+      <Project>{F675710B-BB27-367E-9D10-CF0BD4EEB653}</Project>
+      <Name>Bullet3Collision</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\Bullet3Common\Bullet3Common.vcxproj">
+      <Project>{24F53AFF-86AB-3B79-90DA-62132196B3F3}</Project>
+      <Name>Bullet3Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\Bullet3Dynamics\Bullet3Dynamics.vcxproj">
+      <Project>{4CC3258E-2B6F-37AD-88EE-C51460B60986}</Project>
+      <Name>Bullet3Dynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\Bullet3Geometry\Bullet3Geometry.vcxproj">
+      <Project>{05D0C91A-47AF-302F-90E1-FC1785BEED16}</Project>
+      <Name>Bullet3Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\Bullet3OpenCL\Bullet3OpenCL_clew.vcxproj">
+      <Project>{34DBEE87-3F1F-3D29-A14A-2DEAA9B0B4AD}</Project>
+      <Name>Bullet3OpenCL_clew</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\BulletCollision\BulletCollision.vcxproj">
+      <Project>{AD56931A-8038-380F-8B0B-5847C9B8BA00}</Project>
+      <Name>BulletCollision</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\BulletDynamics\BulletDynamics.vcxproj">
+      <Project>{C41B40D3-5461-3FE1-9B59-895A89842A09}</Project>
+      <Name>BulletDynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\ExampleBrowser\BulletExampleBrowserLib.vcxproj">
+      <Project>{703622D4-FAE9-3226-9FC1-DB3C702B11EC}</Project>
+      <Name>BulletExampleBrowserLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\Serialize\BulletFileLoader\BulletFileLoader.vcxproj">
+      <Project>{9CB4C862-A935-33A7-96A4-6DF1796ED1E6}</Project>
+      <Name>BulletFileLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\BulletInverseDynamics\BulletInverseDynamics.vcxproj">
+      <Project>{5272990D-E925-31DB-8D61-9F4E5941BE54}</Project>
+      <Name>BulletInverseDynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\InverseDynamics\BulletInverseDynamicsUtils.vcxproj">
+      <Project>{D4A59F90-F75A-3CC2-98DB-D4E59853AD9A}</Project>
+      <Name>BulletInverseDynamicsUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\BulletRobotics\BulletRobotics.vcxproj">
+      <Project>{FEC21DED-3F7C-3275-A464-93E7E0A57C39}</Project>
+      <Name>BulletRobotics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\BulletSoftBody\BulletSoftBody.vcxproj">
+      <Project>{9660C950-4026-3B00-9830-E5CF8EC34A88}</Project>
+      <Name>BulletSoftBody</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\Serialize\BulletWorldImporter\BulletWorldImporter.vcxproj">
+      <Project>{FF0DD263-F820-3DA2-8B77-1A693BD016A4}</Project>
+      <Name>BulletWorldImporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\Serialize\BulletXmlWorldImporter\BulletXmlWorldImporter.vcxproj">
+      <Project>{A5774653-7C62-3DD7-84B8-AE53B32409A7}</Project>
+      <Name>BulletXmlWorldImporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\ThirdPartyLibs\BussIK\BussIK.vcxproj">
+      <Project>{4B2EFCB1-9109-3331-AFA4-C0230122B725}</Project>
+      <Name>BussIK</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\ConvexDecomposition\ConvexDecomposition.vcxproj">
+      <Project>{46119A91-08EF-3ECC-AF94-183065CC0B10}</Project>
+      <Name>ConvexDecomposition</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\GIMPACTUtils\GIMPACTUtils.vcxproj">
+      <Project>{093B8FC6-E595-3BC8-AB2E-755F9E192D04}</Project>
+      <Name>GIMPACTUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\Extras\HACD\HACD.vcxproj">
+      <Project>{E3EFAF25-8E29-3DFF-B6A8-188E0918DEE1}</Project>
+      <Name>HACD</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\src\LinearMath\LinearMath.vcxproj">
+      <Project>{895783CC-C2D9-3E8F-B643-87FEB521EBD8}</Project>
+      <Name>LinearMath</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\OpenGLWindow\OpenGLWindow.vcxproj">
+      <Project>{458100D9-5C60-3C11-90D3-8C2CFD23C629}</Project>
+      <Name>OpenGLWindow</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\BulletDynamics\pendulum\Test_BulletDynamics.vcxproj">
+      <Project>{EB91D8CD-8FBD-3EAC-BA6A-E281911BECFE}</Project>
+      <Name>Test_BulletDynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\InverseDynamics\Test_BulletInverseDynamics.vcxproj">
+      <Project>{B658395F-27D5-3197-B241-B797F1298BEC}</Project>
+      <Name>Test_BulletInverseDynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\InverseDynamics\Test_BulletInverseDynamicsJacobian.vcxproj">
+      <Project>{9137706C-C41C-33F2-B1CA-19D0B1322C7D}</Project>
+      <Name>Test_BulletInverseDynamicsJacobian</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\InverseDynamics\Test_BulletInverseForwardDynamics.vcxproj">
+      <Project>{4D200B28-B393-3D36-968E-F64C19DB2822}</Project>
+      <Name>Test_BulletInverseForwardDynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\collision\Test_Collision.vcxproj">
+      <Project>{574BBDA1-4937-33EB-8B9D-B4741F776A54}</Project>
+      <Name>Test_Collision</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\SharedMemory\Test_PhysicsClientServer.vcxproj">
+      <Project>{ECB3B533-38AB-36DA-B852-C7435360D82F}</Project>
+      <Name>Test_PhysicsClientServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\BulletDynamics\Test_btKinematicCharacterController.vcxproj">
+      <Project>{8D4AF769-7717-3A05-9564-9F5D4987BE7E}</Project>
+      <Name>Test_btKinematicCharacterController</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\ThirdPartyLibs\clsocket\clsocket.vcxproj">
+      <Project>{CCDD3AD7-D77D-3238-AC26-BDB0E0332C4A}</Project>
+      <Name>clsocket</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\test\gtest-1.7.0\gtest.vcxproj">
+      <Project>{8D1F8707-5DBA-33B3-AFCD-15D7DA40936A}</Project>
+      <Name>gtest</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\HOME\Documents\Visual Studio 2017\Projects\HMengine\bullet\examples\ThirdPartyLibs\Gwen\gwen.vcxproj">
+      <Project>{94AF0E33-55D8-3D2E-9585-FA4391033909}</Project>
+      <Name>gwen</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
