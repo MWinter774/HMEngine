@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "EventObject.h"
 #include "glm\glm.hpp"
+#include <functional>
 
 namespace HMEngine
 {
@@ -28,6 +29,9 @@ namespace HMEngine
 	class PhysicalPlayer : public HMEngine::Core::GameObject, public HMEngine::Core::EventObject
 	{
 	public:
+		std::vector<std::function<void()>> _updateEvents;
+		std::vector<std::function<void(const unsigned int&)>> _mouseDownEvents;
+
 		typedef struct
 		{
 			bool forward;
@@ -37,7 +41,7 @@ namespace HMEngine
 		} MovementData;
 
 		PhysicalPlayer(const std::string& name, float walkingSpeed = 5.0f, float runningSpeed = 10.0f, float maxJumpHeight = 5.0f);
-		~PhysicalPlayer();
+		virtual ~PhysicalPlayer();
 		PhysicalPlayer(const HMEngine::PhysicalPlayer& other);
 		HMEngine::PhysicalPlayer& operator=(const HMEngine::PhysicalPlayer& other);
 
@@ -50,6 +54,8 @@ namespace HMEngine
 		void SetPosition(const glm::vec3& newPosition);
 
 		void UpdateEvent() override;
+
+		inline void MouseButtonDownEvent(const unsigned int& mouseButton) override { for (auto& e : this->_mouseDownEvents) e(mouseButton); }
 
 	private:
 		static float RoundNumber(float x);

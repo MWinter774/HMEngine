@@ -22,7 +22,7 @@ HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, c
 
 HMEngine::UI::Label::Label(const std::string& name, const glm::vec2& position, const glm::vec2& scale, const std::string& text,
 	const HMEngine::UI::Font& font, const glm::vec3& color) : HMEngine::UI::Quad(name, font.GetFntTexturePath(), position, scale, false),
-	_text(text), _font(font), _color(color)
+	_text(text), _font(font), _color(color), _fontSize(1)
 {
 	this->InitializeEvents<Label>(this);
 	this->_color /= 255;
@@ -186,7 +186,7 @@ void HMEngine::UI::Label::GetVerticesAndUVs(const std::string& text, const HMEng
 void HMEngine::UI::Label::UpdateText()
 {
 	std::vector<glm::vec2> vertices, uvs;
-	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, 1, 1.0f);
+	HMEngine::UI::Label::CalculateMeshData(vertices, uvs, this->_quadDetails.scale, this->_text, this->_font, this->_fontSize, 1.0f);
 
 	this->SetVertices(vertices);
 	this->SetUVs(uvs);

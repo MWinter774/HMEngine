@@ -137,6 +137,9 @@ void HMEngine::PhysicalPlayer::UpdateEvent()
 
 	this->_boundingSphere->GetRigidBody()->setLinearVelocity(btVector3(force.x * 20.0f, force.y,
 		force.z * 20.0f));
+
+	for (auto& updateEvent : this->_updateEvents)
+		updateEvent();
 }
 
 float HMEngine::PhysicalPlayer::RoundNumber(float x)

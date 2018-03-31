@@ -4,6 +4,7 @@
 #include <set>
 #include "Component.h"
 #include "glm\glm.hpp"
+#include <functional>
 
 namespace HMEngine
 {
@@ -74,6 +75,8 @@ namespace HMEngine
 		protected:
 			HMEngine::Core::Transform* _transform;
 			HMEngine::GameEngine* _gameEngine;
+
+			std::vector<std::function<void()>> _attachToGameEngineEvents;
 
 			void AttachToGameEngine();
 

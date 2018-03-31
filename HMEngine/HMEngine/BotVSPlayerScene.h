@@ -1,5 +1,6 @@
 #pragma once
-#include "PhysicalPlayer.h"
+//#include "PhysicalPlayer.h"
+#include "MainPlayer.h"
 #include "GameObject.h"
 #include "EnemyBot.h"
 #include "Image.h"
@@ -16,15 +17,15 @@ public:
 
 	void AddToGameEngine(HMEngine::GameEngine& gameEngine);
 
-	void MouseButtonDownEvent(const unsigned int& mouseButton) override;
 	void UpdateEvent() override;
 
 private:
-	HMEngine::PhysicalPlayer* _player;
+	MainPlayer* _player;
 	HMEngine::Core::GameObject* _floor;
 	EnemyBot* _bot;
 	HMEngine::UI::Image* _crosshair;
 
 	void Restart();
+	void ShootEvent(HMEngine::Core::Physics::RaycastInfo& info);
 };
 

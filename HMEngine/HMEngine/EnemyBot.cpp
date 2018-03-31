@@ -45,7 +45,7 @@ void EnemyBot::AttachToGameEngineEvent()
 		this->_brain = new HMEngine::Components::BrainComponent(*this->_player);
 	this->_collider = new HMEngine::Core::Physics::Colliders::BoundingSphere(10.0f);
 	this->_health = new HMEngine::UI::ProgressBar(this->GetName() + "_health", glm::vec2(), glm::vec2(5, 1), "./resources/UITextures/progressBarBackground.png",
-		"./resources/UITextures/progressBarBarTexture.png", 100);
+		"./resources/UITextures/progressBarBarTexture.png", 100, true);
 	this->_healthBar = new HMEngine::UI::Billboard(this->GetName() + "_healthBar", this->GetTransform().GetPosition() += glm::vec3(0, 2, 0), this->_health);
 	this->AddComponent(this->_mesh);
 	this->AddComponent(this->_brain);

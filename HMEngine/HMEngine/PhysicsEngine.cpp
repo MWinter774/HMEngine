@@ -112,7 +112,6 @@ void HMEngine::Core::Physics::PhysicsEngine::Destroy()
 		delete collisionShape;
 }
 
-int hhhhhh = 0;
 void HMEngine::Core::Physics::PhysicsEngine::Update()
 {
 	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->stepSimulation(1);
@@ -128,13 +127,7 @@ void HMEngine::Core::Physics::PhysicsEngine::Update()
 		origin.setY(RoundNumber(origin.y()));
 		objectTransform.SetPosition(origin.x(), origin.y(), origin.z());
 		objectTransform.SetPositionAndRotationMatrices(trans);
-
-		if (hhhhhh % 30 == 0 && pair.second->GetName().find("player") != std::string::npos)
-		{
-			std::cout << originalY << "-->" << origin.y() << std::endl;
-		}
 	}
-	hhhhhh++;
 }
 
 /*

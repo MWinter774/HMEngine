@@ -12,8 +12,9 @@
 
 BotVSPlayerScene::BotVSPlayerScene()
 {
-	this->_player = new HMEngine::PhysicalPlayer("player", 1.0f, 2.0f);
+	this->_player = new MainPlayer("player", 1.0f, 2.0f);
 	this->_player->GetTransform().AddPositionY(0.1f);
+	this->_player->_shootEvent.push_back(std::bind(&BotVSPlayerScene::ShootEvent, this, std::placeholders::_1));
 
 	this->_floor = new HMEngine::Core::GameObject("floor");
 	this->_floor->GetTransform().SetScaleX(10.0f);
@@ -47,26 +48,6 @@ void BotVSPlayerScene::AddToGameEngine(HMEngine::GameEngine& gameEngine)
 	this->InitializeEventObject();
 }
 
-void BotVSPlayerScene::MouseButtonDownEvent(const unsigned int& mouseButton)
-{
-	if (mouseButton == SDL_BUTTON_LEFT)
-	{
-		HMEngine::Core::Physics::Ray ray = HMEngine::Core::Rendering::Camera::GetInstance().GetRayFromScreenPoint(HMEngine::GameSettings::GetScreenCenter());
-		auto k = HMEngine::Core::Physics::PhysicsEngine::Raycast(ray);
-		if (k)
-		{
-			if (k.hits.begin().operator*().second == this->_bot)
-			{
-				if (this->_bot->GotHit(10.0f))
-				{
-					this->_bot->Lost();
-					this->Restart();
-				}
-			}
-		}
-	}
-}
-
 void BotVSPlayerScene::UpdateEvent()
 {
 	if (this->_bot->GetTransform().GetPositionY() < -5.0f)
@@ -81,4 +62,16 @@ void BotVSPlayerScene::Restart()
 	this->_bot->SetPosition(glm::vec3(5, 3, 0));
 	this->_bot->SetHealth(100.0f);
 	this->_player->SetPosition(glm::vec3(0, 0.1f, 0));
+}
+
+void BotVSPlayerScene::ShootEvent(HMEngine::Core::Physics::RaycastInfo& info)
+{
+	if (info.hits.begin().operator*().second == this->_bot)
+	{
+		if (this->_bot->GotHit(10.0f))
+		{
+			this->_bot->Lost();
+			this->Restart();
+		}
+	}
 }
