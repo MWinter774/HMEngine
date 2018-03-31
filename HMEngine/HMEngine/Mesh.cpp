@@ -6,6 +6,9 @@
 #include <iterator>
 #include "Utilities.h"
 #include "InvalidMeshFileException.h"
+#include "assimp\scene.h"
+#include "assimp\Importer.hpp"
+#include "assimp\postprocess.h"
 
 HMEngine::Core::Mesh::Mesh()
 {
@@ -46,7 +49,6 @@ HMEngine::Core::Mesh::Mesh(const HMEngine::Core::Mesh& other) : _meshPhysicalDat
 	this->_vertices = other._vertices;
 	this->_normals = other._normals;
 	this->_uvs = other._uvs;
-	this->_fIndices = other._fIndices;
 	this->_indices = other._indices;
 
 	this->InitBuffers();
@@ -65,81 +67,43 @@ HMEngine::Core::Mesh::~Mesh()
 
 void HMEngine::Core::Mesh::Load(const std::string& path)
 {
-	std::ifstream file(path.c_str());
-	std::string line;
-	std::vector<std::string> tokens;
+	Assimp::Importer importer;
 
-	if (file.is_open())
+	const aiScene* scene = importer.ReadFile((path).c_str(),
+		aiProcess_Triangulate |
+		aiProcess_GenSmoothNormals |
+		aiProcess_FlipUVs |
+		aiProcess_CalcTangentSpace);
+
+	if (!scene)
 	{
-		while (file.good())
-		{
-			getline(file, line);
-
-			if (line.length() > 2)
-			{
-				const char* lineC = line.c_str();
-				switch (lineC[0])
-				{
-				case 'v':
-					if (lineC[1] == 't')
-					{
-						tokens = SplitString(line);
-						if (tokens.size() == 3)
-							this->_tempUvs.push_back(glm::vec2(std::stof(tokens[1]), std::stof(tokens[2])));
-					}
-					else if (lineC[1] == 'n')
-					{
-						tokens = SplitString(line);
-						if (tokens.size() == 4)
-							this->_tempNormals.push_back(glm::vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3])));
-					}
-					else
-					{
-						tokens = SplitString(line);
-						if (tokens.size() == 4)
-							this->_tempVertices.push_back(glm::vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3])));
-					}
-
-					break;
-				case 'f':
-					std::replace(line.begin(), line.end(), '/', ' ');
-					tokens = SplitString(line);
-					if (tokens.size() == 10)
-					{
-						fIndices f1
-						{
-							std::stoi(tokens[1]),std::stoi(tokens[2]),std::stoi(tokens[3]),
-						};
-						fIndices f2
-						{
-							std::stoi(tokens[4]), std::stoi(tokens[5]), std::stoi(tokens[6]),
-						};
-						fIndices f3
-						{
-							std::stoi(tokens[7]), std::stoi(tokens[8]), std::stoi(tokens[9]),
-						};
-						this->_fIndices.push_back(f1);
-						this->_fIndices.push_back(f2);
-						this->_fIndices.push_back(f3);
-					}
-					break;
-				}
-			}
-		}
-		this->_numIndices = this->_fIndices.size();
-
-		for (int i = 0; i < this->_numIndices; i++)
-		{
-			this->_vertices.push_back(this->_tempVertices[this->_fIndices[i].vertexIndex - 1]);
-			this->_uvs.push_back(this->_tempUvs[this->_fIndices[i].textureIndex - 1]);
-			this->_normals.push_back(this->_tempNormals[this->_fIndices[i].normalIndex - 1]);
-		}
-		file.close();
-	}
-	else
-	{
-		//HMEngine::Core::Utilities::ThrowException("OBJECT FILE: " + path + " DOESN'T EXIST!!");
 		throw HMEngine::Exceptions::InvalidMeshFileException("OBJECT FILE: " + path + " DOESN'T EXIST!!");
+		return;
+	}
+
+	const aiMesh* model = scene->mMeshes[0];
+
+	const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
+	for (unsigned int i = 0; i < model->mNumVertices; i++)
+	{
+		const aiVector3D pos = model->mVertices[i];
+		const aiVector3D normal = model->mNormals[i];
+		const aiVector3D texCoord = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : aiZeroVector;
+		if (model->mTangents != nullptr)
+			const aiVector3D tangent = model->mTangents[i];
+
+		this->_vertices.push_back(glm::vec3(pos.x, pos.y, pos.z));
+		this->_uvs.push_back(glm::vec2(texCoord.x, texCoord.y));
+		this->_normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
+	}
+
+	for (unsigned int i = 0; i < model->mNumFaces; i++)
+	{
+		const aiFace& face = model->mFaces[i];
+		assert(face.mNumIndices == 3);
+		this->_indices.push_back(face.mIndices[0]);
+		this->_indices.push_back(face.mIndices[1]);
+		this->_indices.push_back(face.mIndices[2]);
 	}
 }
 
@@ -160,7 +124,6 @@ HMEngine::Core::Mesh& HMEngine::Core::Mesh::operator=(HMEngine::Core::Mesh& othe
 		this->_vertices = other._vertices;
 		this->_normals = other._normals;
 		this->_uvs = other._uvs;
-		this->_fIndices = other._fIndices;
 		this->_indices = other._indices;
 
 		this->_meshPhysicalData = other._meshPhysicalData;

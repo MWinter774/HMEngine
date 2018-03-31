@@ -52,13 +52,19 @@ void MainPlayer::Shoot(const unsigned int& mouseButton)
 	}
 }
 
+void MainPlayer::SetAmmo(unsigned int ammo)
+{
+	this->_ammo = ammo;
+	this->_lblAmmo->SetText(std::to_string(this->_ammo));
+}
+
 void MainPlayer::AddObjects()
 {
 	this->_pbHealthBar = new HMEngine::UI::ProgressBar("pbMainPlayerHealth", HMEngine::GameSettings::GetScreenCenter() - glm::vec2(0, 320),
 		glm::vec2(600, 50), "./resources/UITextures/progressBarBackground.png", "./resources/UITextures/progressBarBarTexture.png",
 		100, false);
 	this->_lblAmmo = new HMEngine::UI::Label("lblMainPlayerAmmo", glm::vec2(80, 680), std::to_string(this->_ammo),
-		HMEngine::Fonts::ARIAL, glm::vec3(), 5.0f);
+		HMEngine::Fonts::ARIAL, glm::vec3(), 4.0f);
 
 	this->_gameEngine->AddUI(this->_pbHealthBar);
 	this->_gameEngine->AddUI(this->_lblAmmo);

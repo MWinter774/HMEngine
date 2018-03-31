@@ -19,6 +19,7 @@ public:
 	bool GotHit(float damageInPercentage);
 	void SetHealth(float percentage);
 	void Shoot(const unsigned int& mouseButton);
+	void SetAmmo(unsigned int ammo);
 
 private:
 	unsigned int _ammo;

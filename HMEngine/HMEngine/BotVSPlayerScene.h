@@ -24,6 +24,7 @@ private:
 	HMEngine::Core::GameObject* _floor;
 	EnemyBot* _bot;
 	HMEngine::UI::Image* _crosshair;
+	HMEngine::Core::GameObject* _bullet;
 
 	void Restart();
 	void ShootEvent(HMEngine::Core::Physics::RaycastInfo& info);

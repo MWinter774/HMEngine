@@ -27,6 +27,10 @@ BotVSPlayerScene::BotVSPlayerScene()
 
 	this->_crosshair = new HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", HMEngine::GameSettings::GetScreenCenter(), { 25, 25 });
 
+	this->_bullet = new HMEngine::Core::GameObject("bullet");
+	this->_bullet->GetTransform().AddPositionY(10.0f);
+	this->_bullet->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/bullet.obj", "./resources/textures/VeryNice.png"));
+
 	this->InitializeEvents<BotVSPlayerScene>(this);
 }
 
@@ -39,6 +43,7 @@ void BotVSPlayerScene::AddToGameEngine(HMEngine::GameEngine& gameEngine)
 	gameEngine.AddGameObject(this->_floor);
 	gameEngine.AddGameObject(this->_player);
 	gameEngine.AddGameObject(this->_bot);
+	gameEngine.AddGameObject(this->_bullet);
 	gameEngine.AddUI(this->_crosshair);
 
 	gameEngine.SetAmbientLight(1, 1, 1);
@@ -62,6 +67,7 @@ void BotVSPlayerScene::Restart()
 	this->_bot->SetPosition(glm::vec3(5, 3, 0));
 	this->_bot->SetHealth(100.0f);
 	this->_player->SetPosition(glm::vec3(0, 0.1f, 0));
+	this->_player->SetAmmo(30);
 }
 
 void BotVSPlayerScene::ShootEvent(HMEngine::Core::Physics::RaycastInfo& info)
