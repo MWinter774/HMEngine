@@ -60,7 +60,6 @@ void HMEngine::Core::Physics::Colliders::Collider::AddPosition(const glm::vec3& 
 
 void HMEngine::Core::Physics::Colliders::Collider::SetPosition(const glm::vec3& newPosition)
 {
-	this->_rigidBody->applyGravity();
 	btTransform initialTransform;
 	auto k = btVector3(newPosition.x, newPosition.y, newPosition.z);
 
@@ -72,6 +71,5 @@ void HMEngine::Core::Physics::Colliders::Collider::SetPosition(const glm::vec3& 
 
 void HMEngine::Core::Physics::Colliders::Collider::SetRotation(const glm::quat& rotation)
 {
-	this->_rigidBody->applyGravity();
 	this->_rigidBody->getWorldTransform().setRotation(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w));
 }

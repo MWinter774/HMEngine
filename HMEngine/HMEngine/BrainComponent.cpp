@@ -71,7 +71,7 @@ void HMEngine::Components::BrainComponent::UpdateEvent()
 	this->_leftAVG += left; //temp
 	this->_forwardAVG += forward; //temp
 	this->_backwardAVG += backward; //temp
-	this->_jumpAVG += jump;
+	this->_jumpAVG += jump; //temp
 
 	glm::vec3 translate;
 	if (right > 0.9f)

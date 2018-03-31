@@ -112,16 +112,68 @@ void HMEngine::Core::Physics::PhysicsEngine::Destroy()
 		delete collisionShape;
 }
 
+int hhhhhh = 0;
 void HMEngine::Core::Physics::PhysicsEngine::Update()
 {
-	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->stepSimulation(1 / 60.0f, 7);
+	HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->stepSimulation(1);
 	btTransform trans;
 
 	for (auto& pair : HMEngine::Core::Physics::PhysicsEngine::_rigidBodies)
 	{
 		trans = pair.first->getWorldTransform();
 		btVector3& origin = trans.getOrigin();
-		pair.second->GetTransform().SetPosition(origin.x(), origin.y(), origin.z());
-		pair.second->GetTransform().SetPositionAndRotationMatrices(trans);
+		auto& objectTransform = pair.second->GetTransform();
+
+		float originalY = origin.y();
+		origin.setY(RoundNumber(origin.y()));
+		objectTransform.SetPosition(origin.x(), origin.y(), origin.z());
+		objectTransform.SetPositionAndRotationMatrices(trans);
+
+		if (hhhhhh % 30 == 0 && pair.second->GetName().find("player") != std::string::npos)
+		{
+			std::cout << originalY << "-->" << origin.y() << std::endl;
+		}
 	}
+	hhhhhh++;
+}
+
+/*
+Rounds a number properly.
+for example: 98.658 -> 98.7
+*/
+float HMEngine::Core::Physics::PhysicsEngine::RoundNumber(float x)
+{
+	float decimal = abs(x - int(x));
+	unsigned int number = abs(int(x));
+	int firstDigit = int(decimal * 10);
+	int secondDigit = int(decimal * 100) - firstDigit * 10;
+	int thirdDigit = int(decimal * 1000) - secondDigit * 10 - firstDigit * 100;
+	//if (thirdDigit >= 5.0f)
+	//{
+	//	//round up
+	//	secondDigit++;
+	//	thirdDigit = 0;
+	//	if (secondDigit >= 10.0f)
+	//	{
+	//		firstDigit++;
+	//		if (firstDigit >= 10.0f)
+	//		{
+	//			firstDigit = 0;
+	//			number++;
+	//		}
+	//	}
+	//}
+	if (secondDigit >= 7)
+	{
+		firstDigit++;
+		if (firstDigit >= 10)
+		{
+			number++;
+			firstDigit = 0;
+		}
+	}
+	secondDigit = 0;
+	int factor = x > 0.0f ? 1 : -1;
+
+	return (number + (firstDigit / 10.0f) + (secondDigit / 100.0f)) * factor;
 }

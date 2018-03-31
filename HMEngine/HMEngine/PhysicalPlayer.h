@@ -52,6 +52,8 @@ namespace HMEngine
 		void UpdateEvent() override;
 
 	private:
+		static float RoundNumber(float x);
+
 		HMEngine::Core::Rendering::Camera* _camera;
 		HMEngine::Components::PhysicalCameraController* _controller;
 		HMEngine::Core::Physics::Colliders::BoundingSphere* _boundingSphere;

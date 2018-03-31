@@ -10,16 +10,16 @@
 
 HMEngine::PhysicalPlayer::PhysicalPlayer(const std::string& name, float walkingSpeed, float runningSpeed, float maxJumpHeight) : GameObject(name),
 _controller(new HMEngine::Components::PhysicalCameraController()),
-_boundingSphere(new HMEngine::Core::Physics::Colliders::BoundingSphere(2.0f, glm::vec3(0, 0, 0), 1.5f)),
+_boundingSphere(new HMEngine::Core::Physics::Colliders::BoundingSphere(2.0f, glm::vec3(0, 0.5f, 0), 2.0f)),
 _camera(&HMEngine::Core::Rendering::Camera::GetInstance()), _movement(new HMEngine::PhysicalPlayer::MovementData()),
 _movementSpeed(walkingSpeed), _walkingSpeed(walkingSpeed), _runningSpeed(runningSpeed), _maxJumpHeight(maxJumpHeight)
 {
 	this->InitializeEvents<PhysicalPlayer>(this);
-	this->AddComponent(this->_controller); //temp
+	this->AddComponent(this->_controller);
 	this->AddComponent(this->_boundingSphere);
-	this->GetTransform().SetScaleZ(1.5f);
-	this->GetTransform().SetScaleX(1.5f);
-	this->GetTransform().SetScaleY(1.5f);
+	//this->GetTransform().SetScaleZ(1.5f);
+	//this->GetTransform().SetScaleX(1.5f);
+	//this->GetTransform().SetScaleY(1.5f);
 
 }
 
@@ -116,10 +116,7 @@ void HMEngine::PhysicalPlayer::UpdateEvent()
 		this->_movement->right = false;
 	}
 	this->_movementSpeed = this->_walkingSpeed;
-	force.y = 0;
-
-	this->_boundingSphere->GetRigidBody()->setLinearVelocity(btVector3(force.x * 20.0f, this->_boundingSphere->GetRigidBody()->getLinearVelocity().y(),
-		force.z * 20.0f));
+	force.y = this->_boundingSphere->GetRigidBody()->getLinearVelocity().y();
 
 	if (HMEngine::Core::Hardware::HardwareInputs::IsKeyDown(SDL_SCANCODE_SPACE))
 	{
@@ -129,8 +126,52 @@ void HMEngine::PhysicalPlayer::UpdateEvent()
 		btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
 		HMEngine::Core::Physics::PhysicsEngine::GetBulletData().dynamicsWorld->rayTest(btFrom, btTo, res);
 		if (res.hasHit() && res.m_closestHitFraction <= 0.0008f)
-			this->_boundingSphere->GetRigidBody()->applyCentralImpulse(btVector3(0, this->_maxJumpHeight / 4.0f, 0));
+			force.y += this->_maxJumpHeight / 10.0f;
 	}
 
-	this->_camera->SetPosition(this->GetTransform().GetPosition() += glm::vec3(0, 2, 0));
+	auto pos = this->_boundingSphere->GetRigidBody()->getWorldTransform().getOrigin();
+	pos.setY(RoundNumber(pos.getY()));
+	this->_boundingSphere->GetRigidBody()->getWorldTransform().setOrigin(pos);
+	auto gPos = glm::vec3(pos.x(), pos.y(), pos.z());
+	this->_camera->SetPosition(gPos + glm::vec3(0, 2, 0));
+
+	this->_boundingSphere->GetRigidBody()->setLinearVelocity(btVector3(force.x * 20.0f, force.y,
+		force.z * 20.0f));
+}
+
+float HMEngine::PhysicalPlayer::RoundNumber(float x)
+{
+	float decimal = abs(x - int(x));
+	unsigned int number = abs(int(x));
+	int firstDigit = int(decimal * 10);
+	int secondDigit = int(decimal * 100) - firstDigit * 10;
+	int thirdDigit = int(decimal * 1000) - secondDigit * 10 - firstDigit * 100;
+	//if (thirdDigit >= 5.0f)
+	//{
+	//	//round up
+	//	secondDigit++;
+	//	thirdDigit = 0;
+	//	if (secondDigit >= 10.0f)
+	//	{
+	//		firstDigit++;
+	//		if (firstDigit >= 10.0f)
+	//		{
+	//			firstDigit = 0;
+	//			number++;
+	//		}
+	//	}
+	//}
+	if (secondDigit >= 7)
+	{
+		firstDigit++;
+		if (firstDigit >= 10)
+		{
+			number++;
+			firstDigit = 0;
+		}
+	}
+	secondDigit = 0;
+	int factor = x > 0.0f ? 1 : -1;
+
+	return (number + (firstDigit / 10.0f) + (secondDigit / 100.0f)) * factor;
 }

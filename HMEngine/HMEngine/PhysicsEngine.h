@@ -57,6 +57,8 @@ namespace HMEngine
 				static BulletData _bulletData;
 
 				static std::vector<btCollisionShape*> _collisionShapes;
+
+				static float RoundNumber(float x);
 			};
 		}
 	}
