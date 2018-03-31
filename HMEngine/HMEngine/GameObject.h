@@ -43,6 +43,8 @@ namespace HMEngine
 			friend class HMEngine::Components::Component;
 			friend class HMEngine::GameEngine;
 		public:
+			std::vector<std::function<void(HMEngine::Core::GameObject*, HMEngine::Core::GameObject*)>> _collideEvent;
+
 			GameObject(const std::string& name);
 			virtual ~GameObject();
 			GameObject(const HMEngine::Core::GameObject& other);
@@ -72,6 +74,9 @@ namespace HMEngine
 			inline void AddPosition(float x, float y, float z) { this->Move(glm::vec3(x, y, z), 1); }
 			inline void AddPosition(float count) { this->Move(glm::vec3(1, 1, 1), count); }
 
+			inline glm::vec3 GetColor() const { return this->_color; }
+			inline void SetColor(const glm::vec3& color) { this->_color = color; }
+
 		protected:
 			HMEngine::Core::Transform* _transform;
 			HMEngine::GameEngine* _gameEngine;
@@ -85,6 +90,7 @@ namespace HMEngine
 			std::string _name;
 			HMEngine::Components::MeshRenderer* _meshRenderer;
 			HMEngine::Core::Physics::Colliders::Collider* _collider;
+			glm::vec3 _color;
 
 			GameObject(const HMEngine::Core::GameObject& other, bool _1);
 		};

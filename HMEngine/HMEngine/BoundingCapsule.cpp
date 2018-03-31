@@ -52,7 +52,8 @@ void HMEngine::Core::Physics::Colliders::BoundingCapsule::Initialize()
 	);
 
 	this->_rigidBody = new btRigidBody(rigidBodyCI);
-	this->_rigidBody->setUserPointer(this);
+	this->_rigidBody->setUserPointer(&this->GetParent());
+	this->_collider->setUserPointer(&this->GetParent());
 
 	HMEngine::Core::Physics::PhysicsEngine::GetBulletData().dynamicsWorld->addRigidBody(this->_rigidBody);
 }

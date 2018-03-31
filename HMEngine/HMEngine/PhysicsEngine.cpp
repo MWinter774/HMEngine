@@ -57,8 +57,7 @@ HMEngine::Core::Physics::RaycastInfo HMEngine::Core::Physics::PhysicsEngine::Ray
 
 	if (RayCallback.hasHit())
 	{
-		auto gameObject = HMEngine::Core::Physics::PhysicsEngine::_gameObjectColliders.find(
-			(HMEngine::Core::Physics::Colliders::Collider*)RayCallback.m_collisionObject->getUserPointer()).operator*().second;
+		auto gameObject = (HMEngine::Core::GameObject*)RayCallback.m_collisionObject->getUserPointer();
 		info.hits.emplace(glm::distance(rayOrigin, gameObject->GetTransform().GetPosition()), gameObject);
 		info.isHit = true;
 	}
@@ -127,6 +126,22 @@ void HMEngine::Core::Physics::PhysicsEngine::Update()
 		origin.setY(RoundNumber(origin.y()));
 		objectTransform.SetPosition(origin.x(), origin.y(), origin.z());
 		objectTransform.SetPositionAndRotationMatrices(trans);
+	}
+
+	int numManifolds = HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->getDispatcher()->getNumManifolds();
+	for (int i = 0; i < numManifolds; i++)
+	{
+		btPersistentManifold* contactManifold = HMEngine::Core::Physics::PhysicsEngine::_bulletData.dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+		const btCollisionObject* obA = contactManifold->getBody0();
+		const btCollisionObject* obB = contactManifold->getBody1();
+
+		auto a = ((HMEngine::Core::GameObject*)(obA->getUserPointer()));
+		auto b = ((HMEngine::Core::GameObject*)(obB->getUserPointer()));
+
+		for (auto& e : a->_collideEvent)
+			e(a, b);
+		for (auto& e : b->_collideEvent)
+			e(b, a);
 	}
 }
 

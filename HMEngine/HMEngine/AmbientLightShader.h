@@ -11,6 +11,7 @@ namespace HMEngine::Core
 			friend class Shader<AmbientLightShader>;
 		public:
 			void UpdateUniforms(const HMEngine::Core::Transform& transform) override;
+			void UpdateMeshColor(const glm::vec3& color);
 			void UpdateAmbientLight();
 			void UpdateFogDensity();
 			void UpdateFogGradient();

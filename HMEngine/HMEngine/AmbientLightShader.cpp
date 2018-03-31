@@ -9,6 +9,11 @@ void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateUniforms(cons
 	this->SetUniform("projectionMatrix", HMEngine::GameSettings::GetProjectionMatrix());
 }
 
+void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateMeshColor(const glm::vec3& color)
+{
+	this->SetUniform("meshColor", color);
+}
+
 void HMEngine::Core::Rendering::Shaders::AmbientLightShader::UpdateAmbientLight()
 {
 	this->SetUniform("ambientLight", HMEngine::GameSettings::GetAmbientLight());

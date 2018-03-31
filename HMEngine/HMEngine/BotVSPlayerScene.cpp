@@ -9,6 +9,8 @@
 #include "RaycastInfo.h"
 #include "Camera.h"
 #include <string>
+#include <thread>
+#include <chrono>
 
 BotVSPlayerScene::BotVSPlayerScene()
 {
@@ -27,9 +29,7 @@ BotVSPlayerScene::BotVSPlayerScene()
 
 	this->_crosshair = new HMEngine::UI::Image("crosshair", "./resources/UITextures/crosshair.png", HMEngine::GameSettings::GetScreenCenter(), { 25, 25 });
 
-	this->_bullet = new HMEngine::Core::GameObject("bullet");
-	this->_bullet->GetTransform().AddPositionY(10.0f);
-	this->_bullet->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/bullet.obj", "./resources/textures/VeryNice.png"));
+	this->InitAmmoPacks();
 
 	this->InitializeEvents<BotVSPlayerScene>(this);
 }
@@ -43,8 +43,9 @@ void BotVSPlayerScene::AddToGameEngine(HMEngine::GameEngine& gameEngine)
 	gameEngine.AddGameObject(this->_floor);
 	gameEngine.AddGameObject(this->_player);
 	gameEngine.AddGameObject(this->_bot);
-	gameEngine.AddGameObject(this->_bullet);
 	gameEngine.AddUI(this->_crosshair);
+	for (auto& ammoPack : this->_ammoPacks)
+		gameEngine.AddGameObject(ammoPack);
 
 	gameEngine.SetAmbientLight(1, 1, 1);
 	//gameEngine.UnlockCursor();
@@ -80,4 +81,70 @@ void BotVSPlayerScene::ShootEvent(HMEngine::Core::Physics::RaycastInfo& info)
 			this->Restart();
 		}
 	}
+}
+
+void BotVSPlayerScene::InitAmmoPacks()
+{
+	auto collideEvent = [](HMEngine::Core::GameObject* a, HMEngine::Core::GameObject* b)
+	{
+		if (auto player = dynamic_cast<MainPlayer*>(b))
+		{
+			if (a->GetColor().x != 0.2f) //checks if the bullet pack is active
+			{
+				player->SetAmmo(30);
+				a->SetColor(glm::vec3(0.2f, 0.2f, 0.2f));
+				std::thread reactivate([](HMEngine::Core::GameObject* a) 
+				{
+					std::this_thread::sleep_for(std::chrono::seconds(5));
+					a->SetColor(glm::vec3(1.0f)); 
+				}, a);
+				reactivate.detach();
+			}
+		}
+	};
+	HMEngine::Core::GameObject* ammo;
+
+	ammo = new HMEngine::Core::GameObject("ammoPack0");
+	ammo->GetTransform().AddPositionY(3.0f);
+	ammo->GetTransform().AddPositionX(50.0f);
+	ammo->GetTransform().AddPositionZ(50.0f);
+	ammo->GetTransform().SetRotationZ(1.57f);
+	ammo->GetTransform().SetScale(0.02f, 0.02f, 0.02f);
+	ammo->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/bullet.obj", "./resources/textures/brass.png"));
+	ammo->AddComponent(HMEngine::Core::Physics::Colliders::BoundingPlane(0.0f));
+	ammo->_collideEvent.push_back(collideEvent);
+	this->_ammoPacks.push_back(ammo);
+
+	ammo = new HMEngine::Core::GameObject("ammoPack1");
+	ammo->GetTransform().AddPositionY(3.0f);
+	ammo->GetTransform().AddPositionX(-50.0f);
+	ammo->GetTransform().AddPositionZ(50.0f);
+	ammo->GetTransform().SetRotationZ(1.57f);
+	ammo->GetTransform().SetScale(0.02f, 0.02f, 0.02f);
+	ammo->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/bullet.obj", "./resources/textures/brass.png"));
+	ammo->AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(0.0f));
+	ammo->_collideEvent.push_back(collideEvent);
+	this->_ammoPacks.push_back(ammo);
+
+	ammo = new HMEngine::Core::GameObject("ammoPack2");
+	ammo->GetTransform().AddPositionY(3.0f);
+	ammo->GetTransform().AddPositionX(50.0f);
+	ammo->GetTransform().AddPositionZ(-50.0f);
+	ammo->GetTransform().SetRotationZ(1.57f);
+	ammo->GetTransform().SetScale(0.02f, 0.02f, 0.02f);
+	ammo->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/bullet.obj", "./resources/textures/brass.png"));
+	ammo->AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(0.0f));
+	ammo->_collideEvent.push_back(collideEvent);
+	this->_ammoPacks.push_back(ammo);
+
+	ammo = new HMEngine::Core::GameObject("ammoPack3");
+	ammo->GetTransform().AddPositionY(3.0f);
+	ammo->GetTransform().AddPositionX(-50.0f);
+	ammo->GetTransform().AddPositionZ(-50.0f);
+	ammo->GetTransform().SetRotationZ(1.57f);
+	ammo->GetTransform().SetScale(0.02f, 0.02f, 0.02f);
+	ammo->AddComponent(HMEngine::Components::MeshRenderer("./resources/objects/bullet.obj", "./resources/textures/brass.png"));
+	ammo->AddComponent(HMEngine::Core::Physics::Colliders::BoundingSphere(0.0f));
+	ammo->_collideEvent.push_back(collideEvent);
+	this->_ammoPacks.push_back(ammo);
 }

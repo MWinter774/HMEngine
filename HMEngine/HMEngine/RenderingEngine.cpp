@@ -199,6 +199,7 @@ void HMEngine::Core::Rendering::RenderingEngine::RenderMeshes() const
 		for (auto& mesh : item.second)
 		{
 			this->_ambientShader->UpdateUniforms(mesh->GetParent().GetTransform());
+			this->_ambientShader->UpdateMeshColor(mesh->GetParent().GetColor());
 			mesh->DrawMesh();
 		}
 

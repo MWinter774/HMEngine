@@ -8,7 +8,7 @@
 #include "Collider.h"
 
 HMEngine::Core::GameObject::GameObject(const std::string& name) : _transform(new HMEngine::Core::Transform()), _components(), _gameEngine(nullptr), _name(name),
-_meshRenderer(nullptr)
+_meshRenderer(nullptr), _color(1, 1, 1)
 {
 }
 
