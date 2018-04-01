@@ -96,7 +96,7 @@ void BotVSPlayerScene::InitAmmoPacks()
 				std::thread reactivate([](HMEngine::Core::GameObject* a) 
 				{
 					std::this_thread::sleep_for(std::chrono::seconds(5));
-					a->SetColor(glm::vec3(1.0f)); 
+					a->SetColor(glm::vec3(1.0f));
 				}, a);
 				reactivate.detach();
 			}
